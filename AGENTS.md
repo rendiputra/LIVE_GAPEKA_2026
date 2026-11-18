@@ -60,7 +60,7 @@ Glossary:
 4. **Store all backend timestamps in UTC.** Gapeka times are stored as station-local time plus time zone (WIB/WITA/WIT). Convert only at display time.
 5. **Validation is a gate.** If validation fails, the pipeline stops with a non-zero exit code. Never loosen validation rules just to make tests pass without explicit human approval.
 6. **The UI must always show a disclaimer**: "Estimated position based on the Gapeka schedule, not actual position." (Indonesian: "Posisi estimasi berdasarkan jadwal Gapeka, bukan posisi aktual.")
-7. **Never commit the original PDF** (64 MB) to git. Keep it in `data/input/` (gitignored) and record its SHA-256 in `gapeka_versions`.
+7. **Never commit the original PDF** (58.6 MiB) to git. Keep it in `data/input/` (gitignored) and record its SHA-256 in `gapeka_versions`.
 8. **Use an LLM only for problematic pages** in the offline pipeline (complex layouts): temperature 0, strict JSON schema, `null` when unsure. Every LLM output must pass the same validators as parser output.
 9. **If the spec is ambiguous or the PDF format does not match assumptions, STOP and ask.** Do not improvise.
 10. **Never mix up night-time trips.** Times after midnight on the same trip use `day_offset`, never a new trip.
