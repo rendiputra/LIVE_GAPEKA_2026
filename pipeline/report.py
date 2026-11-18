@@ -373,7 +373,7 @@ def render_report(inventory: dict) -> str:
     add("## 12. Estimated train count")
     add("")
     add(
-        "Four different patterns give four different answers. None is authoritative; "
+        "Three different patterns give three different answers. None is authoritative; "
         "the TOC count in Phase 1 (validation rule V4) is."
     )
     add("")
@@ -545,7 +545,7 @@ def render_report(inventory: dict) -> str:
         "- It does not claim the classification is correct. It claims every page has "
         "a label and a stated reason."
     )
-    add("- It does not claim the train count. Four patterns disagree; Phase 1 settles it.")
+    add("- It does not claim the train count. The patterns disagree; Phase 1 settles it.")
     add("- It does not claim the section boundaries are stable across Gapeka revisions.")
     add("")
 

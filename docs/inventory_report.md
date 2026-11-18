@@ -219,7 +219,7 @@ None. Every page matched a rule. This does **not** mean every label is correct â
 
 ## 12. Estimated train count
 
-Four different patterns give four different answers. None is authoritative; the TOC count in Phase 1 (validation rule V4) is.
+Three different patterns give three different answers. None is authoritative; the TOC count in Phase 1 (validation rule V4) is.
 
 | Pattern | Occurrences | Why it is not the answer |
 |---|---|---|
@@ -279,5 +279,5 @@ Pages: 60, 62, 64-65, 67-68, 71-72, 74-75, 78-79, 81-82, 85, 87-89, 92, 94-96, 9
 ## 17. What this report does not claim
 
 - It does not claim the classification is correct. It claims every page has a label and a stated reason.
-- It does not claim the train count. Four patterns disagree; Phase 1 settles it.
+- It does not claim the train count. The patterns disagree; Phase 1 settles it.
 - It does not claim the section boundaries are stable across Gapeka revisions.
