@@ -1,0 +1,27 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: forbid-submodules
+
+  # Hard Rule 7: the Gapeka PDF must never enter git history.
+  - repo: local
+    hooks:
+      - id: no-gapeka-pdf
+        name: reject any PDF in the index
+        entry: bash -c 'if git diff --cached --name-only --diff-filter=ACM | grep -qiE "\.pdf$"; then echo "Refusing to commit a PDF. Keep it in data/input/ (gitignored)."; exit 1; fi'
+        language: system
+        pass_filenames: false

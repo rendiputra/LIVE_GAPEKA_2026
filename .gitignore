@@ -1,0 +1,17 @@
+# --- Gapeka source material (Hard Rule 7: never commit the PDF) ---
+data/input/
+*.pdf
+
+# --- Python ---
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# --- Tooling ---
+.pre-commit-cache/
+.DS_Store
