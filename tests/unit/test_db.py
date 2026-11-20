@@ -200,3 +200,53 @@ def test_rebuild_is_deterministic(tmp_path):
     second = build(tmp_path / "b.db")
     assert first["content_hash"] == second["content_hash"]
     assert first["counts"] == second["counts"]
+
+
+# --- S3: coordinate status, candidates, overrides ---------------------------
+
+
+def test_rejected_coordinates_are_null(connection):
+    """A rejected coordinate must never be stored on the station row."""
+    rows = connection.execute(
+        "SELECT code, lat, lon FROM stations WHERE coord_status = 'rejected'"
+    ).fetchall()
+    for code, lat, lon in rows:
+        assert lat is None and lon is None, f"{code} kept a rejected coordinate"
+
+
+def test_accepted_coordinates_are_complete(connection):
+    bad = connection.execute(
+        "SELECT COUNT(*) FROM stations WHERE coord_status IN ('accepted', 'override') "
+        "AND (lat IS NULL OR lon IS NULL OR coord_source IS NULL OR coord_source_id IS NULL)"
+    ).fetchone()[0]
+    assert bad == 0
+
+
+def test_rejected_candidates_are_kept_as_evidence(connection):
+    """Rejection must not delete the evidence of what the source said."""
+    rejected = connection.execute(
+        "SELECT COUNT(*) FROM station_coord_candidates WHERE status = 'rejected'"
+    ).fetchone()[0]
+    assert rejected > 0
+    for code, source_id, lat, lon in connection.execute(
+        "SELECT code, source_id, lat, lon FROM station_coord_candidates WHERE status='rejected'"
+    ).fetchall():
+        assert code and source_id and lat is not None and lon is not None
+
+
+def test_every_coordinate_has_a_candidate_row(connection):
+    accepted = connection.execute(
+        "SELECT COUNT(*) FROM stations WHERE coord_status IN ('accepted', 'override')"
+    ).fetchone()[0]
+    candidates = connection.execute(
+        "SELECT COUNT(*) FROM station_coord_candidates WHERE status = 'accepted'"
+    ).fetchone()[0]
+    assert candidates == accepted
+
+
+def test_coord_status_values_are_valid(connection):
+    values = {
+        row[0]
+        for row in connection.execute("SELECT DISTINCT coord_status FROM stations").fetchall()
+    }
+    assert values <= {"accepted", "rejected", "missing", "override"}

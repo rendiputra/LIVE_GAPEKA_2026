@@ -1,0 +1,26 @@
+# Rail geometry thresholds (Phase 4).
+#
+# Every threshold used by pipeline/build_geometry.py lives here; none is
+# hard-coded in the code. These are REPORTING thresholds unless a comment says
+# otherwise.
+
+# Station snapping (step 3)
+snap_accept_m: 300       # <= this  -> band "ok"
+snap_review_m: 1000      # accept..this -> band "review"; above -> "rejected"
+
+# Detour sanity (V12)
+detour_suspect_ratio: 1.6
+
+# Speed evidence (V13). Reporting only; the meaning of the printed
+# "Kecepatan Maksimum" column is NOT assumed.
+implausible_fast_kmh: 160
+implausible_slow_kmh: 10
+
+# OSM topology repair (step 1 practical note).
+#
+# The Geofabrik extract has many ways that end a few metres from each other
+# without sharing a node, splitting the network into ~1,187 components. A real
+# rail gap is much larger than a digitising seam, so endpoints closer than this
+# are joined with a synthetic edge and the join is COUNTED in the report.
+# Set to 0 to disable the repair.
+gap_bridge_m: 25

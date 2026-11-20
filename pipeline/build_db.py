@@ -24,6 +24,9 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
+from pipeline.station_overrides import apply_to as apply_overrides
+from pipeline.station_overrides import load as load_overrides
+
 PARSED_DIR = Path("data/parsed")
 VALIDATED_DIR = Path("data/validated")
 REVIEW_DIR = Path("data/review")
@@ -85,12 +88,33 @@ def build(db_path: Path = DB_PATH) -> dict:
         ),
     )
 
+    # --- coordinates: accepted matches, rejected evidence, human overrides ---
     coordinates = {}
     coord_path = PARSED_DIR / "station_coordinates.json"
     if coord_path.exists():
         coordinates = load_json(coord_path)["matched"]
 
-    # Stations and trains must exist before trips reference them (FK order).
+    # Rejected candidates come from the cross-check artefacts; they are evidence,
+    # never used for geometry.
+    rejected: dict[str, list[dict]] = {}
+    suspicious_path = REVIEW_DIR / "stations_suspicious_coords.json"
+    if suspicious_path.exists():
+        for row in load_json(suspicious_path)["stations"]:
+            for code in row["code"].split(","):
+                rejected.setdefault(code.strip(), []).append(
+                    {
+                        "source": "wikidata",
+                        "source_id": row["source_id"].split(",")[0].strip(),
+                        "lat": row["lat"],
+                        "lon": row["lon"],
+                        "reason": row.get("reason") or "implausible neighbour distance",
+                    }
+                )
+
+    overrides = load_overrides()
+    effective = apply_overrides(overrides, coordinates)
+
+    # Every station code the trips use must exist before trips reference it.
     station_names: dict[str, str] = {}
     all_codes: set[str] = set()
     trains_seen: dict[str, dict] = {}
@@ -116,13 +140,25 @@ def build(db_path: Path = DB_PATH) -> dict:
 
     for code in sorted(all_codes):
         name = station_names.get(code) or code
-        entry = coordinates.get(code)
+        # A rejected coordinate must never be stored on the station row.
+        if code in rejected:
+            effective.pop(code, None)
+
+        entry = effective.get(code)
         if entry is None:
-            connection.execute("INSERT INTO stations (code, name) VALUES (?, ?)", (code, name))
+            # "rejected" when a candidate existed but was refused; "missing" when
+            # no source ever produced one. The distinction drives the report.
+            status = "rejected" if code in rejected else "missing"
+            connection.execute(
+                "INSERT INTO stations (code, name, coord_status) VALUES (?, ?, ?)",
+                (code, name, status),
+            )
         else:
+            status = entry.get("coord_status", "accepted")
             connection.execute(
                 "INSERT INTO stations (code, name, lat, lon, coord_source, coord_source_id,"
-                " coord_match, coord_confidence, coord_retrieved) VALUES (?,?,?,?,?,?,?,?,?)",
+                " coord_match, coord_confidence, coord_retrieved, coord_status)"
+                " VALUES (?,?,?,?,?,?,?,?,?,?)",
                 (
                     code,
                     name,
@@ -133,6 +169,41 @@ def build(db_path: Path = DB_PATH) -> dict:
                     entry["match_method"],
                     entry["confidence"],
                     entry["retrieved"],
+                    status,
+                ),
+            )
+
+        # Evidence rows: accepted candidate, plus every rejected one.
+        if entry is not None:
+            connection.execute(
+                "INSERT OR IGNORE INTO station_coord_candidates"
+                " (code, source, source_id, lat, lon, status, reason, retrieved_on)"
+                " VALUES (?,?,?,?,?,?,?,?)",
+                (
+                    code,
+                    entry["source"],
+                    entry["source_id"],
+                    entry["lat"],
+                    entry["lon"],
+                    "accepted",
+                    entry.get("reason", "matched from external source"),
+                    entry["retrieved"],
+                ),
+            )
+        for bad in rejected.get(code, []):
+            connection.execute(
+                "INSERT OR IGNORE INTO station_coord_candidates"
+                " (code, source, source_id, lat, lon, status, reason, retrieved_on)"
+                " VALUES (?,?,?,?,?,?,?,?)",
+                (
+                    code,
+                    bad["source"],
+                    bad["source_id"],
+                    bad["lat"],
+                    bad["lon"],
+                    "rejected",
+                    bad["reason"],
+                    "2026-11-20",
                 ),
             )
 
@@ -284,6 +355,7 @@ def build(db_path: Path = DB_PATH) -> dict:
             "trips",
             "stop_times",
             "calendar",
+            "station_coord_candidates",
         )
     }
     station_coords = connection.execute(
@@ -292,7 +364,15 @@ def build(db_path: Path = DB_PATH) -> dict:
 
     # A logical content hash: independent of row insertion order.
     digest = hashlib.sha256()
-    for table in ("gapeka_versions", "stations", "trains", "trips", "stop_times", "calendar"):
+    for table in (
+        "gapeka_versions",
+        "stations",
+        "trains",
+        "trips",
+        "stop_times",
+        "calendar",
+        "station_coord_candidates",
+    ):
         rows = connection.execute(f"SELECT * FROM {table} ORDER BY 1, 2").fetchall()
         digest.update(table.encode())
         for row in rows:

@@ -1,0 +1,14 @@
+# Station coordinate cross-check thresholds (S1).
+#
+# These are REPORTING thresholds, not gates. Nothing is corrected automatically.
+# Change them here; the code never hard-codes a value.
+
+# (a) Wikidata vs OSM agreement bands
+agreement_high_m: 300        # <= 300 m  -> high agreement
+agreement_medium_m: 2000     # 300 m-2 km -> medium; > 2 km or no OSM -> review
+
+# (c) neighbour consistency: flag B in A-B-C when (d(A,B)+d(B,C)) / d(A,C) exceeds this
+detour_threshold: 1.6
+
+# (c) two different codes closer than this are suspicious
+duplicate_proximity_m: 50

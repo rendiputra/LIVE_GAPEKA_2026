@@ -13,13 +13,34 @@ none are guessed or interpolated.
 - Cached payload: `data/external/wikidata_stations.json` (gitignored), with
   source, URL, licence and retrieval date in `data/external/manifest.json`.
 
-## OpenStreetMap (secondary)
+## Geofabrik Java extract (rail geometry + station cross-check)
+
+- Endpoint: `https://download.geofabrik.de/asia/indonesia/java/`
+- Snapshot used: `java-261119.osm.pbf` (858 MB)
+- SHA-256: `79b8f0630867b7ef7f61eddd11b06cffb1ecbce8f32b4d9454490dafb0963f95`
+- Licence: **ODbL 1.0** — attribution "© OpenStreetMap contributors" is required.
+- Used for: the Phase 4 routing graph (`railway=rail` ways) **and** the independent
+  station cross-check (every `railway=station|halt` node).
+- Why an extract and not Overpass: Overpass returned HTTP 502/504 repeatedly
+  during this run. A hash-pinned Geofabrik snapshot is reproducible.
+- Derived cache: `data/external/java_rail_graph.json` (gitignored). The PBF itself
+  is **not** committed; only its SHA-256 and retrieval date appear in the manifest.
+
+### Memory note
+
+`pyosmium` with `locations=True` builds a coordinate index for *every* node in
+Java (tens of GB). The extractor therefore runs two streaming passes with
+`locations=False`: ways first, then nodes filtered to the ~52k IDs the ways use.
+Peak memory is a few hundred MB, not tens of GB.
+
+## OpenStreetMap via Overpass (station cross-check only)
 
 - Endpoint: `https://overpass-api.de/api/interpreter`
 - Licence: **ODbL 1.0** — attribution to OpenStreetMap contributors is required
   wherever this data is shown.
-- Used for: `railway=station` / `railway=halt` nodes inside Java, matched by
-  normalised name when Wikidata has no usable coordinate.
+- Used for: a secondary station cross-check only. The Overpass cache proved too
+  thin (499 nodes for all of Java) to serve as a real cross-check, so the
+  Geofabrik station list above is preferred. Retained for the manifest record.
 - Cached payload: `data/external/osm_stations.json` (gitignored), recorded in the
   same manifest.
 

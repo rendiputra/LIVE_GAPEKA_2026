@@ -1,0 +1,45 @@
+{
+  "geometry_summary": {
+    "graph": {
+      "nodes": 46771,
+      "edges": 46850,
+      "gap_bridges": 18
+    },
+    "snap_bands": {
+      "ok": 370,
+      "rejected": 2
+    },
+    "quality_counts": {
+      "osm_routed": 273,
+      "osm_suspect": 88,
+      "unmeasured": 33
+    },
+    "trip_status_counts": {
+      "has_unmeasured": 332,
+      "complete": 94,
+      "has_fallback": 199
+    },
+    "detour_all": {
+      "p50": 1.06,
+      "p95": 40.16,
+      "p99": 65.18,
+      "max": 184.134
+    },
+    "detour_suspect": {
+      "min": 1.636,
+      "p50": 16.39,
+      "p95": 64.47,
+      "max": 184.134
+    },
+    "suspect_count": 88,
+    "content_hash": "eb61700cf03ed4150d80ba074b3a1a17be7e338896f5e5102835a845fe10b041",
+    "config": {
+      "snap_accept_m": 300.0,
+      "snap_review_m": 1000.0,
+      "detour_suspect_ratio": 1.6,
+      "implausible_fast_kmh": 160.0,
+      "implausible_slow_kmh": 10.0,
+      "gap_bridge_m": 25.0
+    }
+  }
+}

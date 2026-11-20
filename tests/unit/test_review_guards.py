@@ -97,10 +97,14 @@ def test_quarantined_train_shows_banner():
     quarantine file is non-empty.
     """
     quarantine = Path("data/review/quarantine")
-    has_quarantined = any(
-        json.loads(p.read_text(encoding="utf-8")).get("count", 0) > 0
-        for p in quarantine.glob("*.json")
-    ) if quarantine.exists() else False
+    has_quarantined = (
+        any(
+            json.loads(p.read_text(encoding="utf-8")).get("count", 0) > 0
+            for p in quarantine.glob("*.json")
+        )
+        if quarantine.exists()
+        else False
+    )
 
     if has_quarantined:
         needs_review = REVIEW_DIR / "intercity_needs_review.html"
@@ -113,10 +117,17 @@ def test_quarantined_train_shows_banner():
     from pipeline.review_html import render_review_html
 
     train = {
-        "train_no": "X", "name": "N", "origin": "A", "destination": "B",
-        "completeness": "complete", "column_source": "ruling",
-        "info": [], "needs_review": [], "quarantined": True,
-        "quarantine_reasons": ["test_reason"], "stops": [],
+        "train_no": "X",
+        "name": "N",
+        "origin": "A",
+        "destination": "B",
+        "completeness": "complete",
+        "column_source": "ruling",
+        "info": [],
+        "needs_review": [],
+        "quarantined": True,
+        "quarantine_reasons": ["test_reason"],
+        "stops": [],
     }
     markup = render_review_html("t", [train], [], [])
     assert "QUARANTINED" in markup and "test_reason" in markup

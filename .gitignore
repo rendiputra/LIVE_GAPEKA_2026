@@ -41,3 +41,5 @@ data/*.db
 .pre-commit-cache/
 .DS_Store
 data/external/
+
+data/config/station_overrides.yaml

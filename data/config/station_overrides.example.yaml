@@ -1,0 +1,15 @@
+# Example station coordinate overrides - AUTHORED BY THE HUMAN.
+#
+# `build_db` reads data/config/station_overrides.yaml (gitignored, yours). Copy
+# this file to that name and fill it only for stations you have decided.
+#
+# Schema:
+#   overrides:
+#     - code:       "<station code as printed in the PDF>"
+#       lat:        <float>
+#       lon:        <float>
+#       reason:     "<why this coordinate is right>"
+#       evidence:   "<where the value came from: a reference, a survey, a link>"
+#       decided_by: "<your name>"
+#       date:       "<YYYY-MM-DD>"
+overrides: []

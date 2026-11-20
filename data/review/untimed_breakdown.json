@@ -1,0 +1,34 @@
+{
+  "note": "D4: the 429 and 68 figures measure different populations.",
+  "explanation": "429 = trains with at least one untimed row of ANY kind (Ls not_printed or marker). 68 = trains containing at least one marker row (Berh/Sb) and therefore flagged has_untimed_markers. A marker train is a strict subset of the 429.",
+  "books": {
+    "1": {
+      "trains": 319,
+      "trains_with_untimed_rows": 252,
+      "by_cause": {
+        "Ls not_printed only": 244,
+        "both": 8
+      },
+      "trains_with_untimed_markers": 8,
+      "untimed_rows_marker": 18,
+      "untimed_rows_ls": 1664
+    },
+    "2": {
+      "trains": 306,
+      "trains_with_untimed_rows": 177,
+      "by_cause": {
+        "Ls not_printed only": 117,
+        "both": 23,
+        "marker only": 37
+      },
+      "trains_with_untimed_markers": 60,
+      "untimed_rows_marker": 234,
+      "untimed_rows_ls": 380
+    }
+  },
+  "totals": {
+    "trains_with_untimed_rows": 429,
+    "trains_with_untimed_markers": 68,
+    "consistent": true
+  }
+}

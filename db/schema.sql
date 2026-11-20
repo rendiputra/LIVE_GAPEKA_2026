@@ -31,22 +31,43 @@ CREATE TABLE gapeka_versions (
 CREATE TABLE stations (
     code            TEXT    PRIMARY KEY,
     name            TEXT    NOT NULL,           -- exactly as printed in the PDF
-    -- Coordinates are external, never inferred. All five fields move together.
+    -- Accepted coordinate. NULL unless coord_status says it is usable.
     lat             REAL,
     lon             REAL,
-    coord_source    TEXT    CHECK (coord_source IN ('wikidata', 'osm')),
+    coord_source    TEXT    CHECK (coord_source IN ('wikidata', 'osm', 'override')),
     coord_source_id TEXT,
-    coord_match     TEXT    CHECK (coord_match IN ('code', 'name', 'name_normalised')),
+    coord_match     TEXT    CHECK (coord_match IN ('code', 'name', 'name_normalised', 'human')),
     coord_confidence TEXT   CHECK (coord_confidence IN ('high', 'medium', 'low')),
     coord_retrieved TEXT,                       -- ISO date
+    coord_status    TEXT    NOT NULL DEFAULT 'missing'
+                    CHECK (coord_status IN ('accepted', 'rejected', 'missing', 'override')),
+    -- A usable coordinate exists only for accepted/override.
     CHECK (
-        (lat IS NULL AND lon IS NULL AND coord_source IS NULL)
-        OR (lat IS NOT NULL AND lon IS NOT NULL AND coord_source IS NOT NULL
-            AND coord_source_id IS NOT NULL AND coord_match IS NOT NULL
-            AND coord_confidence IS NOT NULL AND coord_retrieved IS NOT NULL)
+        (coord_status IN ('accepted', 'override')
+            AND lat IS NOT NULL AND lon IS NOT NULL
+            AND coord_source IS NOT NULL AND coord_source_id IS NOT NULL
+            AND coord_match IS NOT NULL AND coord_confidence IS NOT NULL
+            AND coord_retrieved IS NOT NULL)
+        OR (coord_status IN ('rejected', 'missing')
+            AND lat IS NULL AND lon IS NULL)
     ),
     CHECK (lat IS NULL OR (lat BETWEEN -90 AND 90)),
     CHECK (lon IS NULL OR (lon BETWEEN -180 AND 180))
+);
+
+-- Every coordinate ever considered, including rejected ones. Nothing is deleted:
+-- a rejected value is evidence of what the source said, not our data.
+CREATE TABLE station_coord_candidates (
+    id              INTEGER PRIMARY KEY,
+    code            TEXT    NOT NULL REFERENCES stations(code),
+    source          TEXT    NOT NULL CHECK (source IN ('wikidata', 'osm', 'override')),
+    source_id       TEXT    NOT NULL,
+    lat             REAL    NOT NULL,
+    lon             REAL    NOT NULL,
+    status          TEXT    NOT NULL CHECK (status IN ('accepted', 'rejected', 'review')),
+    reason          TEXT    NOT NULL DEFAULT '',
+    retrieved_on    TEXT    NOT NULL,
+    UNIQUE (code, source, source_id)
 );
 
 CREATE TABLE trains (
@@ -127,6 +148,7 @@ CREATE TABLE overrides (
 );
 
 CREATE INDEX idx_stop_times_station ON stop_times(station_code);
+CREATE INDEX idx_coord_candidates_code ON station_coord_candidates(code);
 CREATE INDEX idx_stop_times_arrive ON stop_times(arrive);
 CREATE INDEX idx_trips_train_no ON trips(train_no);
 CREATE INDEX idx_calendar_source ON calendar(pattern_source);

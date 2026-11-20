@@ -1,0 +1,245 @@
+# Evidence for disputed station coordinates (Q4).
+# PROPOSALS ONLY - nothing here is applied.
+# To accept a coordinate, author data/config/station_overrides.yaml instead.
+
+count: 17
+proposals:
+  - code: "CIK"
+    printed_name: "Cilaku"
+    flag_reason: "no candidate from any source"
+    neighbours_before:
+      - {code: "CJ", count: 3}
+      - {code: "CBB", count: 3}
+    neighbours_after:
+      - {code: "CBB", count: 3}
+      - {code: "CJ", count: 3}
+    candidates: []
+    plausible_proposal: null
+
+  - code: "CKI"
+    printed_name: "Cikini"
+    flag_reason: "multiple_wikidata_items_for_code"
+    neighbours_before:
+      - {code: "MRI", count: 45}
+      - {code: "GDD", count: 45}
+    neighbours_after:
+      - {code: "GDD", count: 45}
+      - {code: "MRI", count: 45}
+    candidates:
+      - {source: wikidata, source_id: "Q2609428", label: "Stasiun Cikini", lat: -6.19846, lon: 106.841, matched_by: code, neighbour_km: {GDD: 1.7}}
+      - {source: wikidata, source_id: "Q2609428", label: "Stasiun Cikini", lat: -6.19846, lon: 106.841, matched_by: code, neighbour_km: {GDD: 1.7}}
+      - {source: osm, source_id: "node/4817686767", label: "Cikini", lat: -6.198517, lon: 106.841243, matched_by: name, neighbour_km: {GDD: 1.8}}
+    plausible_proposal: {source: wikidata, source_id: "Q2609428", lat: -6.19846, lon: 106.841, rule: "smallest total distance to route neighbours"}
+
+  - code: "JBU"
+    printed_name: "Jambubaru"
+    flag_reason: "multiple_wikidata_items_for_code"
+    neighbours_before:
+      - {code: "CT", count: 7}
+      - {code: "RK", count: 7}
+    neighbours_after:
+      - {code: "RK", count: 7}
+      - {code: "CT", count: 7}
+    candidates:
+      - {source: wikidata, source_id: "Q15138781", label: "Stasiun Jambu Baru", lat: -6.302981, lon: 106.260571, matched_by: code, neighbour_km: {CT: 4.2, RK: 5.6}}
+      - {source: wikidata, source_id: "Q33020703", label: "Stasiun LRT Jati Bening Baru", lat: -6.257775, lon: 106.927679, matched_by: code, neighbour_km: {CT: 72.9, RK: 75.5}}
+      - {source: wikidata, source_id: "Q33020703", label: "Stasiun LRT Jati Bening Baru", lat: -6.257775, lon: 106.927679, matched_by: code, neighbour_km: {CT: 72.9, RK: 75.5}}
+    plausible_proposal: {source: wikidata, source_id: "Q15138781", lat: -6.302981, lon: 106.260571, rule: "smallest total distance to route neighbours"}
+
+  - code: "KLI"
+    printed_name: "Klari"
+    flag_reason: "multiple_wikidata_items_for_code"
+    neighbours_before:
+      - {code: "KOS", count: 86}
+      - {code: "KW", count: 86}
+    neighbours_after:
+      - {code: "KW", count: 86}
+      - {code: "KOS", count: 86}
+    candidates:
+      - {source: wikidata, source_id: "Q2530793", label: "Stasiun Klari", lat: -6.35, lon: 107.345, matched_by: code, neighbour_km: {KOS: 4.0, KW: 7.2}}
+      - {source: wikidata, source_id: "Q2530793", label: "Stasiun Klari", lat: -6.35, lon: 107.345, matched_by: code, neighbour_km: {KOS: 4.0, KW: 7.2}}
+      - {source: osm, source_id: "node/11738786421", label: "Klari", lat: -6.349852, lon: 107.345373, matched_by: name, neighbour_km: {KOS: 3.9, KW: 7.2}}
+    plausible_proposal: {source: osm, source_id: "node/11738786421", lat: -6.349852, lon: 107.345373, rule: "smallest total distance to route neighbours"}
+
+  - code: "LR"
+    printed_name: "Larangan"
+    flag_reason: "two distinct station codes share one coordinate"
+    neighbours_before:
+      - {code: "SD", count: 41}
+      - {code: "TG", count: 41}
+    neighbours_after:
+      - {code: "TG", count: 41}
+      - {code: "SD", count: 41}
+    candidates:
+      - {source: wikidata, source_id: "Q12516294", label: "Stasiun Larangan (Tegal)", lat: -7.69738, lon: 109.701, matched_by: code, neighbour_km: {SD: 0.0, TG: 111.0}}
+      - {source: osm, source_id: "node/1244940776", label: "Larangan", lat: -6.868086, lon: 109.185451, matched_by: name, neighbour_km: {SD: 108.3, TG: 4.7}}
+      - {source: osm, source_id: "node/7835804385", label: "Larangan", lat: -6.990374, lon: 108.94882, matched_by: name, neighbour_km: {SD: 114.3, TG: 25.4}}
+    plausible_proposal: {source: wikidata, source_id: "Q12516294", lat: -7.69738, lon: 109.701, rule: "smallest total distance to route neighbours"}
+
+  - code: "MRI"
+    printed_name: "Manggarai"
+    flag_reason: "multiple_wikidata_items_for_code"
+    neighbours_before:
+      - {code: "MTR", count: 45}
+      - {code: "CKI", count: 45}
+    neighbours_after:
+      - {code: "CKI", count: 45}
+      - {code: "MTR", count: 45}
+    candidates:
+      - {source: wikidata, source_id: "Q2546915", label: "Stasiun Manggarai", lat: -6.2099, lon: 106.85, matched_by: code, neighbour_km: {}}
+      - {source: wikidata, source_id: "Q2546915", label: "Stasiun Manggarai", lat: -6.2099, lon: 106.85, matched_by: code, neighbour_km: {}}
+      - {source: osm, source_id: "node/4815286700", label: "Manggarai", lat: -6.21017, lon: 106.849935, matched_by: name, neighbour_km: {}}
+      - {source: osm, source_id: "node/11179200351", label: "Manggarai", lat: -6.208654, lon: 106.845668, matched_by: name, neighbour_km: {}}
+    plausible_proposal: {source: wikidata, source_id: "Q2546915", lat: -6.2099, lon: 106.85, rule: "smallest total distance to route neighbours"}
+
+  - code: "MTR"
+    printed_name: "Matraman"
+    flag_reason: "multiple_wikidata_items_for_code"
+    neighbours_before:
+      - {code: "JNG", count: 45}
+      - {code: "MRI", count: 45}
+    neighbours_after:
+      - {code: "MRI", count: 45}
+      - {code: "JNG", count: 45}
+    candidates:
+      - {source: wikidata, source_id: "Q65341446", label: "Stasiun Matraman", lat: -6.212563, lon: 106.859825, matched_by: code, neighbour_km: {JNG: 1.2}}
+      - {source: wikidata, source_id: "Q65341446", label: "Stasiun Matraman", lat: -6.212563, lon: 106.859825, matched_by: code, neighbour_km: {JNG: 1.2}}
+      - {source: osm, source_id: "node/7764926504", label: "Matraman", lat: -6.212567, lon: 106.859753, matched_by: name, neighbour_km: {JNG: 1.2}}
+      - {source: osm, source_id: "node/11179200353", label: "Matraman", lat: -6.195077, lon: 106.859983, matched_by: name, neighbour_km: {JNG: 2.5}}
+    plausible_proposal: {source: wikidata, source_id: "Q65341446", lat: -6.212563, lon: 106.859825, rule: "smallest total distance to route neighbours"}
+
+  - code: "PRI"
+    printed_name: "Pringkasap"
+    flag_reason: "two distinct station codes share one coordinate"
+    neighbours_before:
+      - {code: "PAS", count: 71}
+      - {code: "PAB", count: 71}
+    neighbours_after:
+      - {code: "PAB", count: 71}
+      - {code: "PAS", count: 71}
+    candidates:
+      - {source: wikidata, source_id: "Q12516326", label: "Stasiun Pringkasap", lat: -6.41801, lon: 107.634, matched_by: code, neighbour_km: {PAS: 6.1, PAB: 5.6}}
+      - {source: osm, source_id: "node/7849142889", label: "Pringkasap", lat: -6.418069, lon: 107.634511, matched_by: name, neighbour_km: {PAS: 6.1, PAB: 5.7}}
+    plausible_proposal: {source: wikidata, source_id: "Q12516326", lat: -6.41801, lon: 107.634, rule: "smallest total distance to route neighbours"}
+
+  - code: "PS"
+    printed_name: "Pasuruan"
+    flag_reason: "two distinct station codes share one coordinate"
+    neighbours_before:
+      - {code: "BG", count: 17}
+      - {code: "RO", count: 15}
+    neighbours_after:
+      - {code: "BG", count: 17}
+      - {code: "RO", count: 15}
+    candidates:
+      - {source: wikidata, source_id: "Q2739193", label: "Stasiun Pasuruan", lat: -7.63778, lon: 112.91, matched_by: code, neighbour_km: {BG: 15.2, RO: 0.0}}
+      - {source: osm, source_id: "node/1359918326", label: "Pasuruan", lat: -7.637755, lon: 112.910135, matched_by: name, neighbour_km: {BG: 15.2, RO: 0.0}}
+    plausible_proposal: {source: wikidata, source_id: "Q2739193", lat: -7.63778, lon: 112.91, rule: "smallest total distance to route neighbours"}
+
+  - code: "RO"
+    printed_name: "Rejoso"
+    flag_reason: "two distinct station codes share one coordinate"
+    neighbours_before:
+      - {code: "PS", count: 15}
+      - {code: "GI", count: 15}
+    neighbours_after:
+      - {code: "GI", count: 15}
+      - {code: "PS", count: 15}
+    candidates:
+      - {source: wikidata, source_id: "Q12516332", label: "Stasiun Rejoso", lat: -7.63784, lon: 112.91, matched_by: code, neighbour_km: {PS: 0.0, GI: 14.3}}
+      - {source: osm, source_id: "node/1360626493", label: "Rejoso", lat: -7.691326, lon: 112.967933, matched_by: name, neighbour_km: {PS: 8.7, GI: 5.7}}
+    plausible_proposal: {source: wikidata, source_id: "Q12516332", lat: -7.63784, lon: 112.91, rule: "smallest total distance to route neighbours"}
+
+  - code: "SD"
+    printed_name: "Surodadi"
+    flag_reason: "two distinct station codes share one coordinate"
+    neighbours_before:
+      - {code: "PML", count: 41}
+      - {code: "LR", count: 41}
+    neighbours_after:
+      - {code: "LR", count: 41}
+      - {code: "PML", count: 41}
+    candidates:
+      - {source: wikidata, source_id: "Q12516348", label: "Stasiun Suradadi", lat: -7.69738, lon: 109.701, matched_by: code, neighbour_km: {PML: 96.4, LR: 0.0}}
+      - {source: osm, source_id: "node/1244940858", label: "Surodadi", lat: -6.880573, lon: 109.275956, matched_by: name, neighbour_km: {PML: 12.4, LR: 102.2}}
+    plausible_proposal: {source: wikidata, source_id: "Q12516348", lat: -7.69738, lon: 109.701, rule: "smallest total distance to route neighbours"}
+
+  - code: "SMO"
+    printed_name: "Adi Soemarmo"
+    flag_reason: "multiple_wikidata_items_for_code"
+    neighbours_before:
+      - {code: "KDO", count: 5}
+    neighbours_after:
+      - {code: "KDO", count: 5}
+    candidates:
+      - {source: wikidata, source_id: "Q56394389", label: "Stasiun Bandara Adisoemarmo", lat: -7.51348, lon: 110.747914, matched_by: code, neighbour_km: {KDO: 8.0}}
+      - {source: wikidata, source_id: "Q56394389", label: "Stasiun Bandara Adisoemarmo", lat: -7.51348, lon: 110.747914, matched_by: code, neighbour_km: {KDO: 8.0}}
+      - {source: osm, source_id: "node/7109010878", label: "Adi Soemarmo", lat: -7.51344, lon: 110.747865, matched_by: name, neighbour_km: {KDO: 8.0}}
+    plausible_proposal: {source: wikidata, source_id: "Q56394389", lat: -7.51348, lon: 110.747914, rule: "smallest total distance to route neighbours"}
+
+  - code: "SMT"
+    printed_name: "Semarang Tawang"
+    flag_reason: "multiple_wikidata_items_for_code"
+    neighbours_before:
+      - {code: "SMC", count: 40}
+      - {code: "ATA", count: 31}
+    neighbours_after:
+      - {code: "SMC", count: 40}
+      - {code: "ATA", count: 31}
+    candidates:
+      - {source: wikidata, source_id: "Q2836773", label: "Stasiun Semarang Tawang", lat: -6.96442, lon: 110.42795, matched_by: code, neighbour_km: {SMC: 1.7, ATA: 5.8}}
+      - {source: wikidata, source_id: "Q2836773", label: "Stasiun Semarang Tawang", lat: -6.964444, lon: 110.427778, matched_by: code, neighbour_km: {SMC: 1.7, ATA: 5.8}}
+      - {source: osm, source_id: "node/12165656405", label: "Semarang Tawang", lat: -6.964126, lon: 110.427725, matched_by: name, neighbour_km: {SMC: 1.7, ATA: 5.8}}
+    plausible_proposal: {source: wikidata, source_id: "Q2836773", lat: -6.96442, lon: 110.42795, rule: "smallest total distance to route neighbours"}
+
+  - code: "STM"
+    printed_name: "Segitigamesigit"
+    flag_reason: "no candidate from any source"
+    neighbours_before:
+      - {code: "SB", count: 13}
+      - {code: "SBI", count: 12}
+    neighbours_after:
+      - {code: "SBI", count: 13}
+      - {code: "SB", count: 12}
+    candidates: []
+    plausible_proposal: null
+
+  - code: "TIS"
+    printed_name: "Terisi"
+    flag_reason: "implausible neighbour distance"
+    neighbours_before:
+      - {code: "TLS", count: 71}
+      - {code: "KAB", count: 71}
+    neighbours_after:
+      - {code: "KAB", count: 71}
+      - {code: "TLS", count: 71}
+    candidates:
+      - {source: wikidata, source_id: "Q12516356", label: "Stasiun Terisi", lat: -6.41801, lon: 107.634, matched_by: code, neighbour_km: {TLS: 66.6, KAB: 52.6}}
+      - {source: osm, source_id: "node/1228535141", label: "Terisi", lat: -6.469976, lon: 108.161079, matched_by: name, neighbour_km: {TLS: 8.2, KAB: 6.0}}
+    plausible_proposal: {source: osm, source_id: "node/1228535141", lat: -6.469976, lon: 108.161079, rule: "smallest total distance to route neighbours"}
+
+  - code: "TLM"
+    printed_name: "Telaga Murni"
+    flag_reason: "wikidata_by_code_outside_java_bbox"
+    neighbours_before:
+      - {code: "CKR", count: 79}
+      - {code: "CIT", count: 79}
+    neighbours_after:
+      - {code: "CIT", count: 79}
+      - {code: "CKR", count: 79}
+    candidates:
+      - {source: wikidata, source_id: "Q106279346", label: "Stasiun Tanjung Alam", lat: -0.29297, lon: 100.410045, matched_by: code, neighbour_km: {CKR: 999.0, CIT: 994.4}}
+    plausible_proposal: null
+
+  - code: "TPR"
+    printed_name: "Tipar"
+    flag_reason: "no candidate from any source"
+    neighbours_before:
+      - {code: "SLJ", count: 3}
+      - {code: "MLB", count: 3}
+    neighbours_after:
+      - {code: "MLB", count: 3}
+      - {code: "SLJ", count: 3}
+    candidates: []
+    plausible_proposal: null
+
