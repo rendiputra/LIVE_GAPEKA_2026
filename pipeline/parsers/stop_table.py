@@ -31,6 +31,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
+from pipeline.cell_markers import EMPTY_MARKERS, MarkerSet
+from pipeline.cell_markers import load as load_markers
 from pipeline.parsers.table_geometry import (
     COL_ARRIVE,
     COL_DEPART,
@@ -44,6 +46,7 @@ from pipeline.parsers.table_geometry import (
 
 EMPTY_MARKER = "-"
 PASS_MARKER = "LS"
+UNKNOWN_UNTIMED = "unknown_untimed"
 
 TIME_RE = re.compile(r"^\d{2}:\d{2}:\d{2}$")
 TRAIN_TITLE_RE = re.compile(
@@ -221,7 +224,7 @@ def _classify_time_cell(raw: str, kind: str) -> tuple[str | None, list[str], lis
     return None, [], [f"{kind}_unrecognised:{text}"], "empty"
 
 
-def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
+def parse_stop(block: TableBlock, row: list[Word], markers: MarkerSet | None = None) -> Stop | None:
     """Convert one geometry row into a Stop, or None if it is not a stop row."""
     seq_cell = _cell(block, row, COL_NO)
     station_cell = _cell(block, row, COL_STATION)
@@ -249,18 +252,38 @@ def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
     arrive_raw = (arrive.raw or "").strip()
     depart_raw = (depart.raw or "").strip()
 
+    markers = markers or EMPTY_MARKERS
+    marker_seen: list[str] = []
+
     if arrive_raw.upper() == PASS_MARKER:
         # "Ls" states that the train passes through; it is not a clock reading.
         stop_type = "pass"
         arrive_value = None
         arrive_source = "not_printed"
+    elif markers.is_marker(arrive_raw):
+        # A whitelisted but UNDEFINED token (Berh/Sb). Never interpreted: no time,
+        # and no claim about whether the row is a stop or a pass.
+        stop_type = UNKNOWN_UNTIMED
+        arrive_value = None
+        arrive_source = "marker"
+        marker_seen.append(arrive_raw)
     else:
         stop_type = "stop"
         arrive_value, _ai, arrive_flags, arrive_source = _classify_time_cell(arrive_raw, "arrive")
         review.extend(arrive_flags)
 
-    depart_value, _di, depart_flags, depart_source = _classify_time_cell(depart_raw, "depart")
-    review.extend(depart_flags)
+    if markers.is_marker(depart_raw):
+        depart_value = None
+        depart_source = "marker"
+        marker_seen.append(depart_raw)
+        stop_type = UNKNOWN_UNTIMED
+    else:
+        depart_value, _di, depart_flags, depart_source = _classify_time_cell(depart_raw, "depart")
+        review.extend(depart_flags)
+
+    # A marker row is untimed by design, so it carries no blank-cell doubt.
+    if stop_type == UNKNOWN_UNTIMED:
+        review = [r for r in review if not r.endswith("_blank")]
 
     # A pass row usually carries its passing time in Berangkat. The document also
     # prints "Ls" together with "-" in Berangkat (observed across Book 1, e.g.
@@ -293,7 +316,11 @@ def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
         depart=Cell(depart_value, depart.raw, depart.page, depart.bbox, depart_source),
         note=note,
         stop_type=stop_type,
-        info=["pass_row_with_dash_depart"] if pass_dash else [],
+        info=(
+            ["pass_row_with_dash_depart"]
+            if pass_dash
+            else ([f"marker:{m}" for m in marker_seen] if marker_seen else [])
+        ),
         needs_review=review,
         provenance={
             "page": block.page,
@@ -377,7 +404,7 @@ def detect_completeness(train: ParsedTrain, page_range: tuple[int, int]) -> str:
     return COMPLETENESS_UNKNOWN
 
 
-def parse_block(block: TableBlock) -> ParsedTrain | None:
+def parse_block(block: TableBlock, markers: MarkerSet | None = None) -> ParsedTrain | None:
     """Parse one table block into a ParsedTrain (finalisation happens later)."""
     train_no, name, origin, destination = parse_title(block)
     train = ParsedTrain(
@@ -395,7 +422,7 @@ def parse_block(block: TableBlock) -> ParsedTrain | None:
 
     previous_seq: int | None = None
     for row in block.rows:
-        stop = parse_stop(block, row)
+        stop = parse_stop(block, row, markers)
         if stop is None:
             text = " ".join(w.text for w in row).strip()
             if text:
@@ -416,8 +443,10 @@ def parse_block(block: TableBlock) -> ParsedTrain | None:
     return train
 
 
-def parse_page(block_list: list[TableBlock]) -> list[ParsedTrain]:
-    return [t for t in (parse_block(b) for b in block_list) if t is not None]
+def parse_page(block_list: list[TableBlock], markers: MarkerSet | None = None) -> list[ParsedTrain]:
+    """Parse a page's tables. ``markers`` defaults to the approved whitelist."""
+    active = markers if markers is not None else load_markers()
+    return [t for t in (parse_block(b, active) for b in block_list) if t is not None]
 
 
 def merge_continuations(trains: list[ParsedTrain]) -> list[ParsedTrain]:

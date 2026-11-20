@@ -253,5 +253,10 @@
         "Commuter"
       ]
     }
+  ],
+  "history": [
+    {
+      "note": "An earlier parse reported 2,127 entries / 2,391 distinct numbers. That was a parser defect, not a document difference: page 1829 stacks two summary tables, and the page's classification block displaced the train number of the rows between them. Fixed by anchoring rows on the sequence column and dropping header furniture per row. Current figures supersede it."
+    }
   ]
 }

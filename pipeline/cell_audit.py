@@ -30,7 +30,11 @@ MARKERS = ("jj", "x", "=", "//")
 TIME_RE = re.compile(r"^\d{1,2}:\d{2}(?::\d{2})?$")
 
 # Cell codes that legitimately appear in Datang / Berangkat.
-CELL_CODES = {"LS", "BERH", "SB", "-", ""}
+# Accepted time-cell formats. "Ls" is a documented cell code; "-" and "" are the
+# empty markers. Everything else in the Datang/Berangkat columns is CENSUSED,
+# including Berh/Sb, so the whitelist in data/config/cell_markers.yaml can be
+# justified from evidence.
+CELL_CODES = {"LS", "-", ""}
 
 # Column headers and table furniture that land inside the x-window on pages whose
 # layout differs (indexes, summaries, portrait tables).
@@ -106,6 +110,7 @@ def census(words_dir: Path = DEFAULT_WORDS, inventory_path: Path = INVENTORY) ->
     # token -> (section, subtype) -> {count, trains}
     tokens: dict[str, Counter] = defaultdict(Counter)
     examples: dict[str, dict[tuple[str, str], list[str]]] = defaultdict(lambda: defaultdict(list))
+    train_examples: dict[str, list[str]] = defaultdict(list)
 
     for path in sorted(words_dir.glob("page_*.json")):
         page = int(path.stem.split("_")[1])
@@ -114,8 +119,13 @@ def census(words_dir: Path = DEFAULT_WORDS, inventory_path: Path = INVENTORY) ->
         rows: dict[int, list] = {}
         for word in payload["words"]:
             rows.setdefault(round(word[1] / 3), []).append(word)
+        current_train = None
         for key in sorted(rows):
             line = sorted(rows[key], key=lambda w: w[0])
+            line_text = " ".join(w[4] for w in line)
+            header = re.search(r"KA\s+(\d+[A-Za-z]?)", line_text)
+            if header:
+                current_train = header.group(1)
             # Datang / Berangkat columns sit at x in [260, 360) on A4 tables.
             for word in line:
                 if not (255 <= word[0] < 360):
@@ -131,6 +141,12 @@ def census(words_dir: Path = DEFAULT_WORDS, inventory_path: Path = INVENTORY) ->
                 bucket = examples[text][(section, subtype)]
                 if len(bucket) < 3:
                     bucket.append(f"p{page}")
+                if (
+                    current_train
+                    and len(train_examples[text]) < 3
+                    and current_train not in train_examples[text]
+                ):
+                    train_examples[text].append(current_train)
 
     rows_out = []
     for token, per_section in sorted(tokens.items(), key=lambda kv: -sum(kv[1].values())):
@@ -141,10 +157,11 @@ def census(words_dir: Path = DEFAULT_WORDS, inventory_path: Path = INVENTORY) ->
                 "by_section": {
                     f"{s}/{st}": {
                         "count": count,
-                        "examples": examples[token][(s, st)],
+                        "example_pages": examples[token][(s, st)],
                     }
                     for (s, st), count in per_section.most_common()
                 },
+                "example_trains": train_examples[token],
             }
         )
 

@@ -13,6 +13,7 @@ from __future__ import annotations
 import shutil
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 MIN_PYTHON = (3, 12)
@@ -48,6 +49,24 @@ def _check_pdf(path: Path) -> tuple[bool, str]:
     return True, f"{path} ({size:,} bytes)"
 
 
+def _check_network() -> tuple[bool, str]:
+    """External sources are required for station coordinates (Phase 3a 4c)."""
+    checks = {
+        "wikidata": "https://query.wikidata.org/sparql",
+        "osm": "https://overpass-api.de/api/status",
+    }
+    results = []
+    for name, url in checks.items():
+        try:
+            request = urllib.request.Request(url, headers={"User-Agent": "live-gapeka/0.1"})
+            with urllib.request.urlopen(request, timeout=25) as response:
+                results.append(f"{name}:{response.status}")
+        except Exception as error:  # noqa: BLE001 - report, never raise
+            results.append(f"{name}:{type(error).__name__}")
+    ok = all(":200" in item for item in results)
+    return ok, " ".join(results)
+
+
 def _check_raw_words(path: Path) -> tuple[bool, str]:
     manifest = path / "manifest.json"
     if not manifest.exists():
@@ -69,6 +88,7 @@ def main() -> int:
     rows.append(("pdfplumber (optional cross-check)", *_check_import("pdfplumber"), False))
     rows.append(("pdftotext (optional cross-check)", *_check_pdftotext(), False))
     rows.append(("Gapeka PDF", *_check_pdf(Path("data/input/GAPEKA_2026.pdf")), True))
+    rows.append(("network (station coordinates)", *_check_network(), False))
     rows.append(("raw words", *_check_raw_words(Path("data/raw/words")), False))
 
     width = max(len(name) for name, *_ in rows)

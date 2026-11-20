@@ -13,8 +13,8 @@ Subtype `local_train_table` only (123 pages). Book 1 (intercity), KRL, and freig
 |---|---|
 | trains parsed | 306 |
 | stops parsed | 3600 |
-| validated | 246 |
-| quarantined | 60 |
+| validated | 306 |
+| quarantined | 0 |
 | pages in scope | 123 |
 | pages parsed | 123 |
 
@@ -26,10 +26,7 @@ Subtype `local_train_table` only (123 pages). Book 1 (intercity), KRL, and freig
 
 ## Quarantine reasons
 
-| Reason | Trains |
-|---|---|
-| `depart_unrecognised:Sb` | 60 |
-| `arrive_unrecognised:Berh` | 60 |
+None. Every parsed train passed the gate.
 
 ## Validator results
 
@@ -40,7 +37,7 @@ Subtype `local_train_table` only (123 pages). Book 1 (intercity), KRL, and freig
 | V4 | parsed trains vs index and Relasi headers (list only, never resolved) | INFO | 283 matched, 23 parsed-not-in-index |
 | V8 | first station = relation origin; last station = relation destination | PASS | 306 passed, 0 failed, 0 reported not checked |
 | V9 | segment running-time consistency across trains (report only) | INFO | 386 pairs, 10 single-train, 97 outliers |
-| V10 | an untimed pass row lies between two timed rows of the same trip | PASS | 3600 rows, 0 findings, 140 trains with untimed pass rows |
+| V10 | an untimed pass row lies between two timed rows of the same trip | PASS | 3600 rows, 0 findings, 177 trains with untimed pass rows |
 | V11 | printed No. column is 1..N across page continuations (no gaps, no duplicates) | PASS | 3600 rows, 0 findings |
 
 ## Index reconciliation (V4)
@@ -77,7 +74,7 @@ service_class is joined BY TRAIN NUMBER from the Lampiran IV summary tables. It 
 
 - rows checked: **3600**
 - findings: **0**
-- trains with at least one untimed pass row: **140**
+- trains with at least one untimed pass row: **177**
 
 Untimed pass rows must sit strictly between two timed rows. The Phase 5 engine estimates them by distance-proportional interpolation; the parsed layer never stores a fabricated time.
 
@@ -423,7 +420,7 @@ Durations between consecutive timed stops, not km/h: no distances are known unti
 
 ## Runtime
 
-- parse + validate: **0.9s**
+- parse + validate: **1.4s**
 - pages in scope: **123**
 
 ## Known limitations

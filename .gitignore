@@ -18,6 +18,10 @@ data/review/r4a_*.json
 data/review/r5_*.json
 data/review/r6_*.json
 data/review/phase2a_*.json
+data/review/stations_*.json
+data/review/untimed_distribution.json
+data/review/db_skipped.json
+data/review/station_name_conflict_evidence.json
 
 # --- Python ---
 .venv/
@@ -29,6 +33,11 @@ __pycache__/
 dist/
 build/
 
+# --- Built database (derived, never committed) ---
+data/gapeka.db
+data/*.db
+
 # --- Tooling ---
 .pre-commit-cache/
 .DS_Store
+data/external/

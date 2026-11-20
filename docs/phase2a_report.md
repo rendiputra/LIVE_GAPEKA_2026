@@ -13,8 +13,8 @@ Subtype `intercity_train_table` only (520 pages). Book 2 (local), KRL, and freig
 |---|---|
 | trains parsed | 319 |
 | stops parsed | 19208 |
-| validated | 311 |
-| quarantined | 8 |
+| validated | 319 |
+| quarantined | 0 |
 | pages in scope | 520 |
 | pages parsed | 520 |
 
@@ -26,10 +26,7 @@ Subtype `intercity_train_table` only (520 pages). Book 2 (local), KRL, and freig
 
 ## Quarantine reasons
 
-| Reason | Trains |
-|---|---|
-| `depart_unrecognised:Sb` | 8 |
-| `arrive_unrecognised:Berh` | 8 |
+None. Every parsed train passed the gate.
 
 ## Validator results
 
@@ -774,7 +771,7 @@ Durations between consecutive timed stops, not km/h: no distances are known unti
 
 ## Runtime
 
-- parse + validate: **5.0s**
+- parse + validate: **5.2s**
 - pages in scope: **520**
 
 ## Known limitations

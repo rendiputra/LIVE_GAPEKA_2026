@@ -170,6 +170,7 @@ Observed in sampling, to be verified in Phase 1:
 - 979 of 1,426 train-table pages carry **two or more** tables; a one-table-per-page parser will drop data.
 - Printed page numbers restart at five book boundaries (PDF 58, 670, 834, 1516, 1826).
 - **Times are second-precision** (`HH:MM:SS`) on train-table pages. A minute-resolution model truncates silently.
+- **Some cells hold an undefined marker token instead of a time** (`Berh` in Datang, `Sb` in Berangkat; see PDF 534 and ADR 003). They are handled neutrally: `time = null`, `time_source = marker`, raw token kept, `stop_type = unknown_untimed`, and the trip carries `has_untimed_markers = true`. The PDF defines neither token, so no meaning is assumed. The UI/engine must label such trips **"coarser estimate"**. The whitelist lives in `data/config/cell_markers.yaml` and is reversible.
 
 ## 6. Phases
 
@@ -209,13 +210,27 @@ Build `tools/review_ui/`: show the PDF page crop next to the extracted data, cor
 **DoD**: `python -m pipeline.validate` produces a report (pass/fail per rule, list of review items). Exit code != 0 if there are unreviewed violations.
 **Human checkpoint**: human reviews a 5% random sample plus all flagged items.
 
-### Phase 3 — Scale to the Full Gapeka
+### Phase 3a — MVP assembly (Book 1 + Book 2 only)
 **Tasks**
-- Run parsers on all lines, batched and idempotent (same result on re-run; cache per page by hash).
+- Schema `db/schema.sql` per section 5, extended for `time_source`, raw cells, `book`, `service_class`, `completeness`, `has_untimed_markers`.
+- `pipeline/build_db.py`: idempotent, deterministic, content-hashed. Only validated trains load.
+- Stations master: codes from the PDF, coordinates from Wikidata/OSM **only** (never guessed), unmatched listed.
+- Cross-book checks and smoke queries; report `docs/phase3a_report.md`.
+
+**DoD**: the MVP slice loads, rebuilds byte-identically, and answers the smoke queries. KRL and freight are explicitly out of scope.
+
+### Phase 3b — KRL and freight (deferred)
+KRL (approx. PDF 812-1513) and freight (approx. 1514-1673) wait until the MVP slice
+(3a -> geometry -> engine -> map) works end to end. They have their own header
+formats (two trains per page, `Berh`/`Sb` markers, `Lintas Pelayanan` only).
+
+### Phase 3c — Scale to the Full Gapeka
+**Tasks**
+- Run parsers on all sections, batched and idempotent (same result on re-run; cache per page by hash).
 - Apply full validation; produce `data/validated/`; `build_db.py` fills the database with `gapeka_versions.status = validated`.
 - Apply `overrides` at DB build time (never modify raw/parsed).
 
-**DoD**: entire PDF processed; coverage report (pages parsed, trains parsed, remaining review items) in `docs/coverage_report.md`; counts compared with the PDF index.
+**DoD**: entire PDF processed; coverage report in `docs/coverage_report.md`; counts compared with the PDF index.
 
 ### Phase 4 — Rail Geometry
 **Tasks**
@@ -249,6 +264,8 @@ Logic per active trip:
 - Smoothly moving train markers, detail panel (schedule, next station), station board, search by train number/station, "replay" mode (pick any time), OSM attribution, clear disclaimer.
 - **Pre-release preview banner** (Hard Rule 6, ADR 002): when `today < effective_from`, show a config-driven banner such as "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". It sits alongside the disclaimer, not instead of it.
 - Scaling option: compute positions in the browser from static schedule data (port the logic of `engine/position.py` with parity tests against the Python version).
+
+Every trip with `has_untimed_markers = true` must be labelled "coarser estimate" wherever its position is shown, because its position spans a longer untimed gap.
 
 **DoD**: e2e smoke test (Playwright) passes; basic performance check done; 500+ active trains render smoothly on a mid-range device.
 

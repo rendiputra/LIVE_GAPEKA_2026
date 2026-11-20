@@ -28,6 +28,18 @@ def main(argv: list[str] | None = None) -> int:
     analysis = f_suffix_analysis(entries)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
+    analysis["history"] = [
+        {
+            "note": (
+                "An earlier parse reported 2,127 entries / 2,391 distinct numbers. "
+                "That was a parser defect, not a document difference: page 1829 "
+                "stacks two summary tables, and the page's classification block "
+                "displaced the train number of the rows between them. Fixed by "
+                "anchoring rows on the sequence column and dropping header "
+                "furniture per row. Current figures supersede it."
+            ),
+        }
+    ]
     args.out.write_text(json.dumps(analysis, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     args.parsed.parent.mkdir(parents=True, exist_ok=True)
     args.parsed.write_text(

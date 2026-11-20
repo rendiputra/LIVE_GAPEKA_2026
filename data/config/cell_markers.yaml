@@ -1,0 +1,23 @@
+# Accepted non-time tokens in the Datang / Berangkat columns.
+#
+# The Gapeka PDF does NOT define these tokens anywhere (see ADR 003). They are
+# handled NEUTRALLY: the raw token is preserved, the time stays null, and the row
+# is marked `unknown_untimed`. We never claim the row is a stop or a pass, and we
+# never invent a time.
+#
+# Enabled entries are the only tokens the parser will accept as a marker. Any
+# other token in those columns is reported by the census and left unrecognised.
+enabled:
+  Berh:
+    note: "Printed in the Datang column on some commuter tables (e.g. PDF 534)."
+    meaning: "undefined in the PDF"
+  Sb:
+    note: "Printed in the Berangkat column on some commuter tables (e.g. PDF 534)."
+    meaning: "undefined in the PDF"
+
+# Observed but deliberately NOT enabled. Reported by data/review/cell_token_census.json.
+observed_not_enabled:
+  - token: B.hu
+    reason: "appears in Datang/Berangkat x-window; not confirmed as a cell marker"
+  - token: B.hi
+    reason: "appears in Datang/Berangkat x-window; not confirmed as a cell marker"

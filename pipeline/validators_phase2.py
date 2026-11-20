@@ -42,6 +42,7 @@ class RuleReport:
     checked: int = 0
     findings: list[Finding] = field(default_factory=list)
     counts_by_train: dict[str, int] = field(default_factory=dict)
+    longest_runs: dict[str, int] = field(default_factory=dict)
 
     @property
     def passed(self) -> bool:
@@ -64,13 +65,29 @@ def _is_timed(stop: Stop) -> bool:
     return bool(stop.arrive.value or stop.depart.value)
 
 
+def _is_untimed(stop: Stop) -> bool:
+    """Any row that prints no clock time at all.
+
+    Covers the "Ls + -" pass row and the marker rows (Berh/Sb), which are
+    deliberately untimed (ADR 003).
+    """
+    return stop.arrive.value is None and stop.depart.value is None
+
+
 def _is_untimed_pass(stop: Stop) -> bool:
-    """A pass row that prints no clock time at all (the "Ls + -" case)."""
-    return (
-        stop.stop_type == "pass"
-        and stop.arrive.source == "not_printed"
-        and stop.depart.source == "not_printed"
-    )
+    """Backwards-compatible alias used by the gate."""
+    return _is_untimed(stop)
+
+
+def _longest_untimed_run(stops: list[Stop]) -> int:
+    best = current = 0
+    for stop in stops:
+        if _is_untimed(stop):
+            current += 1
+            best = max(best, current)
+        else:
+            current = 0
+    return best
 
 
 def validate_v10(trains: list[ParsedTrain]) -> RuleReport:
@@ -79,11 +96,12 @@ def validate_v10(trains: list[ParsedTrain]) -> RuleReport:
         "V10",
         "an untimed pass row lies between two timed rows of the same trip",
     )
+    runs: dict[str, int] = {}
     for train in trains:
         count = 0
         for index, stop in enumerate(train.stops):
             report.checked += 1
-            if not _is_untimed_pass(stop):
+            if not _is_untimed(stop):
                 continue
             count += 1
             if index == 0:
@@ -108,6 +126,8 @@ def validate_v10(trains: list[ParsedTrain]) -> RuleReport:
                 )
         if count:
             report.counts_by_train[train.train_no or "?"] = count
+            runs[train.train_no or "?"] = _longest_untimed_run(train.stops)
+    report.longest_runs = runs
     return report
 
 

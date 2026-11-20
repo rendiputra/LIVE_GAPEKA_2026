@@ -90,13 +90,36 @@ def test_no_train_is_silently_dropped_from_the_html():
 
 
 def test_quarantined_train_shows_banner():
-    """C4: a quarantined train must be visually marked in the review pack."""
-    sample = REVIEW_DIR / "intercity_sample.html"
-    needs_review = REVIEW_DIR / "intercity_needs_review.html"
-    if not sample.exists():
-        pytest.skip("run `make parse-intercity` first")
+    """C4: IF any train is quarantined, the banner must appear.
 
-    assert "QUARANTINED" in needs_review.read_text(encoding="utf-8")
+    After the ADR 003 marker model nothing is quarantined, so the guard asserts
+    the renderer's banner behaviour directly and only checks the artefact when a
+    quarantine file is non-empty.
+    """
+    quarantine = Path("data/review/quarantine")
+    has_quarantined = any(
+        json.loads(p.read_text(encoding="utf-8")).get("count", 0) > 0
+        for p in quarantine.glob("*.json")
+    ) if quarantine.exists() else False
+
+    if has_quarantined:
+        needs_review = REVIEW_DIR / "intercity_needs_review.html"
+        if not needs_review.exists():
+            pytest.skip("run `make parse-intercity` first")
+        assert "QUARANTINED" in needs_review.read_text(encoding="utf-8")
+        return
+
+    # Renderer-level assertion, independent of current data.
+    from pipeline.review_html import render_review_html
+
+    train = {
+        "train_no": "X", "name": "N", "origin": "A", "destination": "B",
+        "completeness": "complete", "column_source": "ruling",
+        "info": [], "needs_review": [], "quarantined": True,
+        "quarantine_reasons": ["test_reason"], "stops": [],
+    }
+    markup = render_review_html("t", [train], [], [])
+    assert "QUARANTINED" in markup and "test_reason" in markup
 
 
 def test_intercity_html_row_counts_match_payload():

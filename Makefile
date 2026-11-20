@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables validate build-db geometry test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -33,9 +33,17 @@ validate: ## run all validators; fail on any violation
 	@echo "not implemented yet (Phase 2) -- failing closed on purpose"
 	@exit 1
 
-build-db: ## validated -> database
-	@echo "not implemented yet (Phase 3)"
-	@exit 0
+stations: ## match PDF station codes to external coordinates
+	uv run python -m pipeline.match_stations
+
+build-db: ## validated -> SQLite database
+	uv run python -m pipeline.build_db
+
+phase3a: ## full MVP assembly: stations + db + cross-checks + report
+	uv run python -m pipeline.phase3a_report
+
+verify-status: ## regenerate docs/verification_status.md
+	uv run python -m pipeline.verification_status
 
 geometry: ## OSM -> segments
 	@echo "not implemented yet (Phase 4)"
