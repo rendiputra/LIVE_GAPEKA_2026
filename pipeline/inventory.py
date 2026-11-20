@@ -22,6 +22,7 @@ from pipeline.classify import (
     PAGE_TYPES,
     SECTIONS,
     PageSignals,
+    assign_books,
     assign_sections,
     classify_page,
     derive_subtype,
@@ -36,6 +37,7 @@ SCHEMA_VERSION = 1
 # Printed page numbers sit in the page margin: a bare number, or a roman-prefixed
 # number such as "II-2" on the stringline annex.
 PRINTED_PAGE_RE = re.compile(r"^(\d{1,4}|[IVX]+-\d+)$")
+CLOCK_TIME_RE = re.compile(r"\b\d{1,2}:\d{2}(?::\d{2})?(?![\d:])")
 MARGIN_FRACTION = 0.10
 
 # Header patterns used to estimate the train count. They are deliberately
@@ -45,10 +47,24 @@ TRAIN_HEADER_RE = re.compile(
 )
 TRAIN_ANY_RE = re.compile(r"KA\s+(\d+[A-Z]?)\s*\(")
 TRAIN_LINTAS_RE = re.compile(r"KA\s+(\d+[A-Z]?)\s*\(([^)]*)\)\s*LINTAS PELAYANAN")
+# Index rows are "seq  train_no  CLASS  name  relation  depart  arrive  page".
+INDEX_ROW_RE = re.compile(r"\b\d{1,3}\s+(\d{3,4}[A-Z]?)\s+[A-Z]{2,}")
 
 
 def normalise(text: str) -> str:
     return " ".join(text.upper().split())
+
+
+def _classify_time_tokens(text: str) -> dict[str, int]:
+    """Split clock-time tokens into those with seconds and those without.
+
+    A token is counted exactly once: ``HH:MM:SS`` contains ``HH:MM``, so a naive
+    pair of regexes double-counts.
+    """
+    counts = {"seconds": 0, "minutes": 0}
+    for token in CLOCK_TIME_RE.findall(text):
+        counts["seconds" if token.count(":") == 2 else "minutes"] += 1
+    return counts
 
 
 def extract_printed_page(words: list[tuple], height: float) -> str | None:
@@ -86,6 +102,8 @@ def extract_signals(doc: pymupdf.Document, index: int) -> PageSignals:
     words = page.get_text("words")
     text = normalise(raw_text)
 
+    counts = _classify_time_tokens(text)
+
     return PageSignals(
         page=index + 1,
         width_pt=round(page.rect.width, 2),
@@ -94,7 +112,10 @@ def extract_signals(doc: pymupdf.Document, index: int) -> PageSignals:
         word_count=len(words),
         image_count=len(page.get_images(full=True)),
         text=text,
-        time_token_count=len(re.findall(r"\b\d{1,2}:\d{2}(?::\d{2})?\b", text)),
+        time_token_count=counts["seconds"] + counts["minutes"],
+        time_with_seconds=counts["seconds"],
+        time_minutes_only=counts["minutes"],
+        index_number_count=len(INDEX_ROW_RE.findall(text)),
         table_header_count=text.count("STASIUN DAN PERHENTIAN"),
         train_header_count=len(TRAIN_HEADER_RE.findall(text)),
         train_any_count=len(TRAIN_ANY_RE.findall(text)),
@@ -116,19 +137,33 @@ def build_inventory(pdf_path: Path) -> dict:
     try:
         signals = [extract_signals(doc, i) for i in range(doc.page_count)]
         sections = assign_sections(signals)
+        books = assign_books(signals, sections)
 
         relasi_numbers: set[str] = set()
         lintas_numbers: set[str] = set()
+        numbers_by_section: dict[str, dict[str, set[str]]] = {}
+
+        def _bucket(section: str) -> dict[str, set[str]]:
+            return numbers_by_section.setdefault(
+                section, {"relasi": set(), "lintas": set(), "index": set()}
+            )
 
         pages = []
-        for s, section in zip(signals, sections, strict=True):
+        for s, section, book in zip(signals, sections, books, strict=True):
             classification = classify_page(s)
+            bucket = _bucket(section)
             # Count train numbers only on the page types that legitimately list
             # them, so divider pages do not inflate the estimate.
             if classification.type == "train_table":
-                relasi_numbers.update(m[0] for m in TRAIN_HEADER_RE.findall(s.text))
+                found = {m[0] for m in TRAIN_HEADER_RE.findall(s.text)}
+                relasi_numbers.update(found)
+                bucket["relasi"].update(found)
             if classification.type == "line_table":
-                lintas_numbers.update(m[0] for m in TRAIN_LINTAS_RE.findall(s.text))
+                found = {m[0] for m in TRAIN_LINTAS_RE.findall(s.text)}
+                lintas_numbers.update(found)
+                bucket["lintas"].update(found)
+            if classification.type == "toc":
+                bucket["index"].update(INDEX_ROW_RE.findall(s.text))
             pages.append(
                 {
                     "page": s.page,
@@ -144,11 +179,15 @@ def build_inventory(pdf_path: Path) -> dict:
                     "train_header_count": s.train_header_count,
                     "train_any_count": s.train_any_count,
                     "train_lintas_count": s.train_lintas_count,
+                    "time_with_seconds": s.time_with_seconds,
+                    "time_minutes_only": s.time_minutes_only,
+                    "index_number_count": s.index_number_count,
                     "text_extractable": s.word_count > 0,
                     "printed_page": s.printed_page,
                     "type": classification.type,
-                    "subtype": derive_subtype(classification.type, section, s),
+                    "subtype": derive_subtype(classification.type, section, s, book),
                     "section": section,
+                    "book": book,
                     "confidence": classification.confidence,
                     "rule": classification.rule,
                     "reasons": list(classification.reasons),
@@ -168,7 +207,7 @@ def build_inventory(pdf_path: Path) -> dict:
                 "python": f"{sys.version_info.major}.{sys.version_info.minor}",
             },
             "pages": pages,
-            "summary": summarise(pages, relasi_numbers, lintas_numbers),
+            "summary": summarise(pages, relasi_numbers, lintas_numbers, numbers_by_section),
         }
     finally:
         doc.close()
@@ -178,6 +217,7 @@ def summarise(
     pages: list[dict],
     relasi_numbers: set[str] | None = None,
     lintas_numbers: set[str] | None = None,
+    numbers_by_section: dict[str, dict[str, set[str]]] | None = None,
 ) -> dict:
     by_type = {t: 0 for t in PAGE_TYPES}
     by_section = {s: 0 for s in SECTIONS}
@@ -205,6 +245,21 @@ def summarise(
             "relasi_distinct": len(relasi),
             "lintas_distinct": len(lintas),
             "union_distinct": len(relasi | lintas),
+            "by_section": {
+                section: {
+                    "relasi_distinct": len(kinds["relasi"]),
+                    "lintas_distinct": len(kinds["lintas"]),
+                    "index_distinct": len(kinds["index"]),
+                    "union_distinct": len(kinds["relasi"] | kinds["lintas"] | kinds["index"]),
+                }
+                for section, kinds in (numbers_by_section or {}).items()
+            },
+        },
+        "below_high_confidence_pages": [p["page"] for p in pages if p["confidence"] != "high"],
+        "by_rule_and_confidence": {
+            f"{rule}:{conf}": sum(1 for p in pages if p["rule"] == rule and p["confidence"] == conf)
+            for rule in range(1, 11)
+            for conf in ("high", "medium", "low")
         },
     }
 

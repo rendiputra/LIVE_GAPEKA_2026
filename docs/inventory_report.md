@@ -64,7 +64,8 @@ Section boundaries are derived from content markers (annex covers, index headers
 | intercity | other | cover_decree | 1 |
 | intercity | other | section_divider | 103 |
 | intercity | toc | toc_intercity | 10 |
-| intercity | train_table | intercity_train_table | 643 |
+| intercity | train_table | intercity_train_table | 520 |
+| intercity | train_table | local_train_table | 123 |
 | krl | line_table | summary_by_line | 23 |
 | krl | other | section_divider | 7 |
 | krl | toc | toc_krl | 22 |
@@ -109,6 +110,70 @@ Rules 4 and 5 (divider, annex cover) run before rules 6 and 7 because divider pa
 
 `high` means the marker is unambiguous, not that the page was checked. A human spot-check is still required.
 
+### 6.1 Confidence per rule
+
+| Rule | Meaning | high | medium | low |
+|---|---|---|---|---|
+| 1 | no usable text (image-only, near-empty, or title page) | 16 | 0 | 0 |
+| 2 | table-of-contents marker | 33 | 2 | 0 |
+| 3 | per-train stop-table header | 1,426 | 0 | 0 |
+| 4 | section divider page | 135 | 0 | 0 |
+| 5 | annex cover page | 4 | 0 | 0 |
+| 6 | multi-train summary marker | 62 | 0 | 0 |
+| 7 | graphic/diagram marker | 171 | 0 | 0 |
+| 8 | landscape/oversized page with no clock times | 0 | 38 | 0 |
+| 9 | legend marker | 0 | 0 | 0 |
+| 10 | no rule matched | 0 | 0 | 0 |
+
+### 6.2 All 40 pages below `high` confidence
+
+28, 35-37, 47-51, 666, 669, 1698-1701, 1703-1704, 1732-1735, 1768-1771, 1775, 1812, 1870, 1876-1887
+
+| PDF page | Type | Subtype | Section | Rule | Confidence |
+|---|---|---|---|---|---|
+| 28 | graphic | stringline_chart | stringline | 8 | medium |
+| 35 | graphic | stringline_chart | stringline | 8 | medium |
+| 36 | graphic | stringline_chart | stringline | 8 | medium |
+| 37 | graphic | stringline_chart | stringline | 8 | medium |
+| 47 | graphic | stringline_chart | stringline | 8 | medium |
+| 48 | graphic | stringline_chart | stringline | 8 | medium |
+| 49 | graphic | stringline_chart | stringline | 8 | medium |
+| 50 | graphic | stringline_chart | stringline | 8 | medium |
+| 51 | graphic | stringline_chart | stringline | 8 | medium |
+| 666 | toc | toc_intercity | intercity | 2 | medium |
+| 669 | toc | toc_intercity | intercity | 2 | medium |
+| 1698 | graphic | graphic | rolling_stock | 8 | medium |
+| 1699 | graphic | graphic | rolling_stock | 8 | medium |
+| 1700 | graphic | graphic | rolling_stock | 8 | medium |
+| 1701 | graphic | graphic | rolling_stock | 8 | medium |
+| 1703 | graphic | graphic | rolling_stock | 8 | medium |
+| 1704 | graphic | graphic | rolling_stock | 8 | medium |
+| 1732 | graphic | graphic | rolling_stock | 8 | medium |
+| 1733 | graphic | graphic | rolling_stock | 8 | medium |
+| 1734 | graphic | graphic | rolling_stock | 8 | medium |
+| 1735 | graphic | graphic | rolling_stock | 8 | medium |
+| 1768 | graphic | graphic | rolling_stock | 8 | medium |
+| 1769 | graphic | graphic | rolling_stock | 8 | medium |
+| 1770 | graphic | graphic | rolling_stock | 8 | medium |
+| 1771 | graphic | graphic | rolling_stock | 8 | medium |
+| 1775 | graphic | graphic | rolling_stock | 8 | medium |
+| 1812 | graphic | graphic | rolling_stock | 8 | medium |
+| 1870 | graphic | graphic | annex | 8 | medium |
+| 1876 | graphic | distance_table | annex | 8 | medium |
+| 1877 | graphic | distance_table | annex | 8 | medium |
+| 1878 | graphic | distance_table | annex | 8 | medium |
+| 1879 | graphic | distance_table | annex | 8 | medium |
+| 1880 | graphic | distance_table | annex | 8 | medium |
+| 1881 | graphic | distance_table | annex | 8 | medium |
+| 1882 | graphic | distance_table | annex | 8 | medium |
+| 1883 | graphic | distance_table | annex | 8 | medium |
+| 1884 | graphic | distance_table | annex | 8 | medium |
+| 1885 | graphic | distance_table | annex | 8 | medium |
+| 1886 | graphic | distance_table | annex | 8 | medium |
+| 1887 | graphic | distance_table | annex | 8 | medium |
+
+These are the pages a spot-check should start with: every one rests on a structural heuristic rather than a distinctive text marker.
+
 ## 7. Does `time_density` separate the classes?
 
 `time_density` = clock-time tokens (`HH:MM` or `HH:MM:SS`) divided by word count.
@@ -151,6 +216,27 @@ Printed page numbers were read from the page margin (a bare number alone on its 
 
 The stringline annex (PDF 7-51) does not use plain integers: it prints roman-prefixed numbers such as `II-2` and `VII-307`, and the extractor sometimes picks up chart axis labels instead. Treat stringline printed numbers as unreliable. The rolling-stock annex (PDF 1675-1824) mostly has no margin number at all.
 
+### 8.1 Boundary audit (page before / page after)
+
+Every section change and every offset change, with the neighbour pages, so the boundary can be spot-checked by eye.
+
+| Before | Type | Subtype | Section | Conf. | After | Type | Subtype | Section | Conf. | Change |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 5 | other | image_only | cover | high | 6 | other | cover_decree | stringline | high | section cover -> stringline |
+| 51 | graphic | stringline_chart | stringline | medium | 52 | other | cover_decree | intercity | high | section stringline -> intercity |
+| 57 | toc | toc_intercity | intercity | high | 58 | other | section_divider | intercity | high | printed offset starts +57 |
+| 669 | toc | toc_intercity | intercity | medium | 670 | other | section_divider | intercity | high | book 1 -> 2; printed offset starts +669 |
+| 811 | train_table | local_train_table | intercity | high | 812 | toc | toc_krl | krl | high | section intercity -> krl; book 2 -> 1 |
+| 833 | toc | toc_krl | krl | high | 834 | other | section_divider | krl | high | printed offset starts +833 |
+| 1513 | train_table | krl_train_table | krl | high | 1514 | toc | toc_freight | freight | high | section krl -> freight |
+| 1515 | toc | toc_freight | freight | high | 1516 | other | section_divider | freight | high | printed offset starts +1515 |
+| 1673 | train_table | freight_train_table | freight | high | 1674 | other | cover_decree | rolling_stock | high | section freight -> rolling_stock |
+| 1824 | graphic | graphic | rolling_stock | high | 1825 | other | cover_decree | summary | high | section rolling_stock -> summary |
+| 1825 | other | cover_decree | summary | high | 1826 | toc | toc | summary | high | printed offset starts +1825 |
+| 1864 | line_table | summary_by_train | summary | high | 1865 | other | title_page | annex | high | section summary -> annex; printed offset starts +1825 |
+
+12 boundaries. Offset changes are taken from stable runs of at least 5 pages, so the unreliable per-page numbers in the stringline annex do not appear here.
+
 ## 9. Twenty diverse sample pages
 
 | PDF page | Type | Subtype | Section | Words | Why it is representative |
@@ -191,8 +277,8 @@ Seed `20261119`, uniform over all 1,887 pages. Use this to spot-check.
 | 521 | train_table | intercity_train_table | intercity | 258 | 3 | high |
 | 563 | other | section_divider | intercity | 103 | 4 | high |
 | 580 | train_table | intercity_train_table | intercity | 264 | 3 | high |
-| 677 | train_table | intercity_train_table | intercity | 243 | 3 | high |
-| 742 | train_table | intercity_train_table | intercity | 275 | 3 | high |
+| 677 | train_table | local_train_table | intercity | 243 | 3 | high |
+| 742 | train_table | local_train_table | intercity | 275 | 3 | high |
 | 909 | train_table | krl_train_table | krl | 249 | 3 | high |
 | 986 | train_table | krl_train_table | krl | 255 | 3 | high |
 | 997 | train_table | krl_train_table | krl | 253 | 3 | high |
@@ -217,25 +303,13 @@ Seed `20261119`, uniform over all 1,887 pages. Use this to spot-check.
 
 None. Every page matched a rule. This does **not** mean every label is correct — it means no page was left unlabelled.
 
-## 12. Estimated train count
-
-Three different patterns give three different answers. None is authoritative; the TOC count in Phase 1 (validation rule V4) is.
-
-| Pattern | Occurrences | Why it is not the answer |
-|---|---|---|
-| `KA nnn (Name) Relasi A - B` | 636 | only intercity tables use this header; KRL and freight do not |
-| `KA nnn (` | 5,621 | counts inline footnotes such as `ka 5014 (ka 5014 =)` |
-| `KA nnn (Name) Lintas Pelayanan` | 3,528 | summary pages repeat a train once per direction and per book |
-
-Distinct train numbers seen in `Relasi` headers: **319**. Distinct numbers seen on `Lintas Pelayanan` summary pages: **1,097**. Union: **1,416**. The true count is somewhere in that range and must be settled against the index in Phase 1.
-
-## 13. Train-table pages with no recognizable KA header
+## 12. Train-table pages with no recognizable KA header
 
 1,152 of 1,426 train-table pages carry no `KA nnn (Name) Relasi` header. Most are continuation pages of a table that started on an earlier page; the KRL and freight books never use that header at all. Phase 1 must attach these pages to the preceding table.
 
 Pages: 60, 62, 64-65, 67-68, 71-72, 74-75, 78-79, 81-82, 85, 87-89, 92, 94-96, 99, 101-102, 105, 107-108, 112, 115, 118, 120, 123, 126, 128, 131, 133, 135, 137, 139, 141, 144, 146-147, 150, 154, 156-157, 160-162, 165-166, 168-170, 173-174, 176-177, 179-180, 182-183, 186, 188, 190-191, 193-194, 197, 199, 201, 203-204, 208, 210, 216, 219, 221, 223, 225, 228-229, 231-233, 238, 241, 244, 246-247, 250, 252-253, 255-256, 258-260, 263-264, 266-267, 270, 273-275, 278, 280-282, 285, 288, 290, 293, 297, 299, 301-302, 309, 313, 318, 320, 326, 329, 331-332, 336-337, 341, 360, 363, 365-366, 369-370, 372-373, 376, 378-380, 383-384, 386, 391, 394-395, 398, 400-402, 405, 407-408, 411, 413-414, 417, 419-420, 423, 425-426, 429, 431-432, 435, 437, 440, 442, 445, 447, 450, 452, 456-457, 461-462, 466, 468, 471, 473-474, 479, 483, 485, 489, 491, 500, 504, 513, 519, 532, 537, 543, 547, 551, 554-555, 558-559, 561-562, 565-566, 568-569, 572-573, 575-576, 579, 581-582, 585, 587-588, 591, 593, 597-598, 604, 606-607, 610, 612-614, 617, 619-621, 627, 630, 632-633, 636, 638, 640, 642, 647, 655, 659, 662, 671-673, 675-680, 682-686, 689-710, 712-730, 732-733, 735-738, 740-744, 746-754, 756-757, 759-760, 762-765, 767-768, 771-785, 787-791, 794-811, 835-849, 853-897, 906-1150, 1156-1258, 1262-1308, 1311-1326, 1335-1513, 1517-1523, 1525-1529, 1531-1536, 1538-1545, 1547-1552, 1554-1578, 1580-1584, 1586-1594, 1596-1597, 1599-1602, 1604-1607, 1609-1611, 1613-1614, 1616-1618, 1620-1626, 1628-1635, 1637-1642, 1644-1646, 1648-1650, 1652-1653, 1655-1656, 1658-1659, 1661, 1663-1664, 1666-1673
 
-## 14. Heuristics used
+## 13. Heuristics used
 
 | Rule | Condition | Type |
 |---|---|---|
@@ -252,7 +326,7 @@ Pages: 60, 62, 64-65, 67-68, 71-72, 74-75, 78-79, 81-82, 85, 87-89, 92, 94-96, 9
 
 `table_count` is recorded per page as `table_header_count` (occurrences of `Stasiun dan Perhentian`). 979 pages carry two or more, so Phase 1 must split multi-table pages before parsing.
 
-## 15. Risks and anomalies
+## 14. Risks and anomalies
 
 1. **Text-stream order is unreliable.** On KRL pages the stream emits `Berangkat` before `Datang` (PDF 1001: x=268 -> 11:54, x=314 -> 11:55). Rows and columns must be rebuilt from x/y coordinates. This is now Hard Rule 11.
 2. **Two trains per page.** 979 of 1,426 train-table pages contain two or more table headers. A one-table-per-page parser will silently drop half the data.
@@ -265,7 +339,74 @@ Pages: 60, 62, 64-65, 67-68, 71-72, 74-75, 78-79, 81-82, 85, 87-89, 92, 94-96, 9
 9. **`legend` is empty.** The chart legend lives on PDF page 51 inside a stringline page. If a later Gapeka prints it separately, rule 9 will catch it.
 10. **Section boundaries are marker-based.** If the Gapeka format changes, the markers in `pipeline/classify.py` must be re-verified before trusting the section field.
 
-## 16. Phase 1 pilot
+## 15. The intercity section is two books
+
+PDF 52-811 is **not** one book. The section contains two books with independent printed numbering, and inside them each train series opens with its own divider:
+
+| Book | PDF range | train_table pages | table subtypes |
+|---|---|---|---|
+| 1 | 52-669 | 520 | `intercity_train_table` |
+| 2 | 670-811 | 123 | `local_train_table` |
+
+**Book 1 (PDF 58-664)** opens with `KA 1 (Anggrek) Relasi SBI - GMR`: long-distance intercity services. Printed page 1 is PDF 58, offset +57.
+
+**Book 2 (PDF 670-811)** opens with `KA 351 (Siliwangi) Lintas Pelayanan CPT - SI`: local and commuter-class regional services. Printed page 1 is PDF 670, offset +669. Note that book 2's divider uses `Lintas Pelayanan` rather than `Relasi`, which is why the train-table header pattern that works in book 1 finds nothing in book 2.
+
+**Inside both books** each train *series* also opens with its own `DAFTAR WAKTU ... ISI:` divider (135 of them). Those dividers do **not** reset numbering, so they start a new series, not a new book. The `book` field therefore counts only numbering resets.
+
+Consequences for Phase 1: the index parser must handle `Relasi` (book 1) and `Lintas Pelayanan` (book 2) separately, and the offset table must be keyed per book rather than per section.
+
+## 16. Train counts per section and per pattern
+
+No pattern is authoritative. The index pages are the primary authority for which trains exist; `Relasi` headers and summary tables are cross-checks. Counts are reported per section because the three sections use different header formats.
+
+| Section | index | Relasi headers | Lintas Pelayanan | union |
+|---|---|---|---|---|
+| intercity | 407 | 319 | 43 | 579 |
+| krl | 988 | 0 | 1,054 | 1,301 |
+| freight | 67 | 0 | 0 | 67 |
+
+`index` = distinct train numbers matched by the index row pattern (`seq  train_no  CLASS  name  relation  depart  arrive  page`). `Relasi` and `Lintas Pelayanan` = distinct numbers on pages of that type. `union` = the three combined.
+
+Where they disagree:
+
+- **intercity**: 407 index entries vs 319 `Relasi` headers vs 43 `Lintas Pelayanan`. Book 2 has no `Relasi` headers, so the header count only covers book 1.
+- **krl**: 988 index entries vs 1,054 `Lintas Pelayanan` numbers. The summary pages repeat a service per direction, so they over-count.
+- **freight**: 67 index entries and no table-side numbers at all — the freight tables carry no `KA nnn (...)` header.
+
+**These disagreements are not resolved here.** They are the raw input to the Phase 1 reconciliation report.
+
+## 17. Station master
+
+**The PDF contains no station master list.** There is no page titled `DAFTAR STASIUN`, no `KODE`/`SINGKATAN` index, and no table whose payload is `code -> name`.
+
+What *is* available, deterministically, from the tables themselves:
+
+- Every station row prints `Name (CODE)`, e.g. `Semarang Poncol (SMC)`. This yields a code and a name together.
+- **471 distinct codes** appear in parentheses across PDF 58-1673.
+- Names are as printed, including abbreviations (`Univ. Pancasila`), so they are not normalised in this phase.
+
+What is **not** available from the PDF: coordinates, `daop`, and the canonical full station name. Latitude/longitude come from OSM snapping in Phase 4. **No code, name, or coordinate is invented in this phase.**
+
+Phase 1 V3 will therefore validate against a stations table built only from observed `Name (CODE)` pairs, not against an external master.
+
+## 18. Time precision
+
+Clock tokens were classified once each: `HH:MM:SS` vs `HH:MM`. A naive pair of regexes double-counts, because `HH:MM:SS` contains `HH:MM`.
+
+| Section | HH:MM:SS | HH:MM only | share without seconds |
+|---|---|---|---|
+| intercity | 25,558 | 1,088 | 4.1% |
+| krl | 18,183 | 2,416 | 11.7% |
+| freight | 4,909 | 168 | 3.3% |
+| rolling_stock | 0 | 254 | 100.0% |
+| summary | 0 | 4,706 | 100.0% |
+
+**Train tables are second-precision.** On `train_table` pages there are zero `HH:MM`-only tokens: every time carries seconds. The `HH:MM`-only tokens in the totals above come from other page types in the same section (indexes and summaries), which print departure/arrival as `HH:MM`.
+
+**Consequence for the data model:** store time as seconds-of-day (or a `HH:MM:SS` value). A minute-resolution model would silently truncate, and the truncation would be invisible in validation.
+
+## 19. Phase 1 pilot
 
 **KA 249 / KA 250 "Kaligung", Semarang Poncol (SMC) <-> Brebes (BB)** — PDF pages 521-522, printed pages 464-465.
 
@@ -276,7 +417,7 @@ Pages: 60, 62, 64-65, 67-68, 71-72, 74-75, 78-79, 81-82, 85, 87-89, 92, 94-96, 9
 
 **Midnight-crossing case:** KA 259F / 260F "Banyubiru" SLO-SMT, PDF page 528 (22:05 -> 00:13). Same region, same table shape.
 
-## 17. What this report does not claim
+## 20. What this report does not claim
 
 - It does not claim the classification is correct. It claims every page has a label and a stated reason.
 - It does not claim the train count. The patterns disagree; Phase 1 settles it.

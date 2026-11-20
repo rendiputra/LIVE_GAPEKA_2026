@@ -149,6 +149,9 @@ class PageSignals:
     train_header_count: int = 0
     train_any_count: int = 0
     train_lintas_count: int = 0
+    time_with_seconds: int = 0
+    time_minutes_only: int = 0
+    index_number_count: int = 0
     printed_page: str | None = None
 
     @property
@@ -311,7 +314,28 @@ def assign_sections(pages: list[PageSignals]) -> list[str]:
     return out
 
 
-def derive_subtype(page_type: str, section: str, s: PageSignals) -> str:
+def assign_books(pages: list[PageSignals], sections: list[str]) -> list[int]:
+    """Number the books inside a section, 1-based.
+
+    A new book starts at a section divider whose printed page is 1, i.e. where
+    the document's own numbering restarts. The intercity section is really two
+    books (ADR 001): book 1 is intercity, book 2 is local/commuter services.
+    Dividers that do not reset numbering start a new *series*, not a new book.
+    """
+    current_section = SECTION_COVER
+    book = 0
+    out: list[int] = []
+    for s, section in zip(pages, sections, strict=True):
+        if section != current_section:
+            current_section = section
+            book = 0
+        if all(m in s.text for m in DIVIDER_MARKERS) and s.printed_page == "1":
+            book += 1
+        out.append(max(1, book))
+    return out
+
+
+def derive_subtype(page_type: str, section: str, s: PageSignals, book: int = 1) -> str:
     """Subtype is a free-form label; it never changes the 7-value type enum."""
     t = s.text
 
@@ -321,7 +345,7 @@ def derive_subtype(page_type: str, section: str, s: PageSignals) -> str:
         if section == SECTION_FREIGHT:
             return "freight_train_table"
         if section == SECTION_INTERCITY:
-            return "intercity_train_table"
+            return "local_train_table" if book >= 2 else "intercity_train_table"
         return "train_table"
 
     if page_type == TYPE_TOC:
@@ -330,7 +354,7 @@ def derive_subtype(page_type: str, section: str, s: PageSignals) -> str:
         if section == SECTION_FREIGHT:
             return "toc_freight"
         if section == SECTION_INTERCITY:
-            return "toc_intercity"
+            return "toc_local" if book >= 2 else "toc_intercity"
         return "toc"
 
     if page_type == TYPE_LINE_TABLE:

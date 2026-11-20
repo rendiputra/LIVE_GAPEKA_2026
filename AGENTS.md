@@ -37,9 +37,17 @@ Document map (approximate, from sampling; the generated ranges are in `docs/inve
 - The **KRL section (approx. 812-1513) comes after the MVP**, as a separate
   sub-phase: different header format, two trains per page, and an unreliable
   text-stream order.
+- The **freight section (approx. 1514-1673) is optional**, scope decided later. It
+  must still be classified in the inventory.
 - The inventory must still classify **all** pages, including KRL and freight.
 - The "WAKTU PERJALANAN URUT KERETA API" summary tables (approx. 1829-1864) are a
-  **cross-validation source** for Phase 2 rules V2/V4, not a parsing target.
+  **secondary cross-check** for Phase 2 rules V2/V4 (train-number set and travel
+  times), not a parsing target. The index pages are the **primary authority** for
+  which trains exist and their printed page numbers. Disagreements between index,
+  `Relasi` headers and summary tables go to a reconciliation report and are never
+  auto-resolved.
+- **Train tables are second-precision** (`HH:MM:SS`). Store seconds-of-day; a
+  minute-resolution model truncates silently.
 
 Two separate systems:
 - **Offline pipeline**: PDF -> clean, validated data. Run once per Gapeka version.

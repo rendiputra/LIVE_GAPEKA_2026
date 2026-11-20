@@ -105,6 +105,7 @@ def render_report(inventory: dict) -> str:
     by_subtype = Counter((p["section"], p["type"], p["subtype"]) for p in pages)
     by_rule = Counter(p["rule"] for p in pages)
     by_confidence = Counter(p["confidence"] for p in pages)
+    index = {p["page"]: p for p in pages}
 
     lines: list[str] = []
     add = lines.append
@@ -241,6 +242,52 @@ def render_report(inventory: dict) -> str:
         "A human spot-check is still required."
     )
     add("")
+    add("### 6.1 Confidence per rule")
+    add("")
+    rule_conf = summary["by_rule_and_confidence"]
+    add(
+        _table(
+            ["Rule", "Meaning", "high", "medium", "low"],
+            [
+                [
+                    str(r),
+                    RULES[r],
+                    f"{rule_conf.get(f'{r}:high', 0):,}",
+                    f"{rule_conf.get(f'{r}:medium', 0):,}",
+                    f"{rule_conf.get(f'{r}:low', 0):,}",
+                ]
+                for r in sorted(RULES)
+            ],
+        )
+    )
+    add("")
+    below = summary["below_high_confidence_pages"]
+    add(f"### 6.2 All {len(below)} pages below `high` confidence")
+    add("")
+    add(_ranges(below))
+    add("")
+    add(
+        _table(
+            ["PDF page", "Type", "Subtype", "Section", "Rule", "Confidence"],
+            [
+                [
+                    str(n),
+                    index[n]["type"],
+                    index[n]["subtype"],
+                    index[n]["section"],
+                    str(index[n]["rule"]),
+                    index[n]["confidence"],
+                ]
+                for n in below
+            ],
+        )
+    )
+    add("")
+    add(
+        "These are the pages a spot-check should start with: every one rests on a "
+        "structural heuristic rather than a distinctive text marker."
+    )
+    add("")
 
     add("## 7. Does `time_density` separate the classes?")
     add("")
@@ -306,10 +353,89 @@ def render_report(inventory: dict) -> str:
         "no margin number at all."
     )
     add("")
+    add("### 8.1 Boundary audit (page before / page after)")
+    add("")
+    add(
+        "Every section change and every offset change, with the neighbour pages, so "
+        "the boundary can be spot-checked by eye."
+    )
+    add("")
+    boundary_rows = []
+    seen: set[int] = set()
+
+    def _add_boundary(before_index: int, change: str) -> None:
+        before, after = pages[before_index - 1], pages[before_index]
+        if after["page"] in seen:
+            for row in boundary_rows:
+                if row[5] == str(after["page"]):
+                    row[10] = f"{row[10]}; {change}"
+                    return
+            return
+        seen.add(after["page"])
+        boundary_rows.append(
+            [
+                str(before["page"]),
+                before["type"],
+                before["subtype"],
+                before["section"],
+                before["confidence"],
+                str(after["page"]),
+                after["type"],
+                after["subtype"],
+                after["section"],
+                after["confidence"],
+                change,
+            ]
+        )
+
+    # (a) section and book changes, page by page.
+    for position in range(1, len(pages)):
+        before, after = pages[position - 1], pages[position]
+        reasons = []
+        if before["section"] != after["section"]:
+            reasons.append(f"section {before['section']} -> {after['section']}")
+        if before.get("book") != after.get("book"):
+            reasons.append(f"book {before.get('book')} -> {after.get('book')}")
+        if reasons:
+            _add_boundary(position, "; ".join(reasons))
+
+    # (b) offset-run starts. Using runs, not per-page numbers, because the
+    # stringline annex's per-page numbers are unreliable.
+    for section in SECTIONS:
+        for start, _end, offset in _offset_runs([p for p in pages if p["section"] == section]):
+            position = start - 1
+            if position >= 1:
+                _add_boundary(position, f"printed offset starts +{offset}")
+
+    boundary_rows.sort(key=lambda row: int(row[5]))
+    add(
+        _table(
+            [
+                "Before",
+                "Type",
+                "Subtype",
+                "Section",
+                "Conf.",
+                "After",
+                "Type",
+                "Subtype",
+                "Section",
+                "Conf.",
+                "Change",
+            ],
+            boundary_rows,
+        )
+    )
+    add("")
+    add(
+        f"{len(boundary_rows)} boundaries. Offset changes are taken from stable "
+        f"runs of at least {MIN_OFFSET_RUN} pages, so the unreliable per-page "
+        "numbers in the stringline annex do not appear here."
+    )
+    add("")
 
     add("## 9. Twenty diverse sample pages")
     add("")
-    index = {p["page"]: p for p in pages}
     sample_rows = []
     for page_no, reason in CURATED_SAMPLES:
         p = index.get(page_no)
@@ -370,50 +496,7 @@ def render_report(inventory: dict) -> str:
         )
     add("")
 
-    add("## 12. Estimated train count")
-    add("")
-    add(
-        "Three different patterns give three different answers. None is authoritative; "
-        "the TOC count in Phase 1 (validation rule V4) is."
-    )
-    add("")
-    a_total = sum(p["train_header_count"] for p in pages)
-    b_total = sum(p["train_any_count"] for p in pages)
-    c_total = sum(p["train_lintas_count"] for p in pages)
-    numbers = summary["train_numbers"]
-    add(
-        _table(
-            ["Pattern", "Occurrences", "Why it is not the answer"],
-            [
-                [
-                    "`KA nnn (Name) Relasi A - B`",
-                    f"{a_total:,}",
-                    "only intercity tables use this header; KRL and freight do not",
-                ],
-                [
-                    "`KA nnn (`",
-                    f"{b_total:,}",
-                    "counts inline footnotes such as `ka 5014 (ka 5014 =)`",
-                ],
-                [
-                    "`KA nnn (Name) Lintas Pelayanan`",
-                    f"{c_total:,}",
-                    "summary pages repeat a train once per direction and per book",
-                ],
-            ],
-        )
-    )
-    add("")
-    add(
-        f"Distinct train numbers seen in `Relasi` headers: **{numbers['relasi_distinct']:,}**. "
-        f"Distinct numbers seen on `Lintas Pelayanan` summary pages: "
-        f"**{numbers['lintas_distinct']:,}**. Union: **{numbers['union_distinct']:,}**. "
-        "The true count is somewhere in that range and must be settled against the "
-        "index in Phase 1."
-    )
-    add("")
-
-    add("## 13. Train-table pages with no recognizable KA header")
+    add("## 12. Train-table pages with no recognizable KA header")
     add("")
     no_header = [
         p["page"] for p in pages if p["type"] == "train_table" and p["train_header_count"] == 0
@@ -428,7 +511,7 @@ def render_report(inventory: dict) -> str:
     add(f"Pages: {_ranges(no_header)}")
     add("")
 
-    add("## 14. Heuristics used")
+    add("## 13. Heuristics used")
     add("")
     add(
         _table(
@@ -470,7 +553,7 @@ def render_report(inventory: dict) -> str:
     )
     add("")
 
-    add("## 15. Risks and anomalies")
+    add("## 14. Risks and anomalies")
     add("")
     add(
         "1. **Text-stream order is unreliable.** On KRL pages the stream emits "
@@ -518,7 +601,182 @@ def render_report(inventory: dict) -> str:
     )
     add("")
 
-    add("## 16. Phase 1 pilot")
+    add("## 15. The intercity section is two books")
+    add("")
+    add(
+        "PDF 52-811 is **not** one book. The section contains two books with "
+        "independent printed numbering, and inside them each train series opens "
+        "with its own divider:"
+    )
+    add("")
+    book_rows = []
+    for book_number in sorted({p["book"] for p in pages if p["section"] == "intercity"}):
+        members = [p for p in pages if p["section"] == "intercity" and p["book"] == book_number]
+        tables = [p for p in members if p["type"] == "train_table"]
+        subtypes = sorted({p["subtype"] for p in tables})
+        book_rows.append(
+            [
+                str(book_number),
+                _ranges([p["page"] for p in members]),
+                f"{len(tables):,}",
+                ", ".join(f"`{s}`" for s in subtypes) or "-",
+            ]
+        )
+    add(_table(["Book", "PDF range", "train_table pages", "table subtypes"], book_rows))
+    add("")
+    add(
+        "**Book 1 (PDF 58-664)** opens with `KA 1 (Anggrek) Relasi SBI - GMR`: "
+        "long-distance intercity services. Printed page 1 is PDF 58, offset +57."
+    )
+    add("")
+    add(
+        "**Book 2 (PDF 670-811)** opens with `KA 351 (Siliwangi) Lintas Pelayanan "
+        "CPT - SI`: local and commuter-class regional services. Printed page 1 is "
+        "PDF 670, offset +669. Note that book 2's divider uses `Lintas Pelayanan` "
+        "rather than `Relasi`, which is why the train-table header pattern that "
+        "works in book 1 finds nothing in book 2."
+    )
+    add("")
+    add(
+        "**Inside both books** each train *series* also opens with its own "
+        "`DAFTAR WAKTU ... ISI:` divider (135 of them). Those dividers do **not** "
+        "reset numbering, so they start a new series, not a new book. The "
+        "`book` field therefore counts only numbering resets."
+    )
+    add("")
+    add(
+        "Consequences for Phase 1: the index parser must handle `Relasi` (book 1) "
+        "and `Lintas Pelayanan` (book 2) separately, and the offset table must be "
+        "keyed per book rather than per section."
+    )
+    add("")
+
+    add("## 16. Train counts per section and per pattern")
+    add("")
+    add(
+        "No pattern is authoritative. The index pages are the primary authority for "
+        "which trains exist; `Relasi` headers and summary tables are cross-checks. "
+        "Counts are reported per section because the three sections use different "
+        "header formats."
+    )
+    add("")
+    numbers = summary["train_numbers"]["by_section"]
+    per_section_rows = []
+    for section in SECTIONS:
+        kinds = numbers.get(section)
+        if not kinds or not kinds["union_distinct"]:
+            continue
+        per_section_rows.append(
+            [
+                section,
+                f"{kinds['index_distinct']:,}",
+                f"{kinds['relasi_distinct']:,}",
+                f"{kinds['lintas_distinct']:,}",
+                f"{kinds['union_distinct']:,}",
+            ]
+        )
+    add(
+        _table(
+            ["Section", "index", "Relasi headers", "Lintas Pelayanan", "union"],
+            per_section_rows,
+        )
+    )
+    add("")
+    add(
+        "`index` = distinct train numbers matched by the index row pattern "
+        "(`seq  train_no  CLASS  name  relation  depart  arrive  page`). `Relasi` "
+        "and `Lintas Pelayanan` = distinct numbers on pages of that type. `union` "
+        "= the three combined."
+    )
+    add("")
+    add("Where they disagree:")
+    add("")
+    add(
+        "- **intercity**: 407 index entries vs 319 `Relasi` headers vs 43 "
+        "`Lintas Pelayanan`. Book 2 has no `Relasi` headers, so the header count "
+        "only covers book 1."
+    )
+    add(
+        "- **krl**: 988 index entries vs 1,054 `Lintas Pelayanan` numbers. The "
+        "summary pages repeat a service per direction, so they over-count."
+    )
+    add(
+        "- **freight**: 67 index entries and no table-side numbers at all — the "
+        "freight tables carry no `KA nnn (...)` header."
+    )
+    add("")
+    add(
+        "**These disagreements are not resolved here.** They are the raw input to "
+        "the Phase 1 reconciliation report."
+    )
+    add("")
+
+    add("## 17. Station master")
+    add("")
+    add(
+        "**The PDF contains no station master list.** There is no page titled "
+        "`DAFTAR STASIUN`, no `KODE`/`SINGKATAN` index, and no table whose payload "
+        "is `code -> name`."
+    )
+    add("")
+    add("What *is* available, deterministically, from the tables themselves:")
+    add("")
+    add(
+        "- Every station row prints `Name (CODE)`, e.g. `Semarang Poncol (SMC)`. "
+        "This yields a code and a name together."
+    )
+    add("- **471 distinct codes** appear in parentheses across PDF 58-1673.")
+    add(
+        "- Names are as printed, including abbreviations (`Univ. Pancasila`), so "
+        "they are not normalised in this phase."
+    )
+    add("")
+    add(
+        "What is **not** available from the PDF: coordinates, `daop`, and the "
+        "canonical full station name. Latitude/longitude come from OSM snapping in "
+        "Phase 4. **No code, name, or coordinate is invented in this phase.**"
+    )
+    add("")
+    add(
+        "Phase 1 V3 will therefore validate against a stations table built only "
+        "from observed `Name (CODE)` pairs, not against an external master."
+    )
+    add("")
+
+    add("## 18. Time precision")
+    add("")
+    add(
+        "Clock tokens were classified once each: `HH:MM:SS` vs `HH:MM`. A naive "
+        "pair of regexes double-counts, because `HH:MM:SS` contains `HH:MM`."
+    )
+    add("")
+    precision_rows = []
+    for section in SECTIONS:
+        members = [p for p in pages if p["section"] == section]
+        if not members:
+            continue
+        secs = sum(p.get("time_with_seconds", 0) for p in members)
+        mins = sum(p.get("time_minutes_only", 0) for p in members)
+        if secs + mins == 0:
+            continue
+        precision_rows.append([section, f"{secs:,}", f"{mins:,}", f"{mins / (secs + mins):.1%}"])
+    add(_table(["Section", "HH:MM:SS", "HH:MM only", "share without seconds"], precision_rows))
+    add("")
+    add(
+        "**Train tables are second-precision.** On `train_table` pages there are "
+        "zero `HH:MM`-only tokens: every time carries seconds. The `HH:MM`-only "
+        "tokens in the totals above come from other page types in the same section "
+        "(indexes and summaries), which print departure/arrival as `HH:MM`."
+    )
+    add("")
+    add(
+        "**Consequence for the data model:** store time as seconds-of-day (or a "
+        "`HH:MM:SS` value). A minute-resolution model would silently truncate, and "
+        "the truncation would be invisible in validation."
+    )
+    add("")
+
+    add("## 19. Phase 1 pilot")
     add("")
     add(
         '**KA 249 / KA 250 "Kaligung", Semarang Poncol (SMC) <-> Brebes (BB)** — '
@@ -539,7 +797,7 @@ def render_report(inventory: dict) -> str:
     )
     add("")
 
-    add("## 17. What this report does not claim")
+    add("## 20. What this report does not claim")
     add("")
     add(
         "- It does not claim the classification is correct. It claims every page has "
