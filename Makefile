@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse validate build-db geometry test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables validate build-db geometry test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -16,6 +16,18 @@ extract: ## PDF -> raw words (append-only)
 
 parse: ## raw -> parsed (index + pilot tables + V1-V3)
 	uv run python -m pipeline.parse_pilot --pdf $(PDF)
+
+parse-intercity: ## Phase 2a: parse all of intercity Book 1, validate, gate
+	uv run python -m pipeline.parse_intercity --pdf $(PDF)
+
+conflicts: ## station-name conflicts report (evidence only)
+	uv run python -m pipeline.station_conflicts
+
+validity: ## extract validity dates from every divider page
+	uv run python -m pipeline.validity
+
+summary-tables: ## Lampiran IV REGULER/FAKULTATIF vs F-suffix evidence
+	uv run python -m pipeline.summary_report
 
 validate: ## run all validators; fail on any violation
 	@echo "not implemented yet (Phase 2) -- failing closed on purpose"

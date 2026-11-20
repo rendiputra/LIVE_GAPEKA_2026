@@ -2,9 +2,21 @@
 data/input/
 *.pdf
 
-# Phase 1 raw layer and generated review artefacts: derived, never committed.
+# Phase 1+ derived layers: never committed (no parsed Gapeka data in git).
 data/raw/words/
+data/parsed/
+data/validated/
+data/review/img/
 data/review/pilot_*.png
+data/review/pilot_*.html
+data/review/quarantine/
+data/review/intercity_*.html
+data/review/reconciliation_*.json
+data/review/cross_parser_*.json
+data/review/r4a_*.json
+data/review/r5_*.json
+data/review/r6_*.json
+data/review/phase2a_*.json
 
 # --- Python ---
 .venv/

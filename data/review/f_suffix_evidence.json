@@ -1,0 +1,257 @@
+{
+  "note": "Evidence only. No meaning is assumed from the number format. Categories come from the Lampiran IV summary tables.",
+  "summary_entries": 2127,
+  "distinct_train_numbers": 2391,
+  "category_counts": {
+    "REGULER": 1969,
+    "FAKULTATIF": 158
+  },
+  "numbers_with_f_suffix": 181,
+  "numbers_without_suffix": 2210,
+  "suffix_and_fakultatif": 181,
+  "suffix_but_not_fakultatif": [],
+  "suffix_without_any_category": [],
+  "fakultatif_without_suffix": [],
+  "suffix_examples": [
+    {
+      "train_no": "1021F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1841
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1022F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1844
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1149F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1840
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1150F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1842
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "115F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1830
+      ],
+      "names": [
+        "Sancaka"
+      ]
+    },
+    {
+      "train_no": "116F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1830
+      ],
+      "names": [
+        "Sancaka"
+      ]
+    },
+    {
+      "train_no": "1175F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1840
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1176F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1842
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1207F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1840
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1208F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1843
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1229F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1840
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1230F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1842
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1350F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1843
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1351F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1842
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "1407F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1839
+      ],
+      "names": [
+        "Commuter"
+      ]
+    },
+    {
+      "train_no": "141F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1831
+      ],
+      "names": [
+        "Parahyangan"
+      ]
+    },
+    {
+      "train_no": "142F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1831
+      ],
+      "names": [
+        "Parahyangan"
+      ]
+    },
+    {
+      "train_no": "143F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1831
+      ],
+      "names": [
+        "Cirebon"
+      ]
+    },
+    {
+      "train_no": "144F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1831
+      ],
+      "names": [
+        "Cirebon"
+      ]
+    },
+    {
+      "train_no": "1606F",
+      "categories": [
+        "FAKULTATIF"
+      ],
+      "pages": [
+        1848
+      ],
+      "names": [
+        "Commuter"
+      ]
+    }
+  ]
+}

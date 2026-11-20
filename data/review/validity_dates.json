@@ -1,0 +1,892 @@
+{
+  "note": "Validity start only. The PDF states no validity end date and no weekday pattern (ADR 002).",
+  "pages_with_validity_line": 175,
+  "divider_pages": 135,
+  "distinct_dates": [
+    "2026-12-01"
+  ],
+  "distinct_dates_on_dividers": [
+    "2026-12-01"
+  ],
+  "all_agree": true,
+  "dividers_without_a_date": [],
+  "proposed_effective_from": "2026-12-01",
+  "proposed_effective_to": null,
+  "hits": [
+    {
+      "page": 7,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 8,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 9,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 10,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 11,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 12,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 15,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 19,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 20,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 21,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 22,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 23,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 24,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 25,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 26,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 27,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 28,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 29,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 30,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 31,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 32,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 33,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 34,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 35,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 36,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 37,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 38,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 39,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 40,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 41,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 42,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 43,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 44,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 45,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 46,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 47,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 48,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 49,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 50,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 51,
+      "effective_from": "2026-12-01",
+      "is_divider": false
+    },
+    {
+      "page": 58,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 69,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 76,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 83,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 90,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 97,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 103,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 109,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 129,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 142,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 148,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 163,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 171,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 184,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 195,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 205,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 217,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 226,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 234,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 239,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 248,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 261,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 268,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 276,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 283,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 294,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 303,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 314,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 321,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 327,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 333,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 338,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 342,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 355,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 358,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 367,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 374,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 381,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 388,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 396,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 403,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 409,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 415,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 421,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 427,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 433,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 438,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 443,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 448,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 453,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 458,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 463,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 475,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 480,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 486,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 492,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 497,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 501,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 505,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 520,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 527,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 529,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 533,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 538,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 541,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 544,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 548,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 556,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 563,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 570,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 577,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 583,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 589,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 594,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 599,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 602,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 608,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 615,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 622,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 628,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 634,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 644,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 648,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 652,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 656,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 660,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 663,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 670,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 674,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 681,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 687,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 711,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 731,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 734,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 739,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 745,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 755,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 758,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 761,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 766,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 769,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 786,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 792,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 834,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 850,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 898,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1151,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1259,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1309,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1327,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1516,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1524,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1530,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1537,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1546,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1553,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1579,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1585,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1595,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1598,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1603,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1608,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1612,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1615,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1619,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1627,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1636,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1643,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1647,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1651,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1654,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1657,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1660,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1662,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    },
+    {
+      "page": 1665,
+      "effective_from": "2026-12-01",
+      "is_divider": true
+    }
+  ]
+}

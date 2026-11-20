@@ -225,10 +225,11 @@ def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
     depart_value, _i, depart_flags = _classify_time_cell(depart_raw, "depart")
     review.extend(depart_flags)
 
-    # A pass row carries its passing time in Berangkat; a pass row with no time
-    # at all is a real gap.
-    if stop_type == "pass" and depart_value is None and depart_raw == EMPTY_MARKER:
-        review.append("pass_row_without_time")
+    # A pass row usually carries its passing time in Berangkat. The document also
+    # prints "Ls" together with "-" in Berangkat (observed across Book 1, e.g.
+    # KA 1 seq 87-96). That combination is a printed value, not a gap, so it is
+    # recorded as info rather than as a doubt.
+    pass_dash = stop_type == "pass" and depart_raw == EMPTY_MARKER
 
     speed_raw = (speed.raw or "").strip()
     if speed_raw == EMPTY_MARKER:
@@ -251,6 +252,7 @@ def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
         depart=Cell(depart_value, depart.raw, depart.page, depart.bbox),
         note=note,
         stop_type=stop_type,
+        info=["pass_row_with_dash_depart"] if pass_dash else [],
         needs_review=review,
         provenance={
             "page": block.page,
@@ -278,7 +280,9 @@ def apply_positional_empty_rules(train: ParsedTrain) -> None:
     for stop in train.stops:
         if is_dash(stop.arrive) and stop.seq != first_seq:
             stop.needs_review.append("arrive_dash_not_expected")
-        if is_dash(stop.depart) and stop.seq != last_seq:
+        # A pass row prints "Ls" with "-" in Berangkat as a matter of form, so a
+        # dash there is only a doubt on a stopping row.
+        if is_dash(stop.depart) and stop.seq != last_seq and stop.stop_type != "pass":
             stop.needs_review.append("depart_dash_not_expected")
         if is_dash(stop.speed) and stop.seq != last_seq:
             stop.needs_review.append("speed_dash_not_expected")

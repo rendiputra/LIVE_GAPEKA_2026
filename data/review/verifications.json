@@ -19,6 +19,25 @@
       },
       "artefact": "data/review/pilot_249_250.html",
       "result": "accepted"
+    },
+    {
+      "verifier": "human",
+      "date": "2026-11-20",
+      "method": "visual comparison of PDF page screenshots against review HTML cell text",
+      "scope": {
+        "pages": [
+          527,
+          528
+        ],
+        "trains": [
+          "259F",
+          "260F"
+        ],
+        "rows": "all rows",
+        "note": "type and day_offset are derived and not shown in the PDF"
+      },
+      "artefact": "data/review/pilot_259F_260F.html",
+      "result": "accepted"
     }
   ]
 }

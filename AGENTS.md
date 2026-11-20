@@ -68,6 +68,7 @@ Glossary:
 4. **Store all backend timestamps in UTC.** Gapeka times are stored as station-local time plus time zone (WIB/WITA/WIT). Convert only at display time.
 5. **Validation is a gate.** If validation fails, the pipeline stops with a non-zero exit code. Never loosen validation rules just to make tests pass without explicit human approval.
 6. **The UI must always show a disclaimer**: "Estimated position based on the Gapeka schedule, not actual position." (Indonesian: "Posisi estimasi berdasarkan jadwal Gapeka, bukan posisi aktual.")
+   Additionally, whenever `today < gapeka_versions.effective_from`, the UI must show a config-driven banner, e.g. "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". The banner is additive to the disclaimer, never a replacement.
 7. **Never commit the original PDF** (58.6 MiB) to git. Keep it in `data/input/` (gitignored) and record its SHA-256 in `gapeka_versions`.
 8. **Use an LLM only for problematic pages** in the offline pipeline (complex layouts): temperature 0, strict JSON schema, `null` when unsure. Every LLM output must pass the same validators as parser output.
 9. **If the spec is ambiguous or the PDF format does not match assumptions, STOP and ask.** Do not improvise.
@@ -129,6 +130,13 @@ Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
 - `trips(trip_id, train_no, version_id, operating_days, notes)`
 - `stop_times(trip_id, seq, station_code, arrive, depart, day_offset, stop_type[stop|pass], needs_review)`
 - `calendar(trip_id, weekdays, valid_from, valid_to, extra_dates, exclude_dates)`
+  — **see ADR 002.** The Gapeka PDF provides a validity **start** date only
+  (`Berlaku Mulai Tanggal 01 Desember 2026`, present on all 135 dividers and
+  identical everywhere). It states no weekday pattern, no validity end date, and
+  no extra/exclude dates. Calendar rows therefore carry a nullable
+  `service_pattern` and a `pattern_source` (`gapeka_pdf | assumed | override |
+  external`, default `unknown`). The engine takes an explicit `calendar_policy`
+  parameter and must never hard-code "runs daily".
 - `segments(from_station, to_station, geometry, length_m, geometry_quality[osm|straight_line])`
 - `overrides(id, target_table, target_key, patch_json, reason, created_by, created_at)`
 
@@ -137,6 +145,18 @@ Domain notes:
 - `stop_type = pass` for trains that run through a station without stopping.
 - Watch for trains that **change train number at a specific station**, trains that are split or combined, and optional/extra (fakultatif/tambahan) trains.
 - One trip may span the effective dates of two Gapeka versions.
+
+Version and calendar policy (ADR 002):
+- `gapeka_versions.effective_from` is parsed from the divider line
+  (`Berlaku Mulai Tanggal ...` → `2026-12-01`). `effective_to` stays `null`.
+- `effective_from` is **metadata, not a gate, during development**: the 2026
+  schedule may be shown from today onward even though the previous Gapeka is
+  still in force until that date. Enforcement is the config flag
+  `enforce_effective_from` (default `false` in development; at production release
+  it must be consciously set `true` or deliberately left `false`).
+- When `today < effective_from`, the UI shows a config-driven banner, e.g.
+  "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". The banner is
+  additive to the Hard Rule 6 disclaimer, never a replacement.
 
 Observed in sampling, to be verified in Phase 1:
 - Train-table columns: `No. | Stasiun dan Perhentian | Kecepatan Maksimum (Km/Jam) | Datang | Berangkat | Keterangan`.
@@ -207,7 +227,9 @@ Build `tools/review_ui/`: show the PDF page crop next to the extracted data, cor
 **DoD**: OSM segment coverage meets the target (agreed with the human); list of fallback segments and problematic stations produced; stations with off-target coordinates flagged.
 
 ### Phase 5 — Position Engine
-**Tasks**: `engine/position.py` with a pure function, e.g. `positions_at(t_utc, schedule) -> list[TrainPosition]`.
+**Tasks**: `engine/position.py` with a pure function, e.g. `positions_at(t_utc, schedule, calendar_policy) -> list[TrainPosition]`.
+
+`calendar_policy` is a required argument (ADR 002). The PDF does not state which days a train runs, so the engine must not assume daily operation. The policy decides what to do with trips whose `service_pattern` is `unknown`; the choice is explicit, never a hidden default.
 
 Logic per active trip:
 1. Determine the operating day, including trips that started yesterday and are still running (`day_offset`).
@@ -225,6 +247,7 @@ Logic per active trip:
 
 **Frontend (MapLibre)**
 - Smoothly moving train markers, detail panel (schedule, next station), station board, search by train number/station, "replay" mode (pick any time), OSM attribution, clear disclaimer.
+- **Pre-release preview banner** (Hard Rule 6, ADR 002): when `today < effective_from`, show a config-driven banner such as "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". It sits alongside the disclaimer, not instead of it.
 - Scaling option: compute positions in the browser from static schedule data (port the logic of `engine/position.py` with parity tests against the Python version).
 
 **DoD**: e2e smoke test (Playwright) passes; basic performance check done; 500+ active trains render smoothly on a mid-range device.
@@ -234,6 +257,7 @@ Logic per active trip:
 - Monitoring: log trains without schedules, validation failures, API latency.
 - Docs: `docs/RUNBOOK.md` (how to process a new/revised Gapeka), `docs/DATA_SCHEMA.md`.
 - CI: lint + unit + golden tests + sample validation on every PR.
+- **Release-date checklist (ADR 002):** the official effective date is 2026-12-01; before release decide `enforce_effective_from` and the pre-release UI behaviour (preview banner). Record the decision in `docs/decisions/`.
 
 **DoD**: the next Gapeka version (or a revision) can be processed by following the runbook without changing core code.
 
