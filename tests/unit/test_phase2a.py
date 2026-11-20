@@ -18,13 +18,22 @@ from pipeline.parsers.stop_table import Cell, ParsedTrain, Stop
 
 
 def make_stop(seq, arrive, depart, code="AA", speed="100", raw_arrive=None, raw_depart=None):
+    arrive_raw = raw_arrive if raw_arrive is not None else (arrive or "-")
+    depart_raw = raw_depart if raw_depart is not None else (depart or "-")
+
+    def _source(value, raw):
+        if value:
+            return "printed"
+        # "Ls" and "-" both mean the document prints no clock time here.
+        return "not_printed"
+
     return Stop(
         seq=seq,
         station_name=None,
         station_code=code,
-        speed=Cell(speed, speed, 1, None),
-        arrive=Cell(arrive, raw_arrive if raw_arrive is not None else (arrive or "-"), 1, None),
-        depart=Cell(depart, raw_depart if raw_depart is not None else (depart or "-"), 1, None),
+        speed=Cell(speed, speed, 1, None, "printed" if speed else "not_printed"),
+        arrive=Cell(arrive, arrive_raw, 1, None, _source(arrive, arrive_raw)),
+        depart=Cell(depart, depart_raw, 1, None, _source(depart, depart_raw)),
         note=Cell(None, "", 1, None),
         stop_type="pass" if (raw_arrive or "").upper() == "LS" else "stop",
         provenance={"page": 1},
@@ -241,3 +250,87 @@ def test_v8_catches_either_endpoint(missing):
     ]
     train = make_train("1", "AA", "BB", stops)
     assert len(validate_v8([train])["violations"]) == 1
+
+
+# --- V10: untimed pass rows -------------------------------------------------
+
+
+def _pass_stop(seq, code):
+    stop = make_stop(seq, None, None, code, raw_arrive="LS", raw_depart="-")
+    return stop
+
+
+def test_v10_passes_when_untimed_pass_row_is_between_timed_rows():
+    from pipeline.validators_phase2 import validate_v10
+
+    stops = [
+        make_stop(1, None, "08:00:00", "AA"),
+        _pass_stop(2, "BB"),
+        make_stop(3, "09:00:00", None, "CC"),
+    ]
+    report = validate_v10([make_train("1", "AA", "CC", stops)])
+    assert report.passed
+    assert report.counts_by_train["1"] == 1
+
+
+def test_v10_fails_when_untimed_pass_row_is_first():
+    from pipeline.validators_phase2 import validate_v10
+
+    stops = [
+        _pass_stop(1, "AA"),
+        make_stop(2, "09:00:00", None, "BB"),
+    ]
+    report = validate_v10([make_train("1", "AA", "BB", stops)])
+    assert not report.passed
+    assert "first row" in report.findings[0].detail
+
+
+def test_v10_fails_when_untimed_pass_row_is_last():
+    from pipeline.validators_phase2 import validate_v10
+
+    stops = [
+        make_stop(1, None, "08:00:00", "AA"),
+        _pass_stop(2, "BB"),
+    ]
+    report = validate_v10([make_train("1", "AA", "BB", stops)])
+    assert not report.passed
+    assert "last row" in report.findings[0].detail
+
+
+def test_v10_ignores_timed_pass_rows():
+    from pipeline.validators_phase2 import validate_v10
+
+    timed_pass = make_stop(2, None, "08:30:00", "BB", raw_arrive="LS")
+    stops = [make_stop(1, None, "08:00:00", "AA"), timed_pass, make_stop(3, "09:00:00", None, "CC")]
+    report = validate_v10([make_train("1", "AA", "CC", stops)])
+    assert report.passed
+    assert report.counts_by_train == {}
+
+
+# --- V11: sequence continuity -----------------------------------------------
+
+
+def test_v11_passes_on_contiguous_sequence():
+    from pipeline.validators_phase2 import validate_v11
+
+    stops = [make_stop(i, None, f"0{i}:00:00", "AA") for i in range(1, 5)]
+    report = validate_v11([make_train("1", "AA", "AA", stops)])
+    assert report.passed
+
+
+def test_v11_detects_a_gap():
+    from pipeline.validators_phase2 import validate_v11
+
+    stops = [make_stop(1, None, "08:00:00", "AA"), make_stop(3, None, "09:00:00", "CC")]
+    report = validate_v11([make_train("1", "AA", "CC", stops)])
+    assert not report.passed
+    assert any("sequence 2 missing" in f.detail for f in report.findings)
+
+
+def test_v11_detects_a_duplicate():
+    from pipeline.validators_phase2 import validate_v11
+
+    stops = [make_stop(1, None, "08:00:00", "AA"), make_stop(1, None, "08:30:00", "BB")]
+    report = validate_v11([make_train("1", "AA", "BB", stops)])
+    assert not report.passed
+    assert any("duplicate" in f.detail for f in report.findings)

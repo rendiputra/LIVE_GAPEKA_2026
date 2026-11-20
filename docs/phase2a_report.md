@@ -28,8 +28,8 @@ Subtype `intercity_train_table` only (520 pages). Book 2 (local), KRL, and freig
 
 | Reason | Trains |
 |---|---|
-| `arrive_unrecognised:Berh` | 8 |
 | `depart_unrecognised:Sb` | 8 |
+| `arrive_unrecognised:Berh` | 8 |
 
 ## Validator results
 
@@ -40,6 +40,8 @@ Subtype `intercity_train_table` only (520 pages). Book 2 (local), KRL, and freig
 | V4 | parsed trains vs index and Relasi headers (list only, never resolved) | INFO | 303 matched, 16 parsed-not-in-index |
 | V8 | first station = relation origin; last station = relation destination | PASS | 319 passed, 0 failed, 0 reported not checked |
 | V9 | segment running-time consistency across trains (report only) | INFO | 646 pairs, 2 single-train, 263 outliers |
+| V10 | an untimed pass row lies between two timed rows of the same trip | PASS | 19208 rows, 0 findings, 252 trains with untimed pass rows |
+| V11 | printed No. column is 1..N across page continuations (no gaps, no duplicates) | PASS | 19208 rows, 0 findings |
 
 ## Index reconciliation (V4)
 
@@ -51,6 +53,63 @@ Subtype `intercity_train_table` only (520 pages). Book 2 (local), KRL, and freig
 - page mismatches: **13**
 
 Parsed but absent from the index: 141F, 142F, 215F, 216F, 217F, 218F, 219F, 220F, 233, 234, 235, 285, 42, 43, 82, 83
+
+## Truncation
+
+- truncated at the loaded page range: **0**
+
+All other trips reach their destination inside the loaded pages.
+
+## service_class (joined by train number)
+
+service_class is joined BY TRAIN NUMBER from the Lampiran IV summary tables. It is never derived from the F suffix.
+
+| Class | Trains |
+|---|---|
+| reguler | 277 |
+| fakultatif | 42 |
+
+- matched by train number: **319**
+- unmatched: **0**
+- conflicting summary rows: **0**
+
+## V10 — untimed pass rows
+
+- rows checked: **19208**
+- findings: **0**
+- trains with at least one untimed pass row: **252**
+
+Untimed pass rows must sit strictly between two timed rows. The Phase 5 engine estimates them by distance-proportional interpolation; the parsed layer never stores a fabricated time.
+
+| Train | Untimed pass rows |
+|---|---|
+| 127 | 13 |
+| 128 | 13 |
+| 129 | 13 |
+| 130 | 13 |
+| 317 | 13 |
+| 322 | 13 |
+| 321 | 13 |
+| 318 | 13 |
+| 333 | 13 |
+| 334 | 13 |
+| 5 | 11 |
+| 6 | 11 |
+| 7 | 11 |
+| 8 | 11 |
+| 89 | 11 |
+| 90 | 11 |
+| 289 | 11 |
+| 290 | 11 |
+| 9 | 9 |
+| 10 | 9 |
+
+## V11 — sequence continuity
+
+- rows checked: **19208**
+- findings: **0**
+
+Every train prints No. 1..N with no gaps and no duplicates.
 
 ## Pass-row semantics
 
@@ -374,7 +433,6 @@ Parsed but absent from the index: 141F, 142F, 215F, 216F, 217F, 218F, 219F, 220F
 | `// ka 96 (ka 96 =)` | 1 |
 | `// ka R513-2 (ka R513-2 =)` | 1 |
 | `// ka ka 2537f jj (ka ka 2537f jj =)` | 1 |
-| `2763f jj =)` | 1 |
 | `= ka 1 (ka 1 //)` | 1 |
 | `= ka 102 (ka 102 //)` | 2 |
 | `= ka 11 (ka 11 //)` | 1 |
@@ -433,7 +491,6 @@ Parsed but absent from the index: 141F, 142F, 215F, 216F, 217F, 218F, 219F, 220F
 | `= ka 9 (ka 9 //)` | 2 |
 | `= ka 90 (ka 90 //)` | 1 |
 | `= ka 95 (ka 95 //)` | 1 |
-| `jj =)` | 3 |
 | `ka 136x` | 1 |
 | `x ka 10` | 1 |
 | `x ka 10 (ka 10 x)` | 2 |
@@ -476,18 +533,18 @@ Parsed but absent from the index: 141F, 142F, 215F, 216F, 217F, 218F, 219F, 220F
 | `x ka 147` | 1 |
 | `x ka 147 (ka 147 x)` | 3 |
 | `x ka 148 (ka 148 x)` | 4 |
-| `x ka 148 (ka 148 x), // ka 2763f jj (ka 2763f` | 1 |
+| `x ka 148 (ka 148 x), // ka 2763f jj (ka 2763f jj =)` | 1 |
 | `x ka 150 (ka 150 x)` | 2 |
 | `x ka 151 (ka 151 x)` | 2 |
 | `x ka 152 (ka 152 x)` | 1 |
 | `x ka 167 (ka 167 x)` | 4 |
 | `x ka 168 (ka 168 x)` | 3 |
-| `x ka 168 (ka 168 x), // ka 2647f jj (ka 2647f` | 1 |
+| `x ka 168 (ka 168 x), // ka 2647f jj (ka 2647f jj =)` | 1 |
 | `x ka 171 (ka 171 x)` | 1 |
 | `x ka 172 (ka 172 x)` | 1 |
 | `x ka 173 (ka 173 x)` | 3 |
 | `x ka 174 (ka 174 x)` | 4 |
-| `x ka 174 (ka 174 x), // ka 2763f jj (ka 2763f` | 1 |
+| `x ka 174 (ka 174 x), // ka 2763f jj (ka 2763f jj =)` | 1 |
 | `x ka 187 (ka 187 x)` | 3 |
 | `x ka 189 (ka 189 x)` | 1 |
 | `x ka 190 (ka 190 x)` | 3 |
@@ -497,7 +554,7 @@ Parsed but absent from the index: 141F, 142F, 215F, 216F, 217F, 218F, 219F, 220F
 | `x ka 221f jj` | 1 |
 | `x ka 221f jj (ka 221f jj x)` | 6 |
 | `x ka 222f jj (ka 222f jj x)` | 5 |
-| `x ka 222f jj (ka 222f jj x), // ka 2763f jj (ka` | 1 |
+| `x ka 222f jj (ka 222f jj x), // ka 2763f jj (ka 2763f jj =)` | 1 |
 | `x ka 224f jj` | 1 |
 | `x ka 233 (ka 233 x)` | 2 |
 | `x ka 235` | 1 |
@@ -717,7 +774,7 @@ Durations between consecutive timed stops, not km/h: no distances are known unti
 
 ## Runtime
 
-- parse + validate: **3.2s**
+- parse + validate: **5.0s**
 - pages in scope: **520**
 
 ## Known limitations
@@ -728,4 +785,6 @@ Durations between consecutive timed stops, not km/h: no distances are known unti
 - Durations are between timed stops, not km/h, because distances arrive in Phase 4.
 - Truncated trips cannot satisfy V8's destination check and are quarantined.
 - No calendar information exists in the PDF (ADR 002), so no operating-day logic is exercised.
+- service_class is joined by train number; a trip whose number is absent from Lampiran IV stays unknown rather than being guessed.
+- V2 keeps only the hard gates (time > 0, monotonic). Speed thresholds need Phase 4 distances and are deferred.
 

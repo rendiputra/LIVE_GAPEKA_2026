@@ -238,12 +238,73 @@ def columns_from_header(header: list[Word]) -> list[Column]:
 # --- row grouping -----------------------------------------------------------
 
 
-def group_rows(words: list[Word], tolerance: float = DEFAULT_Y_TOLERANCE) -> list[list[Word]]:
-    """Group words into rows by y-centre, preserving left-to-right order."""
+def group_rows(
+    words: list[Word],
+    tolerance: float = DEFAULT_Y_TOLERANCE,
+    no_column: tuple[float, float] | None = None,
+    station_column: tuple[float, float] | None = None,
+) -> list[list[Word]]:
+    """Group words into rows.
+
+    When ``no_column`` (the x-band of the ``No.`` column) is supplied, rows are
+    **anchored on the sequence numbers**. That is required because a station name
+    may wrap onto the line *above* its own sequence number (e.g. "Yogyakarta /
+    International" on Book 2), so a plain y-centre grouping splits the row and
+    the name is lost.
+
+    Without an anchor the function falls back to y-centre grouping.
+    """
     if not words:
         return []
+
+    if no_column is not None:
+        x0, x1 = no_column
+        anchors = sorted(
+            (w for w in words if x0 <= w.x0 < x1 and w.text.strip().isdigit()),
+            key=lambda w: w.y_centre,
+        )
+        if anchors:
+            rows: list[list[Word]] = []
+            boundaries = [
+                (anchors[i].y_centre + anchors[i + 1].y_centre) / 2 for i in range(len(anchors) - 1)
+            ]
+            # The first band extends above its anchor far enough to capture a
+            # wrapped station name printed above the sequence number.
+            head_margin = max(tolerance, 24.0)
+            bounds = [anchors[0].y_centre - head_margin] + boundaries
+            tops = list(bounds)
+            bottoms = boundaries + [float("inf")]
+            for top, bottom in zip(tops, bottoms, strict=True):
+                row = [w for w in words if top <= w.y_centre < bottom]
+                if row:
+                    rows.append(sorted(row, key=lambda w: w.x0))
+
+            # A station name may wrap over three lines and straddle the band
+            # boundaries (e.g. "Yogyakarta / International / Airport (YIA)").
+            # Words in the station column are therefore assigned to their NEAREST
+            # sequence anchor instead of to the band they fall in. This is a
+            # property of the column, not of any particular train.
+            if station_column is not None:
+                sx0, sx1 = station_column
+                anchor_ys = [a.y_centre for a in anchors]
+                rows = [list(r) for r in rows]
+                for word in words:
+                    if not (sx0 <= word.x0 < sx1):
+                        continue
+                    nearest = min(
+                        range(len(anchor_ys)),
+                        key=lambda i: abs(word.y_centre - anchor_ys[i]),
+                    )
+                    # Only reassign when it is genuinely closer to another anchor.
+                    current = next((i for i, r in enumerate(rows) if word in r), None)
+                    if current is not None and current != nearest:
+                        rows[current].remove(word)
+                        rows[nearest].append(word)
+                rows = [sorted(r, key=lambda w: w.x0) for r in rows if r]
+            return rows
+
     ordered = sorted(words, key=lambda w: (w.y_centre, w.x0))
-    rows: list[list[Word]] = []
+    rows = []
     for word in ordered:
         if rows and abs(word.y_centre - _row_y_centre(rows[-1])) <= tolerance:
             rows[-1].append(word)
@@ -300,12 +361,16 @@ def split_tables(
             source = "header"
 
         body = [w for w in words if body_top <= w.y0 < body_bottom]
+        no_col = next((c for c in columns if c.key == COL_NO), None)
+        no_band = (no_col.x0, no_col.x1) if no_col is not None else None
+        station_col = next((c for c in columns if c.key == COL_STATION), None)
+        station_band = (station_col.x0, station_col.x1) if station_col is not None else None
         blocks.append(
             TableBlock(
                 page=page,
                 header_y=header_y,
                 columns=columns,
-                rows=group_rows(body, tolerance),
+                rows=group_rows(body, tolerance, no_band, station_band),
                 bottom_y=body_bottom,
                 title_words=[w for w in words if header_y - 40 <= w.y0 < header_y - 2],
                 column_source=source,

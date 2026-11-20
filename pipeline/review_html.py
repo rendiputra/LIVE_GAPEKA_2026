@@ -125,6 +125,17 @@ def rule_table_html(reports: list[dict]) -> list[str]:
 
 def train_section_html(train: dict, images: dict[int, str]) -> list[str]:
     pages = sorted({s["provenance"]["page"] for s in train["stops"]})
+    quarantined = bool(train.get("quarantined"))
+    banner = (
+        [
+            '<p class="quarantine">QUARANTINED — this train did NOT enter '
+            "data/validated. Reasons: "
+            + esc("; ".join(train.get("quarantine_reasons") or ["unspecified"]))
+            + "</p>"
+        ]
+        if quarantined
+        else []
+    )
     lines = [
         f"<h2>KA {esc(train['train_no'] or '?')} — {esc(train['name'] or 'unknown')} "
         f"<small>({esc(train['origin'])}–{esc(train['destination'])}) · "
@@ -133,6 +144,7 @@ def train_section_html(train: dict, images: dict[int, str]) -> list[str]:
         + ", ".join(f'<a href="{esc(images[p])}">{p}</a>' if p in images else str(p) for p in pages)
         + f" · column source: {esc(train['column_source'])}</p>",
     ]
+    lines.extend(banner)
     badges = []
     if train["info"]:
         badges.append(f'<span class="info">info: {esc("; ".join(train["info"]))}</span>')
@@ -160,6 +172,7 @@ CSS = """
   th, td { border: 1px solid #ccc; padding: 4px 8px; text-align: left; vertical-align: top; }
   th { background: #f0f0f0; }
   tr.flag td { background: #ffe0e0; }
+  p.quarantine { background: #b00020; color: #fff; padding: 8px 12px; font-weight: 600; }
   tr.ok td { background: #e0ffe0; }
   .info { background: #fff6d0; padding: 2px 4px; }
   .flag { padding: 2px 4px; }

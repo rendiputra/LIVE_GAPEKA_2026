@@ -68,15 +68,38 @@ def seconds_of(value: str | None) -> int | None:
 
 @dataclass
 class Cell:
-    """One parsed cell. ``raw`` is always the text exactly as printed."""
+    """One parsed cell. ``raw`` is always the text exactly as printed.
+
+    ``source`` says where the value came from:
+
+    - ``printed``   — a clock time printed in the cell;
+    - ``not_printed`` — the document deliberately prints no time here (``-``);
+    - ``empty``     — the cell is blank;
+    - ``derived``   — reserved for engine-side estimates. The parser NEVER sets
+      this: estimated times must not enter the parsed layer (ADR 002 / Q1).
+    ``estimated`` mirrors ``source == "derived"`` for consumers that only care
+    whether the value is observed or inferred.
+    """
 
     value: str | None
     raw: str
     page: int
     bbox: list[float] | None
+    source: str = "printed"
+
+    @property
+    def estimated(self) -> bool:
+        return self.source == "derived"
 
     def as_dict(self) -> dict:
-        return {"value": self.value, "raw": self.raw, "page": self.page, "bbox": self.bbox}
+        return {
+            "value": self.value,
+            "raw": self.raw,
+            "page": self.page,
+            "bbox": self.bbox,
+            "source": self.source,
+            "estimated": self.estimated,
+        }
 
 
 @dataclass
@@ -146,7 +169,17 @@ class ParsedTrain:
 
 
 def _join(words: list[Word]) -> str:
-    return " ".join(w.text for w in words).strip()
+    """Join cell words in reading order.
+
+    A multi-line cell (a station name wrapped over two or three lines) must be
+    read top-down, then left-to-right — not purely left-to-right, which would
+    interleave the lines ("Yogyakarta Airport International" vs
+    "Yogyakarta International Airport").
+    """
+    if not words:
+        return ""
+    ordered = sorted(words, key=lambda w: (round(w.y0), w.x0))
+    return " ".join(w.text for w in ordered).strip()
 
 
 def _bbox(words: list[Word]) -> list[float] | None:
@@ -173,17 +206,19 @@ def parse_title(block: TableBlock) -> tuple[str | None, str | None, str | None, 
     return match.group(1), match.group(2).title(), match.group(3), match.group(4)
 
 
-def _classify_time_cell(raw: str, kind: str) -> tuple[str | None, list[str], list[str]]:
-    """Classify a time-column cell. Returns (value, info, needs_review)."""
+def _classify_time_cell(raw: str, kind: str) -> tuple[str | None, list[str], list[str], str]:
+    """Classify a time-column cell. Returns (value, info, needs_review, source)."""
     text = raw.strip()
     if text == "":
-        return None, [], [f"{kind}_blank"]
+        return None, [], [f"{kind}_blank"], "empty"
     if text == EMPTY_MARKER:
         # Positional expectations are applied later, once the last seq is known.
-        return None, [], []
+        # "-" means the document states no time here, which is different from a
+        # blank cell.
+        return None, [], [], "not_printed"
     if TIME_RE.match(text):
-        return text, [], []
-    return None, [], [f"{kind}_unrecognised:{text}"]
+        return text, [], [], "printed"
+    return None, [], [f"{kind}_unrecognised:{text}"], "empty"
 
 
 def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
@@ -215,14 +250,16 @@ def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
     depart_raw = (depart.raw or "").strip()
 
     if arrive_raw.upper() == PASS_MARKER:
+        # "Ls" states that the train passes through; it is not a clock reading.
         stop_type = "pass"
         arrive_value = None
+        arrive_source = "not_printed"
     else:
         stop_type = "stop"
-        arrive_value, _i, _r = _classify_time_cell(arrive_raw, "arrive")
-        review.extend(_r)
+        arrive_value, _ai, arrive_flags, arrive_source = _classify_time_cell(arrive_raw, "arrive")
+        review.extend(arrive_flags)
 
-    depart_value, _i, depart_flags = _classify_time_cell(depart_raw, "depart")
+    depart_value, _di, depart_flags, depart_source = _classify_time_cell(depart_raw, "depart")
     review.extend(depart_flags)
 
     # A pass row usually carries its passing time in Berangkat. The document also
@@ -234,22 +271,26 @@ def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
     speed_raw = (speed.raw or "").strip()
     if speed_raw == EMPTY_MARKER:
         speed_value = None  # positional rule applied in finalize
+        speed_source = "not_printed"
     elif speed_raw.isdigit():
         speed_value = speed_raw  # keep "0" verbatim
+        speed_source = "printed"
     elif speed_raw == "":
         speed_value = None
+        speed_source = "empty"
         review.append("speed_blank")
     else:
         speed_value = None
+        speed_source = "empty"
         review.append(f"speed_unrecognised:{speed_raw}")
 
     return Stop(
         seq=int(seq_cell.value),
         station_name=name,
         station_code=code,
-        speed=Cell(speed_value, speed.raw, speed.page, speed.bbox),
-        arrive=Cell(arrive_value, arrive.raw, arrive.page, arrive.bbox),
-        depart=Cell(depart_value, depart.raw, depart.page, depart.bbox),
+        speed=Cell(speed_value, speed.raw, speed.page, speed.bbox, speed_source),
+        arrive=Cell(arrive_value, arrive.raw, arrive.page, arrive.bbox, arrive_source),
+        depart=Cell(depart_value, depart.raw, depart.page, depart.bbox, depart_source),
         note=note,
         stop_type=stop_type,
         info=["pass_row_with_dash_depart"] if pass_dash else [],

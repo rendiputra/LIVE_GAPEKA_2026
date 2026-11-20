@@ -114,9 +114,41 @@ def rows(words: list[Word]) -> list[list[Word]]:
             if index + 1 < len(anchors)
             else max(w.y1 for w in body) + 1
         )
+        # A page can stack two tables, and the second table's header block sits
+        # between two data rows. Header furniture is dropped per row so it can
+        # never displace the train number or category.
+        block_keywords = {
+            "KLASIFIKASI",
+            "WILAYAH",
+            "GAPEKA",
+            "JUMLAH",
+            "KILOMETER",
+            "URUT",
+            "NOMOR",
+            "JENIS",
+            "NAMA",
+            "LINTAS",
+            "PELAYANAN",
+            "BADAN",
+            "PENYELENGGARA",
+            "SARANA",
+            "JARAK",
+            "JAM",
+            "WAKTU",
+            "PERJALANAN",
+            "BERANGKAT",
+            "DATANG",
+            "KERETA",
+            "API",
+            "KA",
+        }
         rows_out.append(
             sorted(
-                (w for w in body if top <= w.y0 < bottom),
+                (
+                    w
+                    for w in body
+                    if top <= w.y0 < bottom and w.text.strip().upper() not in block_keywords
+                ),
                 key=lambda w: (w.y0, w.x0),
             )
         )
@@ -129,9 +161,10 @@ def parse_row(row: list[Word], page: int) -> SummaryEntry | None:
         return None
     texts = [w.text.strip() for w in row]
 
-    # Sequence = leftmost token. Number = the token in the number column, which
-    # sits just right of the sequence column.
-    seq_word = row[0]
+    # Sequence = the leftmost token that actually looks like a sequence number.
+    # row[0] may be leftover header furniture such as "GAPEKA" or "2026".
+    seq_candidates = [w for w in row if SEQ_RE.match(w.text.strip()) and w.x0 < 90]
+    seq_word = min(seq_candidates, key=lambda w: w.x0) if seq_candidates else row[0]
     seq_x = seq_word.x0
     number_band = (seq_x + 25, seq_x + 125)
 

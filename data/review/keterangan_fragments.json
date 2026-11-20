@@ -1,0 +1,838 @@
+{
+  "note": "Report only. 'fragments' are Keterangan values that do not match a complete footnote pattern; a wrapped cell split across two row bands is the most likely parser cause.",
+  "fragment_count": 36,
+  "distinct_fragments": {
+    "(ka 65Fx)": 1,
+    "x ka L2642F-1": 1,
+    "// 2535, 373 (ka 2535, 373 =)": 1,
+    "// ka 2540F JJ (ka ka 2540F JJ =)": 1,
+    "x ka r290-4": 1,
+    "x ka l2630-1": 1,
+    "(ka ll801 x)": 1,
+    "// ka R513-2 (ka R513-2 =)": 1,
+    "x ka LL 505F JJ (ka LL505F JJ x)": 1,
+    "(ka l2642f-1 jj x)": 1,
+    "x ka l2632-1": 1,
+    "x ka 348, 2750F JJ": 1,
+    "(ka l2630-1 x)": 1,
+    "x ka ll806": 1,
+    "// ka ka 2537f jj (ka ka 2537f jj =)": 1,
+    "x ka 389, 81(ka 389, 81x)": 1,
+    "x ka 348, 108(ka 348, 108x)": 1,
+    "(ka 141Fx JJ)": 1,
+    "x ka 2763f jj, 291 (ka 2763f jj, 291 x)": 1,
+    "// ka 2537f jj (ka ka 2537f jj =)": 1,
+    "x ka 93, 2647f jj (ka 93, 2647f jj x)": 1,
+    "x ka 2763f jj, 313 (ka 2763f jj, 313 x)": 1,
+    "x ka 2750F JJ, 348": 1,
+    "(ka l2648f-1 jj x)": 1,
+    "// ka 2750F JJ, 348 (ka 2750F JJ, 348 =)": 1,
+    "x ka 2719, 321 (ka 2719, 321 x)": 1,
+    "x ka 2763f jj, 329 (ka 2763f jj, 329 x)": 1,
+    "x ka 278f jj, 94 (ka 278f jj, 94 x)": 1,
+    "x ka l2628-1": 1,
+    "// ka 2537F jj (ka ka 2537F jj =)": 1
+  },
+  "fragments": [
+    {
+      "train_no": "10",
+      "seq": 40,
+      "station": "KYA",
+      "page": 87,
+      "bbox": [
+        359.26,
+        501.0,
+        398.42,
+        514.34
+      ],
+      "raw": "(ka 65Fx)",
+      "neighbours": [
+        {
+          "seq": 39,
+          "station": "SKP"
+        },
+        {
+          "seq": 41,
+          "station": "KJ"
+        }
+      ]
+    },
+    {
+      "train_no": "12",
+      "seq": 38,
+      "station": "MA",
+      "page": 94,
+      "bbox": [
+        359.26,
+        469.84,
+        418.7,
+        483.18
+      ],
+      "raw": "x ka L2642F-1",
+      "neighbours": [
+        {
+          "seq": 37,
+          "station": "KH"
+        },
+        {
+          "seq": 39,
+          "station": "SKP"
+        }
+      ]
+    },
+    {
+      "train_no": "17",
+      "seq": 48,
+      "station": "KLI",
+      "page": 111,
+      "bbox": [
+        357.85,
+        204.98,
+        475.15,
+        218.32
+      ],
+      "raw": "// 2535, 373 (ka 2535, 373 =)",
+      "neighbours": [
+        {
+          "seq": 47,
+          "station": "KOS"
+        },
+        {
+          "seq": 49,
+          "station": "KW"
+        }
+      ]
+    },
+    {
+      "train_no": "26",
+      "seq": 48,
+      "station": "PTA",
+      "page": 125,
+      "bbox": [
+        357.85,
+        360.78,
+        490.71,
+        374.12
+      ],
+      "raw": "// ka 2540F JJ (ka ka 2540F JJ =)",
+      "neighbours": [
+        {
+          "seq": 47,
+          "station": "PML"
+        },
+        {
+          "seq": 49,
+          "station": "CO"
+        }
+      ]
+    },
+    {
+      "train_no": "43",
+      "seq": 1,
+      "station": "SBI",
+      "page": 151,
+      "bbox": [
+        357.85,
+        390.36,
+        403.95,
+        403.7
+      ],
+      "raw": "x ka r290-4",
+      "neighbours": [
+        {
+          "seq": 2,
+          "station": "STM"
+        }
+      ]
+    },
+    {
+      "train_no": "50",
+      "seq": 133,
+      "station": "MLK",
+      "page": 170,
+      "bbox": [
+        359.26,
+        345.2,
+        409.81,
+        358.54
+      ],
+      "raw": "x ka l2630-1",
+      "neighbours": [
+        {
+          "seq": 132,
+          "station": "PSI"
+        },
+        {
+          "seq": 134,
+          "station": "ML"
+        }
+      ]
+    },
+    {
+      "train_no": "52",
+      "seq": 123,
+      "station": "ML",
+      "page": 177,
+      "bbox": [
+        359.26,
+        703.54,
+        405.92,
+        716.88
+      ],
+      "raw": "(ka ll801 x)",
+      "neighbours": [
+        {
+          "seq": 122,
+          "station": "MLK"
+        }
+      ]
+    },
+    {
+      "train_no": "58",
+      "seq": 60,
+      "station": "MKG",
+      "page": 193,
+      "bbox": [
+        357.85,
+        469.84,
+        467.09,
+        483.18
+      ],
+      "raw": "// ka R513-2 (ka R513-2 =)",
+      "neighbours": [
+        {
+          "seq": 59,
+          "station": "KLN"
+        },
+        {
+          "seq": 61,
+          "station": "JRK"
+        }
+      ]
+    },
+    {
+      "train_no": "74F",
+      "seq": 6,
+      "station": "SKP",
+      "page": 212,
+      "bbox": [
+        357.85,
+        731.54,
+        494.51,
+        744.88
+      ],
+      "raw": "x ka LL 505F JJ (ka LL505F JJ x)",
+      "neighbours": [
+        {
+          "seq": 5,
+          "station": "MA"
+        },
+        {
+          "seq": 7,
+          "station": "KYA"
+        }
+      ]
+    },
+    {
+      "train_no": "74F",
+      "seq": 7,
+      "station": "KYA",
+      "page": 212,
+      "bbox": [
+        357.85,
+        747.12,
+        426.45,
+        760.46
+      ],
+      "raw": "(ka l2642f-1 jj x)",
+      "neighbours": [
+        {
+          "seq": 6,
+          "station": "SKP"
+        }
+      ]
+    },
+    {
+      "train_no": "80F",
+      "seq": 133,
+      "station": "MLK",
+      "page": 233,
+      "bbox": [
+        359.26,
+        345.2,
+        409.81,
+        358.54
+      ],
+      "raw": "x ka l2632-1",
+      "neighbours": [
+        {
+          "seq": 132,
+          "station": "PSI"
+        },
+        {
+          "seq": 134,
+          "station": "ML"
+        }
+      ]
+    },
+    {
+      "train_no": "85",
+      "seq": 79,
+      "station": "KYA",
+      "page": 250,
+      "bbox": [
+        359.26,
+        687.96,
+        434.54,
+        701.3
+      ],
+      "raw": "x ka 348, 2750F JJ",
+      "neighbours": [
+        {
+          "seq": 78,
+          "station": "KJ"
+        },
+        {
+          "seq": 80,
+          "station": "SKP"
+        }
+      ]
+    },
+    {
+      "train_no": "86",
+      "seq": 118,
+      "station": "ML",
+      "page": 254,
+      "bbox": [
+        359.26,
+        532.16,
+        416.47,
+        545.5
+      ],
+      "raw": "(ka l2630-1 x)",
+      "neighbours": [
+        {
+          "seq": 117,
+          "station": "MLK"
+        }
+      ]
+    },
+    {
+      "train_no": "87",
+      "seq": 1,
+      "station": "ML",
+      "page": 254,
+      "bbox": [
+        359.26,
+        624.06,
+        399.26,
+        637.4
+      ],
+      "raw": "x ka ll806",
+      "neighbours": [
+        {
+          "seq": 2,
+          "station": "MLK"
+        }
+      ]
+    },
+    {
+      "train_no": "91",
+      "seq": 74,
+      "station": "CKM",
+      "page": 274,
+      "bbox": [
+        357.85,
+        485.42,
+        493.75,
+        498.76
+      ],
+      "raw": "// ka ka 2537f jj (ka ka 2537f jj =)",
+      "neighbours": [
+        {
+          "seq": 73,
+          "station": "PGB"
+        },
+        {
+          "seq": 75,
+          "station": "PAS"
+        }
+      ]
+    },
+    {
+      "train_no": "106",
+      "seq": 9,
+      "station": "NG",
+      "page": 297,
+      "bbox": [
+        357.85,
+        127.08,
+        460.89,
+        140.42
+      ],
+      "raw": "x ka 389, 81(ka 389, 81x)",
+      "neighbours": [
+        {
+          "seq": 8,
+          "station": "CCL"
+        },
+        {
+          "seq": 10,
+          "station": "LBJ"
+        }
+      ]
+    },
+    {
+      "train_no": "127",
+      "seq": 19,
+      "station": "CB",
+      "page": 334,
+      "bbox": [
+        357.85,
+        411.32,
+        470.89,
+        424.66
+      ],
+      "raw": "x ka 348, 108(ka 348, 108x)",
+      "neighbours": [
+        {
+          "seq": 18,
+          "station": "WB"
+        },
+        {
+          "seq": 20,
+          "station": "LO"
+        }
+      ]
+    },
+    {
+      "train_no": "138",
+      "seq": 32,
+      "station": "PDL",
+      "page": 350,
+      "bbox": [
+        357.85,
+        613.86,
+        412.29,
+        627.2
+      ],
+      "raw": "(ka 141Fx JJ)",
+      "neighbours": [
+        {
+          "seq": 31,
+          "station": "CLE"
+        },
+        {
+          "seq": 33,
+          "station": "GK"
+        }
+      ]
+    },
+    {
+      "train_no": "148",
+      "seq": 20,
+      "station": "RBP",
+      "page": 363,
+      "bbox": [
+        357.85,
+        220.56,
+        508.67,
+        233.9
+      ],
+      "raw": "x ka 2763f jj, 291 (ka 2763f jj, 291 x)",
+      "neighbours": [
+        {
+          "seq": 19,
+          "station": "MI"
+        },
+        {
+          "seq": 21,
+          "station": "BSS"
+        }
+      ]
+    },
+    {
+      "train_no": "151",
+      "seq": 89,
+      "station": "CKM",
+      "page": 377,
+      "bbox": [
+        359.26,
+        173.82,
+        483.22,
+        187.16
+      ],
+      "raw": "// ka 2537f jj (ka ka 2537f jj =)",
+      "neighbours": [
+        {
+          "seq": 88,
+          "station": "PGB"
+        },
+        {
+          "seq": 90,
+          "station": "PAS"
+        }
+      ]
+    },
+    {
+      "train_no": "168",
+      "seq": 18,
+      "station": "PR",
+      "page": 382,
+      "bbox": [
+        357.85,
+        395.74,
+        503.67,
+        409.08
+      ],
+      "raw": "x ka 93, 2647f jj (ka 93, 2647f jj x)",
+      "neighbours": [
+        {
+          "seq": 17,
+          "station": "BG"
+        },
+        {
+          "seq": 19,
+          "station": "TGA"
+        }
+      ]
+    },
+    {
+      "train_no": "174",
+      "seq": 29,
+      "station": "PB",
+      "page": 392,
+      "bbox": [
+        357.85,
+        655.22,
+        508.67,
+        668.56
+      ],
+      "raw": "x ka 2763f jj, 313 (ka 2763f jj, 313 x)",
+      "neighbours": [
+        {
+          "seq": 28,
+          "station": "LEC"
+        },
+        {
+          "seq": 30,
+          "station": "BYM"
+        }
+      ]
+    },
+    {
+      "train_no": "171",
+      "seq": 69,
+      "station": "KYA",
+      "page": 395,
+      "bbox": [
+        357.85,
+        111.5,
+        433.13,
+        124.84
+      ],
+      "raw": "x ka 2750F JJ, 348",
+      "neighbours": [
+        {
+          "seq": 68,
+          "station": "KJ"
+        },
+        {
+          "seq": 70,
+          "station": "SKP"
+        }
+      ]
+    },
+    {
+      "train_no": "190",
+      "seq": 83,
+      "station": "ML",
+      "page": 442,
+      "bbox": [
+        357.85,
+        750.28,
+        426.45,
+        763.62
+      ],
+      "raw": "(ka l2648f-1 jj x)",
+      "neighbours": [
+        {
+          "seq": 82,
+          "station": "MLK"
+        }
+      ]
+    },
+    {
+      "train_no": "196",
+      "seq": 55,
+      "station": "KYA",
+      "page": 457,
+      "bbox": [
+        357.85,
+        251.72,
+        518.77,
+        265.06
+      ],
+      "raw": "// ka 2750F JJ, 348 (ka 2750F JJ, 348 =)",
+      "neighbours": [
+        {
+          "seq": 54,
+          "station": "RDN"
+        },
+        {
+          "seq": 56,
+          "station": "KJ"
+        }
+      ]
+    },
+    {
+      "train_no": "218F",
+      "seq": 5,
+      "station": "MA",
+      "page": 495,
+      "bbox": [
+        357.85,
+        193.2,
+        485.89,
+        206.54
+      ],
+      "raw": "x ka 2719, 321 (ka 2719, 321 x)",
+      "neighbours": [
+        {
+          "seq": 4,
+          "station": "KH"
+        },
+        {
+          "seq": 6,
+          "station": "SKP"
+        }
+      ]
+    },
+    {
+      "train_no": "222F",
+      "seq": 15,
+      "station": "KLT",
+      "page": 498,
+      "bbox": [
+        357.85,
+        349.0,
+        508.67,
+        362.34
+      ],
+      "raw": "x ka 2763f jj, 329 (ka 2763f jj, 329 x)",
+      "neighbours": [
+        {
+          "seq": 14,
+          "station": "LDO"
+        },
+        {
+          "seq": 16,
+          "station": "KTK"
+        }
+      ]
+    },
+    {
+      "train_no": "291",
+      "seq": 13,
+      "station": "SDA",
+      "page": 554,
+      "bbox": [
+        357.85,
+        251.72,
+        488.67,
+        265.06
+      ],
+      "raw": "x ka 278f jj, 94 (ka 278f jj, 94 x)",
+      "neighbours": [
+        {
+          "seq": 12,
+          "station": "PWJ"
+        },
+        {
+          "seq": 14,
+          "station": "TGA"
+        }
+      ]
+    },
+    {
+      "train_no": "288",
+      "seq": 121,
+      "station": "MLK",
+      "page": 569,
+      "bbox": [
+        359.26,
+        672.38,
+        409.81,
+        685.72
+      ],
+      "raw": "x ka l2628-1",
+      "neighbours": [
+        {
+          "seq": 120,
+          "station": "PSI"
+        },
+        {
+          "seq": 122,
+          "station": "ML"
+        }
+      ]
+    },
+    {
+      "train_no": "305",
+      "seq": 36,
+      "station": "SMC",
+      "page": 603,
+      "bbox": [
+        357.85,
+        676.18,
+        486.27,
+        689.52
+      ],
+      "raw": "// ka 2537F jj (ka ka 2537F jj =)",
+      "neighbours": [
+        {
+          "seq": 35,
+          "station": "SMT"
+        },
+        {
+          "seq": 37,
+          "station": "JRK"
+        }
+      ]
+    },
+    {
+      "train_no": "306",
+      "seq": 62,
+      "station": "SMT",
+      "page": 606,
+      "bbox": [
+        357.85,
+        656.8,
+        487.09,
+        670.14
+      ],
+      "raw": "// ka 514, 2510 (ka 514, 2510 =)",
+      "neighbours": [
+        {
+          "seq": 61,
+          "station": "SMC"
+        },
+        {
+          "seq": 63,
+          "station": "ATA"
+        }
+      ]
+    },
+    {
+      "train_no": "308",
+      "seq": 38,
+      "station": "KYA",
+      "page": 612,
+      "bbox": [
+        359.26,
+        423.1,
+        410.08,
+        436.44
+      ],
+      "raw": "(ka LL501x)",
+      "neighbours": [
+        {
+          "seq": 37,
+          "station": "SKP"
+        },
+        {
+          "seq": 39,
+          "station": "KJ"
+        }
+      ]
+    },
+    {
+      "train_no": "321",
+      "seq": 22,
+      "station": "CAW",
+      "page": 640,
+      "bbox": [
+        357.85,
+        95.92,
+        465.89,
+        109.26
+      ],
+      "raw": "x ka 348,108(ka 348,108x)",
+      "neighbours": [
+        {
+          "seq": 21,
+          "station": "RJP"
+        },
+        {
+          "seq": 23,
+          "station": "CAA"
+        }
+      ]
+    },
+    {
+      "train_no": "318",
+      "seq": 52,
+      "station": "CPD",
+      "page": 642,
+      "bbox": [
+        357.85,
+        469.84,
+        460.89,
+        483.18
+      ],
+      "raw": "x ka 309, 87(ka 309, 87x)",
+      "neighbours": [
+        {
+          "seq": 51,
+          "station": "BMW"
+        },
+        {
+          "seq": 53,
+          "station": "CAA"
+        }
+      ]
+    },
+    {
+      "train_no": "327",
+      "seq": 8,
+      "station": "ML",
+      "page": 651,
+      "bbox": [
+        357.85,
+        343.62,
+        455.89,
+        356.96
+      ],
+      "raw": "x ka 436, 344 (ka 436 x)",
+      "neighbours": [
+        {
+          "seq": 7,
+          "station": "BMG"
+        },
+        {
+          "seq": 9,
+          "station": "MLK"
+        }
+      ]
+    },
+    {
+      "train_no": "327",
+      "seq": 9,
+      "station": "MLK",
+      "page": 651,
+      "bbox": [
+        357.85,
+        359.2,
+        426.45,
+        372.54
+      ],
+      "raw": "(ka l2647f-2 jj x)",
+      "neighbours": [
+        {
+          "seq": 8,
+          "station": "ML"
+        }
+      ]
+    }
+  ]
+}

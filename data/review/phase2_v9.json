@@ -1,0 +1,2952 @@
+{
+  "rule": "V9",
+  "description": "segment running-time consistency across trains (report only)",
+  "segments": 386,
+  "observations": 2680,
+  "single_train_pairs": [
+    {
+      "pair": "BTH->KTA",
+      "train_no": "522"
+    },
+    {
+      "pair": "BTH->PRB",
+      "train_no": "521"
+    },
+    {
+      "pair": "KM->WNS",
+      "train_no": "522"
+    },
+    {
+      "pair": "KTA->BTH",
+      "train_no": "521"
+    },
+    {
+      "pair": "KWN->PRB",
+      "train_no": "522"
+    },
+    {
+      "pair": "KWN->WNS",
+      "train_no": "521"
+    },
+    {
+      "pair": "PRB->BTH",
+      "train_no": "522"
+    },
+    {
+      "pair": "PRB->KWN",
+      "train_no": "521"
+    },
+    {
+      "pair": "WNS->KM",
+      "train_no": "521"
+    },
+    {
+      "pair": "WNS->KWN",
+      "train_no": "522"
+    }
+  ],
+  "single_train_pair_count": 10,
+  "outliers": [
+    {
+      "pair": "AND->CMD",
+      "train_no": "387",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "389",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "391",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "393",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "395",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "397",
+      "seconds": 900,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "399",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "401",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "403",
+      "seconds": 300,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "405",
+      "seconds": 420,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "407",
+      "seconds": 300,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "409",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "411",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "415",
+      "seconds": 420,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "417",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "419",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "421",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "423",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "425",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "427",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "429",
+      "seconds": 360,
+      "median": 120
+    },
+    {
+      "pair": "AND->CMD",
+      "train_no": "431",
+      "seconds": 300,
+      "median": 120
+    },
+    {
+      "pair": "BBT->BWO",
+      "train_no": "465",
+      "seconds": 1980,
+      "median": 780
+    },
+    {
+      "pair": "BG->WN",
+      "train_no": "453",
+      "seconds": 1860,
+      "median": 600
+    },
+    {
+      "pair": "CKR->LMB",
+      "train_no": "372",
+      "seconds": 780,
+      "median": 360
+    },
+    {
+      "pair": "CKR->LMB",
+      "train_no": "376",
+      "seconds": 780,
+      "median": 360
+    },
+    {
+      "pair": "CKR->LMB",
+      "train_no": "384",
+      "seconds": 780,
+      "median": 360
+    },
+    {
+      "pair": "CMD->CMI",
+      "train_no": "397",
+      "seconds": 660,
+      "median": 300
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "386",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "388",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "390",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "392",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "394",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "396",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "398",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "400",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "402",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "406",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "408",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "410",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "412",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "414",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "416",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "418",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "420",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "422",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "424",
+      "seconds": 780,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "426",
+      "seconds": 420,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "428",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->CMD",
+      "train_no": "430",
+      "seconds": 480,
+      "median": 180
+    },
+    {
+      "pair": "CMI->PDL",
+      "train_no": "387",
+      "seconds": 780,
+      "median": 360
+    },
+    {
+      "pair": "CMI->PDL",
+      "train_no": "403",
+      "seconds": 900,
+      "median": 360
+    },
+    {
+      "pair": "DD->LMG",
+      "train_no": "465",
+      "seconds": 1980,
+      "median": 900
+    },
+    {
+      "pair": "DWN->KOS",
+      "train_no": "377",
+      "seconds": 1500,
+      "median": 480
+    },
+    {
+      "pair": "DWN->KOS",
+      "train_no": "379",
+      "seconds": 1440,
+      "median": 480
+    },
+    {
+      "pair": "GEB->PC",
+      "train_no": "474",
+      "seconds": 1560,
+      "median": 480
+    },
+    {
+      "pair": "GG->NGW",
+      "train_no": "601",
+      "seconds": 1440,
+      "median": 600
+    },
+    {
+      "pair": "GRM->BL",
+      "train_no": "453",
+      "seconds": 2520,
+      "median": 1020
+    },
+    {
+      "pair": "KAC->BD",
+      "train_no": "387",
+      "seconds": 2580,
+      "median": 1020
+    },
+    {
+      "pair": "KAC->BD",
+      "train_no": "403",
+      "seconds": 2760,
+      "median": 1020
+    },
+    {
+      "pair": "KAC->GDB",
+      "train_no": "402",
+      "seconds": 1260,
+      "median": 600
+    },
+    {
+      "pair": "KAC->GDB",
+      "train_no": "412",
+      "seconds": 1320,
+      "median": 600
+    },
+    {
+      "pair": "KAC->GDB",
+      "train_no": "424",
+      "seconds": 1260,
+      "median": 600
+    },
+    {
+      "pair": "KD->SS",
+      "train_no": "455",
+      "seconds": 840,
+      "median": 300
+    },
+    {
+      "pair": "KDA->BNW",
+      "train_no": "505",
+      "seconds": 1320,
+      "median": 540
+    },
+    {
+      "pair": "KDB->WK",
+      "train_no": "604",
+      "seconds": 1920,
+      "median": 840
+    },
+    {
+      "pair": "KDG->WJ",
+      "train_no": "517",
+      "seconds": 1260,
+      "median": 420
+    },
+    {
+      "pair": "KG->NGW",
+      "train_no": "602",
+      "seconds": 1680,
+      "median": 720
+    },
+    {
+      "pair": "KG->WK",
+      "train_no": "597",
+      "seconds": 1740,
+      "median": 720
+    },
+    {
+      "pair": "KG->WK",
+      "train_no": "601",
+      "seconds": 1620,
+      "median": 720
+    },
+    {
+      "pair": "KMR->PL",
+      "train_no": "597",
+      "seconds": 1020,
+      "median": 450
+    },
+    {
+      "pair": "KMR->PL",
+      "train_no": "603",
+      "seconds": 1110,
+      "median": 450
+    },
+    {
+      "pair": "KRN->TRK",
+      "train_no": "489",
+      "seconds": 2160,
+      "median": 1020
+    },
+    {
+      "pair": "KTS->SMB",
+      "train_no": "452",
+      "seconds": 1620,
+      "median": 660
+    },
+    {
+      "pair": "KW->KDH",
+      "train_no": "377",
+      "seconds": 1560,
+      "median": 540
+    },
+    {
+      "pair": "KW->KDH",
+      "train_no": "381",
+      "seconds": 1320,
+      "median": 540
+    },
+    {
+      "pair": "LBJ->NG",
+      "train_no": "389",
+      "seconds": 2940,
+      "median": 1260
+    },
+    {
+      "pair": "LMB->KDH",
+      "train_no": "374",
+      "seconds": 1320,
+      "median": 600
+    },
+    {
+      "pair": "LMG->DD",
+      "train_no": "466",
+      "seconds": 1860,
+      "median": 900
+    },
+    {
+      "pair": "MGN->PPR",
+      "train_no": "453",
+      "seconds": 1140,
+      "median": 480
+    },
+    {
+      "pair": "NDL->KRS",
+      "train_no": "440",
+      "seconds": 1500,
+      "median": 660
+    },
+    {
+      "pair": "NGW->KG",
+      "train_no": "597",
+      "seconds": 1800,
+      "median": 600
+    },
+    {
+      "pair": "PL->SK",
+      "train_no": "599",
+      "seconds": 1140,
+      "median": 540
+    },
+    {
+      "pair": "PSI->KPN",
+      "train_no": "459",
+      "seconds": 2100,
+      "median": 660
+    },
+    {
+      "pair": "RCK->CCL",
+      "train_no": "386",
+      "seconds": 2460,
+      "median": 900
+    },
+    {
+      "pair": "RJ->NT",
+      "train_no": "449",
+      "seconds": 1260,
+      "median": 600
+    },
+    {
+      "pair": "RJ->NT",
+      "train_no": "457",
+      "seconds": 1500,
+      "median": 600
+    },
+    {
+      "pair": "SBL->NT",
+      "train_no": "440",
+      "seconds": 2220,
+      "median": 660
+    },
+    {
+      "pair": "SBL->TA",
+      "train_no": "457",
+      "seconds": 1500,
+      "median": 660
+    },
+    {
+      "pair": "SBN->PC",
+      "train_no": "505",
+      "seconds": 1500,
+      "median": 720
+    },
+    {
+      "pair": "SLO->SK",
+      "train_no": "604",
+      "seconds": 900,
+      "median": 360
+    },
+    {
+      "pair": "SPJ->WO",
+      "train_no": "454",
+      "seconds": 1560,
+      "median": 720
+    },
+    {
+      "pair": "SS->MGN",
+      "train_no": "451",
+      "seconds": 1200,
+      "median": 360
+    },
+    {
+      "pair": "WK->KDB",
+      "train_no": "601",
+      "seconds": 1620,
+      "median": 720
+    },
+    {
+      "pair": "WK->KG",
+      "train_no": "604",
+      "seconds": 1860,
+      "median": 540
+    },
+    {
+      "pair": "WO->SPJ",
+      "train_no": "443",
+      "seconds": 1740,
+      "median": 660
+    },
+    {
+      "pair": "WR->GDG",
+      "train_no": "457",
+      "seconds": 1200,
+      "median": 540
+    }
+  ],
+  "outlier_count": 97,
+  "distributions": {
+    "AGO->BWI": {
+      "count": 2,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "AGO->KTG": {
+      "count": 2,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "AJ->JR": {
+      "count": 2,
+      "min": 420,
+      "median": 420,
+      "max": 420
+    },
+    "AJ->KTK": {
+      "count": 2,
+      "min": 240,
+      "median": 240,
+      "max": 240
+    },
+    "AND->BD": {
+      "count": 36,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "AND->CIR": {
+      "count": 22,
+      "min": 420,
+      "median": 420,
+      "max": 600
+    },
+    "AND->CMD": {
+      "count": 58,
+      "min": 120,
+      "median": 120,
+      "max": 900
+    },
+    "ATA->BBG": {
+      "count": 2,
+      "min": 720,
+      "median": 840,
+      "max": 840
+    },
+    "ATA->SMT": {
+      "count": 2,
+      "min": 900,
+      "median": 1140,
+      "max": 1140
+    },
+    "BBD->CRB": {
+      "count": 2,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "BBD->MN": {
+      "count": 2,
+      "min": 780,
+      "median": 780,
+      "max": 780
+    },
+    "BBG->ATA": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "BBG->TGW": {
+      "count": 2,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "BBT->BWO": {
+      "count": 3,
+      "min": 720,
+      "median": 780,
+      "max": 1980
+    },
+    "BBT->GEB": {
+      "count": 7,
+      "min": 360,
+      "median": 420,
+      "max": 420
+    },
+    "BD->AND": {
+      "count": 36,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "BD->CIR": {
+      "count": 22,
+      "min": 480,
+      "median": 540,
+      "max": 840
+    },
+    "BD->KAC": {
+      "count": 22,
+      "min": 840,
+      "median": 900,
+      "max": 1500
+    },
+    "BG->PR": {
+      "count": 9,
+      "min": 690,
+      "median": 960,
+      "max": 1260
+    },
+    "BG->PS": {
+      "count": 4,
+      "min": 900,
+      "median": 1020,
+      "max": 1260
+    },
+    "BG->WN": {
+      "count": 5,
+      "min": 600,
+      "median": 600,
+      "max": 1860
+    },
+    "BJ->KIT": {
+      "count": 2,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "BJ->KPS": {
+      "count": 3,
+      "min": 600,
+      "median": 600,
+      "max": 660
+    },
+    "BL->GRM": {
+      "count": 5,
+      "min": 660,
+      "median": 660,
+      "max": 1200
+    },
+    "BL->RJ": {
+      "count": 5,
+      "min": 840,
+      "median": 900,
+      "max": 1200
+    },
+    "BMG->ML": {
+      "count": 5,
+      "min": 420,
+      "median": 960,
+      "max": 1320
+    },
+    "BMG->SGS": {
+      "count": 5,
+      "min": 600,
+      "median": 600,
+      "max": 720
+    },
+    "BNW->CME": {
+      "count": 6,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "BNW->KDA": {
+      "count": 7,
+      "min": 480,
+      "median": 540,
+      "max": 1080
+    },
+    "BTH->KTA": {
+      "count": 1,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "BTH->PRB": {
+      "count": 1,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "BWI->AGO": {
+      "count": 2,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "BWI->RGP": {
+      "count": 2,
+      "min": 840,
+      "median": 840,
+      "max": 840
+    },
+    "BWO->BBT": {
+      "count": 3,
+      "min": 720,
+      "median": 720,
+      "max": 780
+    },
+    "BWO->SRJ": {
+      "count": 3,
+      "min": 840,
+      "median": 840,
+      "max": 900
+    },
+    "BYM->GI": {
+      "count": 2,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "BYM->PB": {
+      "count": 2,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "CA->PWK": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "CA->SUT": {
+      "count": 2,
+      "min": 720,
+      "median": 780,
+      "max": 780
+    },
+    "CB->KRAI": {
+      "count": 3,
+      "min": 900,
+      "median": 900,
+      "max": 1200
+    },
+    "CB->PSJ": {
+      "count": 2,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "CBB->CJ": {
+      "count": 3,
+      "min": 1680,
+      "median": 1680,
+      "max": 1680
+    },
+    "CBB->LP": {
+      "count": 3,
+      "min": 1560,
+      "median": 1560,
+      "max": 1560
+    },
+    "CBR->CKP": {
+      "count": 5,
+      "min": 600,
+      "median": 720,
+      "max": 1080
+    },
+    "CBR->PWK": {
+      "count": 5,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "CCL->NG": {
+      "count": 3,
+      "min": 960,
+      "median": 1020,
+      "max": 1080
+    },
+    "CCL->RCK": {
+      "count": 22,
+      "min": 840,
+      "median": 1020,
+      "max": 1680
+    },
+    "CD->PLD": {
+      "count": 2,
+      "min": 1080,
+      "median": 1200,
+      "max": 1200
+    },
+    "CD->RH": {
+      "count": 2,
+      "min": 480,
+      "median": 540,
+      "max": 540
+    },
+    "CIR->AND": {
+      "count": 22,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "CIR->BD": {
+      "count": 22,
+      "min": 480,
+      "median": 660,
+      "max": 1320
+    },
+    "CJ->CBB": {
+      "count": 3,
+      "min": 1560,
+      "median": 1560,
+      "max": 1560
+    },
+    "CJ->CRJ": {
+      "count": 3,
+      "min": 1020,
+      "median": 1020,
+      "max": 1020
+    },
+    "CKL->CT": {
+      "count": 7,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "CKL->WLT": {
+      "count": 7,
+      "min": 660,
+      "median": 720,
+      "max": 1020
+    },
+    "CKP->CBR": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "CKP->DWN": {
+      "count": 7,
+      "min": 240,
+      "median": 360,
+      "max": 360
+    },
+    "CKR->LMB": {
+      "count": 7,
+      "min": 360,
+      "median": 360,
+      "max": 780
+    },
+    "CLE->PDL": {
+      "count": 2,
+      "min": 780,
+      "median": 1260,
+      "max": 1260
+    },
+    "CLE->SKT": {
+      "count": 2,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "CLG->KEN": {
+      "count": 7,
+      "min": 420,
+      "median": 480,
+      "max": 480
+    },
+    "CLG->TOJB": {
+      "count": 7,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "CMD->AND": {
+      "count": 58,
+      "min": 120,
+      "median": 120,
+      "max": 240
+    },
+    "CMD->CMI": {
+      "count": 58,
+      "min": 300,
+      "median": 300,
+      "max": 660
+    },
+    "CME->BNW": {
+      "count": 7,
+      "min": 480,
+      "median": 540,
+      "max": 600
+    },
+    "CME->DD": {
+      "count": 6,
+      "min": 720,
+      "median": 780,
+      "max": 780
+    },
+    "CMI->CMD": {
+      "count": 58,
+      "min": 180,
+      "median": 180,
+      "max": 780
+    },
+    "CMI->PDL": {
+      "count": 58,
+      "min": 360,
+      "median": 360,
+      "max": 900
+    },
+    "CPT->CPY": {
+      "count": 3,
+      "min": 1080,
+      "median": 1080,
+      "max": 1080
+    },
+    "CPY->CPT": {
+      "count": 3,
+      "min": 1020,
+      "median": 1020,
+      "max": 1020
+    },
+    "CPY->CRJ": {
+      "count": 3,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "CRB->BBD": {
+      "count": 2,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "CRG->GDS": {
+      "count": 3,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "CRG->LP": {
+      "count": 3,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "CRJ->CJ": {
+      "count": 3,
+      "min": 1140,
+      "median": 1140,
+      "max": 1140
+    },
+    "CRJ->CPY": {
+      "count": 3,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "CT->CKL": {
+      "count": 7,
+      "min": 660,
+      "median": 660,
+      "max": 960
+    },
+    "CT->JBU": {
+      "count": 7,
+      "min": 480,
+      "median": 480,
+      "max": 540
+    },
+    "CU->TBO": {
+      "count": 2,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "DD->CME": {
+      "count": 7,
+      "min": 720,
+      "median": 780,
+      "max": 780
+    },
+    "DD->LMG": {
+      "count": 6,
+      "min": 840,
+      "median": 900,
+      "max": 1980
+    },
+    "DWN->CKP": {
+      "count": 7,
+      "min": 300,
+      "median": 420,
+      "max": 540
+    },
+    "DWN->KOS": {
+      "count": 7,
+      "min": 300,
+      "median": 480,
+      "max": 1500
+    },
+    "GDB->KAC": {
+      "count": 22,
+      "min": 540,
+      "median": 600,
+      "max": 1080
+    },
+    "GDB->RCK": {
+      "count": 22,
+      "min": 780,
+      "median": 840,
+      "max": 1680
+    },
+    "GDG->SDA": {
+      "count": 14,
+      "min": 600,
+      "median": 720,
+      "max": 960
+    },
+    "GDG->WR": {
+      "count": 15,
+      "min": 390,
+      "median": 600,
+      "max": 1080
+    },
+    "GDS->CRG": {
+      "count": 3,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "GDS->SI": {
+      "count": 3,
+      "min": 780,
+      "median": 780,
+      "max": 780
+    },
+    "GEB->BBT": {
+      "count": 6,
+      "min": 420,
+      "median": 480,
+      "max": 510
+    },
+    "GEB->PC": {
+      "count": 7,
+      "min": 480,
+      "median": 480,
+      "max": 1560
+    },
+    "GG->MAG": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "GG->NGW": {
+      "count": 5,
+      "min": 540,
+      "median": 600,
+      "max": 1440
+    },
+    "GI->BYM": {
+      "count": 2,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "GI->RO": {
+      "count": 2,
+      "min": 240,
+      "median": 300,
+      "max": 300
+    },
+    "GLM->KBR": {
+      "count": 2,
+      "min": 660,
+      "median": 1260,
+      "max": 1260
+    },
+    "GLM->SWD": {
+      "count": 2,
+      "min": 540,
+      "median": 660,
+      "max": 660
+    },
+    "GRM->BL": {
+      "count": 5,
+      "min": 540,
+      "median": 1020,
+      "max": 2520
+    },
+    "GRM->TAL": {
+      "count": 5,
+      "min": 720,
+      "median": 720,
+      "max": 960
+    },
+    "GRN->MRW": {
+      "count": 2,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "GRN->SPL": {
+      "count": 2,
+      "min": 240,
+      "median": 240,
+      "max": 240
+    },
+    "GRT->WNR": {
+      "count": 2,
+      "min": 1020,
+      "median": 1020,
+      "max": 1020
+    },
+    "GUB->KGT": {
+      "count": 2,
+      "min": 960,
+      "median": 1020,
+      "max": 1020
+    },
+    "GUB->TGW": {
+      "count": 2,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "IDO->KDA": {
+      "count": 4,
+      "min": 1080,
+      "median": 1140,
+      "max": 1260
+    },
+    "JBU->CT": {
+      "count": 7,
+      "min": 480,
+      "median": 480,
+      "max": 780
+    },
+    "JBU->RK": {
+      "count": 7,
+      "min": 540,
+      "median": 540,
+      "max": 600
+    },
+    "JG->SBO": {
+      "count": 6,
+      "min": 1020,
+      "median": 1020,
+      "max": 1080
+    },
+    "JG->SMB": {
+      "count": 6,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "JN->KTA": {
+      "count": 5,
+      "min": 720,
+      "median": 720,
+      "max": 1140
+    },
+    "JN->WJ": {
+      "count": 5,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "JR->AJ": {
+      "count": 2,
+      "min": 420,
+      "median": 420,
+      "max": 420
+    },
+    "JRK->MKG": {
+      "count": 2,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "JRK->SMC": {
+      "count": 2,
+      "min": 1200,
+      "median": 1560,
+      "max": 1560
+    },
+    "KAC->BD": {
+      "count": 22,
+      "min": 780,
+      "median": 1020,
+      "max": 2760
+    },
+    "KAC->GDB": {
+      "count": 22,
+      "min": 540,
+      "median": 600,
+      "max": 1320
+    },
+    "KBD->KLN": {
+      "count": 2,
+      "min": 780,
+      "median": 900,
+      "max": 900
+    },
+    "KBD->WLR": {
+      "count": 2,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "KBR->GLM": {
+      "count": 2,
+      "min": 660,
+      "median": 780,
+      "max": 780
+    },
+    "KBR->MRW": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "KD->NDL": {
+      "count": 5,
+      "min": 720,
+      "median": 780,
+      "max": 960
+    },
+    "KD->SS": {
+      "count": 5,
+      "min": 300,
+      "median": 300,
+      "max": 840
+    },
+    "KDA->BNW": {
+      "count": 6,
+      "min": 540,
+      "median": 540,
+      "max": 1320
+    },
+    "KDA->IDO": {
+      "count": 4,
+      "min": 960,
+      "median": 960,
+      "max": 960
+    },
+    "KDA->TES": {
+      "count": 11,
+      "min": 420,
+      "median": 480,
+      "max": 540
+    },
+    "KDB->KRO": {
+      "count": 5,
+      "min": 300,
+      "median": 300,
+      "max": 360
+    },
+    "KDB->WK": {
+      "count": 5,
+      "min": 840,
+      "median": 840,
+      "max": 1920
+    },
+    "KDG->WJ": {
+      "count": 5,
+      "min": 420,
+      "median": 420,
+      "max": 1260
+    },
+    "KDG->WT": {
+      "count": 30,
+      "min": 360,
+      "median": 420,
+      "max": 540
+    },
+    "KDG->YIA": {
+      "count": 25,
+      "min": 300,
+      "median": 360,
+      "max": 480
+    },
+    "KDH->KW": {
+      "count": 7,
+      "min": 480,
+      "median": 480,
+      "max": 960
+    },
+    "KDH->LMB": {
+      "count": 7,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "KDO->SLO": {
+      "count": 5,
+      "min": 720,
+      "median": 780,
+      "max": 780
+    },
+    "KDO->SMO": {
+      "count": 5,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "KEN->CLG": {
+      "count": 7,
+      "min": 420,
+      "median": 480,
+      "max": 480
+    },
+    "KEN->MER": {
+      "count": 7,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "KG->NGW": {
+      "count": 5,
+      "min": 720,
+      "median": 720,
+      "max": 1680
+    },
+    "KG->WK": {
+      "count": 5,
+      "min": 720,
+      "median": 720,
+      "max": 1740
+    },
+    "KGT->GUB": {
+      "count": 2,
+      "min": 900,
+      "median": 900,
+      "max": 900
+    },
+    "KGT->SDI": {
+      "count": 2,
+      "min": 780,
+      "median": 840,
+      "max": 840
+    },
+    "KIT->BJ": {
+      "count": 2,
+      "min": 900,
+      "median": 900,
+      "max": 900
+    },
+    "KIT->TBO": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "KLI->KOS": {
+      "count": 7,
+      "min": 360,
+      "median": 840,
+      "max": 1380
+    },
+    "KLI->KW": {
+      "count": 7,
+      "min": 420,
+      "median": 540,
+      "max": 900
+    },
+    "KLN->KBD": {
+      "count": 2,
+      "min": 840,
+      "median": 840,
+      "max": 840
+    },
+    "KLN->MKG": {
+      "count": 2,
+      "min": 480,
+      "median": 600,
+      "max": 600
+    },
+    "KLT->KTK": {
+      "count": 2,
+      "min": 360,
+      "median": 480,
+      "max": 480
+    },
+    "KLT->LDO": {
+      "count": 2,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "KM->WNS": {
+      "count": 1,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "KMR->MSR": {
+      "count": 5,
+      "min": 450,
+      "median": 480,
+      "max": 480
+    },
+    "KMR->PL": {
+      "count": 5,
+      "min": 420,
+      "median": 450,
+      "max": 1110
+    },
+    "KOS->DWN": {
+      "count": 7,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "KOS->KLI": {
+      "count": 7,
+      "min": 180,
+      "median": 840,
+      "max": 900
+    },
+    "KPN->NB": {
+      "count": 5,
+      "min": 600,
+      "median": 600,
+      "max": 660
+    },
+    "KPN->PSI": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 1200
+    },
+    "KPS->BJ": {
+      "count": 3,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "KPS->SRJ": {
+      "count": 3,
+      "min": 660,
+      "median": 720,
+      "max": 900
+    },
+    "KRA->SG": {
+      "count": 7,
+      "min": 660,
+      "median": 720,
+      "max": 1020
+    },
+    "KRA->TOJB": {
+      "count": 7,
+      "min": 480,
+      "median": 540,
+      "max": 540
+    },
+    "KRAI->CB": {
+      "count": 3,
+      "min": 780,
+      "median": 900,
+      "max": 960
+    },
+    "KRAI->LL": {
+      "count": 3,
+      "min": 600,
+      "median": 600,
+      "max": 660
+    },
+    "KRN->SPJ": {
+      "count": 8,
+      "min": 1080,
+      "median": 1320,
+      "max": 2520
+    },
+    "KRN->TRK": {
+      "count": 8,
+      "min": 960,
+      "median": 1020,
+      "max": 2160
+    },
+    "KRO->KDB": {
+      "count": 5,
+      "min": 300,
+      "median": 300,
+      "max": 360
+    },
+    "KRO->SR": {
+      "count": 5,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "KRS->NDL": {
+      "count": 5,
+      "min": 540,
+      "median": 600,
+      "max": 780
+    },
+    "KRS->NJG": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 780
+    },
+    "KSB->PGJ": {
+      "count": 5,
+      "min": 720,
+      "median": 960,
+      "max": 1860
+    },
+    "KSB->WG": {
+      "count": 5,
+      "min": 720,
+      "median": 900,
+      "max": 1140
+    },
+    "KSL->SWD": {
+      "count": 2,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "KSL->TGR": {
+      "count": 2,
+      "min": 720,
+      "median": 1200,
+      "max": 1200
+    },
+    "KTA->BTH": {
+      "count": 1,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "KTA->JN": {
+      "count": 5,
+      "min": 780,
+      "median": 780,
+      "max": 780
+    },
+    "KTG->AGO": {
+      "count": 2,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "KTK->AJ": {
+      "count": 2,
+      "min": 180,
+      "median": 300,
+      "max": 300
+    },
+    "KTK->KLT": {
+      "count": 2,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "KTS->PWA": {
+      "count": 5,
+      "min": 600,
+      "median": 900,
+      "max": 960
+    },
+    "KTS->SMB": {
+      "count": 6,
+      "min": 660,
+      "median": 660,
+      "max": 1620
+    },
+    "KW->KDH": {
+      "count": 7,
+      "min": 480,
+      "median": 540,
+      "max": 1560
+    },
+    "KW->KLI": {
+      "count": 7,
+      "min": 480,
+      "median": 480,
+      "max": 960
+    },
+    "KWN->PRB": {
+      "count": 1,
+      "min": 360,
+      "median": 360,
+      "max": 360
+    },
+    "KWN->WNS": {
+      "count": 1,
+      "min": 240,
+      "median": 240,
+      "max": 240
+    },
+    "LBJ->LL": {
+      "count": 3,
+      "min": 780,
+      "median": 780,
+      "max": 1380
+    },
+    "LBJ->NG": {
+      "count": 3,
+      "min": 720,
+      "median": 1260,
+      "max": 2940
+    },
+    "LDO->KLT": {
+      "count": 2,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "LDO->SPL": {
+      "count": 2,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "LL->KRAI": {
+      "count": 3,
+      "min": 600,
+      "median": 600,
+      "max": 1200
+    },
+    "LL->LBJ": {
+      "count": 3,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "LMB->CKR": {
+      "count": 7,
+      "min": 300,
+      "median": 300,
+      "max": 360
+    },
+    "LMB->KDH": {
+      "count": 7,
+      "min": 600,
+      "median": 600,
+      "max": 1320
+    },
+    "LMG->DD": {
+      "count": 7,
+      "min": 840,
+      "median": 900,
+      "max": 1860
+    },
+    "LMG->SBN": {
+      "count": 6,
+      "min": 420,
+      "median": 480,
+      "max": 480
+    },
+    "LP->CBB": {
+      "count": 3,
+      "min": 1560,
+      "median": 1560,
+      "max": 1560
+    },
+    "LP->CRG": {
+      "count": 3,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "LW->SGS": {
+      "count": 5,
+      "min": 720,
+      "median": 840,
+      "max": 900
+    },
+    "LW->SN": {
+      "count": 5,
+      "min": 660,
+      "median": 660,
+      "max": 720
+    },
+    "MAG->GG": {
+      "count": 5,
+      "min": 480,
+      "median": 480,
+      "max": 540
+    },
+    "MAG->MN": {
+      "count": 5,
+      "min": 720,
+      "median": 720,
+      "max": 960
+    },
+    "MER->KEN": {
+      "count": 7,
+      "min": 840,
+      "median": 840,
+      "max": 840
+    },
+    "MGN->PPR": {
+      "count": 5,
+      "min": 360,
+      "median": 480,
+      "max": 1140
+    },
+    "MGN->SS": {
+      "count": 5,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "MKG->JRK": {
+      "count": 2,
+      "min": 540,
+      "median": 720,
+      "max": 720
+    },
+    "MKG->KLN": {
+      "count": 2,
+      "min": 480,
+      "median": 540,
+      "max": 540
+    },
+    "ML->BMG": {
+      "count": 5,
+      "min": 540,
+      "median": 780,
+      "max": 1020
+    },
+    "ML->MLK": {
+      "count": 5,
+      "min": 480,
+      "median": 480,
+      "max": 840
+    },
+    "MLK->ML": {
+      "count": 5,
+      "min": 360,
+      "median": 780,
+      "max": 1320
+    },
+    "MLK->PSI": {
+      "count": 5,
+      "min": 660,
+      "median": 660,
+      "max": 1140
+    },
+    "MN->BBD": {
+      "count": 2,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "MN->MAG": {
+      "count": 5,
+      "min": 840,
+      "median": 840,
+      "max": 840
+    },
+    "MR->SBO": {
+      "count": 6,
+      "min": 1020,
+      "median": 1020,
+      "max": 2040
+    },
+    "MR->TRK": {
+      "count": 11,
+      "min": 720,
+      "median": 780,
+      "max": 840
+    },
+    "MRW->GRN": {
+      "count": 2,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "MRW->KBR": {
+      "count": 2,
+      "min": 720,
+      "median": 1140,
+      "max": 1140
+    },
+    "MSI->RH": {
+      "count": 2,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "MSI->SKT": {
+      "count": 2,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "MSR->KMR": {
+      "count": 5,
+      "min": 450,
+      "median": 480,
+      "max": 480
+    },
+    "MSR->SR": {
+      "count": 5,
+      "min": 660,
+      "median": 690,
+      "max": 720
+    },
+    "NB->KPN": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 1080
+    },
+    "NB->SBP": {
+      "count": 5,
+      "min": 420,
+      "median": 480,
+      "max": 960
+    },
+    "NBO->SDI": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "NDL->KD": {
+      "count": 5,
+      "min": 660,
+      "median": 720,
+      "max": 780
+    },
+    "NDL->KRS": {
+      "count": 5,
+      "min": 540,
+      "median": 660,
+      "max": 1500
+    },
+    "NG->CCL": {
+      "count": 3,
+      "min": 960,
+      "median": 960,
+      "max": 1020
+    },
+    "NG->LBJ": {
+      "count": 3,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "NGW->GG": {
+      "count": 5,
+      "min": 420,
+      "median": 480,
+      "max": 480
+    },
+    "NGW->KG": {
+      "count": 5,
+      "min": 540,
+      "median": 600,
+      "max": 1800
+    },
+    "NJG->KRS": {
+      "count": 5,
+      "min": 600,
+      "median": 600,
+      "max": 840
+    },
+    "NJG->TA": {
+      "count": 5,
+      "min": 540,
+      "median": 840,
+      "max": 1140
+    },
+    "NT->RJ": {
+      "count": 5,
+      "min": 660,
+      "median": 660,
+      "max": 840
+    },
+    "NT->SBL": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 720
+    },
+    "PB->BYM": {
+      "count": 2,
+      "min": 660,
+      "median": 1080,
+      "max": 1080
+    },
+    "PC->GEB": {
+      "count": 6,
+      "min": 330,
+      "median": 360,
+      "max": 360
+    },
+    "PC->SBN": {
+      "count": 7,
+      "min": 480,
+      "median": 540,
+      "max": 600
+    },
+    "PDL->CLE": {
+      "count": 2,
+      "min": 720,
+      "median": 1080,
+      "max": 1080
+    },
+    "PDL->CMI": {
+      "count": 58,
+      "min": 480,
+      "median": 480,
+      "max": 780
+    },
+    "PGJ->KSB": {
+      "count": 5,
+      "min": 720,
+      "median": 720,
+      "max": 1200
+    },
+    "PGJ->SBP": {
+      "count": 5,
+      "min": 780,
+      "median": 780,
+      "max": 900
+    },
+    "PL->KMR": {
+      "count": 5,
+      "min": 300,
+      "median": 360,
+      "max": 360
+    },
+    "PL->SK": {
+      "count": 5,
+      "min": 540,
+      "median": 540,
+      "max": 1140
+    },
+    "PLD->CD": {
+      "count": 2,
+      "min": 1080,
+      "median": 1080,
+      "max": 1080
+    },
+    "PLD->SUT": {
+      "count": 2,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "PNT->SKH": {
+      "count": 4,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "PNT->WNG": {
+      "count": 4,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "PPR->MGN": {
+      "count": 5,
+      "min": 240,
+      "median": 240,
+      "max": 300
+    },
+    "PPR->PWA": {
+      "count": 5,
+      "min": 540,
+      "median": 600,
+      "max": 1080
+    },
+    "PR->BG": {
+      "count": 9,
+      "min": 840,
+      "median": 1020,
+      "max": 1440
+    },
+    "PR->TGA": {
+      "count": 9,
+      "min": 180,
+      "median": 480,
+      "max": 840
+    },
+    "PRB->BTH": {
+      "count": 1,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "PRB->KWN": {
+      "count": 1,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "PS->BG": {
+      "count": 4,
+      "min": 1020,
+      "median": 1020,
+      "max": 1620
+    },
+    "PS->RO": {
+      "count": 2,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "PSI->KPN": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 2100
+    },
+    "PSI->MLK": {
+      "count": 5,
+      "min": 720,
+      "median": 780,
+      "max": 960
+    },
+    "PSJ->CB": {
+      "count": 2,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "PSJ->WNR": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "PTN->RWL": {
+      "count": 30,
+      "min": 180,
+      "median": 210,
+      "max": 240
+    },
+    "PTN->YK": {
+      "count": 30,
+      "min": 270,
+      "median": 300,
+      "max": 300
+    },
+    "PWA->KTS": {
+      "count": 5,
+      "min": 480,
+      "median": 480,
+      "max": 540
+    },
+    "PWA->PPR": {
+      "count": 5,
+      "min": 540,
+      "median": 600,
+      "max": 780
+    },
+    "PWK->CA": {
+      "count": 2,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "PWK->CBR": {
+      "count": 5,
+      "min": 780,
+      "median": 780,
+      "max": 900
+    },
+    "PWS->STA": {
+      "count": 4,
+      "min": 1200,
+      "median": 1200,
+      "max": 1200
+    },
+    "RCK->CCL": {
+      "count": 22,
+      "min": 780,
+      "median": 900,
+      "max": 2460
+    },
+    "RCK->GDB": {
+      "count": 22,
+      "min": 780,
+      "median": 840,
+      "max": 960
+    },
+    "RGP->BWI": {
+      "count": 2,
+      "min": 840,
+      "median": 840,
+      "max": 840
+    },
+    "RGP->SGJ": {
+      "count": 2,
+      "min": 420,
+      "median": 420,
+      "max": 420
+    },
+    "RH->CD": {
+      "count": 2,
+      "min": 480,
+      "median": 540,
+      "max": 540
+    },
+    "RH->MSI": {
+      "count": 2,
+      "min": 540,
+      "median": 960,
+      "max": 960
+    },
+    "RJ->BL": {
+      "count": 5,
+      "min": 780,
+      "median": 1080,
+      "max": 1740
+    },
+    "RJ->NT": {
+      "count": 5,
+      "min": 600,
+      "median": 600,
+      "max": 1500
+    },
+    "RK->JBU": {
+      "count": 7,
+      "min": 660,
+      "median": 660,
+      "max": 720
+    },
+    "RO->GI": {
+      "count": 2,
+      "min": 240,
+      "median": 240,
+      "max": 240
+    },
+    "RO->PS": {
+      "count": 2,
+      "min": 600,
+      "median": 720,
+      "max": 720
+    },
+    "RWL->PTN": {
+      "count": 30,
+      "min": 180,
+      "median": 210,
+      "max": 240
+    },
+    "RWL->STL": {
+      "count": 30,
+      "min": 390,
+      "median": 450,
+      "max": 450
+    },
+    "SB->SGU": {
+      "count": 22,
+      "min": 600,
+      "median": 660,
+      "max": 1140
+    },
+    "SB->STM": {
+      "count": 8,
+      "min": 180,
+      "median": 180,
+      "max": 180
+    },
+    "SBI->STM": {
+      "count": 7,
+      "min": 180,
+      "median": 240,
+      "max": 240
+    },
+    "SBI->TES": {
+      "count": 10,
+      "min": 540,
+      "median": 600,
+      "max": 660
+    },
+    "SBL->NT": {
+      "count": 5,
+      "min": 600,
+      "median": 660,
+      "max": 2220
+    },
+    "SBL->TA": {
+      "count": 5,
+      "min": 540,
+      "median": 660,
+      "max": 1500
+    },
+    "SBN->LMG": {
+      "count": 7,
+      "min": 540,
+      "median": 540,
+      "max": 660
+    },
+    "SBN->PC": {
+      "count": 6,
+      "min": 660,
+      "median": 720,
+      "max": 1500
+    },
+    "SBO->JG": {
+      "count": 6,
+      "min": 960,
+      "median": 1020,
+      "max": 1140
+    },
+    "SBO->MR": {
+      "count": 6,
+      "min": 1020,
+      "median": 1080,
+      "max": 1140
+    },
+    "SBP->NB": {
+      "count": 5,
+      "min": 420,
+      "median": 480,
+      "max": 540
+    },
+    "SBP->PGJ": {
+      "count": 5,
+      "min": 780,
+      "median": 780,
+      "max": 1500
+    },
+    "SDA->GDG": {
+      "count": 15,
+      "min": 450,
+      "median": 720,
+      "max": 1380
+    },
+    "SDA->TGA": {
+      "count": 9,
+      "min": 360,
+      "median": 540,
+      "max": 600
+    },
+    "SDA->TLN": {
+      "count": 2,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "SDI->KGT": {
+      "count": 2,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "SDI->NBO": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "SG->KRA": {
+      "count": 7,
+      "min": 720,
+      "median": 720,
+      "max": 780
+    },
+    "SG->WLT": {
+      "count": 7,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "SGJ->RGP": {
+      "count": 2,
+      "min": 840,
+      "median": 900,
+      "max": 900
+    },
+    "SGJ->TGR": {
+      "count": 2,
+      "min": 420,
+      "median": 900,
+      "max": 900
+    },
+    "SGS->BMG": {
+      "count": 5,
+      "min": 600,
+      "median": 720,
+      "max": 1260
+    },
+    "SGS->LW": {
+      "count": 5,
+      "min": 720,
+      "median": 720,
+      "max": 1320
+    },
+    "SGU->SB": {
+      "count": 23,
+      "min": 420,
+      "median": 480,
+      "max": 540
+    },
+    "SGU->WO": {
+      "count": 22,
+      "min": 360,
+      "median": 600,
+      "max": 1020
+    },
+    "SI->GDS": {
+      "count": 3,
+      "min": 840,
+      "median": 840,
+      "max": 840
+    },
+    "SK->PL": {
+      "count": 5,
+      "min": 480,
+      "median": 480,
+      "max": 540
+    },
+    "SK->SLO": {
+      "count": 5,
+      "min": 600,
+      "median": 600,
+      "max": 780
+    },
+    "SKH->PNT": {
+      "count": 4,
+      "min": 720,
+      "median": 720,
+      "max": 720
+    },
+    "SKH->STA": {
+      "count": 4,
+      "min": 960,
+      "median": 960,
+      "max": 960
+    },
+    "SKJ->SN": {
+      "count": 5,
+      "min": 300,
+      "median": 300,
+      "max": 360
+    },
+    "SKJ->WN": {
+      "count": 5,
+      "min": 480,
+      "median": 480,
+      "max": 540
+    },
+    "SKT->CLE": {
+      "count": 2,
+      "min": 780,
+      "median": 1020,
+      "max": 1020
+    },
+    "SKT->MSI": {
+      "count": 2,
+      "min": 540,
+      "median": 840,
+      "max": 840
+    },
+    "SLO->KDO": {
+      "count": 5,
+      "min": 480,
+      "median": 540,
+      "max": 540
+    },
+    "SLO->SK": {
+      "count": 5,
+      "min": 360,
+      "median": 360,
+      "max": 900
+    },
+    "SMB->JG": {
+      "count": 6,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "SMB->KTS": {
+      "count": 6,
+      "min": 540,
+      "median": 540,
+      "max": 600
+    },
+    "SMC->JRK": {
+      "count": 2,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "SMC->SMT": {
+      "count": 2,
+      "min": 900,
+      "median": 1680,
+      "max": 1680
+    },
+    "SMO->KDO": {
+      "count": 5,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "SMT->ATA": {
+      "count": 2,
+      "min": 840,
+      "median": 1680,
+      "max": 1680
+    },
+    "SMT->SMC": {
+      "count": 2,
+      "min": 1860,
+      "median": 2160,
+      "max": 2160
+    },
+    "SN->LW": {
+      "count": 5,
+      "min": 900,
+      "median": 1020,
+      "max": 1080
+    },
+    "SN->SKJ": {
+      "count": 5,
+      "min": 240,
+      "median": 300,
+      "max": 300
+    },
+    "SPJ->KRN": {
+      "count": 8,
+      "min": 1080,
+      "median": 1200,
+      "max": 1200
+    },
+    "SPJ->WO": {
+      "count": 8,
+      "min": 600,
+      "median": 720,
+      "max": 1560
+    },
+    "SPL->GRN": {
+      "count": 2,
+      "min": 240,
+      "median": 300,
+      "max": 300
+    },
+    "SPL->LDO": {
+      "count": 2,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "SR->KRO": {
+      "count": 5,
+      "min": 360,
+      "median": 420,
+      "max": 420
+    },
+    "SR->MSR": {
+      "count": 5,
+      "min": 540,
+      "median": 540,
+      "max": 540
+    },
+    "SRJ->BWO": {
+      "count": 3,
+      "min": 840,
+      "median": 840,
+      "max": 900
+    },
+    "SRJ->KPS": {
+      "count": 3,
+      "min": 660,
+      "median": 660,
+      "max": 720
+    },
+    "SS->KD": {
+      "count": 5,
+      "min": 420,
+      "median": 900,
+      "max": 1680
+    },
+    "SS->MGN": {
+      "count": 5,
+      "min": 300,
+      "median": 360,
+      "max": 1200
+    },
+    "STA->PWS": {
+      "count": 4,
+      "min": 1140,
+      "median": 1140,
+      "max": 1140
+    },
+    "STA->SKH": {
+      "count": 4,
+      "min": 960,
+      "median": 960,
+      "max": 960
+    },
+    "STL->RWL": {
+      "count": 30,
+      "min": 390,
+      "median": 450,
+      "max": 480
+    },
+    "STL->WT": {
+      "count": 30,
+      "min": 540,
+      "median": 660,
+      "max": 720
+    },
+    "STM->SB": {
+      "count": 7,
+      "min": 180,
+      "median": 180,
+      "max": 180
+    },
+    "STM->SBI": {
+      "count": 8,
+      "min": 240,
+      "median": 240,
+      "max": 300
+    },
+    "SUT->CA": {
+      "count": 2,
+      "min": 720,
+      "median": 780,
+      "max": 780
+    },
+    "SUT->PLD": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "SWD->GLM": {
+      "count": 2,
+      "min": 540,
+      "median": 720,
+      "max": 720
+    },
+    "SWD->KSL": {
+      "count": 2,
+      "min": 600,
+      "median": 960,
+      "max": 960
+    },
+    "TA->NJG": {
+      "count": 5,
+      "min": 540,
+      "median": 780,
+      "max": 1020
+    },
+    "TA->SBL": {
+      "count": 5,
+      "min": 480,
+      "median": 540,
+      "max": 660
+    },
+    "TAL->GRM": {
+      "count": 5,
+      "min": 660,
+      "median": 720,
+      "max": 1080
+    },
+    "TAL->WG": {
+      "count": 5,
+      "min": 540,
+      "median": 540,
+      "max": 600
+    },
+    "TBO->CU": {
+      "count": 2,
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "TBO->KIT": {
+      "count": 2,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "TES->KDA": {
+      "count": 10,
+      "min": 420,
+      "median": 480,
+      "max": 540
+    },
+    "TES->SBI": {
+      "count": 11,
+      "min": 420,
+      "median": 480,
+      "max": 480
+    },
+    "TGA->PR": {
+      "count": 9,
+      "min": 180,
+      "median": 540,
+      "max": 900
+    },
+    "TGA->SDA": {
+      "count": 9,
+      "min": 450,
+      "median": 660,
+      "max": 840
+    },
+    "TGR->KSL": {
+      "count": 2,
+      "min": 840,
+      "median": 1080,
+      "max": 1080
+    },
+    "TGR->SGJ": {
+      "count": 2,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "TGW->BBG": {
+      "count": 2,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "TGW->GUB": {
+      "count": 2,
+      "min": 660,
+      "median": 720,
+      "max": 720
+    },
+    "TLN->SDA": {
+      "count": 3,
+      "min": 720,
+      "median": 780,
+      "max": 1200
+    },
+    "TLN->TRK": {
+      "count": 2,
+      "min": 1020,
+      "median": 1440,
+      "max": 1440
+    },
+    "TOJB->CLG": {
+      "count": 7,
+      "min": 660,
+      "median": 660,
+      "max": 660
+    },
+    "TOJB->KRA": {
+      "count": 7,
+      "min": 540,
+      "median": 540,
+      "max": 840
+    },
+    "TRK->KRN": {
+      "count": 8,
+      "min": 900,
+      "median": 960,
+      "max": 1020
+    },
+    "TRK->MR": {
+      "count": 10,
+      "min": 660,
+      "median": 720,
+      "max": 840
+    },
+    "TRK->TLN": {
+      "count": 3,
+      "min": 960,
+      "median": 1020,
+      "max": 1080
+    },
+    "WG->KSB": {
+      "count": 5,
+      "min": 720,
+      "median": 780,
+      "max": 1080
+    },
+    "WG->TAL": {
+      "count": 5,
+      "min": 480,
+      "median": 480,
+      "max": 540
+    },
+    "WJ->JN": {
+      "count": 5,
+      "min": 600,
+      "median": 600,
+      "max": 600
+    },
+    "WJ->KDG": {
+      "count": 5,
+      "min": 360,
+      "median": 360,
+      "max": 360
+    },
+    "WK->KDB": {
+      "count": 5,
+      "min": 660,
+      "median": 720,
+      "max": 1620
+    },
+    "WK->KG": {
+      "count": 5,
+      "min": 540,
+      "median": 540,
+      "max": 1860
+    },
+    "WLR->KBD": {
+      "count": 2,
+      "min": 720,
+      "median": 780,
+      "max": 780
+    },
+    "WLT->CKL": {
+      "count": 7,
+      "min": 720,
+      "median": 720,
+      "max": 840
+    },
+    "WLT->SG": {
+      "count": 7,
+      "min": 660,
+      "median": 660,
+      "max": 1020
+    },
+    "WN->BG": {
+      "count": 5,
+      "min": 720,
+      "median": 780,
+      "max": 900
+    },
+    "WN->SKJ": {
+      "count": 5,
+      "min": 480,
+      "median": 540,
+      "max": 600
+    },
+    "WNG->PNT": {
+      "count": 4,
+      "min": 780,
+      "median": 780,
+      "max": 780
+    },
+    "WNR->GRT": {
+      "count": 2,
+      "min": 900,
+      "median": 900,
+      "max": 900
+    },
+    "WNR->PSJ": {
+      "count": 2,
+      "min": 600,
+      "median": 660,
+      "max": 660
+    },
+    "WNS->KM": {
+      "count": 1,
+      "min": 300,
+      "median": 300,
+      "max": 300
+    },
+    "WNS->KWN": {
+      "count": 1,
+      "min": 420,
+      "median": 420,
+      "max": 420
+    },
+    "WO->SGU": {
+      "count": 23,
+      "min": 480,
+      "median": 600,
+      "max": 1020
+    },
+    "WO->SPJ": {
+      "count": 8,
+      "min": 600,
+      "median": 660,
+      "max": 1740
+    },
+    "WO->WR": {
+      "count": 14,
+      "min": 480,
+      "median": 720,
+      "max": 960
+    },
+    "WR->GDG": {
+      "count": 14,
+      "min": 300,
+      "median": 540,
+      "max": 1200
+    },
+    "WR->WO": {
+      "count": 15,
+      "min": 540,
+      "median": 660,
+      "max": 1320
+    },
+    "WT->KDG": {
+      "count": 30,
+      "min": 360,
+      "median": 360,
+      "max": 480
+    },
+    "WT->STL": {
+      "count": 30,
+      "min": 540,
+      "median": 600,
+      "max": 600
+    },
+    "YIA->KDG": {
+      "count": 25,
+      "min": 360,
+      "median": 360,
+      "max": 420
+    },
+    "YK->PTN": {
+      "count": 30,
+      "min": 240,
+      "median": 300,
+      "max": 300
+    }
+  }
+}

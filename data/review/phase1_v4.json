@@ -1,0 +1,108 @@
+{
+  "rule": "V4",
+  "description": "parsed trains vs index and Relasi headers (list only, never resolved)",
+  "index_has_page_column": true,
+  "index_numbers": 303,
+  "table_numbers": 319,
+  "in_both": 303,
+  "in_index_not_in_tables": [],
+  "in_tables_not_in_index": [
+    "141F",
+    "142F",
+    "215F",
+    "216F",
+    "217F",
+    "218F",
+    "219F",
+    "220F",
+    "233",
+    "234",
+    "235",
+    "285",
+    "42",
+    "43",
+    "82",
+    "83"
+  ],
+  "page_mismatches": [
+    {
+      "train_no": "189",
+      "index_mapped_pdf_page": 438,
+      "parsed_pdf_page": 439,
+      "delta": 1
+    },
+    {
+      "train_no": "190",
+      "index_mapped_pdf_page": 440,
+      "parsed_pdf_page": 441,
+      "delta": 1
+    },
+    {
+      "train_no": "191",
+      "index_mapped_pdf_page": 443,
+      "parsed_pdf_page": 444,
+      "delta": 1
+    },
+    {
+      "train_no": "195",
+      "index_mapped_pdf_page": 453,
+      "parsed_pdf_page": 454,
+      "delta": 1
+    },
+    {
+      "train_no": "213",
+      "index_mapped_pdf_page": 489,
+      "parsed_pdf_page": 488,
+      "delta": -1
+    },
+    {
+      "train_no": "268",
+      "index_mapped_pdf_page": 537,
+      "parsed_pdf_page": 535,
+      "delta": -2
+    },
+    {
+      "train_no": "269",
+      "index_mapped_pdf_page": 537,
+      "parsed_pdf_page": 535,
+      "delta": -2
+    },
+    {
+      "train_no": "303",
+      "index_mapped_pdf_page": 599,
+      "parsed_pdf_page": 600,
+      "delta": 1
+    },
+    {
+      "train_no": "304",
+      "index_mapped_pdf_page": 600,
+      "parsed_pdf_page": 601,
+      "delta": 1
+    },
+    {
+      "train_no": "305",
+      "index_mapped_pdf_page": 602,
+      "parsed_pdf_page": 603,
+      "delta": 1
+    },
+    {
+      "train_no": "306",
+      "index_mapped_pdf_page": 604,
+      "parsed_pdf_page": 605,
+      "delta": 1
+    },
+    {
+      "train_no": "307",
+      "index_mapped_pdf_page": 608,
+      "parsed_pdf_page": 609,
+      "delta": 1
+    },
+    {
+      "train_no": "308",
+      "index_mapped_pdf_page": 610,
+      "parsed_pdf_page": 611,
+      "delta": 1
+    }
+  ],
+  "page_mismatch_count": 13
+}
