@@ -2,6 +2,10 @@
 data/input/
 *.pdf
 
+# Phase 1 raw layer and generated review artefacts: derived, never committed.
+data/raw/words/
+data/review/pilot_*.png
+
 # --- Python ---
 .venv/
 __pycache__/

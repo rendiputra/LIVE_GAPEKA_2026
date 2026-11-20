@@ -8,13 +8,11 @@ setup: ## install dependencies
 inventory: ## classify PDF pages -> data/raw/inventory.json + docs/inventory_report.md
 	uv run python -m pipeline.inventory --pdf $(PDF)
 
-extract: ## PDF -> raw
-	@echo "not implemented yet (Phase 1)"
-	@exit 0
+extract: ## PDF -> raw words (append-only)
+	uv run python -m pipeline.extract_words --pdf $(PDF)
 
-parse: ## raw -> parsed
-	@echo "not implemented yet (Phase 1)"
-	@exit 0
+parse: ## raw -> parsed (index + pilot tables + V1-V3)
+	uv run python -m pipeline.parse_pilot --pdf $(PDF)
 
 validate: ## run all validators; fail on any violation
 	@echo "not implemented yet (Phase 2) -- failing closed on purpose"

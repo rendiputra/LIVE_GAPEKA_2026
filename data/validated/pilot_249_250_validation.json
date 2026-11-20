@@ -1,0 +1,36 @@
+{
+  "verified_by_human": false,
+  "rules": [
+    {
+      "rule": "V1",
+      "description": "times within a trip are monotonically increasing",
+      "checked": 69,
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "rule": "V2",
+      "description": "inter-station travel time within sane bounds",
+      "checked": 65,
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "rule": "V3",
+      "description": "every station_code exists in the stations table",
+      "checked": 69,
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    }
+  ],
+  "needs_review": [
+    {
+      "train_no": "250",
+      "reason": "continued_on_page_522_from_seq_16"
+    }
+  ],
+  "all_rules_pass": true
+}
