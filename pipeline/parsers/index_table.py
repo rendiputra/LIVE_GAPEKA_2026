@@ -73,13 +73,20 @@ def _rows(words: list[Word], tolerance: float = 3.0) -> list[list[Word]]:
 
     anchors = sorted(seq_tokens, key=lambda w: (w.y0, w.x0))
     rows: list[list[Word]] = []
+
+    # Row bands are delimited by the midpoints between consecutive sequence
+    # anchors, not by the anchors themselves. A wrapped relation line can sit
+    # *above* its sequence number (e.g. "SLO-TG-SLO-" then "SMT" one line down),
+    # and an anchor-anchored band would drop that first line.
+    boundaries: list[float] = []
     for index, anchor in enumerate(anchors):
-        top = anchor.y0 - 2
-        bottom = (
-            anchors[index + 1].y0 - 2
-            if index + 1 < len(anchors)
-            else max((w.y1 for w in body), default=anchor.y1) + 1
-        )
+        top = (anchors[index - 1].y0 + anchor.y0) / 2 if index > 0 else anchor.y0 - 8
+        boundaries.append(top)
+    body_bottom = max((w.y1 for w in body), default=anchors[-1].y1) + 1
+
+    for index in range(len(anchors)):
+        top = boundaries[index]
+        bottom = boundaries[index + 1] if index + 1 < len(boundaries) else body_bottom
         row = [w for w in body if top <= w.y0 < bottom]
         rows.append(sorted(row, key=lambda w: (w.y0, w.x0)))
     return rows
@@ -114,28 +121,43 @@ CLASS_WORDS = {
 
 
 def _bands(row: list[Word]) -> dict[str, list[Word]]:
-    """Split a row into semantic bands using x-position, not keyword order."""
+    """Split a row into semantic bands.
+
+    Position alone is brittle at band edges (a relation starting one point left of
+    the boundary lands in the class band). So position is used only for the two
+    unambiguous left columns, and the rest is split by **content shape**: a
+    relation is ``AAA-BBB`` style, a time is ``HH:MM``, and a page is a bare
+    integer at the right edge. This stays deterministic and does not depend on
+    guessed pixel offsets.
+    """
     if not row:
         return {}
-    seq_word = row[0]
-    # Relative offsets calibrated on the index pages; the seq token's left edge
-    # is the anchor so the bands stay correct if the page margin shifts.
-    base = seq_word.x0
-    limits = {
-        "seq": (base - 5, base + 25),
-        "train_no": (base + 30, base + 65),
-        "classname": (base + 68, base + 285),
-        "relation": (base + 285, base + 335),
-        "depart": (base + 335, base + 370),
-        "arrive": (base + 370, base + 410),
-        "printed_page": (base + 410, base + 500),
-    }
+
     bands: dict[str, list[Word]] = {}
+    seq_word = row[0]
+    base = seq_word.x0
+
     for word in row:
-        for name, (x0, x1) in limits.items():
-            if x0 <= word.x0 < x1:
-                bands.setdefault(name, []).append(word)
-                break
+        text = word.text.strip()
+        if word is seq_word:
+            bands.setdefault("seq", []).append(word)
+            continue
+        if base + 25 <= word.x0 < base + 70 and TRAIN_NO_RE.match(text):
+            bands.setdefault("train_no", []).append(word)
+            continue
+        if TIME_RE.match(text):
+            # First time is departure, second is arrival.
+            key = "depart" if "depart" not in bands else "arrive"
+            bands.setdefault(key, []).append(word)
+            continue
+        if word.x0 > base + 400 and text.isdigit():
+            bands.setdefault("printed_page", []).append(word)
+            continue
+        if RELATION_RE.match(text):
+            bands.setdefault("relation", []).append(word)
+            continue
+        bands.setdefault("classname", []).append(word)
+
     return bands
 
 
@@ -173,7 +195,9 @@ def parse_index_row(row: list[Word], page: int) -> IndexEntry | None:
     relation = None
     relation_words = bands.get("relation", [])
     if relation_words:
-        relation = "".join(w.text for w in relation_words).strip()
+        joined = "".join(w.text for w in relation_words).strip()
+        if RELATION_RE.match(joined):
+            relation = joined
 
     depart = first_text("depart", TIME_RE)
     arrive = first_text("arrive", TIME_RE)

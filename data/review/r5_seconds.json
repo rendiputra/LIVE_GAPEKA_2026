@@ -1,0 +1,49 @@
+{
+  "pilot_trains": {
+    "time_values": 129,
+    "with_non_zero_seconds": 1,
+    "non_zero_examples": [
+      {
+        "train_no": "260F",
+        "seq": 10,
+        "station": "GPK",
+        "value": "23:24:30"
+      }
+    ],
+    "all_seconds_zero": false
+  },
+  "per_section_raw": {
+    "cover": {
+      "total": 0,
+      "non_zero": 0
+    },
+    "stringline": {
+      "total": 0,
+      "non_zero": 0
+    },
+    "intercity": {
+      "total": 25558,
+      "non_zero": 788
+    },
+    "krl": {
+      "total": 18183,
+      "non_zero": 0
+    },
+    "freight": {
+      "total": 4909,
+      "non_zero": 77
+    },
+    "rolling_stock": {
+      "total": 0,
+      "non_zero": 0
+    },
+    "summary": {
+      "total": 0,
+      "non_zero": 0
+    },
+    "annex": {
+      "total": 0,
+      "non_zero": 0
+    }
+  }
+}

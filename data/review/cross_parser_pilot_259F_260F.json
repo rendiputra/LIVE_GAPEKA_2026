@@ -1,0 +1,120 @@
+{
+  "tools": {
+    "pdftotext": true,
+    "pdfplumber": true
+  },
+  "pages": {
+    "528": {
+      "our_station_codes": [
+        "SLO",
+        "KDO",
+        "KO",
+        "SLM",
+        "SUM",
+        "GPK",
+        "GD",
+        "KSO",
+        "TW",
+        "PDS",
+        "KEJ",
+        "TGG",
+        "BBG",
+        "ATA",
+        "SMT",
+        "SMT",
+        "ATA",
+        "BBG",
+        "TGG",
+        "KEJ",
+        "PDS",
+        "TW",
+        "KSO",
+        "GD",
+        "GPK",
+        "SUM",
+        "SLM",
+        "KO",
+        "KDO",
+        "SLO"
+      ],
+      "our_time_cells": [
+        "00:05:00",
+        "00:13:00",
+        "18:15:00",
+        "18:22:00",
+        "18:29:00",
+        "18:37:00",
+        "18:39:00",
+        "18:49:00",
+        "18:56:00",
+        "19:03:00",
+        "19:06:00",
+        "19:16:00",
+        "19:25:00",
+        "19:29:00",
+        "19:40:00",
+        "19:44:00",
+        "19:53:00",
+        "20:04:00",
+        "20:06:00",
+        "20:14:00",
+        "20:23:00",
+        "22:05:00",
+        "22:13:00",
+        "22:20:00",
+        "22:22:00",
+        "22:33:00",
+        "22:42:00",
+        "22:45:00",
+        "22:56:00",
+        "22:58:00",
+        "23:07:00",
+        "23:17:00",
+        "23:19:00",
+        "23:24:30",
+        "23:32:00",
+        "23:38:00",
+        "23:49:00",
+        "23:51:00",
+        "23:59:00"
+      ]
+    }
+  },
+  "differences": [],
+  "note": "Both pdfplumber's table strategy and our parser use the page's ruling lines. Shared systematic errors are therefore still possible; these checks catch drift between implementations, not a wrong reading of a rule line.",
+  "pdfplumber": {
+    "528": {
+      "status": "RAN",
+      "time_cells": 39,
+      "our_time_cells": 39,
+      "only_in_ours": [],
+      "only_in_pdfplumber": [],
+      "match": true
+    }
+  },
+  "pdftotext": {
+    "528": {
+      "status": "RAN",
+      "station_codes": [
+        "ATA",
+        "BBG",
+        "GD",
+        "GPK",
+        "KDO",
+        "KEJ",
+        "KO",
+        "KSO",
+        "PDS",
+        "SLM",
+        "SLO",
+        "SMT",
+        "SUM",
+        "TGG",
+        "TW"
+      ],
+      "only_in_ours": [],
+      "only_in_pdftotext": [],
+      "match": true
+    }
+  }
+}

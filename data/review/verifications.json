@@ -1,0 +1,24 @@
+{
+  "records": [
+    {
+      "verifier": "human",
+      "date": "2026-11-20",
+      "method": "visual comparison of review HTML against PDF pages",
+      "scope": {
+        "pages": [
+          521,
+          522
+        ],
+        "trains": [
+          "249",
+          "250",
+          "251",
+          "252"
+        ],
+        "ka252_note": "only the rows of KA 252 that appear on pages 521-522"
+      },
+      "artefact": "data/review/pilot_249_250.html",
+      "result": "accepted"
+    }
+  ]
+}

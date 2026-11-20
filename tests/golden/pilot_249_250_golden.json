@@ -1,0 +1,4543 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-20",
+  "method": "visual comparison of data/review/pilot_249_250.html against PDF pages 521-522",
+  "scope": {
+    "pages": [
+      521,
+      522
+    ],
+    "trains": [
+      "249",
+      "250",
+      "251",
+      "252"
+    ],
+    "note": "KA 252 is covered ONLY for the rows that appear on PDF pages 521-522. Its table continues past page 522 and those rows are not verified here."
+  },
+  "footnote_patterns": [
+    {
+      "text": "// ka 2537F JJ (ka 2537F JJ =)",
+      "count": 1
+    },
+    {
+      "text": "= ka 118 (ka 118 //)",
+      "count": 1
+    },
+    {
+      "text": "= ka 46 (ka 46 //)",
+      "count": 1
+    }
+  ],
+  "trains": [
+    {
+      "train_no": "249",
+      "name": "Kaligung",
+      "origin": "SMC",
+      "destination": "BB",
+      "page": 521,
+      "header_y": 103.75,
+      "column_source": "ruling",
+      "completeness": "complete",
+      "loaded_pages": [
+        521
+      ],
+      "stops": [
+        {
+          "seq": 1,
+          "station_name": "Semarang Poncol",
+          "station_code": "SMC",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              130.88,
+              242.15,
+              144.22
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "-",
+            "page": 521,
+            "bbox": [
+              283.63,
+              130.88,
+              286.96,
+              144.22
+            ]
+          },
+          "depart": {
+            "value": "08:40:00",
+            "raw": "08:40:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              130.88,
+              349.11,
+              144.22
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              130.88,
+              62.21,
+              144.22
+            ],
+            "station_bbox": [
+              72.42,
+              130.88,
+              172.97,
+              144.22
+            ],
+            "row_y": 137.55
+          }
+        },
+        {
+          "seq": 2,
+          "station_name": "Jerakah",
+          "station_code": "JRK",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              146.46,
+              242.15,
+              159.8
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              146.46,
+              290.29,
+              159.8
+            ]
+          },
+          "depart": {
+            "value": "08:47:00",
+            "raw": "08:47:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              146.46,
+              349.11,
+              159.8
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              146.46,
+              62.21,
+              159.8
+            ],
+            "station_bbox": [
+              72.42,
+              146.46,
+              129.9,
+              159.8
+            ],
+            "row_y": 153.13
+          }
+        },
+        {
+          "seq": 3,
+          "station_name": "Mangkang",
+          "station_code": "MKG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              162.04,
+              242.15,
+              175.38
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              162.04,
+              290.29,
+              175.38
+            ]
+          },
+          "depart": {
+            "value": "08:52:00",
+            "raw": "08:52:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              162.04,
+              349.11,
+              175.38
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              162.04,
+              62.21,
+              175.38
+            ],
+            "station_bbox": [
+              72.42,
+              162.04,
+              147.68,
+              175.38
+            ],
+            "row_y": 168.71
+          }
+        },
+        {
+          "seq": 4,
+          "station_name": "Kaliwungu",
+          "station_code": "KLN",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              177.62,
+              242.15,
+              190.96
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              177.62,
+              290.29,
+              190.96
+            ]
+          },
+          "depart": {
+            "value": "08:56:00",
+            "raw": "08:56:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              177.62,
+              349.11,
+              190.96
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              177.62,
+              62.21,
+              190.96
+            ],
+            "station_bbox": [
+              72.42,
+              177.62,
+              146.57,
+              190.96
+            ],
+            "row_y": 184.29
+          }
+        },
+        {
+          "seq": 5,
+          "station_name": "Kalibodri",
+          "station_code": "KBD",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              193.2,
+              242.15,
+              206.54
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              193.2,
+              290.29,
+              206.54
+            ]
+          },
+          "depart": {
+            "value": "09:04:00",
+            "raw": "09:04:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              193.2,
+              349.11,
+              206.54
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              193.2,
+              62.21,
+              206.54
+            ],
+            "station_bbox": [
+              72.42,
+              193.2,
+              141.02,
+              206.54
+            ],
+            "row_y": 199.87
+          }
+        },
+        {
+          "seq": 6,
+          "station_name": "Weleri",
+          "station_code": "WLR",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              208.78,
+              242.15,
+              222.12
+            ]
+          },
+          "arrive": {
+            "value": "09:11:00",
+            "raw": "09:11:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              208.78,
+              303.07,
+              222.12
+            ]
+          },
+          "depart": {
+            "value": "09:13:00",
+            "raw": "09:13:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              208.78,
+              349.11,
+              222.12
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              208.78,
+              62.21,
+              222.12
+            ],
+            "station_bbox": [
+              72.42,
+              208.78,
+              131.01,
+              222.12
+            ],
+            "row_y": 215.45
+          }
+        },
+        {
+          "seq": 7,
+          "station_name": "Krengseng",
+          "station_code": "KNS",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              224.36,
+              242.15,
+              237.7
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              224.36,
+              290.29,
+              237.7
+            ]
+          },
+          "depart": {
+            "value": "09:18:00",
+            "raw": "09:18:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              224.36,
+              349.11,
+              237.7
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              224.36,
+              62.21,
+              237.7
+            ],
+            "station_bbox": [
+              72.42,
+              224.36,
+              144.9,
+              237.7
+            ],
+            "row_y": 231.03
+          }
+        },
+        {
+          "seq": 8,
+          "station_name": "Plabuan",
+          "station_code": "PLB",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              239.94,
+              242.15,
+              253.28
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              239.94,
+              290.29,
+              253.28
+            ]
+          },
+          "depart": {
+            "value": "09:25:00",
+            "raw": "09:25:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              239.94,
+              349.11,
+              253.28
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              239.94,
+              62.21,
+              253.28
+            ],
+            "station_bbox": [
+              72.42,
+              239.94,
+              132.14,
+              253.28
+            ],
+            "row_y": 246.61
+          }
+        },
+        {
+          "seq": 9,
+          "station_name": "Kuripan",
+          "station_code": "KRP",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              255.52,
+              242.15,
+              268.86
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              255.52,
+              290.29,
+              268.86
+            ]
+          },
+          "depart": {
+            "value": "09:30:00",
+            "raw": "09:30:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              255.52,
+              349.11,
+              268.86
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              255.52,
+              62.21,
+              268.86
+            ],
+            "station_bbox": [
+              72.42,
+              255.52,
+              133.8,
+              268.86
+            ],
+            "row_y": 262.19
+          }
+        },
+        {
+          "seq": 10,
+          "station_name": "Ujungnegoro",
+          "station_code": "UJN",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              271.1,
+              242.15,
+              284.44
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              271.1,
+              290.29,
+              284.44
+            ]
+          },
+          "depart": {
+            "value": "09:38:00",
+            "raw": "09:38:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              271.1,
+              349.11,
+              284.44
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              271.1,
+              64.71,
+              284.44
+            ],
+            "station_bbox": [
+              72.42,
+              271.1,
+              152.68,
+              284.44
+            ],
+            "row_y": 277.77
+          }
+        },
+        {
+          "seq": 11,
+          "station_name": "Batang",
+          "station_code": "BTG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              286.68,
+              242.15,
+              300.02
+            ]
+          },
+          "arrive": {
+            "value": "09:42:00",
+            "raw": "09:42:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              286.68,
+              303.07,
+              300.02
+            ]
+          },
+          "depart": {
+            "value": "09:44:00",
+            "raw": "09:44:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              286.68,
+              349.11,
+              300.02
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              286.68,
+              64.71,
+              300.02
+            ],
+            "station_bbox": [
+              72.42,
+              286.68,
+              129.91,
+              300.02
+            ],
+            "row_y": 293.35
+          }
+        },
+        {
+          "seq": 12,
+          "station_name": "Pekalongan",
+          "station_code": "PK",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              302.26,
+              242.15,
+              315.6
+            ]
+          },
+          "arrive": {
+            "value": "09:55:00",
+            "raw": "09:55:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              302.26,
+              303.07,
+              315.6
+            ]
+          },
+          "depart": {
+            "value": "09:57:00",
+            "raw": "09:57:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              302.26,
+              349.11,
+              315.6
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              302.26,
+              64.71,
+              315.6
+            ],
+            "station_bbox": [
+              72.42,
+              302.26,
+              141.02,
+              315.6
+            ],
+            "row_y": 308.93
+          }
+        },
+        {
+          "seq": 13,
+          "station_name": "Sragi",
+          "station_code": "SRI",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              317.84,
+              242.15,
+              331.18
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              317.84,
+              290.29,
+              331.18
+            ]
+          },
+          "depart": {
+            "value": "10:07:00",
+            "raw": "10:07:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              317.84,
+              349.11,
+              331.18
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              317.84,
+              64.71,
+              331.18
+            ],
+            "station_bbox": [
+              72.42,
+              317.84,
+              118.25,
+              331.18
+            ],
+            "row_y": 324.51
+          }
+        },
+        {
+          "seq": 14,
+          "station_name": "Comal",
+          "station_code": "CO",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              333.42,
+              242.15,
+              346.76
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              333.42,
+              290.29,
+              346.76
+            ]
+          },
+          "depart": {
+            "value": "10:10:00",
+            "raw": "10:10:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              333.42,
+              349.11,
+              346.76
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              333.42,
+              64.71,
+              346.76
+            ],
+            "station_bbox": [
+              72.42,
+              333.42,
+              122.14,
+              346.76
+            ],
+            "row_y": 340.09
+          }
+        },
+        {
+          "seq": 15,
+          "station_name": "Petarukan",
+          "station_code": "PTA",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              349.0,
+              242.15,
+              362.34
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              349.0,
+              290.29,
+              362.34
+            ]
+          },
+          "depart": {
+            "value": "10:17:00",
+            "raw": "10:17:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              349.0,
+              349.11,
+              362.34
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              349.0,
+              64.71,
+              362.34
+            ],
+            "station_bbox": [
+              72.42,
+              349.0,
+              140.46,
+              362.34
+            ],
+            "row_y": 355.67
+          }
+        },
+        {
+          "seq": 16,
+          "station_name": "Pemalang",
+          "station_code": "PML",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              364.58,
+              242.15,
+              377.92
+            ]
+          },
+          "arrive": {
+            "value": "10:23:00",
+            "raw": "10:23:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              364.58,
+              303.07,
+              377.92
+            ]
+          },
+          "depart": {
+            "value": "10:25:00",
+            "raw": "10:25:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              364.58,
+              349.11,
+              377.92
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              364.58,
+              64.71,
+              377.92
+            ],
+            "station_bbox": [
+              72.42,
+              364.58,
+              141.58,
+              377.92
+            ],
+            "row_y": 371.25
+          }
+        },
+        {
+          "seq": 17,
+          "station_name": "Surodadi",
+          "station_code": "SD",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              380.16,
+              242.15,
+              393.5
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              380.16,
+              290.29,
+              393.5
+            ]
+          },
+          "depart": {
+            "value": "10:34:00",
+            "raw": "10:34:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              380.16,
+              349.11,
+              393.5
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              380.16,
+              64.71,
+              393.5
+            ],
+            "station_bbox": [
+              72.42,
+              380.16,
+              130.47,
+              393.5
+            ],
+            "row_y": 386.83
+          }
+        },
+        {
+          "seq": 18,
+          "station_name": "Larangan",
+          "station_code": "LR",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              395.74,
+              242.15,
+              409.08
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              395.74,
+              290.29,
+              409.08
+            ]
+          },
+          "depart": {
+            "value": "10:41:00",
+            "raw": "10:41:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              395.74,
+              349.11,
+              409.08
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              395.74,
+              64.71,
+              409.08
+            ],
+            "station_bbox": [
+              72.42,
+              395.74,
+              132.12,
+              409.08
+            ],
+            "row_y": 402.41
+          }
+        },
+        {
+          "seq": 19,
+          "station_name": "Tegal",
+          "station_code": "TG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              411.32,
+              242.15,
+              424.66
+            ]
+          },
+          "arrive": {
+            "value": "10:47:00",
+            "raw": "10:47:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              411.32,
+              303.07,
+              424.66
+            ]
+          },
+          "depart": {
+            "value": "10:52:00",
+            "raw": "10:52:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              411.32,
+              349.11,
+              424.66
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              411.32,
+              64.71,
+              424.66
+            ],
+            "station_bbox": [
+              72.42,
+              411.32,
+              117.68,
+              424.66
+            ],
+            "row_y": 417.99
+          }
+        },
+        {
+          "seq": 20,
+          "station_name": "Brebes",
+          "station_code": "BB",
+          "speed": {
+            "value": null,
+            "raw": "-",
+            "page": 521,
+            "bbox": [
+              232.99,
+              426.9,
+              236.32,
+              440.24
+            ]
+          },
+          "arrive": {
+            "value": "11:03:00",
+            "raw": "11:03:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              426.9,
+              303.07,
+              440.24
+            ]
+          },
+          "depart": {
+            "value": null,
+            "raw": "-",
+            "page": 521,
+            "bbox": [
+              329.67,
+              426.9,
+              333.0,
+              440.24
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              426.9,
+              64.71,
+              440.24
+            ],
+            "station_bbox": [
+              72.42,
+              426.9,
+              122.69,
+              440.24
+            ],
+            "row_y": 433.57
+          }
+        }
+      ],
+      "notes": [],
+      "info": [],
+      "needs_review": []
+    },
+    {
+      "train_no": "250",
+      "name": "Kaligung",
+      "origin": "BB",
+      "destination": "SMC",
+      "page": 521,
+      "header_y": 491.67,
+      "column_source": "ruling",
+      "completeness": "complete",
+      "loaded_pages": [
+        521,
+        522
+      ],
+      "stops": [
+        {
+          "seq": 1,
+          "station_name": "Brebes",
+          "station_code": "BB",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              518.8,
+              242.15,
+              532.14
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "-",
+            "page": 521,
+            "bbox": [
+              283.63,
+              518.8,
+              286.96,
+              532.14
+            ]
+          },
+          "depart": {
+            "value": "12:15:00",
+            "raw": "12:15:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              518.8,
+              349.11,
+              532.14
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              518.8,
+              62.21,
+              532.14
+            ],
+            "station_bbox": [
+              72.42,
+              518.8,
+              122.69,
+              532.14
+            ],
+            "row_y": 525.47
+          }
+        },
+        {
+          "seq": 2,
+          "station_name": "Tegal",
+          "station_code": "TG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              534.38,
+              242.15,
+              547.72
+            ]
+          },
+          "arrive": {
+            "value": "12:26:00",
+            "raw": "12:26:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              534.38,
+              303.07,
+              547.72
+            ]
+          },
+          "depart": {
+            "value": "12:54:00",
+            "raw": "12:54:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              534.38,
+              349.11,
+              547.72
+            ]
+          },
+          "note": {
+            "value": "= ka 46 (ka 46 //)",
+            "raw": "= ka 46 (ka 46 //)",
+            "page": 521,
+            "bbox": [
+              357.85,
+              534.38,
+              427.09,
+              547.72
+            ]
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              534.38,
+              62.21,
+              547.72
+            ],
+            "station_bbox": [
+              72.42,
+              534.38,
+              117.68,
+              547.72
+            ],
+            "row_y": 541.05
+          }
+        },
+        {
+          "seq": 3,
+          "station_name": "Larangan",
+          "station_code": "LR",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              549.96,
+              242.15,
+              563.3
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              549.96,
+              290.29,
+              563.3
+            ]
+          },
+          "depart": {
+            "value": "13:01:00",
+            "raw": "13:01:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              549.96,
+              349.11,
+              563.3
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              549.96,
+              62.21,
+              563.3
+            ],
+            "station_bbox": [
+              72.42,
+              549.96,
+              132.12,
+              563.3
+            ],
+            "row_y": 556.63
+          }
+        },
+        {
+          "seq": 4,
+          "station_name": "Surodadi",
+          "station_code": "SD",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              565.54,
+              242.15,
+              578.88
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              565.54,
+              290.29,
+              578.88
+            ]
+          },
+          "depart": {
+            "value": "13:08:00",
+            "raw": "13:08:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              565.54,
+              349.11,
+              578.88
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              565.54,
+              62.21,
+              578.88
+            ],
+            "station_bbox": [
+              72.42,
+              565.54,
+              130.47,
+              578.88
+            ],
+            "row_y": 572.21
+          }
+        },
+        {
+          "seq": 5,
+          "station_name": "Pemalang",
+          "station_code": "PML",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              581.12,
+              242.15,
+              594.46
+            ]
+          },
+          "arrive": {
+            "value": "13:17:00",
+            "raw": "13:17:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              581.12,
+              303.07,
+              594.46
+            ]
+          },
+          "depart": {
+            "value": "13:19:00",
+            "raw": "13:19:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              581.12,
+              349.11,
+              594.46
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              581.12,
+              62.21,
+              594.46
+            ],
+            "station_bbox": [
+              72.42,
+              581.12,
+              141.58,
+              594.46
+            ],
+            "row_y": 587.79
+          }
+        },
+        {
+          "seq": 6,
+          "station_name": "Petarukan",
+          "station_code": "PTA",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              596.7,
+              242.15,
+              610.04
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              596.7,
+              290.29,
+              610.04
+            ]
+          },
+          "depart": {
+            "value": "13:25:00",
+            "raw": "13:25:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              596.7,
+              349.11,
+              610.04
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              596.7,
+              62.21,
+              610.04
+            ],
+            "station_bbox": [
+              72.42,
+              596.7,
+              140.46,
+              610.04
+            ],
+            "row_y": 603.37
+          }
+        },
+        {
+          "seq": 7,
+          "station_name": "Comal",
+          "station_code": "CO",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              612.28,
+              242.15,
+              625.62
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              612.28,
+              290.29,
+              625.62
+            ]
+          },
+          "depart": {
+            "value": "13:32:00",
+            "raw": "13:32:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              612.28,
+              349.11,
+              625.62
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              612.28,
+              62.21,
+              625.62
+            ],
+            "station_bbox": [
+              72.42,
+              612.28,
+              122.14,
+              625.62
+            ],
+            "row_y": 618.95
+          }
+        },
+        {
+          "seq": 8,
+          "station_name": "Sragi",
+          "station_code": "SRI",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              627.86,
+              242.15,
+              641.2
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              627.86,
+              290.29,
+              641.2
+            ]
+          },
+          "depart": {
+            "value": "13:35:00",
+            "raw": "13:35:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              627.86,
+              349.11,
+              641.2
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              627.86,
+              62.21,
+              641.2
+            ],
+            "station_bbox": [
+              72.42,
+              627.86,
+              118.25,
+              641.2
+            ],
+            "row_y": 634.53
+          }
+        },
+        {
+          "seq": 9,
+          "station_name": "Pekalongan",
+          "station_code": "PK",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              643.44,
+              242.15,
+              656.78
+            ]
+          },
+          "arrive": {
+            "value": "13:44:00",
+            "raw": "13:44:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              643.44,
+              303.07,
+              656.78
+            ]
+          },
+          "depart": {
+            "value": "13:46:00",
+            "raw": "13:46:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              643.44,
+              349.11,
+              656.78
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              57.21,
+              643.44,
+              62.21,
+              656.78
+            ],
+            "station_bbox": [
+              72.42,
+              643.44,
+              141.02,
+              656.78
+            ],
+            "row_y": 650.11
+          }
+        },
+        {
+          "seq": 10,
+          "station_name": "Batang",
+          "station_code": "BTG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              659.02,
+              242.15,
+              672.36
+            ]
+          },
+          "arrive": {
+            "value": "13:56:00",
+            "raw": "13:56:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              659.02,
+              303.07,
+              672.36
+            ]
+          },
+          "depart": {
+            "value": "13:58:00",
+            "raw": "13:58:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              659.02,
+              349.11,
+              672.36
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              659.02,
+              64.71,
+              672.36
+            ],
+            "station_bbox": [
+              72.42,
+              659.02,
+              129.91,
+              672.36
+            ],
+            "row_y": 665.69
+          }
+        },
+        {
+          "seq": 11,
+          "station_name": "Ujungnegoro",
+          "station_code": "UJN",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              674.6,
+              242.15,
+              687.94
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              674.6,
+              290.29,
+              687.94
+            ]
+          },
+          "depart": {
+            "value": "14:03:00",
+            "raw": "14:03:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              674.6,
+              349.11,
+              687.94
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              674.6,
+              64.71,
+              687.94
+            ],
+            "station_bbox": [
+              72.42,
+              674.6,
+              152.68,
+              687.94
+            ],
+            "row_y": 681.27
+          }
+        },
+        {
+          "seq": 12,
+          "station_name": "Kuripan",
+          "station_code": "KRP",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              690.18,
+              242.15,
+              703.52
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              690.18,
+              290.29,
+              703.52
+            ]
+          },
+          "depart": {
+            "value": "14:11:00",
+            "raw": "14:11:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              690.18,
+              349.11,
+              703.52
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              690.18,
+              64.71,
+              703.52
+            ],
+            "station_bbox": [
+              72.42,
+              690.18,
+              133.8,
+              703.52
+            ],
+            "row_y": 696.85
+          }
+        },
+        {
+          "seq": 13,
+          "station_name": "Plabuan",
+          "station_code": "PLB",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              705.76,
+              242.15,
+              719.1
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              705.76,
+              290.29,
+              719.1
+            ]
+          },
+          "depart": {
+            "value": "14:16:00",
+            "raw": "14:16:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              705.76,
+              349.11,
+              719.1
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              705.76,
+              64.71,
+              719.1
+            ],
+            "station_bbox": [
+              72.42,
+              705.76,
+              132.14,
+              719.1
+            ],
+            "row_y": 712.43
+          }
+        },
+        {
+          "seq": 14,
+          "station_name": "Krengseng",
+          "station_code": "KNS",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              721.34,
+              242.15,
+              734.68
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              721.34,
+              290.29,
+              734.68
+            ]
+          },
+          "depart": {
+            "value": "14:23:00",
+            "raw": "14:23:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              721.34,
+              349.11,
+              734.68
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              721.34,
+              64.71,
+              734.68
+            ],
+            "station_bbox": [
+              72.42,
+              721.34,
+              144.9,
+              734.68
+            ],
+            "row_y": 728.01
+          }
+        },
+        {
+          "seq": 15,
+          "station_name": "Weleri",
+          "station_code": "WLR",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              736.92,
+              242.15,
+              750.26
+            ]
+          },
+          "arrive": {
+            "value": "14:28:00",
+            "raw": "14:28:00",
+            "page": 521,
+            "bbox": [
+              267.51,
+              736.92,
+              303.07,
+              750.26
+            ]
+          },
+          "depart": {
+            "value": "14:30:00",
+            "raw": "14:30:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              736.92,
+              349.11,
+              750.26
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              736.92,
+              64.71,
+              750.26
+            ],
+            "station_bbox": [
+              72.42,
+              736.92,
+              131.01,
+              750.26
+            ],
+            "row_y": 743.59
+          }
+        },
+        {
+          "seq": 16,
+          "station_name": "Kalibodri",
+          "station_code": "KBD",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 521,
+            "bbox": [
+              227.15,
+              752.5,
+              242.15,
+              765.84
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 521,
+            "bbox": [
+              280.29,
+              752.5,
+              290.29,
+              765.84
+            ]
+          },
+          "depart": {
+            "value": "14:38:00",
+            "raw": "14:38:00",
+            "page": 521,
+            "bbox": [
+              313.55,
+              752.5,
+              349.11,
+              765.84
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 521,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 521,
+            "seq_bbox": [
+              54.71,
+              752.5,
+              64.71,
+              765.84
+            ],
+            "station_bbox": [
+              72.42,
+              752.5,
+              141.02,
+              765.84
+            ],
+            "row_y": 759.17
+          }
+        },
+        {
+          "seq": 17,
+          "station_name": "Kaliwungu",
+          "station_code": "KLN",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              95.92,
+              242.15,
+              109.26
+            ]
+          },
+          "arrive": {
+            "value": "14:48:00",
+            "raw": "14:48:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              95.92,
+              303.07,
+              109.26
+            ]
+          },
+          "depart": {
+            "value": "15:04:00",
+            "raw": "15:04:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              95.92,
+              349.11,
+              109.26
+            ]
+          },
+          "note": {
+            "value": "= ka 118 (ka 118 //)",
+            "raw": "= ka 118 (ka 118 //)",
+            "page": 522,
+            "bbox": [
+              357.85,
+              95.92,
+              437.09,
+              109.26
+            ]
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              95.92,
+              64.71,
+              109.26
+            ],
+            "station_bbox": [
+              72.42,
+              95.92,
+              146.57,
+              109.26
+            ],
+            "row_y": 102.59
+          }
+        },
+        {
+          "seq": 18,
+          "station_name": "Mangkang",
+          "station_code": "MKG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              111.5,
+              242.15,
+              124.84
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              111.5,
+              290.29,
+              124.84
+            ]
+          },
+          "depart": {
+            "value": "15:10:00",
+            "raw": "15:10:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              111.5,
+              349.11,
+              124.84
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              111.5,
+              64.71,
+              124.84
+            ],
+            "station_bbox": [
+              72.42,
+              111.5,
+              147.68,
+              124.84
+            ],
+            "row_y": 118.17
+          }
+        },
+        {
+          "seq": 19,
+          "station_name": "Jerakah",
+          "station_code": "JRK",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              127.08,
+              242.15,
+              140.42
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              127.08,
+              290.29,
+              140.42
+            ]
+          },
+          "depart": {
+            "value": "15:15:00",
+            "raw": "15:15:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              127.08,
+              349.11,
+              140.42
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              127.08,
+              64.71,
+              140.42
+            ],
+            "station_bbox": [
+              72.42,
+              127.08,
+              129.9,
+              140.42
+            ],
+            "row_y": 133.75
+          }
+        },
+        {
+          "seq": 20,
+          "station_name": "Semarang Poncol",
+          "station_code": "SMC",
+          "speed": {
+            "value": "0",
+            "raw": "0",
+            "page": 522,
+            "bbox": [
+              232.15,
+              142.66,
+              237.15,
+              156.0
+            ]
+          },
+          "arrive": {
+            "value": "15:22:00",
+            "raw": "15:22:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              142.66,
+              303.07,
+              156.0
+            ]
+          },
+          "depart": {
+            "value": null,
+            "raw": "-",
+            "page": 522,
+            "bbox": [
+              329.67,
+              142.66,
+              333.0,
+              156.0
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              142.66,
+              64.71,
+              156.0
+            ],
+            "station_bbox": [
+              72.42,
+              142.66,
+              172.97,
+              156.0
+            ],
+            "row_y": 149.33
+          }
+        }
+      ],
+      "notes": [],
+      "info": [
+        "continued_on_page_522_from_seq_17"
+      ],
+      "needs_review": []
+    },
+    {
+      "train_no": "251",
+      "name": "Kaligung",
+      "origin": "SMC",
+      "destination": "TG",
+      "page": 522,
+      "header_y": 207.44,
+      "column_source": "ruling",
+      "completeness": "complete",
+      "loaded_pages": [
+        522
+      ],
+      "stops": [
+        {
+          "seq": 1,
+          "station_name": "Semarang Poncol",
+          "station_code": "SMC",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              234.56,
+              242.15,
+              247.9
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "-",
+            "page": 522,
+            "bbox": [
+              283.63,
+              234.56,
+              286.96,
+              247.9
+            ]
+          },
+          "depart": {
+            "value": "17:35:00",
+            "raw": "17:35:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              234.56,
+              349.11,
+              247.9
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              234.56,
+              62.21,
+              247.9
+            ],
+            "station_bbox": [
+              72.42,
+              234.56,
+              172.97,
+              247.9
+            ],
+            "row_y": 241.23
+          }
+        },
+        {
+          "seq": 2,
+          "station_name": "Jerakah",
+          "station_code": "JRK",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              250.14,
+              242.15,
+              263.48
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              250.14,
+              290.29,
+              263.48
+            ]
+          },
+          "depart": {
+            "value": "17:42:00",
+            "raw": "17:42:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              250.14,
+              349.11,
+              263.48
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              250.14,
+              62.21,
+              263.48
+            ],
+            "station_bbox": [
+              72.42,
+              250.14,
+              129.9,
+              263.48
+            ],
+            "row_y": 256.81
+          }
+        },
+        {
+          "seq": 3,
+          "station_name": "Mangkang",
+          "station_code": "MKG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              265.72,
+              242.15,
+              279.06
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              265.72,
+              290.29,
+              279.06
+            ]
+          },
+          "depart": {
+            "value": "17:47:00",
+            "raw": "17:47:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              265.72,
+              349.11,
+              279.06
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              265.72,
+              62.21,
+              279.06
+            ],
+            "station_bbox": [
+              72.42,
+              265.72,
+              147.68,
+              279.06
+            ],
+            "row_y": 272.39
+          }
+        },
+        {
+          "seq": 4,
+          "station_name": "Kaliwungu",
+          "station_code": "KLN",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              281.3,
+              242.15,
+              294.64
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              281.3,
+              290.29,
+              294.64
+            ]
+          },
+          "depart": {
+            "value": "17:51:00",
+            "raw": "17:51:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              281.3,
+              349.11,
+              294.64
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              281.3,
+              62.21,
+              294.64
+            ],
+            "station_bbox": [
+              72.42,
+              281.3,
+              146.57,
+              294.64
+            ],
+            "row_y": 287.97
+          }
+        },
+        {
+          "seq": 5,
+          "station_name": "Kalibodri",
+          "station_code": "KBD",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              296.88,
+              242.15,
+              310.22
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              296.88,
+              290.29,
+              310.22
+            ]
+          },
+          "depart": {
+            "value": "17:59:00",
+            "raw": "17:59:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              296.88,
+              349.11,
+              310.22
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              296.88,
+              62.21,
+              310.22
+            ],
+            "station_bbox": [
+              72.42,
+              296.88,
+              141.02,
+              310.22
+            ],
+            "row_y": 303.55
+          }
+        },
+        {
+          "seq": 6,
+          "station_name": "Weleri",
+          "station_code": "WLR",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              312.46,
+              242.15,
+              325.8
+            ]
+          },
+          "arrive": {
+            "value": "18:06:00",
+            "raw": "18:06:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              312.46,
+              303.07,
+              325.8
+            ]
+          },
+          "depart": {
+            "value": "18:08:00",
+            "raw": "18:08:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              312.46,
+              349.11,
+              325.8
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              312.46,
+              62.21,
+              325.8
+            ],
+            "station_bbox": [
+              72.42,
+              312.46,
+              131.01,
+              325.8
+            ],
+            "row_y": 319.13
+          }
+        },
+        {
+          "seq": 7,
+          "station_name": "Krengseng",
+          "station_code": "KNS",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              328.04,
+              242.15,
+              341.38
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              328.04,
+              290.29,
+              341.38
+            ]
+          },
+          "depart": {
+            "value": "18:13:00",
+            "raw": "18:13:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              328.04,
+              349.11,
+              341.38
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              328.04,
+              62.21,
+              341.38
+            ],
+            "station_bbox": [
+              72.42,
+              328.04,
+              144.9,
+              341.38
+            ],
+            "row_y": 334.71
+          }
+        },
+        {
+          "seq": 8,
+          "station_name": "Plabuan",
+          "station_code": "PLB",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              343.62,
+              242.15,
+              356.96
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              343.62,
+              290.29,
+              356.96
+            ]
+          },
+          "depart": {
+            "value": "18:20:00",
+            "raw": "18:20:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              343.62,
+              349.11,
+              356.96
+            ]
+          },
+          "note": {
+            "value": "// ka 2537F JJ (ka 2537F JJ =)",
+            "raw": "// ka 2537F JJ (ka 2537F JJ =)",
+            "page": 522,
+            "bbox": [
+              357.85,
+              343.62,
+              478.77,
+              356.96
+            ]
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              343.62,
+              62.21,
+              356.96
+            ],
+            "station_bbox": [
+              72.42,
+              343.62,
+              132.14,
+              356.96
+            ],
+            "row_y": 350.29
+          }
+        },
+        {
+          "seq": 9,
+          "station_name": "Kuripan",
+          "station_code": "KRP",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              359.2,
+              242.15,
+              372.54
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              359.2,
+              290.29,
+              372.54
+            ]
+          },
+          "depart": {
+            "value": "18:25:00",
+            "raw": "18:25:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              359.2,
+              349.11,
+              372.54
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              359.2,
+              62.21,
+              372.54
+            ],
+            "station_bbox": [
+              72.42,
+              359.2,
+              133.8,
+              372.54
+            ],
+            "row_y": 365.87
+          }
+        },
+        {
+          "seq": 10,
+          "station_name": "Ujungnegoro",
+          "station_code": "UJN",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              374.78,
+              242.15,
+              388.12
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              374.78,
+              290.29,
+              388.12
+            ]
+          },
+          "depart": {
+            "value": "18:33:00",
+            "raw": "18:33:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              374.78,
+              349.11,
+              388.12
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              374.78,
+              64.71,
+              388.12
+            ],
+            "station_bbox": [
+              72.42,
+              374.78,
+              152.68,
+              388.12
+            ],
+            "row_y": 381.45
+          }
+        },
+        {
+          "seq": 11,
+          "station_name": "Batang",
+          "station_code": "BTG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              390.36,
+              242.15,
+              403.7
+            ]
+          },
+          "arrive": {
+            "value": "18:38:00",
+            "raw": "18:38:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              390.36,
+              303.07,
+              403.7
+            ]
+          },
+          "depart": {
+            "value": "18:40:00",
+            "raw": "18:40:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              390.36,
+              349.11,
+              403.7
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              390.36,
+              64.71,
+              403.7
+            ],
+            "station_bbox": [
+              72.42,
+              390.36,
+              129.91,
+              403.7
+            ],
+            "row_y": 397.03
+          }
+        },
+        {
+          "seq": 12,
+          "station_name": "Pekalongan",
+          "station_code": "PK",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              405.94,
+              242.15,
+              419.28
+            ]
+          },
+          "arrive": {
+            "value": "18:51:00",
+            "raw": "18:51:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              405.94,
+              303.07,
+              419.28
+            ]
+          },
+          "depart": {
+            "value": "18:53:00",
+            "raw": "18:53:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              405.94,
+              349.11,
+              419.28
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              405.94,
+              64.71,
+              419.28
+            ],
+            "station_bbox": [
+              72.42,
+              405.94,
+              141.02,
+              419.28
+            ],
+            "row_y": 412.61
+          }
+        },
+        {
+          "seq": 13,
+          "station_name": "Sragi",
+          "station_code": "SRI",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              421.52,
+              242.15,
+              434.86
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              421.52,
+              290.29,
+              434.86
+            ]
+          },
+          "depart": {
+            "value": "19:02:00",
+            "raw": "19:02:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              421.52,
+              349.11,
+              434.86
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              421.52,
+              64.71,
+              434.86
+            ],
+            "station_bbox": [
+              72.42,
+              421.52,
+              118.25,
+              434.86
+            ],
+            "row_y": 428.19
+          }
+        },
+        {
+          "seq": 14,
+          "station_name": "Comal",
+          "station_code": "CO",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              437.1,
+              242.15,
+              450.44
+            ]
+          },
+          "arrive": {
+            "value": "19:06:00",
+            "raw": "19:06:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              437.1,
+              303.07,
+              450.44
+            ]
+          },
+          "depart": {
+            "value": "19:08:00",
+            "raw": "19:08:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              437.1,
+              349.11,
+              450.44
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              437.1,
+              64.71,
+              450.44
+            ],
+            "station_bbox": [
+              72.42,
+              437.1,
+              122.14,
+              450.44
+            ],
+            "row_y": 443.77
+          }
+        },
+        {
+          "seq": 15,
+          "station_name": "Petarukan",
+          "station_code": "PTA",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              452.68,
+              242.15,
+              466.02
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              452.68,
+              290.29,
+              466.02
+            ]
+          },
+          "depart": {
+            "value": "19:16:00",
+            "raw": "19:16:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              452.68,
+              349.11,
+              466.02
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              452.68,
+              64.71,
+              466.02
+            ],
+            "station_bbox": [
+              72.42,
+              452.68,
+              140.46,
+              466.02
+            ],
+            "row_y": 459.35
+          }
+        },
+        {
+          "seq": 16,
+          "station_name": "Pemalang",
+          "station_code": "PML",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              468.26,
+              242.15,
+              481.6
+            ]
+          },
+          "arrive": {
+            "value": "19:22:00",
+            "raw": "19:22:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              468.26,
+              303.07,
+              481.6
+            ]
+          },
+          "depart": {
+            "value": "19:24:00",
+            "raw": "19:24:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              468.26,
+              349.11,
+              481.6
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              468.26,
+              64.71,
+              481.6
+            ],
+            "station_bbox": [
+              72.42,
+              468.26,
+              141.58,
+              481.6
+            ],
+            "row_y": 474.93
+          }
+        },
+        {
+          "seq": 17,
+          "station_name": "Surodadi",
+          "station_code": "SD",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              483.84,
+              242.15,
+              497.18
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              483.84,
+              290.29,
+              497.18
+            ]
+          },
+          "depart": {
+            "value": "19:35:00",
+            "raw": "19:35:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              483.84,
+              349.11,
+              497.18
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              483.84,
+              64.71,
+              497.18
+            ],
+            "station_bbox": [
+              72.42,
+              483.84,
+              130.47,
+              497.18
+            ],
+            "row_y": 490.51
+          }
+        },
+        {
+          "seq": 18,
+          "station_name": "Larangan",
+          "station_code": "LR",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              499.42,
+              242.15,
+              512.76
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              499.42,
+              290.29,
+              512.76
+            ]
+          },
+          "depart": {
+            "value": "19:43:00",
+            "raw": "19:43:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              499.42,
+              349.11,
+              512.76
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              499.42,
+              64.71,
+              512.76
+            ],
+            "station_bbox": [
+              72.42,
+              499.42,
+              132.12,
+              512.76
+            ],
+            "row_y": 506.09
+          }
+        },
+        {
+          "seq": 19,
+          "station_name": "Tegal",
+          "station_code": "TG",
+          "speed": {
+            "value": "0",
+            "raw": "0",
+            "page": 522,
+            "bbox": [
+              232.15,
+              515.0,
+              237.15,
+              528.34
+            ]
+          },
+          "arrive": {
+            "value": "19:50:00",
+            "raw": "19:50:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              515.0,
+              303.07,
+              528.34
+            ]
+          },
+          "depart": {
+            "value": null,
+            "raw": "-",
+            "page": 522,
+            "bbox": [
+              329.67,
+              515.0,
+              333.0,
+              528.34
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              515.0,
+              64.71,
+              528.34
+            ],
+            "station_bbox": [
+              72.42,
+              515.0,
+              117.68,
+              528.34
+            ],
+            "row_y": 521.67
+          }
+        }
+      ],
+      "notes": [],
+      "info": [],
+      "needs_review": []
+    },
+    {
+      "train_no": "252",
+      "name": "Kaligung",
+      "origin": "BB",
+      "destination": "SMC",
+      "page": 522,
+      "header_y": 579.78,
+      "column_source": "ruling",
+      "completeness": "truncated_at_loaded_pages",
+      "loaded_pages": [
+        522
+      ],
+      "stops": [
+        {
+          "seq": 1,
+          "station_name": "Brebes",
+          "station_code": "BB",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              606.9,
+              242.15,
+              620.24
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "-",
+            "page": 522,
+            "bbox": [
+              283.63,
+              606.9,
+              286.96,
+              620.24
+            ]
+          },
+          "depart": {
+            "value": "04:55:00",
+            "raw": "04:55:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              606.9,
+              349.11,
+              620.24
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              606.9,
+              62.21,
+              620.24
+            ],
+            "station_bbox": [
+              72.42,
+              606.9,
+              122.69,
+              620.24
+            ],
+            "row_y": 613.57
+          }
+        },
+        {
+          "seq": 2,
+          "station_name": "Tegal",
+          "station_code": "TG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              622.48,
+              242.15,
+              635.82
+            ]
+          },
+          "arrive": {
+            "value": "05:06:00",
+            "raw": "05:06:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              622.48,
+              303.07,
+              635.82
+            ]
+          },
+          "depart": {
+            "value": "05:11:00",
+            "raw": "05:11:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              622.48,
+              349.11,
+              635.82
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              622.48,
+              62.21,
+              635.82
+            ],
+            "station_bbox": [
+              72.42,
+              622.48,
+              117.68,
+              635.82
+            ],
+            "row_y": 629.15
+          }
+        },
+        {
+          "seq": 3,
+          "station_name": "Larangan",
+          "station_code": "LR",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              638.06,
+              242.15,
+              651.4
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              638.06,
+              290.29,
+              651.4
+            ]
+          },
+          "depart": {
+            "value": "05:16:00",
+            "raw": "05:16:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              638.06,
+              349.11,
+              651.4
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              638.06,
+              62.21,
+              651.4
+            ],
+            "station_bbox": [
+              72.42,
+              638.06,
+              132.12,
+              651.4
+            ],
+            "row_y": 644.73
+          }
+        },
+        {
+          "seq": 4,
+          "station_name": "Surodadi",
+          "station_code": "SD",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              653.64,
+              242.15,
+              666.98
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              653.64,
+              290.29,
+              666.98
+            ]
+          },
+          "depart": {
+            "value": "05:23:00",
+            "raw": "05:23:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              653.64,
+              349.11,
+              666.98
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              653.64,
+              62.21,
+              666.98
+            ],
+            "station_bbox": [
+              72.42,
+              653.64,
+              130.47,
+              666.98
+            ],
+            "row_y": 660.31
+          }
+        },
+        {
+          "seq": 5,
+          "station_name": "Pemalang",
+          "station_code": "PML",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              669.22,
+              242.15,
+              682.56
+            ]
+          },
+          "arrive": {
+            "value": "05:33:00",
+            "raw": "05:33:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              669.22,
+              303.07,
+              682.56
+            ]
+          },
+          "depart": {
+            "value": "05:35:00",
+            "raw": "05:35:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              669.22,
+              349.11,
+              682.56
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              669.22,
+              62.21,
+              682.56
+            ],
+            "station_bbox": [
+              72.42,
+              669.22,
+              141.58,
+              682.56
+            ],
+            "row_y": 675.89
+          }
+        },
+        {
+          "seq": 6,
+          "station_name": "Petarukan",
+          "station_code": "PTA",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              684.8,
+              242.15,
+              698.14
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              684.8,
+              290.29,
+              698.14
+            ]
+          },
+          "depart": {
+            "value": "05:41:00",
+            "raw": "05:41:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              684.8,
+              349.11,
+              698.14
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              684.8,
+              62.21,
+              698.14
+            ],
+            "station_bbox": [
+              72.42,
+              684.8,
+              140.46,
+              698.14
+            ],
+            "row_y": 691.47
+          }
+        },
+        {
+          "seq": 7,
+          "station_name": "Comal",
+          "station_code": "CO",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              700.38,
+              242.15,
+              713.72
+            ]
+          },
+          "arrive": {
+            "value": "05:50:00",
+            "raw": "05:50:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              700.38,
+              303.07,
+              713.72
+            ]
+          },
+          "depart": {
+            "value": "05:52:00",
+            "raw": "05:52:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              700.38,
+              349.11,
+              713.72
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              700.38,
+              62.21,
+              713.72
+            ],
+            "station_bbox": [
+              72.42,
+              700.38,
+              122.14,
+              713.72
+            ],
+            "row_y": 707.05
+          }
+        },
+        {
+          "seq": 8,
+          "station_name": "Sragi",
+          "station_code": "SRI",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              715.96,
+              242.15,
+              729.3
+            ]
+          },
+          "arrive": {
+            "value": null,
+            "raw": "Ls",
+            "page": 522,
+            "bbox": [
+              280.29,
+              715.96,
+              290.29,
+              729.3
+            ]
+          },
+          "depart": {
+            "value": "05:57:00",
+            "raw": "05:57:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              715.96,
+              349.11,
+              729.3
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "pass",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              715.96,
+              62.21,
+              729.3
+            ],
+            "station_bbox": [
+              72.42,
+              715.96,
+              118.25,
+              729.3
+            ],
+            "row_y": 722.63
+          }
+        },
+        {
+          "seq": 9,
+          "station_name": "Pekalongan",
+          "station_code": "PK",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              731.54,
+              242.15,
+              744.88
+            ]
+          },
+          "arrive": {
+            "value": "06:06:00",
+            "raw": "06:06:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              731.54,
+              303.07,
+              744.88
+            ]
+          },
+          "depart": {
+            "value": "06:08:00",
+            "raw": "06:08:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              731.54,
+              349.11,
+              744.88
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              57.21,
+              731.54,
+              62.21,
+              744.88
+            ],
+            "station_bbox": [
+              72.42,
+              731.54,
+              141.02,
+              744.88
+            ],
+            "row_y": 738.21
+          }
+        },
+        {
+          "seq": 10,
+          "station_name": "Batang",
+          "station_code": "BTG",
+          "speed": {
+            "value": "100",
+            "raw": "100",
+            "page": 522,
+            "bbox": [
+              227.15,
+              747.12,
+              242.15,
+              760.46
+            ]
+          },
+          "arrive": {
+            "value": "06:17:00",
+            "raw": "06:17:00",
+            "page": 522,
+            "bbox": [
+              267.51,
+              747.12,
+              303.07,
+              760.46
+            ]
+          },
+          "depart": {
+            "value": "06:19:00",
+            "raw": "06:19:00",
+            "page": 522,
+            "bbox": [
+              313.55,
+              747.12,
+              349.11,
+              760.46
+            ]
+          },
+          "note": {
+            "value": null,
+            "raw": "",
+            "page": 522,
+            "bbox": null
+          },
+          "stop_type": "stop",
+          "day_offset": 0,
+          "info": [],
+          "needs_review": [],
+          "provenance": {
+            "page": 522,
+            "seq_bbox": [
+              54.71,
+              747.12,
+              64.71,
+              760.46
+            ],
+            "station_bbox": [
+              72.42,
+              747.12,
+              129.91,
+              760.46
+            ],
+            "row_y": 753.79
+          }
+        }
+      ],
+      "notes": [],
+      "info": [
+        "truncated: last parsed station does not match destination"
+      ],
+      "needs_review": []
+    }
+  ]
+}

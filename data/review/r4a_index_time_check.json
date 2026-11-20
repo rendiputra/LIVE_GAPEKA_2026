@@ -1,0 +1,69 @@
+{
+  "rule": "R4a",
+  "description": "index departure/arrival vs parsed endpoints (minute precision)",
+  "results": [
+    {
+      "train_no": "249",
+      "completeness": "complete",
+      "index_depart": "08:40",
+      "parsed_first_depart": "08:40:00",
+      "index_arrive": "11:03",
+      "parsed_last_arrive": "11:03:00",
+      "mismatches": []
+    },
+    {
+      "train_no": "250",
+      "completeness": "complete",
+      "index_depart": "12:15",
+      "parsed_first_depart": "12:15:00",
+      "index_arrive": "15:22",
+      "parsed_last_arrive": "15:22:00",
+      "mismatches": []
+    },
+    {
+      "train_no": "251",
+      "completeness": "complete",
+      "index_depart": "17:35",
+      "parsed_first_depart": "17:35:00",
+      "index_arrive": "19:50",
+      "parsed_last_arrive": "19:50:00",
+      "mismatches": []
+    },
+    {
+      "train_no": "252",
+      "completeness": "truncated_at_loaded_pages",
+      "index_depart": "04:55",
+      "parsed_first_depart": "04:55:00",
+      "index_arrive": "07:28",
+      "parsed_last_arrive": "06:17:00",
+      "mismatches": [
+        {
+          "field": "arrival",
+          "index": "07:28",
+          "parsed": "06:17:00",
+          "reason": "truncated_trip_not_comparable"
+        }
+      ]
+    },
+    {
+      "train_no": "259F",
+      "completeness": "complete",
+      "index_depart": "18:15",
+      "parsed_first_depart": "18:15:00",
+      "index_arrive": "20:23",
+      "parsed_last_arrive": "20:23:00",
+      "mismatches": []
+    },
+    {
+      "train_no": "260F",
+      "completeness": "complete",
+      "index_depart": "22:05",
+      "parsed_first_depart": "22:05:00",
+      "index_arrive": "00:13",
+      "parsed_last_arrive": "00:13:00",
+      "mismatches": []
+    }
+  ],
+  "mismatch_count": 0,
+  "non_comparable_count": 1
+}

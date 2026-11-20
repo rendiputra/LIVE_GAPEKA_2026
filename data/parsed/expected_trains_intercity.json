@@ -751,8 +751,8 @@
       "seq": "36",
       "train_no": "36",
       "class": "ARGO ARGO",
-      "name": "ANJASMORO KELAS NAMA",
-      "relation": "GMR-SBILINTAS",
+      "name": "ANJASMORO NOMOR JAM",
+      "relation": "GMR-SBI",
       "depart": "23:25",
       "arrive": "08:22",
       "printed_page": "88",
@@ -762,32 +762,11 @@
         "bbox": [
           105.84,
           440.67,
-          542.22,
-          472.85
+          529.96,
+          467.56
         ]
       },
       "mapped_pdf_page": 145
-    },
-    {
-      "seq": "1",
-      "train_no": "42-43",
-      "class": "EKSEKUTIF",
-      "name": "PANDALUNGAN",
-      "relation": "GMR-SBI-JR",
-      "depart": "21:00",
-      "arrive": "10:04",
-      "printed_page": "92",
-      "needs_review": [],
-      "provenance": {
-        "page": 53,
-        "bbox": [
-          107.64,
-          481.71,
-          529.93,
-          488.93
-        ]
-      },
-      "mapped_pdf_page": 149
     },
     {
       "seq": "2",
@@ -1465,8 +1444,8 @@
       "seq": "34",
       "train_no": "342-341",
       "class": "EKSEKUTIF",
-      "name": "PANDAWA KELAS NAMA",
-      "relation": "YK-SLO-SMTLINTAS",
+      "name": "PANDAWA NOMOR JAM",
+      "relation": "YK-SLO-SMT",
       "depart": "18:35",
       "arrive": "21:25",
       "printed_page": "180",
@@ -1476,47 +1455,22 @@
         "bbox": [
           105.84,
           150.63,
-          542.22,
-          184.12
+          531.73,
+          178.84
         ]
       },
       "mapped_pdf_page": 237
     },
     {
-      "seq": "1",
-      "train_no": "82-83",
-      "class": "EKSEKUTIF CAMPURAN",
-      "name": "SANGKURIANG BD-SGU-KTG",
-      "relation": null,
-      "depart": "15:55",
-      "arrive": "08:52",
-      "printed_page": "183",
-      "needs_review": [
-        "missing_relation"
-      ],
-      "provenance": {
-        "page": 54,
-        "bbox": [
-          107.64,
-          192.99,
-          531.65,
-          200.21
-        ]
-      },
-      "mapped_pdf_page": 240
-    },
-    {
       "seq": "2",
       "train_no": "84-81",
       "class": "EKSEKUTIF CAMPURAN",
-      "name": "SANGKURIANG KTG-SGU-BD",
-      "relation": null,
+      "name": "SANGKURIANG",
+      "relation": "KTG-SGU-BD",
       "depart": "15:00",
       "arrive": "07:44",
       "printed_page": "186",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 54,
         "bbox": [
@@ -2560,7 +2514,7 @@
     {
       "seq": "52",
       "train_no": "140",
-      "class": "EKSEKUTIF CAMPURAN PARAHYANGAN PARAHYANGAN",
+      "class": "EKSEKUTIF CAMPURAN PARAHYANGAN",
       "name": null,
       "relation": "GMR-BD",
       "depart": "23:00",
@@ -2573,52 +2527,10 @@
           105.84,
           71.55,
           531.95,
-          85.97
+          78.89
         ]
       },
       "mapped_pdf_page": 352
-    },
-    {
-      "seq": "53",
-      "train_no": "141F",
-      "class": "EKSEKUTIF CAMPURAN",
-      "name": "FAKULTATIF PARAHYANGAN",
-      "relation": "BD-GMR",
-      "depart": "10:05",
-      "arrive": "13:11",
-      "printed_page": "296",
-      "needs_review": [],
-      "provenance": {
-        "page": 55,
-        "bbox": [
-          105.84,
-          82.83,
-          531.95,
-          97.25
-        ]
-      },
-      "mapped_pdf_page": 353
-    },
-    {
-      "seq": "54",
-      "train_no": "142F",
-      "class": "EKSEKUTIF CAMPURAN",
-      "name": "FAKULTATIF",
-      "relation": "GMR-BD",
-      "depart": "13:55",
-      "arrive": "16:50",
-      "printed_page": "297",
-      "needs_review": [],
-      "provenance": {
-        "page": 55,
-        "bbox": [
-          105.84,
-          94.11,
-          531.95,
-          105.64
-        ]
-      },
-      "mapped_pdf_page": 354
     },
     {
       "seq": "55",
@@ -3654,7 +3566,7 @@
       "train_no": "214",
       "class": "EKSEKUTIF CAMPURAN",
       "name": "TAWANGJAYA PREMIUM",
-      "relation": "PSE-SMTSBI-GBN-SLO-",
+      "relation": "PSE-SMT",
       "depart": "23:35",
       "arrive": "05:33",
       "printed_page": "433",
@@ -3665,7 +3577,7 @@
           104.04,
           658.11,
           531.95,
-          672.52
+          665.45
         ]
       },
       "mapped_pdf_page": 490
@@ -3801,7 +3713,7 @@
       "train_no": "231-232",
       "class": "EKSEKUTIF CAMPURAN",
       "name": "JOGLOSEMARKERTO",
-      "relation": "PWT-TG-SLOSLO-TG-SLO-",
+      "relation": "PWT-TG-SLO",
       "depart": "17:15",
       "arrive": "23:27",
       "printed_page": "451",
@@ -3812,31 +3724,10 @@
           104.04,
           105.39,
           531.95,
-          119.81
+          112.72
         ]
       },
       "mapped_pdf_page": 508
-    },
-    {
-      "seq": "114",
-      "train_no": "233-234-235",
-      "class": "EKSEKUTIF CAMPURAN",
-      "name": "JOGLOSEMARKERTO",
-      "relation": "SMT",
-      "depart": "05:30",
-      "arrive": "18:50",
-      "printed_page": "452",
-      "needs_review": [],
-      "provenance": {
-        "page": 56,
-        "bbox": [
-          104.04,
-          116.67,
-          531.95,
-          128.21
-        ]
-      },
-      "mapped_pdf_page": 509
     },
     {
       "seq": "115",
@@ -3884,14 +3775,12 @@
       "seq": "117",
       "train_no": "240-241-242",
       "class": "EKSEKUTIF CAMPURAN",
-      "name": "KAMANDAKA CP-KYA-TG-SMT",
-      "relation": null,
+      "name": "KAMANDAKA",
+      "relation": "CP-KYA-TG-SMT",
       "depart": "14:40",
       "arrive": "20:55",
       "printed_page": "458",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 56,
         "bbox": [
@@ -3907,14 +3796,12 @@
       "seq": "118",
       "train_no": "243-244-245",
       "class": "EKSEKUTIF CAMPURAN",
-      "name": "KAMANDAKA SMT-TG-KYA-CP",
-      "relation": null,
+      "name": "KAMANDAKA",
+      "relation": "SMT-TG-KYA-CP",
       "depart": "07:10",
       "arrive": "13:20",
       "printed_page": "459",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 56,
         "bbox": [
@@ -4560,14 +4447,12 @@
       "seq": "149",
       "train_no": "292-293",
       "class": "EKONOMI JARAK JAUH",
-      "name": "LOGAWA KTG-SGU-PWT",
-      "relation": null,
+      "name": "LOGAWA",
+      "relation": "KTG-SGU-PWT",
       "depart": "06:30",
       "arrive": "21:02",
       "printed_page": "492",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 56,
         "bbox": [
@@ -4583,8 +4468,8 @@
       "seq": "150",
       "train_no": "294-291",
       "class": "EKONOMI JARAK JAUH",
-      "name": "LOGAWA PWT-SGU-KTG KELAS NAMA",
-      "relation": "LINTAS",
+      "name": "LOGAWA NOMOR JAM",
+      "relation": "PWT-SGU-KTG",
       "depart": "06:15",
       "arrive": "21:18",
       "printed_page": "495",
@@ -4594,32 +4479,11 @@
         "bbox": [
           104.04,
           520.83,
-          542.22,
-          554.33
+          531.7,
+          549.04
         ]
       },
       "mapped_pdf_page": 552
-    },
-    {
-      "seq": "1",
-      "train_no": "285",
-      "class": "EKONOMI JARAK JAUH",
-      "name": "MAJAPAHIT",
-      "relation": "ML-PSE",
-      "depart": "17:50",
-      "arrive": "06:55",
-      "printed_page": "500",
-      "needs_review": [],
-      "provenance": {
-        "page": 56,
-        "bbox": [
-          107.64,
-          563.19,
-          531.76,
-          570.4
-        ]
-      },
-      "mapped_pdf_page": 557
     },
     {
       "seq": "2",
@@ -5150,14 +5014,12 @@
       "seq": "27",
       "train_no": "320-317",
       "class": "EKONOMI JARAK JAUH",
-      "name": "SERAYU PWT-KYA-PSE",
-      "relation": null,
+      "name": "SERAYU",
+      "relation": "PWT-KYA-PSE",
       "depart": "06:30",
       "arrive": "16:46",
       "printed_page": "578",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 57,
         "bbox": [
@@ -5173,14 +5035,12 @@
       "seq": "28",
       "train_no": "322-323",
       "class": "EKONOMI JARAK JAUH",
-      "name": "SERAYU PSE-KYA-PWT",
-      "relation": null,
+      "name": "SERAYU",
+      "relation": "PSE-KYA-PWT",
       "depart": "19:05",
       "arrive": "06:05",
       "printed_page": "580",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 57,
         "bbox": [
@@ -5196,14 +5056,12 @@
       "seq": "29",
       "train_no": "324-321",
       "class": "EKONOMI JARAK JAUH",
-      "name": "SERAYU PWT-KYA-PSE",
-      "relation": null,
+      "name": "SERAYU",
+      "relation": "PWT-KYA-PSE",
       "depart": "16:45",
       "arrive": "04:14",
       "printed_page": "582",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 57,
         "bbox": [
@@ -5219,14 +5077,12 @@
       "seq": "30",
       "train_no": "318-319",
       "class": "EKONOMI JARAK JAUH",
-      "name": "SERAYU PSE-KYA-PWT",
-      "relation": null,
+      "name": "SERAYU",
+      "relation": "PSE-KYA-PWT",
       "depart": "10:00",
       "arrive": "20:34",
       "printed_page": "584",
-      "needs_review": [
-        "missing_relation"
-      ],
+      "needs_review": [],
       "provenance": {
         "page": 57,
         "bbox": [

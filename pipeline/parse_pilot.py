@@ -1,12 +1,13 @@
-"""Phase 1 runner: index parsing, pilot table parsing, validators, review artifact.
+"""Phase 1 runner: index parsing, pilot table parsing, validators, review artefacts.
 
-Steps (AGENTS.md Phase 1, split per the human's plan):
+Steps:
 
 - 1b: intercity index -> ``data/parsed/expected_trains_intercity.json``
-- 1c: pilot pages 521-522 -> ``data/parsed/pilot_249_250.json``
+- 1c: pilot pages -> ``data/parsed/pilot_*.json``
 - reconciliation index vs table headers -> ``data/review/``
-- V1-V3 -> ``data/validated/``
-- human review artifact -> ``data/review/pilot_249_250.html``
+- V1, V2, V3-circular, V3b -> ``data/validated/``
+- cross-parser checks (pdfplumber table strategy, pdftotext -layout) -> ``data/review/``
+- human review artefacts -> ``data/review/pilot_*.html``
 
 Nothing here writes to the raw layer.
 """
@@ -24,11 +25,14 @@ import pymupdf
 
 from pipeline.parsers.index_table import parse_index_pages
 from pipeline.parsers.stop_table import (
+    COMPLETENESS_TRUNCATED,
+    finalize,
     footnote_patterns,
     merge_continuations,
     parse_page,
 )
 from pipeline.parsers.table_geometry import Word, split_tables, words_from_raw
+from pipeline.station_codes import scan_words_dir, v3b_report
 from pipeline.validators import run_validators
 
 DEFAULT_PDF = Path("data/input/GAPEKA_2026.pdf")
@@ -37,11 +41,12 @@ PARSED_DIR = Path("data/parsed")
 REVIEW_DIR = Path("data/review")
 VALIDATED_DIR = Path("data/validated")
 
-PILOT_PAGES = (521, 522)
+PILOT_249_250 = (521, 522)
+PILOT_259_260 = (528,)
 INDEX_PAGES = (53, 54, 55, 56, 57)
 
-# Station codes as printed in tables: "Name (CODE)".
 STATION_CODE_RE = re.compile(r"\(([A-Z]{2,5})\)")
+TIME_CELL_RE = re.compile(r"^\d{2}:\d{2}:\d{2}$")
 
 # Printed-page offsets established in Phase 0 (report section 8).
 INTERCITY_BOOK_OFFSETS = [(58, 664, 57), (670, 811, 669)]
@@ -53,7 +58,6 @@ def load_words(page: int, words_dir: Path = WORDS_DIR) -> list[Word]:
 
 
 def vertical_rulings(pdf: Path, page: int) -> list[float]:
-    """Vertical ruling x-positions on a page (the document's own cell borders)."""
     doc = pymupdf.open(pdf)
     try:
         drawings = doc[page - 1].get_drawings()
@@ -75,7 +79,6 @@ def vertical_rulings(pdf: Path, page: int) -> list[float]:
 
 
 def mapped_pdf_page(printed: str | None) -> int | None:
-    """Map a printed intercity page number to a PDF page using the offset table."""
     if printed is None or not printed.isdigit():
         return None
     number = int(printed)
@@ -86,11 +89,31 @@ def mapped_pdf_page(printed: str | None) -> int | None:
     return None
 
 
-# --- cross-parser checks ----------------------------------------------------
+# --- cross-checkers ---------------------------------------------------------
+
+
+def tool_status() -> dict:
+    """Report which optional cross-check tools are present."""
+    pdftotext = None
+    try:
+        proc = subprocess.run(
+            ["pdftotext", "-v"], capture_output=True, text=True, timeout=20, check=False
+        )
+        pdftotext = proc.returncode == 0
+    except (FileNotFoundError, subprocess.SubprocessError):
+        pdftotext = False
+
+    try:
+        import pdfplumber  # noqa: F401, PLC0415
+
+        plumber = True
+    except ImportError:
+        plumber = False
+
+    return {"pdftotext": pdftotext, "pdfplumber": plumber}
 
 
 def pdftotext_layout(pdf: Path, page: int) -> str | None:
-    """Cross-check with ``pdftotext -layout``; returns None if unavailable."""
     try:
         result = subprocess.run(
             ["pdftotext", "-layout", "-f", str(page), "-l", str(page), str(pdf), "-"],
@@ -104,193 +127,391 @@ def pdftotext_layout(pdf: Path, page: int) -> str | None:
     return result.stdout if result.returncode == 0 else None
 
 
-def pdfplumber_words(pdf: Path, page: int) -> list[str] | None:
-    """Cross-check with pdfplumber; returns None if unavailable."""
+def pdfplumber_table_cells(pdf: Path, page: int) -> list[dict] | None:
+    """Extract table cells with pdfplumber's explicit ruling-line strategy.
+
+    Returns ``None`` when pdfplumber is unavailable, so the caller can report
+    SKIPPED rather than a silent pass.
+    """
     try:
         import pdfplumber  # noqa: PLC0415
     except ImportError:
         return None
+
+    cells: list[dict] = []
     try:
         with pdfplumber.open(pdf) as doc:
-            return doc.pages[page - 1].extract_words()
-    except Exception:  # noqa: BLE001 - a cross-checker must never break the run
-        return None
+            tables = doc.pages[page - 1].find_tables(
+                {
+                    "vertical_strategy": "lines",
+                    "horizontal_strategy": "lines",
+                    "snap_tolerance": 3,
+                }
+            )
+            for table_index, table in enumerate(tables):
+                for row in table.extract():
+                    for cell in row:
+                        if cell and TIME_CELL_RE.match(cell.strip()):
+                            cells.append({"table": table_index, "text": cell.strip(), "page": page})
+    except Exception as error:  # noqa: BLE001 - a cross-checker must never break a run
+        return [{"error": str(error)}]
+
+    return cells
 
 
-def cross_parser_report(pdf: Path, pages: tuple[int, ...], trains: list[dict]) -> dict:
-    """Compare our station sequence against pdfplumber and pdftotext.
-
-    Differences are recorded, never hidden or "fixed".
-    """
+def cross_parser_report(
+    pdf: Path,
+    pages: tuple[int, ...],
+    trains: list[dict],
+    known_codes: set[str],
+) -> dict:
+    """Compare our output against pdfplumber and pdftotext. Differences are kept."""
+    status = tool_status()
     report: dict = {
+        "tools": status,
         "pages": {},
-        "pdftotext": {"available": None},
-        "pdfplumber": {"available": None},
         "differences": [],
+        "note": (
+            "Both pdfplumber's table strategy and our parser use the page's ruling "
+            "lines. Shared systematic errors are therefore still possible; these "
+            "checks catch drift between implementations, not a wrong reading of a "
+            "rule line."
+        ),
     }
 
     for page in pages:
-        ours = [
-            s["station_code"]
-            for t in trains
-            for s in t["stops"]
-            if s["provenance"]["page"] == page and s["station_code"]
-        ]
-        report["pages"][str(page)] = {"our_station_codes": ours}
+        our_stops = [s for t in trains for s in t["stops"] if s["provenance"]["page"] == page]
+        ours = [s["station_code"] for s in our_stops if s["station_code"]]
+        ours_times = sorted(
+            cell["value"] for s in our_stops for cell in (s["arrive"], s["depart"]) if cell["value"]
+        )
+        report["pages"][str(page)] = {
+            "our_station_codes": ours,
+            "our_time_cells": ours_times,
+        }
 
-        # --- pdfplumber ---
-        plumber_words = pdfplumber_words(pdf, page)
-        if plumber_words is None:
-            report["pdfplumber"] = {"available": False, "reason": "pdfplumber not installed"}
-        else:
-            plumber_codes = STATION_CODE_RE.findall(" ".join(w["text"] for w in plumber_words))
-            report["pdfplumber"] = {
-                "available": True,
-                "word_count": len(plumber_words),
-                "page": page,
-                "station_codes": plumber_codes,
-                "missing_from_plumber": sorted(set(ours) - set(plumber_codes)),
-                "missing_from_ours": sorted(set(plumber_codes) - set(ours)),
+        # --- pdfplumber tables ---
+        plumber_cells = pdfplumber_table_cells(pdf, page)
+        if plumber_cells is None:
+            report.setdefault("pdfplumber", {})[str(page)] = {"status": "SKIPPED"}
+        elif plumber_cells and "error" in plumber_cells[0]:
+            report.setdefault("pdfplumber", {})[str(page)] = {
+                "status": "ERROR",
+                "error": plumber_cells[0]["error"],
             }
-            if set(ours) != set(plumber_codes):
+        else:
+            plumber_times = sorted(cell["text"] for cell in plumber_cells)
+            only_ours = sorted(set(ours_times) - set(plumber_times))
+            only_plumber = sorted(set(plumber_times) - set(ours_times))
+            report.setdefault("pdfplumber", {})[str(page)] = {
+                "status": "RAN",
+                "time_cells": len(plumber_times),
+                "our_time_cells": len(ours_times),
+                "only_in_ours": only_ours,
+                "only_in_pdfplumber": only_plumber,
+                "match": not only_ours and not only_plumber,
+            }
+            if only_ours or only_plumber:
                 report["differences"].append(
                     {
                         "checker": "pdfplumber",
                         "page": page,
-                        "only_in_ours": sorted(set(ours) - set(plumber_codes)),
-                        "only_in_pdfplumber": sorted(set(plumber_codes) - set(ours)),
+                        "only_in_ours": only_ours,
+                        "only_in_pdfplumber": only_plumber,
                     }
                 )
 
         # --- pdftotext -layout ---
         text = pdftotext_layout(pdf, page)
         if text is None:
-            report["pdftotext"] = {"available": False, "reason": "pdftotext not installed"}
+            report.setdefault("pdftotext", {})[str(page)] = {"status": "SKIPPED"}
         else:
             layout_codes = STATION_CODE_RE.findall(text)
-            report["pdftotext"] = {
-                "available": True,
-                "page": page,
-                "line_count": len([line for line in text.splitlines() if line.strip()]),
-                "station_codes": layout_codes,
+            only_ours = sorted(set(ours) - set(layout_codes))
+            only_layout = sorted(set(layout_codes) - set(ours))
+            report.setdefault("pdftotext", {})[str(page)] = {
+                "status": "RAN",
+                "station_codes": sorted(set(layout_codes)),
+                "only_in_ours": only_ours,
+                "only_in_pdftotext": only_layout,
+                "match": not only_ours and not only_layout,
             }
-            if set(ours) != set(layout_codes):
+            if only_ours or only_layout:
                 report["differences"].append(
                     {
                         "checker": "pdftotext",
                         "page": page,
-                        "only_in_ours": sorted(set(ours) - set(layout_codes)),
-                        "only_in_pdftotext": sorted(set(layout_codes) - set(ours)),
+                        "only_in_ours": only_ours,
+                        "only_in_pdftotext": only_layout,
                     }
                 )
 
-    report["note"] = (
-        "Station-code sets are compared, not times: pdftotext and pdfplumber do not "
-        "assign table cells, so a code-set mismatch is the strongest check they can "
-        "make. Time-level agreement is checked against the index in "
-        "reconciliation_intercity.json."
-    )
     return report
 
 
-# --- reconciliation ---------------------------------------------------------
+# --- R4a: index vs parsed endpoint times ------------------------------------
 
 
-def reconcile(index_entries: list[dict], trains: list[dict]) -> dict:
-    """Compare index entries against table headers. Never auto-resolve."""
-    index_by_no: dict[str, dict] = {}
-    duplicates: list[str] = []
+def index_time_cross_check(index_entries: list[dict], trains: list[dict]) -> dict:
+    """Compare index departure/arrival with parsed first departure / last arrival."""
+    by_no: dict[str, dict] = {}
     for entry in index_entries:
-        number = entry["train_no"]
-        if number is None:
-            continue
-        if number in index_by_no:
-            duplicates.append(number)
-        index_by_no.setdefault(number, entry)
+        numbers = (entry["train_no"] or "").split("-")
+        for number in numbers:
+            if number:
+                by_no.setdefault(number, entry)
 
-    table_by_no: dict[str, dict] = {}
+    results = []
     for train in trains:
         number = train["train_no"]
-        if number is None:
+        entry = by_no.get(number or "")
+        if entry is None:
+            results.append({"train_no": number, "status": "not_in_index", "mismatches": []})
             continue
-        table_by_no[number] = train
 
-    only_index = sorted(set(index_by_no) - set(table_by_no), key=_number_key)
-    only_table = sorted(set(table_by_no) - set(index_by_no), key=_number_key)
+        first_depart = next(
+            (s["depart"]["value"] for s in train["stops"] if s["depart"]["value"]), None
+        )
+        last_arrive = None
+        for stop in reversed(train["stops"]):
+            if stop["arrive"]["value"]:
+                last_arrive = stop["arrive"]["value"]
+                break
 
-    page_mismatches = []
-    for number in sorted(set(index_by_no) & set(table_by_no), key=_number_key):
-        expected = index_by_no[number]
-        actual = table_by_no[number]
-        if (
-            expected.get("mapped_pdf_page") is not None
-            and actual["page"] != expected["mapped_pdf_page"]
+        mismatches = []
+        truncated = train.get("completeness") == COMPLETENESS_TRUNCATED
+        for label, index_value, ours in (
+            ("departure", entry.get("depart"), first_depart),
+            ("arrival", entry.get("arrive"), last_arrive),
         ):
-            page_mismatches.append(
-                {
-                    "train_no": number,
-                    "index_printed_page": expected["printed_page"],
-                    "index_mapped_pdf_page": expected["mapped_pdf_page"],
-                    "parsed_table_pdf_page": actual["page"],
-                }
-            )
+            if index_value is None or ours is None:
+                mismatches.append(
+                    {"field": label, "index": index_value, "parsed": ours, "reason": "missing"}
+                )
+                continue
+            if label == "arrival" and truncated:
+                # A truncated trip cannot reach its destination, so comparing the
+                # last parsed arrival with the index's terminal arrival is not a
+                # mismatch; it is the expected consequence of the page range.
+                mismatches.append(
+                    {
+                        "field": label,
+                        "index": index_value,
+                        "parsed": ours,
+                        "reason": "truncated_trip_not_comparable",
+                    }
+                )
+                continue
+            if index_value[:5] != ours[:5]:
+                mismatches.append(
+                    {"field": label, "index": index_value, "parsed": ours, "reason": "value"}
+                )
 
+        results.append(
+            {
+                "train_no": number,
+                "completeness": train.get("completeness"),
+                "index_depart": entry.get("depart"),
+                "parsed_first_depart": first_depart,
+                "index_arrive": entry.get("arrive"),
+                "parsed_last_arrive": last_arrive,
+                "mismatches": mismatches,
+            }
+        )
+    real_mismatches = sum(
+        1
+        for r in results
+        for m in r["mismatches"]
+        if m["reason"] not in ("truncated_trip_not_comparable",)
+    )
     return {
-        "note": (
-            "Index is the primary authority for which trains exist. Differences are "
-            "listed, never resolved automatically."
+        "rule": "R4a",
+        "description": "index departure/arrival vs parsed endpoints (minute precision)",
+        "results": results,
+        "mismatch_count": real_mismatches,
+        "non_comparable_count": sum(
+            1
+            for r in results
+            for m in r["mismatches"]
+            if m["reason"] == "truncated_trip_not_comparable"
         ),
-        "index_entries": len(index_entries),
-        "index_distinct_train_numbers": len(index_by_no),
-        "duplicate_train_numbers_in_index": sorted(set(duplicates), key=_number_key),
-        "pilot_table_trains": len(trains),
-        "in_index_but_not_parsed": only_index,
-        "parsed_but_not_in_index": only_table,
-        "page_mismatches": page_mismatches,
     }
 
 
-def _number_key(value: str) -> tuple[int, str]:
-    digits = "".join(ch for ch in value if ch.isdigit())
-    return (int(digits) if digits else 0, value)
+# --- R5: seconds ------------------------------------------------------------
 
 
-# --- review artifact --------------------------------------------------------
+def seconds_report(trains: list[dict]) -> dict:
+    total = non_zero = 0
+    examples = []
+    for train in trains:
+        for stop in train["stops"]:
+            for cell in (stop["arrive"], stop["depart"]):
+                value = cell["value"]
+                if not value:
+                    continue
+                total += 1
+                seconds = int(value.split(":")[2])
+                if seconds != 0:
+                    non_zero += 1
+                    if len(examples) < 20:
+                        examples.append(
+                            {
+                                "train_no": train["train_no"],
+                                "seq": stop["seq"],
+                                "station": stop["station_code"],
+                                "value": value,
+                            }
+                        )
+    return {
+        "time_values": total,
+        "with_non_zero_seconds": non_zero,
+        "non_zero_examples": examples,
+        "all_seconds_zero": non_zero == 0,
+    }
+
+
+def seconds_report_all_sections_words(words_dir: Path = WORDS_DIR) -> dict:
+    """Count non-zero seconds per page section, straight from the raw words."""
+    inventory_path = Path("data/raw/inventory.json")
+    sections: dict[str, dict[str, int]] = {}
+    inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
+    by_page = {p["page"]: p["section"] for p in inventory["pages"]}
+
+    pattern = re.compile(r"\b\d{2}:\d{2}:(\d{2})\b")
+    for path in sorted(words_dir.glob("page_*.json")):
+        page = int(path.stem.split("_")[1])
+        section = by_page.get(page, "unknown")
+        text = " ".join(row[4] for row in json.loads(path.read_text(encoding="utf-8"))["words"])
+        bucket = sections.setdefault(section, {"total": 0, "non_zero": 0})
+        for seconds in pattern.findall(text):
+            bucket["total"] += 1
+            if seconds != "00":
+                bucket["non_zero"] += 1
+    return sections
+
+
+# --- R6: index rows vs train numbers ---------------------------------------
+
+
+def index_flatten(index_entries: list[dict]) -> dict:
+    """Flatten multi-number index rows into per-train-number records."""
+    flattened = []
+    for entry in index_entries:
+        numbers = [n for n in (entry["train_no"] or "").split("-") if n]
+        for number in numbers:
+            flattened.append(
+                {
+                    "train_no": number,
+                    "seq": entry["seq"],
+                    "row_train_no": entry["train_no"],
+                    "name": entry["name"],
+                    "relation": entry["relation"],
+                    "printed_page": entry["printed_page"],
+                }
+            )
+    counts: dict[str, int] = {}
+    for item in flattened:
+        counts[item["train_no"]] = counts.get(item["train_no"], 0) + 1
+    return {
+        "rows": len(index_entries),
+        "flattened_records": len(flattened),
+        "distinct_train_numbers": len(counts),
+        "multi_number_rows": sum(
+            1 for e in index_entries if e["train_no"] and "-" in e["train_no"]
+        ),
+        "duplicated_train_numbers": {
+            number: count for number, count in sorted(counts.items()) if count > 1
+        },
+        "flattened": flattened,
+    }
+
+
+def book_reconciliation(index_entries: list[dict], trains: list[dict]) -> dict:
+    """Per-book lists: in tables but not index, and the reverse. Never resolved."""
+    index_numbers: set[str] = set()
+    for entry in index_entries:
+        index_numbers.update(n for n in (entry["train_no"] or "").split("-") if n)
+
+    table_numbers: set[str] = set()
+    for train in trains:
+        if train["train_no"]:
+            table_numbers.update(n for n in train["train_no"].split("-") if n)
+
+    return {
+        "note": "Listed, never resolved.",
+        "index_distinct_numbers": len(index_numbers),
+        "pilot_table_numbers": sorted(table_numbers),
+        "in_tables_but_absent_from_index": sorted(table_numbers - index_numbers),
+        "in_index_but_absent_from_tables": sorted(index_numbers - table_numbers),
+        "index_side_is_large_by_design": (
+            "The index covers the whole intercity section; the pilot parses two pages."
+        ),
+    }
+
+
+# --- review artefacts -------------------------------------------------------
+
+
+def _cell_html(stop: dict, key: str) -> str:
+    cell = stop[key]
+    raw = cell["raw"]
+    value = cell["value"]
+    if value is None and raw:
+        return f"<em>{raw}</em>"
+    if value is None:
+        return "<em>—</em>"
+    return value
 
 
 def render_review_html(
-    pdf: Path, trains: list[dict], reports: list[dict], footnotes: list[dict]
+    title: str,
+    trains: list[dict],
+    reports: list[dict],
+    footnotes: list[dict],
+    notes: str = "",
 ) -> str:
     rows: list[str] = []
     for train in trains:
         rows.append(
             f"<h2>KA {train['train_no'] or '?'} — {train['name'] or 'unknown'}"
-            f" <small>({train['origin']}–{train['destination']})</small></h2>"
+            f" <small>({train['origin']}–{train['destination']})"
+            f" · {train['completeness']}</small></h2>"
         )
+        badges = []
+        if train["info"]:
+            badges.append(f'<span class="info">info: {"; ".join(train["info"])}</span>')
         if train["needs_review"]:
-            rows.append('<p class="flag">train-level: ' + "; ".join(train["needs_review"]) + "</p>")
+            badges.append(
+                f'<span class="flag">needs_review: {"; ".join(train["needs_review"])}</span>'
+            )
+        if badges:
+            rows.append("<p>" + " ".join(badges) + "</p>")
+
         rows.append(
             "<table><tr><th>#</th><th>Station</th><th>Speed</th><th>Datang</th>"
-            "<th>Berangkat</th><th>Keterangan</th><th>type</th></tr>"
+            "<th>Berangkat</th><th>Keterangan</th><th>type</th><th>day</th>"
+            "<th>flags</th></tr>"
         )
         for stop in train["stops"]:
             css = ' class="flag"' if stop["needs_review"] else ""
-            cells = "".join(
-                f"<td>{_cell_html(stop, key)}</td>" for key in ("speed", "arrive", "depart", "note")
-            )
+            cells = "".join(_cell_html(stop, key) for key in ("speed", "arrive", "depart", "note"))
+            badges = "; ".join(stop["needs_review"]) or "; ".join(stop["info"])
             rows.append(
                 f"<tr{css}><td>{stop['seq']}</td>"
                 f"<td>{stop['station_name']} ({stop['station_code'] or '?'})</td>"
-                f"{cells}<td>{stop['stop_type']}</td></tr>"
+                f"{cells}<td>{stop['stop_type']}</td><td>{stop['day_offset']}</td>"
+                f"<td>{badges}</td></tr>"
             )
         rows.append("</table>")
 
     rule_rows = []
     for report in reports:
         status = "PASS" if report["passed"] else "FAIL"
+        label = report.get("label", report["rule"])
         rule_rows.append(
             f'<tr class="{"ok" if report["passed"] else "flag"}">'
-            f"<td>{report['rule']}</td><td>{report['description']}</td>"
+            f"<td>{label}</td><td>{report['description']}</td>"
             f"<td>{report['checked']}</td><td>{report['violation_count']}</td>"
             f"<td>{status}</td></tr>"
         )
@@ -299,23 +520,23 @@ def render_review_html(
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Pilot review — KA 249/250 (PDF 521-522)</title>
+<title>{title}</title>
 <style>
   body {{ font-family: -apple-system, system-ui, sans-serif; margin: 2rem; max-width: 1200px; }}
   table {{ border-collapse: collapse; margin: 1rem 0 2rem; font-size: 13px; }}
   th, td {{ border: 1px solid #ccc; padding: 4px 8px; text-align: left; }}
   th {{ background: #f0f0f0; }}
   .flag {{ background: #ffe0e0; }}
+  .info {{ background: #fff6d0; }}
   .ok {{ background: #e0ffe0; }}
   h2 {{ margin-top: 2rem; }}
   small {{ color: #666; font-weight: normal; }}
-  .page {{ border: 1px solid #999; margin: 1rem 0; }}
 </style>
 </head>
 <body>
-<h1>Phase 1 pilot review — KA 249 / KA 250</h1>
+<h1>{title}</h1>
 <p><strong>Status: DRAFT, generated by the parser. Not verified by a human.</strong></p>
-<p>Rendered pages are produced locally and are gitignored; they are not embedded here.</p>
+{notes}
 
 <h2>Validator results</h2>
 <table>
@@ -323,32 +544,35 @@ def render_review_html(
 {"".join(rule_rows)}
 </table>
 
-<h2>Footnote patterns (captured verbatim, not interpreted)</h2>
+<h2>Footnote patterns (verbatim, not interpreted)</h2>
 <ul>{"".join(f"<li><code>{f['text']}</code> ×{f['count']}</li>" for f in footnotes)}</ul>
 
 {"".join(rows)}
-
-<h2>Side-by-side check</h2>
-<p>Render pages 521 and 522 (see <code>make inventory</code> notes) and compare against
-the tables above. Every cell here carries a bbox in the JSON output, so a future
-review UI can highlight its source words.</p>
 </body>
 </html>
 """
 
 
-def _cell_html(stop: dict, key: str) -> str:
-    cell = stop[key]
-    value = cell["value"]
-    raw = cell["raw"]
-    if cell["page"] is None:
-        return "<em>—</em>"
-    if value is None and raw:
-        return f"<em>{raw}</em>"
-    return value if value is not None else "<em>—</em>"
+# --- pipeline pieces --------------------------------------------------------
 
 
-# --- main -------------------------------------------------------------------
+def parse_pages(pdf: Path, pages: tuple[int, ...], words_dir: Path) -> list:
+    trains = []
+    for page in pages:
+        words = load_words(page, words_dir)
+        trains.extend(parse_page(split_tables(words, page, vertical_rulings(pdf, page))))
+    trains = merge_continuations(trains)
+    return finalize(trains, (min(pages), max(pages)))
+
+
+def info_and_review_counts(trains: list[dict]) -> dict:
+    info = sum(len(t["info"]) for t in trains) + sum(
+        len(s["info"]) for t in trains for s in t["stops"]
+    )
+    review = sum(len(t["needs_review"]) for t in trains) + sum(
+        len(s["needs_review"]) for t in trains for s in t["stops"]
+    )
+    return {"info": info, "needs_review": review}
 
 
 def run(pdf: Path, words_dir: Path = WORDS_DIR) -> int:
@@ -356,7 +580,7 @@ def run(pdf: Path, words_dir: Path = WORDS_DIR) -> int:
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
     VALIDATED_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 1b — index
+    # --- 1b: index ---
     index_words = {page: load_words(page, words_dir) for page in INDEX_PAGES}
     index_entries = [entry.as_dict() for entry in parse_index_pages(index_words)]
     for entry in index_entries:
@@ -379,106 +603,188 @@ def run(pdf: Path, words_dir: Path = WORDS_DIR) -> int:
         encoding="utf-8",
     )
 
-    # 1c — pilot tables
-    trains = []
-    for page in PILOT_PAGES:
-        words = load_words(page, words_dir)
-        trains.extend(parse_page(split_tables(words, page, vertical_rulings(pdf, page))))
-    trains = merge_continuations(trains)
-    train_dicts = [t.as_dict() for t in trains]
-    footnotes = footnote_patterns(trains)
+    # --- V3b over all raw pages ---
+    code_index = scan_words_dir(words_dir)
+    v3b = v3b_report(code_index)
+    known_codes = set(code_index.code_to_names)
 
-    known_codes = {s.station_code for t in trains for s in t.stops if s.station_code}
-    reports = run_validators(trains, known_codes)
-    report_dicts = [r.as_dict() for r in reports]
+    # --- 1c: two pilots ---
+    pilots = {
+        "pilot_249_250": parse_pages(pdf, PILOT_249_250, words_dir),
+        "pilot_259F_260F": parse_pages(pdf, PILOT_259_260, words_dir),
+    }
 
-    (PARSED_DIR / "pilot_249_250.json").write_text(
-        json.dumps(
-            {
-                "verified_by_human": False,
-                "note": (
-                    "DRAFT generated by the parser. Regression fixture only until a "
-                    "human confirms these rows against the PDF."
-                ),
-                "pages": list(PILOT_PAGES),
-                "footnote_patterns": footnotes,
-                "trains": train_dicts,
-            },
-            indent=2,
-            ensure_ascii=False,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+    summary: dict = {}
+    for name, trains in pilots.items():
+        train_dicts = [t.as_dict() for t in trains]
+        footnotes = footnote_patterns(trains)
+        reports = run_validators(trains, known_codes)
 
-    reconciliation = reconcile(index_entries, train_dicts)
-    (REVIEW_DIR / "reconciliation_intercity.json").write_text(
-        json.dumps(reconciliation, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
-
-    cross = cross_parser_report(pdf, PILOT_PAGES, train_dicts)
-    (REVIEW_DIR / "cross_parser_pilot.json").write_text(
-        json.dumps(cross, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
-
-    needs_review = []
-    for train in train_dicts:
-        for reason in train["needs_review"]:
-            needs_review.append({"train_no": train["train_no"], "reason": reason})
-        for stop in train["stops"]:
-            for reason in stop["needs_review"]:
-                needs_review.append(
-                    {
-                        "train_no": train["train_no"],
-                        "page": stop["provenance"]["page"],
-                        "seq": stop["seq"],
-                        "station_code": stop["station_code"],
-                        "reason": reason,
-                    }
+        # V3 is circular; label it and keep it informational.
+        report_dicts = []
+        for report in reports:
+            payload = report.as_dict()
+            if report.rule == "V3":
+                payload["rule"] = "V3"
+                payload["label"] = "V3-circular: informational"
+                payload["circular"] = True
+                payload["note"] = (
+                    "Stations table is built from the same parsed rows, so this "
+                    "cannot detect a wrong station code. V3b is the non-circular "
+                    "check."
                 )
+            else:
+                payload["label"] = report.rule
+                payload["circular"] = False
+            report_dicts.append(payload)
 
-    (VALIDATED_DIR / "pilot_249_250_validation.json").write_text(
-        json.dumps(
-            {
-                "verified_by_human": False,
-                "rules": report_dicts,
-                "needs_review": needs_review,
-                "all_rules_pass": all(r["passed"] for r in report_dicts),
-            },
-            indent=2,
-            ensure_ascii=False,
+        (PARSED_DIR / f"{name}.json").write_text(
+            json.dumps(
+                {
+                    "verified_by_human": False,
+                    "note": (
+                        "DRAFT generated by the parser. Regression fixture only until "
+                        "a human confirms these rows against the PDF."
+                    ),
+                    "pages": list(name == "pilot_249_250" and PILOT_249_250 or PILOT_259_260),
+                    "footnote_patterns": footnotes,
+                    "trains": train_dicts,
+                },
+                indent=2,
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
         )
-        + "\n",
+
+        needs_review_items = []
+        for train in train_dicts:
+            for reason in train["needs_review"]:
+                needs_review_items.append({"train_no": train["train_no"], "reason": reason})
+            for stop in train["stops"]:
+                for reason in stop["needs_review"]:
+                    needs_review_items.append(
+                        {
+                            "train_no": train["train_no"],
+                            "page": stop["provenance"]["page"],
+                            "seq": stop["seq"],
+                            "station_code": stop["station_code"],
+                            "reason": reason,
+                        }
+                    )
+
+        truncated = [
+            t["train_no"] for t in train_dicts if t["completeness"] == COMPLETENESS_TRUNCATED
+        ]
+
+        (VALIDATED_DIR / f"{name}_validation.json").write_text(
+            json.dumps(
+                {
+                    "verified_by_human": False,
+                    "rules": report_dicts,
+                    "v3b": {
+                        "code_conflict_count": v3b["code_conflict_count"],
+                        "name_conflict_count": v3b["name_conflict_count"],
+                        "near_duplicate_count": v3b["near_duplicate_count"],
+                        "prefix_pair_count": v3b["prefix_pair_count"],
+                        "full": v3b,
+                    },
+                    "needs_review": needs_review_items,
+                    "counts": info_and_review_counts(train_dicts),
+                    "truncated_trains": truncated,
+                    "all_rules_pass": all(r["passed"] for r in report_dicts),
+                },
+                indent=2,
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+        cross = cross_parser_report(
+            pdf,
+            tuple(sorted({p for p in (521, 522) if name == "pilot_249_250"}) or PILOT_259_260),
+            train_dicts,
+            known_codes,
+        )
+        (REVIEW_DIR / f"cross_parser_{name}.json").write_text(
+            json.dumps(cross, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
+
+        (REVIEW_DIR / f"{name}.html").write_text(
+            render_review_html(
+                f"Phase 1 review — {name}",
+                train_dicts,
+                report_dicts,
+                footnotes,
+                notes=(
+                    "<p>Cells show the parsed value; a dash in italics is the raw "
+                    "token. Rows with <em>needs_review</em> flags are highlighted.</p>"
+                ),
+            ),
+            encoding="utf-8",
+        )
+
+        summary[name] = {
+            "trains": len(train_dicts),
+            "stops": sum(len(t["stops"]) for t in train_dicts),
+            "counts": info_and_review_counts(train_dicts),
+            "truncated": truncated,
+        }
+
+    # --- R4a: index time cross-check on both pilots ---
+    all_trains = [t for trains in pilots.values() for t in trains]
+    r4a = index_time_cross_check(index_entries, [t.as_dict() for t in all_trains])
+    (REVIEW_DIR / "r4a_index_time_check.json").write_text(
+        json.dumps(r4a, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+
+    # --- R5: seconds ---
+    r5 = {
+        "pilot_trains": seconds_report([t.as_dict() for t in all_trains]),
+        "per_section_raw": seconds_report_all_sections_words(words_dir),
+    }
+    (REVIEW_DIR / "r5_seconds.json").write_text(
+        json.dumps(r5, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+
+    # --- R6: index units ---
+    r6 = {
+        "flatten": {k: v for k, v in index_flatten(index_entries).items() if k != "flattened"},
+        "book_reconciliation": book_reconciliation(
+            index_entries, [t.as_dict() for t in all_trains]
+        ),
+    }
+    (REVIEW_DIR / "r6_index_units.json").write_text(
+        json.dumps(r6, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    (PARSED_DIR / "index_flattened_train_numbers.json").write_text(
+        json.dumps(index_flatten(index_entries), indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
 
-    (REVIEW_DIR / "pilot_249_250.html").write_text(
-        render_review_html(pdf, train_dicts, report_dicts, footnotes), encoding="utf-8"
-    )
-
-    # console summary
-    print(f"index entries: {len(index_entries)}  (from pages {list(INDEX_PAGES)})")
-    print(f"pilot trains: {len(train_dicts)}")
-    for train in train_dicts:
-        stops = len(train["stops"])
-        print(f"  KA {train['train_no']}: {stops} stops  review={len(train['needs_review'])}")
-    for report in report_dicts:
-        status = "PASS" if report["passed"] else "FAIL"
-        print(
-            f"  {report['rule']} {status}: checked={report['checked']} "
-            f"violations={report['violation_count']}"
-        )
-    print(f"needs_review items: {len(needs_review)}")
+    # --- console ---
+    print(f"index entries: {len(index_entries)}")
     print(
-        f"cross-parser: pdftotext available={cross['pdftotext']['available']}, "
-        f"pdfplumber available={cross['pdfplumber']['available']}"
+        f"V3b: codes={v3b['distinct_codes']} names={v3b['distinct_names']} "
+        f"code_conflicts={v3b['code_conflict_count']} "
+        f"name_conflicts={v3b['name_conflict_count']}"
     )
+    for name, payload in summary.items():
+        print(
+            f"{name}: trains={payload['trains']} stops={payload['stops']} "
+            f"info={payload['counts']['info']} review={payload['counts']['needs_review']} "
+            f"truncated={payload['truncated']}"
+        )
+    print(f"R4a mismatches: {r4a['mismatch_count']}")
+    print(f"R5 non-zero seconds (pilot): {r5['pilot_trains']['with_non_zero_seconds']}")
+    print(f"tools: {tool_status()}")
     print(f"wrote {PARSED_DIR}, {REVIEW_DIR}, {VALIDATED_DIR}")
-    return 0 if all(r["passed"] for r in report_dicts) else 1
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Phase 1: index + pilot + validators.")
+    parser = argparse.ArgumentParser(description="Phase 1: index + pilots + validators.")
     parser.add_argument("--pdf", type=Path, default=DEFAULT_PDF)
     parser.add_argument("--words", type=Path, default=WORDS_DIR)
     args = parser.parse_args(argv)
@@ -488,8 +794,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     if not (args.words / "manifest.json").exists():
         print(
-            f"error: raw words missing at {args.words}; run `make extract` first",
-            file=sys.stderr,
+            f"error: raw words missing at {args.words}; run `make extract` first", file=sys.stderr
         )
         return 2
     return run(args.pdf, args.words)

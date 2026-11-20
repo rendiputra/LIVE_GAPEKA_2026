@@ -1,19 +1,29 @@
-"""Phase 1c: pilot parser for per-train stop tables (intercity book).
+"""Phase 1c/2: per-train stop-table parser (intercity book).
 
 Row and column reconstruction is delegated to ``table_geometry`` (Hard Rule 11).
 This module turns geometry into stop records and applies the document's cell
-conventions, recording ``needs_review`` at exactly the places where a value is
-missing without an explicit "empty" marker.
+conventions.
 
-Conventions applied (each one is reported if a counter-example appears):
+Conventions (AGENTS.md section 5, observed in sampling):
 
 - ``Ls`` in the *Datang* column means the train passes through without stopping.
-  Keep the raw text and set ``stop_type = "pass"``.
-- ``-`` is the document's explicit empty-cell marker -> ``null``, no review.
-- A cell that is blank when the document's convention says it should hold a value
-  -> ``null`` + ``needs_review``.
-- Footnote text (``= ka 46 (ka 46 //)``) is captured verbatim; its meaning is
-  NOT interpreted in Phase 1.
+  The raw text is kept and ``stop_type = "pass"``.
+- ``-`` is the document's explicit empty-cell marker. It is unflagged **only** at
+  the three structurally expected positions: **Datang** at the first sequence,
+  **Berangkat** at the last sequence, and **Kecepatan** at the last sequence.
+  A ``-`` anywhere else becomes ``null`` + ``needs_review``.
+- A blank cell where the convention expects a value becomes ``null`` +
+  ``needs_review``.
+- ``raw`` is preserved for **every** cell. ``0`` and ``-`` are never normalised
+  into the same thing: some trains print speed ``0`` at a terminal, others ``-``.
+- Footnote text (``= ka 46 (ka 46 //)``) is captured verbatim; its meaning is not
+  interpreted here.
+
+Flags come in two kinds and are never mixed:
+
+- ``info`` — a structural observation that is not in doubt, e.g. a table that
+  continues on the next page. These do not block anything.
+- ``needs_review`` — a real doubt that a human must resolve.
 """
 
 from __future__ import annotations
@@ -41,10 +51,24 @@ TRAIN_TITLE_RE = re.compile(
 )
 STATION_RE = re.compile(r"^(.*?)\s*\(([A-Z]{2,5})\)$")
 
+# A midnight rollover is normal; a jump larger than this is not.
+MAX_PLAUSIBLE_GAP_SECONDS = 12 * 3600
+
+COMPLETENESS_COMPLETE = "complete"
+COMPLETENESS_TRUNCATED = "truncated_at_loaded_pages"
+COMPLETENESS_UNKNOWN = "unknown"
+
+
+def seconds_of(value: str | None) -> int | None:
+    if not value or not TIME_RE.match(value):
+        return None
+    hours, minutes, seconds = (int(part) for part in value.split(":"))
+    return hours * 3600 + minutes * 60 + seconds
+
 
 @dataclass
 class Cell:
-    """One parsed cell with its provenance."""
+    """One parsed cell. ``raw`` is always the text exactly as printed."""
 
     value: str | None
     raw: str
@@ -65,6 +89,8 @@ class Stop:
     depart: Cell
     note: Cell
     stop_type: str
+    day_offset: int = 0
+    info: list[str] = field(default_factory=list)
     needs_review: list[str] = field(default_factory=list)
     provenance: dict = field(default_factory=dict)
 
@@ -78,6 +104,8 @@ class Stop:
             "depart": self.depart.as_dict(),
             "note": self.note.as_dict(),
             "stop_type": self.stop_type,
+            "day_offset": self.day_offset,
+            "info": self.info,
             "needs_review": self.needs_review,
             "provenance": self.provenance,
         }
@@ -93,8 +121,11 @@ class ParsedTrain:
     header_y: float
     stops: list[Stop] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
+    info: list[str] = field(default_factory=list)
     needs_review: list[str] = field(default_factory=list)
     column_source: str = "ruling"
+    completeness: str = COMPLETENESS_UNKNOWN
+    loaded_pages: list[int] = field(default_factory=list)
 
     def as_dict(self) -> dict:
         return {
@@ -105,8 +136,11 @@ class ParsedTrain:
             "page": self.page,
             "header_y": round(self.header_y, 2),
             "column_source": self.column_source,
+            "completeness": self.completeness,
+            "loaded_pages": self.loaded_pages,
             "stops": [s.as_dict() for s in self.stops],
             "notes": self.notes,
+            "info": self.info,
             "needs_review": self.needs_review,
         }
 
@@ -132,7 +166,6 @@ def _cell(block: TableBlock, row: list[Word], key: str) -> Cell:
 
 
 def parse_title(block: TableBlock) -> tuple[str | None, str | None, str | None, str | None]:
-    """Extract train_no / name / origin / destination from the table title."""
     text = " ".join(w.text for w in block.title_words)
     match = TRAIN_TITLE_RE.search(" ".join(text.upper().split()))
     if not match:
@@ -140,7 +173,20 @@ def parse_title(block: TableBlock) -> tuple[str | None, str | None, str | None, 
     return match.group(1), match.group(2).title(), match.group(3), match.group(4)
 
 
-def parse_stop(block: TableBlock, row: list[Word], previous_seq: int | None) -> Stop | None:
+def _classify_time_cell(raw: str, kind: str) -> tuple[str | None, list[str], list[str]]:
+    """Classify a time-column cell. Returns (value, info, needs_review)."""
+    text = raw.strip()
+    if text == "":
+        return None, [], [f"{kind}_blank"]
+    if text == EMPTY_MARKER:
+        # Positional expectations are applied later, once the last seq is known.
+        return None, [], []
+    if TIME_RE.match(text):
+        return text, [], []
+    return None, [], [f"{kind}_unrecognised:{text}"]
+
+
+def parse_stop(block: TableBlock, row: list[Word]) -> Stop | None:
     """Convert one geometry row into a Stop, or None if it is not a stop row."""
     seq_cell = _cell(block, row, COL_NO)
     station_cell = _cell(block, row, COL_STATION)
@@ -149,11 +195,6 @@ def parse_stop(block: TableBlock, row: list[Word], previous_seq: int | None) -> 
         return None
     if not seq_cell.value.isdigit():
         return None
-
-    seq = int(seq_cell.value)
-    if previous_seq is not None and seq != previous_seq + 1:
-        # A gap means the row grouping or the PDF itself skipped something.
-        pass
 
     station_match = STATION_RE.match(station_cell.raw)
     if station_match:
@@ -167,50 +208,33 @@ def parse_stop(block: TableBlock, row: list[Word], previous_seq: int | None) -> 
     note = _cell(block, row, COL_NOTE)
 
     review: list[str] = []
-
     if code is None:
         review.append("station_code_unparsed")
 
-    # stop_type from the Datang column, where the document places Ls.
     arrive_raw = (arrive.raw or "").strip()
+    depart_raw = (depart.raw or "").strip()
+
     if arrive_raw.upper() == PASS_MARKER:
         stop_type = "pass"
         arrive_value = None
-    elif arrive_raw == EMPTY_MARKER:
-        stop_type = "stop"
-        arrive_value = None
-    elif TIME_RE.match(arrive_raw):
-        stop_type = "stop"
-        arrive_value = arrive_raw
-    elif arrive_raw == "":
-        stop_type = "stop"
-        arrive_value = None
-        review.append("arrive_blank")
     else:
         stop_type = "stop"
-        arrive_value = None
-        review.append(f"arrive_unrecognised:{arrive_raw}")
+        arrive_value, _i, _r = _classify_time_cell(arrive_raw, "arrive")
+        review.extend(_r)
 
-    depart_raw = (depart.raw or "").strip()
-    if depart_raw == EMPTY_MARKER or depart_raw == "":
-        depart_value = None
-        if depart_raw == "" and stop_type != "pass":
-            review.append("depart_blank")
-    elif TIME_RE.match(depart_raw):
-        depart_value = depart_raw
-    else:
-        depart_value = None
-        review.append(f"depart_unrecognised:{depart_raw}")
+    depart_value, _i, depart_flags = _classify_time_cell(depart_raw, "depart")
+    review.extend(depart_flags)
 
-    # A pass row shows Ls in Datang and a time in Berangkat (the pass time).
-    if stop_type == "pass" and depart_value is None and arrive_raw.upper() != PASS_MARKER:
-        review.append("pass_without_time")
+    # A pass row carries its passing time in Berangkat; a pass row with no time
+    # at all is a real gap.
+    if stop_type == "pass" and depart_value is None and depart_raw == EMPTY_MARKER:
+        review.append("pass_row_without_time")
 
     speed_raw = (speed.raw or "").strip()
     if speed_raw == EMPTY_MARKER:
-        speed_value = None
+        speed_value = None  # positional rule applied in finalize
     elif speed_raw.isdigit():
-        speed_value = speed_raw
+        speed_value = speed_raw  # keep "0" verbatim
     elif speed_raw == "":
         speed_value = None
         review.append("speed_blank")
@@ -219,7 +243,7 @@ def parse_stop(block: TableBlock, row: list[Word], previous_seq: int | None) -> 
         review.append(f"speed_unrecognised:{speed_raw}")
 
     return Stop(
-        seq=seq,
+        seq=int(seq_cell.value),
         station_name=name,
         station_code=code,
         speed=Cell(speed_value, speed.raw, speed.page, speed.bbox),
@@ -237,8 +261,79 @@ def parse_stop(block: TableBlock, row: list[Word], previous_seq: int | None) -> 
     )
 
 
+def apply_positional_empty_rules(train: ParsedTrain) -> None:
+    """Decide which ``-`` cells are structurally expected and which are doubts.
+
+    Unflagged positions: Datang at the first seq, Berangkat at the last seq,
+    Kecepatan at the last seq.
+    """
+    if not train.stops:
+        return
+    first_seq = train.stops[0].seq
+    last_seq = train.stops[-1].seq
+
+    def is_dash(cell: Cell) -> bool:
+        return cell.raw.strip() == EMPTY_MARKER and cell.value is None
+
+    for stop in train.stops:
+        if is_dash(stop.arrive) and stop.seq != first_seq:
+            stop.needs_review.append("arrive_dash_not_expected")
+        if is_dash(stop.depart) and stop.seq != last_seq:
+            stop.needs_review.append("depart_dash_not_expected")
+        if is_dash(stop.speed) and stop.seq != last_seq:
+            stop.needs_review.append("speed_dash_not_expected")
+
+
+def apply_day_offsets(train: ParsedTrain) -> None:
+    """Assign day_offset from consecutive times (Hard Rule 10).
+
+    A time smaller than the previous time is the next day. A jump larger than
+    ``MAX_PLAUSIBLE_GAP_SECONDS`` is implausible and flagged.
+    """
+    offset = 0
+    previous: tuple[int, Stop] | None = None
+    for stop in train.stops:
+        reference = stop.depart.value or stop.arrive.value
+        current = seconds_of(reference)
+        if current is None:
+            stop.day_offset = offset
+            continue
+        if previous is not None:
+            previous_seconds, previous_stop = previous
+            if current < previous_seconds:
+                offset += 1
+                gap = current + 24 * 3600 - previous_seconds
+            else:
+                gap = current - previous_seconds
+            if gap > MAX_PLAUSIBLE_GAP_SECONDS:
+                stop.needs_review.append(f"implausible_time_gap:{gap}s")
+            if offset > 2:
+                stop.needs_review.append(f"day_offset_exceeds_2:{offset}")
+        stop.day_offset = offset
+        previous = (current, stop)
+
+
+def detect_completeness(train: ParsedTrain, page_range: tuple[int, int]) -> str:
+    """Decide whether the trip's rows are all present in the loaded pages.
+
+    Truncated when the last parsed station does not match the destination **and**
+    the table reaches the bottom of the loaded page range. Otherwise unknown.
+    """
+    if not train.stops:
+        return COMPLETENESS_UNKNOWN
+    last_code = train.stops[-1].station_code
+    destination = train.destination
+    if last_code is not None and destination is not None and last_code == destination:
+        return COMPLETENESS_COMPLETE
+
+    last_page = max(stop.provenance.get("page", 0) for stop in train.stops)
+    if last_page >= page_range[1]:
+        return COMPLETENESS_TRUNCATED
+    return COMPLETENESS_UNKNOWN
+
+
 def parse_block(block: TableBlock) -> ParsedTrain | None:
-    """Parse one table block into a ParsedTrain."""
+    """Parse one table block into a ParsedTrain (finalisation happens later)."""
     train_no, name, origin, destination = parse_title(block)
     train = ParsedTrain(
         train_no=train_no,
@@ -248,15 +343,15 @@ def parse_block(block: TableBlock) -> ParsedTrain | None:
         page=block.page,
         header_y=block.header_y,
         column_source=block.column_source,
+        loaded_pages=[block.page],
     )
     if train_no is None:
         train.needs_review.append("train_header_unparsed")
 
     previous_seq: int | None = None
     for row in block.rows:
-        stop = parse_stop(block, row, previous_seq)
+        stop = parse_stop(block, row)
         if stop is None:
-            # Any leftover row text that is not a stop is captured as a note.
             text = " ".join(w.text for w in row).strip()
             if text:
                 train.notes.append(text)
@@ -270,27 +365,18 @@ def parse_block(block: TableBlock) -> ParsedTrain | None:
 
     if not train.stops:
         train.needs_review.append("no_stops_parsed")
-
-    seqs = [s.seq for s in train.stops]
-    if seqs and seqs[0] != 1:
-        train.needs_review.append(f"does_not_start_at_seq_1:starts_{seqs[0]}")
+    elif train.stops[0].seq != 1:
+        train.info.append(f"does_not_start_at_seq_1:starts_{train.stops[0].seq}")
 
     return train
 
 
-def parse_page(
-    block_list: list[TableBlock],
-) -> list[ParsedTrain]:
+def parse_page(block_list: list[TableBlock]) -> list[ParsedTrain]:
     return [t for t in (parse_block(b) for b in block_list) if t is not None]
 
 
 def merge_continuations(trains: list[ParsedTrain]) -> list[ParsedTrain]:
-    """Attach a title-less block to the train it continues.
-
-    A table block with no ``KA nnn (...)`` title and a first sequence number that
-    follows the previous train's last number is a continuation of that train on
-    the next page. Anything else stays a separate, flagged train.
-    """
+    """Attach a title-less block to the train it continues."""
     merged: list[ParsedTrain] = []
     for train in trains:
         previous = merged[-1] if merged else None
@@ -303,17 +389,28 @@ def merge_continuations(trains: list[ParsedTrain]) -> list[ParsedTrain]:
             and previous.stops[-1].seq is not None
             and train.stops[0].seq == previous.stops[-1].seq + 1
         ):
+            continued_from = train.stops[0].seq
             previous.stops.extend(train.stops)
             previous.notes.extend(train.notes)
-            previous.needs_review = [
-                r for r in previous.needs_review if not r.startswith("does_not_start_at_seq_1")
+            previous.loaded_pages.extend(train.loaded_pages)
+            previous.info = [
+                r for r in previous.info if not r.startswith("does_not_start_at_seq_1")
             ]
-            previous.needs_review.append(
-                f"continued_on_page_{train.page}_from_seq_{train.stops[0].seq - 1}"
-            )
+            previous.info.append(f"continued_on_page_{train.page}_from_seq_{continued_from}")
             continue
         merged.append(train)
     return merged
+
+
+def finalize(trains: list[ParsedTrain], page_range: tuple[int, int]) -> list[ParsedTrain]:
+    """Apply positional rules, day offsets, and completeness to every train."""
+    for train in trains:
+        apply_positional_empty_rules(train)
+        apply_day_offsets(train)
+        train.completeness = detect_completeness(train, page_range)
+        if train.completeness == COMPLETENESS_TRUNCATED:
+            train.info.append("truncated: last parsed station does not match destination")
+    return trains
 
 
 def footnote_patterns(trains: list[ParsedTrain]) -> list[dict]:
@@ -328,6 +425,4 @@ def footnote_patterns(trains: list[ParsedTrain]) -> list[dict]:
             stripped = note.strip()
             if stripped:
                 seen[stripped] = seen.get(stripped, 0) + 1
-    return [
-        {"text": text, "count": count} for text, count in sorted(seen.items(), key=lambda kv: kv[0])
-    ]
+    return [{"text": text, "count": count} for text, count in sorted(seen.items())]

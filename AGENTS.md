@@ -140,11 +140,16 @@ Domain notes:
 
 Observed in sampling, to be verified in Phase 1:
 - Train-table columns: `No. | Stasiun dan Perhentian | Kecepatan Maksimum (Km/Jam) | Datang | Berangkat | Keterangan`.
-- `Ls` in Keterangan = pass-through (non-stopping); `-` = empty cell.
+- **`Ls` sits in the `Datang` column**, not in Keterangan. It marks a pass-through (non-stopping) row.
+- **`Keterangan` holds footnotes and codes**, e.g. `= ka 46 (ka 46 //)`, `x ka 361 (ka 361 x)`. It is not a control column.
+- **Pass-row semantics — TO BE VERIFIED:** a row with `Ls` carries a single time, in `Berangkat`, interpreted as the passing time (`arrive = depart` for the engine). Any counter-example must be reported, not worked around.
+- `-` is the document's explicit empty-cell marker. It is expected only at: `Datang` on the first row, `Berangkat` on the last row, and `Kecepatan` on the last row. A `-` anywhere else is a real doubt.
+- `0` and `-` are different: some trains print speed `0` at a terminal, others `-`. Never normalise one into the other.
 - Footnotes appear inline in the text stream (e.g. `= ka 46 (ka 46 //)`, `// ka 5014 (ka 5014 =)`).
 - Header count != train count (many KRL tables use a different header).
 - 979 of 1,426 train-table pages carry **two or more** tables; a one-table-per-page parser will drop data.
 - Printed page numbers restart at five book boundaries (PDF 58, 670, 834, 1516, 1826).
+- **Times are second-precision** (`HH:MM:SS`) on train-table pages. A minute-resolution model truncates silently.
 
 ## 6. Phases
 

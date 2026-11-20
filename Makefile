@@ -1,9 +1,12 @@
-.PHONY: setup inventory extract parse validate build-db geometry test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse validate build-db geometry test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
 setup: ## install dependencies
 	uv sync
+
+doctor: ## report which required/optional tools are available
+	uv run python -m pipeline.doctor
 
 inventory: ## classify PDF pages -> data/raw/inventory.json + docs/inventory_report.md
 	uv run python -m pipeline.inventory --pdf $(PDF)
