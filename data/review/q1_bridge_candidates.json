@@ -1,0 +1,58 @@
+{
+ "note": "Report only. Not applied.",
+ "thresholds": {
+  "5m": {
+   "count": 3,
+   "components": [
+    {
+     "component_size": 8,
+     "gap_m": 1.7,
+     "from": 563692098,
+     "to": 9794788929
+    },
+    {
+     "component_size": 12,
+     "gap_m": 3.1,
+     "from": 9926535859,
+     "to": 12115596723
+    },
+    {
+     "component_size": 9,
+     "gap_m": 3.4,
+     "from": 14313928655,
+     "to": 14313928656
+    }
+   ]
+  },
+  "10m": {
+   "count": 4,
+   "components": [
+    {
+     "component_size": 8,
+     "gap_m": 1.7,
+     "from": 563692098,
+     "to": 9794788929
+    },
+    {
+     "component_size": 12,
+     "gap_m": 3.1,
+     "from": 9926535859,
+     "to": 12115596723
+    },
+    {
+     "component_size": 9,
+     "gap_m": 3.4,
+     "from": 14313928655,
+     "to": 14313928656
+    },
+    {
+     "component_size": 2,
+     "gap_m": 8.5,
+     "from": 2649516995,
+     "to": 2703684414
+    }
+   ]
+  }
+ },
+ "total_components": 28
+}

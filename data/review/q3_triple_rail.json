@@ -1,0 +1,102 @@
+{
+  "note": "Rail-path triple consistency. Straight-line distance is reported for context only; the decision uses routed distances and the turn angle.",
+  "ratio_limit": 1.15,
+  "turnback_angle_deg": 150.0,
+  "counts": {
+    "ok": 393,
+    "failure": 4,
+    "junction_turnback": 4
+  },
+  "failures": [
+    {
+      "code": "AND",
+      "name": "Stasiun Andir",
+      "via": "BD-AND-CIR",
+      "ratio": 3.055,
+      "turn_angle_deg": 13.8,
+      "rail_direct_km": 1.35,
+      "rail_via_km": 4.12,
+      "straight_km": 1.35,
+      "classification": "failure"
+    },
+    {
+      "code": "BD",
+      "name": "Stasiun Bandung",
+      "via": "AND-BD-CIR",
+      "ratio": 2.94,
+      "turn_angle_deg": 14.0,
+      "rail_direct_km": 1.39,
+      "rail_via_km": 4.09,
+      "straight_km": 1.37,
+      "classification": "failure"
+    },
+    {
+      "code": "JNG",
+      "name": "Stasiun Jatinegara",
+      "via": "MTR-JNG-POK",
+      "ratio": 1.46,
+      "turn_angle_deg": 23.8,
+      "rail_direct_km": 2.08,
+      "rail_via_km": 3.04,
+      "straight_km": 0.47,
+      "classification": "failure"
+    },
+    {
+      "code": "SLO",
+      "name": "Stasiun Solo Balapan",
+      "via": "SK-SLO-KDO",
+      "ratio": 1.317,
+      "turn_angle_deg": 113.9,
+      "rail_direct_km": 4.65,
+      "rail_via_km": 6.12,
+      "straight_km": 4.17,
+      "classification": "failure"
+    }
+  ],
+  "junction_turnbacks": [
+    {
+      "code": "BTT",
+      "name": "Stasiun Batutulis",
+      "via": "CS-BTT-BOP",
+      "ratio": 1.737,
+      "turn_angle_deg": 157.1,
+      "rail_direct_km": 8.93,
+      "rail_via_km": 15.52,
+      "straight_km": 7.86,
+      "classification": "junction_turnback"
+    },
+    {
+      "code": "CS",
+      "name": "Stasiun Ciomas",
+      "via": "MSG-CS-BTT",
+      "ratio": 1.649,
+      "turn_angle_deg": 165.6,
+      "rail_direct_km": 9.91,
+      "rail_via_km": 16.35,
+      "straight_km": 8.54,
+      "classification": "junction_turnback"
+    },
+    {
+      "code": "GDD",
+      "name": "Stasiun Gondangdia",
+      "via": "CKI-GDD-GMR",
+      "ratio": 1.319,
+      "turn_angle_deg": 156.2,
+      "rail_direct_km": 2.76,
+      "rail_via_km": 3.64,
+      "straight_km": 2.7,
+      "classification": "junction_turnback"
+    },
+    {
+      "code": "CKI",
+      "name": "CKI",
+      "via": "MRI-CKI-GDD",
+      "ratio": 1.261,
+      "turn_angle_deg": 178.1,
+      "rail_direct_km": 3.36,
+      "rail_via_km": 4.24,
+      "straight_km": 3.37,
+      "classification": "junction_turnback"
+    }
+  ]
+}

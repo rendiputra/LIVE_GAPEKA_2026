@@ -1,0 +1,26 @@
+{
+ "coord_status": {
+  "accepted": 370,
+  "missing": 4,
+  "override": 14,
+  "rejected": 1
+ },
+ "trip_status": {
+  "complete": 313,
+  "complete_estimated": 46,
+  "has_fallback": 119,
+  "has_unmeasured": 147
+ },
+ "segment_quality": {
+  "osm_routed": 376,
+  "osm_suspect": 9,
+  "unmeasured": 6
+ },
+ "blocked": {
+  "1": 137,
+  "2": 10
+ },
+ "bypass_rows": 224,
+ "segments_hash": "c9d0fd0f33c1b9ae31811ecb4115d4356f7bae744eae1757fe98536d867d4aa3",
+ "db_hash": null
+}

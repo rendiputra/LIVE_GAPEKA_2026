@@ -423,12 +423,13 @@ def build(db_path: Path = DB_PATH) -> dict:
                 continue
             counts = status["counts"]
             connection.execute(
-                "INSERT OR REPLACE INTO trip_geometry_status (trip_id, status, osm_routed,"
-                " osm_suspect, straight_line, unmeasured, total_length_m)"
-                " VALUES (?,?,?,?,?,?,?)",
+                "INSERT OR REPLACE INTO trip_geometry_status (trip_id, status,"
+                " has_bypassed_waypoints, osm_routed, osm_suspect, straight_line,"
+                " unmeasured, total_length_m) VALUES (?,?,?,?,?,?,?,?)",
                 (
                     tid,
                     status["status"],
+                    1 if status.get("has_bypassed_waypoints") else 0,
                     counts.get("osm_routed", 0),
                     counts.get("osm_suspect", 0),
                     counts.get("straight_line", 0),
@@ -441,6 +442,31 @@ def build(db_path: Path = DB_PATH) -> dict:
             "trip_status_counts": geo["trip_status_counts"],
             "content_hash": geo["content_hash"],
         }
+
+    # Q4: record every bypassed row so nothing is silently dropped.
+    connection.execute("DROP TABLE IF EXISTS trip_waypoint_estimates")
+    connection.execute(
+        "CREATE TABLE trip_waypoint_estimates ("
+        " trip_id TEXT NOT NULL REFERENCES trips(trip_id) ON DELETE CASCADE,"
+        " seq INTEGER NOT NULL, station_code TEXT NOT NULL,"
+        " method TEXT NOT NULL,"
+        " PRIMARY KEY (trip_id, seq))"
+    )
+    if segments_path.exists():
+        for key, rows in geo.get("trip_bypass", {}).items():
+            book_s, number = key.split(":", 1)
+            tid = next(
+                (v for k, v in trip_ids.items() if k.startswith(f"b{book_s}-{number}-v")),
+                None,
+            )
+            if tid is None:
+                continue
+            for row in rows:
+                connection.execute(
+                    "INSERT OR REPLACE INTO trip_waypoint_estimates"
+                    " (trip_id, seq, station_code, method) VALUES (?,?,?,?)",
+                    (tid, row["seq"], row["station_code"], "bypass_between_neighbours"),
+                )
 
     connection.commit()
 
@@ -456,6 +482,7 @@ def build(db_path: Path = DB_PATH) -> dict:
             "station_coord_candidates",
             "segments",
             "trip_geometry_status",
+            "trip_waypoint_estimates",
         )
     }
     station_coords = connection.execute(
@@ -474,6 +501,7 @@ def build(db_path: Path = DB_PATH) -> dict:
         "station_coord_candidates",
         "segments",
         "trip_geometry_status",
+        "trip_waypoint_estimates",
     ):
         rows = connection.execute(f"SELECT * FROM {table} ORDER BY 1, 2").fetchall()
         digest.update(table.encode())
@@ -515,6 +543,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     summary = build(args.db)
+    # Persist the summary so every number quoted in a report has a file behind it.
+    REVIEW_DIR.mkdir(parents=True, exist_ok=True)
+    (REVIEW_DIR / "db_build.json").write_text(
+        json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     print(json.dumps(summary, indent=2))
     return 0
 

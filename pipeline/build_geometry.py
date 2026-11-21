@@ -62,6 +62,58 @@ def load_config(path: Path = CONFIG) -> dict:
     return config
 
 
+def load_bridges(path: Path = Path("data/config/geometry_bridges.yaml")) -> list[dict]:
+    """Parse the human-authored bridge file (Q1)."""
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8")
+    if "bridges:" not in text:
+        return []
+    block = text.split("bridges:", 1)[1]
+    bridges: list[dict] = []
+    current: dict | None = None
+    for line in block.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if stripped.startswith("- pair:"):
+            current = {}
+            bridges.append(current)
+            continue
+        if current is None or ":" not in stripped:
+            continue
+        key, _, value = stripped.partition(":")
+        key = key.strip()
+        value = value.strip().strip('"')
+        if key in ("from_node", "to_node"):
+            current[key] = int(value)
+        elif key in ("reason", "evidence", "decided_by", "date"):
+            current[key] = value
+    return [b for b in bridges if "from_node" in b and "to_node" in b]
+
+
+def apply_bridges(graph: RailGraph, bridges: list[dict]) -> int:
+    """Add a synthetic edge for each human-approved bridge. Returns the count."""
+    from pipeline.rail_graph import Edge, haversine_m
+
+    applied = 0
+    for bridge in bridges:
+        a, b = bridge["from_node"], bridge["to_node"]
+        if a not in graph.coords or b not in graph.coords:
+            continue
+        if any(edge.b == b for edge in graph.adjacency.get(a, [])):
+            continue
+        length = haversine_m(graph.coords[a], graph.coords[b])
+        graph.adjacency.setdefault(a, []).append(Edge(a, b, length, 0))
+        graph.adjacency.setdefault(b, []).append(Edge(b, a, length, 0))
+        graph.way_of_edge[(a, b)] = 0
+        graph.way_of_edge[(b, a)] = 0
+        graph.service_of_edge[(a, b)] = "human_bridge"
+        graph.service_of_edge[(b, a)] = "human_bridge"
+        applied += 1
+    return applied
+
+
 def load_graph(name: str = "java_rail_graph.json") -> RailGraph:
     payload = json.loads((EXTERNAL / name).read_text(encoding="utf-8"))
     coords = {item["id"]: (item["lat"], item["lon"]) for item in payload["node_coords"]}
@@ -173,10 +225,23 @@ def shortest_path(
     return None
 
 
-def build(config: dict, graph_file: str = "java_rail_graph.json") -> dict:
+def build(
+    config: dict,
+    graph_file: str = "java_rail_graph.json",
+    baseline: bool = False,
+    out_path: Path | None = None,
+) -> dict:
+    """Build segments.
+
+    ``baseline=True`` reproduces the state BEFORE Q1 (human bridges) and Q4
+    (waypoint bypass). It exists only to generate an honest before/after
+    comparison; it never writes ``data/parsed/segments.json``.
+    """
     started = time.time()
     graph = load_graph(graph_file)
     bridged = graph.bridge_gaps(config.get("gap_bridge_m", 0.0))
+    human_bridges = [] if baseline else load_bridges()
+    human_bridged = apply_bridges(graph, human_bridges)
     coordinates = accepted_coordinates()
 
     # Snap every station with an accepted coordinate.
@@ -193,12 +258,64 @@ def build(config: dict, graph_file: str = "java_rail_graph.json") -> dict:
         band_counts[result.band] += 1
 
     # Distinct undirected pairs needed by any trip.
+    #
+    # Q4 bypass rule: a row may be skipped when (a) its stop_type is pass or
+    # unknown_untimed, (b) its station has no accepted coordinate, (c) the
+    # neighbouring rows HAVE coordinates, and (d) at most 3 consecutive rows are
+    # bypassed. A `stop` row is NEVER bypassed.
+    MAX_BYPASS_RUN = 3
     pairs: set[tuple[str, str]] = set()
     trip_pairs: dict[str, list[tuple[str, str]]] = {}
+    trip_bypass: dict[str, list[dict]] = {}
+
     for train in trips():
-        codes = [s["station_code"] for s in train["stops"] if s["station_code"]]
-        sequence = list(zip(codes, codes[1:], strict=False))
-        trip_pairs[f"{train['book']}:{train['train_no']}"] = sequence
+        rows = [s for s in train["stops"] if s["station_code"]]
+        trip_key = f"{train['book']}:{train['train_no']}"
+        located = [bool(s["station_code"] in coordinates) for s in rows]
+
+        # Find runs of bypassable rows.
+        bypassed: set[int] = set()
+        index = 0
+        while index < len(rows):
+            if located[index]:
+                index += 1
+                continue
+            start = index
+            while index < len(rows) and not located[index]:
+                index += 1
+            end = index  # exclusive
+            run = list(range(start, end))
+            # Neighbours must exist and have coordinates.
+            left_ok = start - 1 >= 0 and located[start - 1]
+            right_ok = end < len(rows) and located[end]
+            if baseline or not (left_ok and right_ok) or len(run) > MAX_BYPASS_RUN:
+                continue
+            if any(rows[i]["stop_type"] not in ("pass", "unknown_untimed") for i in run):
+                continue
+            bypassed.update(run)
+
+        sequence: list[tuple[str, str]] = []
+        previous_index: int | None = None
+        for i, row in enumerate(rows):
+            if i in bypassed:
+                continue
+            if previous_index is not None:
+                a = rows[previous_index]["station_code"]
+                b = row["station_code"]
+                if a != b:
+                    sequence.append((a, b))
+            previous_index = i
+
+        trip_pairs[trip_key] = sequence
+        if bypassed:
+            trip_bypass[trip_key] = [
+                {
+                    "seq": rows[i]["seq"],
+                    "station_code": rows[i]["station_code"],
+                    "stop_type": rows[i]["stop_type"],
+                }
+                for i in sorted(bypassed)
+            ]
         for a, b in sequence:
             if a != b:
                 pairs.add((a, b) if a < b else (b, a))
@@ -300,9 +417,16 @@ def build(config: dict, graph_file: str = "java_rail_graph.json") -> dict:
             status = "has_unmeasured"
         elif counts.get("straight_line") or counts.get("osm_suspect"):
             status = "has_fallback"
+        elif trip_key in trip_bypass:
+            status = "complete_estimated"
         else:
             status = "complete"
-        trip_status[trip_key] = {"status": status, "counts": dict(counts)}
+        trip_status[trip_key] = {
+            "status": status,
+            "counts": dict(counts),
+            "has_bypassed_waypoints": trip_key in trip_bypass,
+            "bypassed": trip_bypass.get(trip_key, []),
+        }
 
     status_counts = Counter(v["status"] for v in trip_status.values())
 
@@ -333,30 +457,46 @@ def build(config: dict, graph_file: str = "java_rail_graph.json") -> dict:
             "nodes": graph.node_count,
             "edges": graph.edge_count,
             "gap_bridges": bridged,
+            "human_bridges": human_bridged,
         },
         "snap_bands": dict(band_counts),
         "snaps": snaps,
         "segments": [{"key": list(key), **segments[key]} for key in sorted(segments)],
         "quality_counts": dict(quality_counts),
         "trip_status": trip_status,
+        "trip_bypass": trip_bypass,
         "trip_status_counts": dict(status_counts),
         "content_hash": digest.hexdigest(),
         "runtime_seconds": round(time.time() - started, 1),
     }
 
-    OUT.write_text(json.dumps(payload, separators=(",", ":")) + "\n", encoding="utf-8")
+    target = out_path or OUT
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(payload, separators=(",", ":")) + "\n", encoding="utf-8")
     REVIEW.mkdir(parents=True, exist_ok=True)
-    (REVIEW / "geometry_snaps.json").write_text(
-        json.dumps(snaps, indent=2) + "\n", encoding="utf-8"
-    )
+    if not baseline:
+        (REVIEW / "geometry_snaps.json").write_text(
+            json.dumps(snaps, indent=2) + "\n", encoding="utf-8"
+        )
     return payload
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build rail geometry for the MVP slice.")
-    parser.parse_args(argv)
+    parser.add_argument(
+        "--baseline",
+        action="store_true",
+        help=(
+            "reproduce the pre-Q1/Q4 state into data/review/t1_before.json (no bridges, no bypass)"
+        ),
+    )
+    args = parser.parse_args(argv)
     config = load_config()
-    payload = build(config)
+    if args.baseline:
+        payload = build(config, baseline=True, out_path=REVIEW / "t1_before.json")
+        print(f"BASELINE written to {REVIEW / 't1_before.json'}")
+    else:
+        payload = build(config)
 
     print(f"graph: {payload['graph']['nodes']:,} nodes, {payload['graph']['edges']:,} edges")
     print(f"snap bands: {payload['snap_bands']}")

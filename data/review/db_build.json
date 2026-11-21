@@ -1,0 +1,37 @@
+{
+  "db": "data/gapeka.db",
+  "geometry": {
+    "quality_counts": {
+      "osm_routed": 376,
+      "osm_suspect": 9,
+      "unmeasured": 6
+    },
+    "trip_status_counts": {
+      "has_unmeasured": 147,
+      "complete_estimated": 46,
+      "has_fallback": 119,
+      "complete": 313
+    },
+    "content_hash": "c9d0fd0f33c1b9ae31811ecb4115d4356f7bae744eae1757fe98536d867d4aa3"
+  },
+  "counts": {
+    "gapeka_versions": 1,
+    "stations": 389,
+    "trains": 625,
+    "trips": 625,
+    "stop_times": 22808,
+    "calendar": 625,
+    "station_coord_candidates": 393,
+    "segments": 391,
+    "trip_geometry_status": 625,
+    "trip_waypoint_estimates": 224
+  },
+  "stations_with_coordinates": 384,
+  "content_hash": "de17da3fd154ee078c7923ab8186173a2eddec0ec31fc13d1a62896d7714198d",
+  "skipped": 0,
+  "service_class": {
+    "reguler": 577,
+    "fakultatif": 48
+  },
+  "trips_with_untimed_markers": 68
+}

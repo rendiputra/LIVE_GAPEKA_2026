@@ -2,10 +2,10 @@
 #
 # A bridge joins two OSM nodes that are physically the same track but were not
 # connected in the extract (a digitising seam, a missing junction, or a station
-# node isolated on a 13-node fragment).
+# node isolated on a small fragment).
 #
-# The pipeline never writes this file. build_geometry reads it and adds a
-# synthetic edge, recording it in the report.
+# The pipeline never invents a bridge. build_geometry reads this file, adds a
+# synthetic edge, and records it in the report so it is never invisible.
 #
 # Schema:
 #   bridges:
@@ -16,10 +16,14 @@
 #       evidence:    "<a reference, a survey note, or the measured gap>"
 #       decided_by:  "<your name>"
 #       date:        "<YYYY-MM-DD>"
-#
-# Evidence gathered so far for the KH-MA-SKP fragment (data/review/a6_kh_component.json):
-#   the 13-node component sits at about -7.619, 109.138
-#   its nearest main-network node is 9926535859 -> 12115596723 at 3.1 m
-#   that is a digitising seam, not a missing line. A human must decide whether to
-#   bridge it.
-bridges: []
+bridges:
+  # Q1: approved by the human on 2026-11-22.
+  # The KH/MA/SKP fragment (13 nodes, ~-7.619, 109.138) sits 3.1 m from the main
+  # network. That is a digitising seam, not a missing line.
+  - pair: ["KH", "MA"]
+    from_node: 9926535859
+    to_node: 12115596723
+    reason: "3.1 m digitisation seam; nearest main-network node to the 13-node fragment"
+    evidence: "data/review/a6_kh_component.json"
+    decided_by: "human"
+    date: "2026-11-22"

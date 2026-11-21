@@ -151,7 +151,10 @@ CREATE TABLE segments (
 CREATE TABLE trip_geometry_status (
     trip_id         TEXT    PRIMARY KEY REFERENCES trips(trip_id) ON DELETE CASCADE,
     status          TEXT    NOT NULL
-                    CHECK (status IN ('complete', 'has_fallback', 'has_unmeasured')),
+                    CHECK (status IN
+                           ('complete', 'complete_estimated', 'has_fallback', 'has_unmeasured')),
+    has_bypassed_waypoints INTEGER NOT NULL DEFAULT 0
+                    CHECK (has_bypassed_waypoints IN (0, 1)),
     osm_routed      INTEGER NOT NULL DEFAULT 0,
     osm_suspect     INTEGER NOT NULL DEFAULT 0,
     straight_line   INTEGER NOT NULL DEFAULT 0,
