@@ -58,6 +58,12 @@ def pick_trips(snapshot) -> tuple[list, list[dict]]:
             continue
         picked.append(trip)
         notes.append({"train_no": number, "note": reason})
+
+    # State the pilots that could NOT be included, so their absence is visible
+    # rather than silently replaced by a different train.
+    for number, reason in NOT_LOADABLE.items():
+        if number not in CHOSEN and number not in by_no:
+            notes.append({"train_no": number, "note": reason})
     return picked, notes
 
 
