@@ -29,9 +29,21 @@ A train is described as *human-verified* only when a record below names the arte
 
 The counts above are what the pipeline holds. They are **not** a claim of correctness: only the records in the first table are human-checked.
 
+## Engine artefacts (Phase 5) — not verified
+
+These exist so a human can check the engine against the PDF. None is evidence of
+correctness, and none is human-verified.
+
+| Artefact | What it is | Human-verified |
+|---|---|---|
+| `engine/golden_frames.json` | sampled frames for browser-port parity (trip, t, lat, lon, s_m, status) | No |
+| `data/review/engine_replay.html` | Leaflet replay page, 30 s frames for 2026-12-01 | No |
+| `data/review/r1_engine_sweep.json` | 24 h sweep: active counts, off-polyline, continuity, benchmark | No |
+
 ## What is explicitly out of scope
 
 - KRL (approx. PDF 812-1513) and freight (approx. 1514-1673) are not parsed.
 - Book 1 and Book 2 samples generated for review have not been compared by a human.
 - Station coordinates come from external sources; they are not verified.
+- Engine positions are a schedule estimate; none has been compared with a real train.
 

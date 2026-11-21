@@ -143,11 +143,35 @@ def render() -> str:
         "correctness: only the records in the first table are human-checked."
     )
     add("")
+    add("## Engine artefacts (Phase 5) — not verified")
+    add("")
+    add("These exist so a human can check the engine against the PDF. None is evidence of")
+    add("correctness, and none is human-verified.")
+    add("")
+    add("| Artefact | What it is | Human-verified |")
+    add("|---|---|---|")
+    for name, what in (
+        (
+            "`engine/golden_frames.json`",
+            "sampled frames for browser-port parity (trip, t, lat, lon, s_m, status)",
+        ),
+        (
+            "`data/review/engine_replay.html`",
+            "Leaflet replay page, 30 s frames for 2026-12-01",
+        ),
+        (
+            "`data/review/r1_engine_sweep.json`",
+            "24 h sweep: active counts, off-polyline, continuity, benchmark",
+        ),
+    ):
+        add(f"| {name} | {what} | No |")
+    add("")
     add("## What is explicitly out of scope")
     add("")
     add("- KRL (approx. PDF 812-1513) and freight (approx. 1514-1673) are not parsed.")
     add("- Book 1 and Book 2 samples generated for review have not been compared by a human.")
     add("- Station coordinates come from external sources; they are not verified.")
+    add("- Engine positions are a schedule estimate; none has been compared with a real train.")
     add("")
     return "\n".join(lines) + "\n"
 

@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -45,9 +45,25 @@ phase3a: ## full MVP assembly: stations + db + cross-checks + report
 verify-status: ## regenerate docs/verification_status.md
 	uv run python -m pipeline.verification_status
 
-geometry: ## OSM -> segments
-	@echo "not implemented yet (Phase 4)"
-	@exit 0
+geometry: ## OSM -> segments + trip geometry status (Phase 4)
+	uv run python -m pipeline.build_geometry
+
+geometry-baseline: ## reproduce the pre-Q1/Q4 state into data/review/t1_before.json
+	uv run python -m pipeline.build_geometry --baseline
+
+triple: ## rail-path neighbour-consistency triples (Q3)
+	uv run python -m pipeline.triple_rail
+
+engine-sweep: ## R1: 24 h sweep + benchmark -> data/review/r1_engine_sweep.json
+	uv run python -m pipeline.engine_sweep
+
+engine-replay: ## R2: self-contained Leaflet replay -> data/review/engine_replay.html
+	uv run python -m pipeline.engine_replay
+
+reports: ## regenerate the generated reports
+	uv run python -m pipeline.phase4d_report
+	uv run python -m pipeline.phase5_report
+	uv run python -m pipeline.verification_status
 
 test: ## unit + golden
 	uv run pytest

@@ -1,6 +1,6 @@
 # AGENTS.md — Gapeka-Based Train Position Estimator
 
-> Place this file at the repo root. Works with Claude Code (copy or symlink to `CLAUDE.md`), Codex, Cursor, etc.
+> Works with Claude Code (copy or symlink to `CLAUDE.md`), Codex, Cursor, etc.
 > Read this entire file before writing any code. Work on **one phase per session**, in order.
 
 ## 1. Goal
@@ -108,9 +108,18 @@ Glossary:
 │   ├── llm_fallback.py   # problematic pages only
 │   ├── validators.py     # validation rules
 │   ├── build_db.py       # validated -> database
-│   └── geometry.py       # OSM -> segment polylines
+│   ├── build_geometry.py # OSM -> segments + trip geometry status
+│   ├── triple_rail.py    # rail-path neighbour-consistency triples
+│   ├── engine_sweep.py   # 24 h sweep + benchmark (R1)
+│   ├── engine_replay.py  # self-contained Leaflet replay page (R2)
+│   └── phase5_report.py  # -> docs/phase5_report.md
 ├── engine/
-│   └── position.py       # pure position estimation function
+│   ├── model.py          # dataclasses, Policy, SegmentGeom (no I/O)
+│   ├── snapshot.py       # the ONLY SQLite reader; verifies hashes
+│   ├── profile.py        # trapezoid_v1 motion maths (pure)
+│   ├── position.py       # positions_at / trajectory (pure)
+│   ├── cli.py            # `python -m engine.cli at|trajectory`
+│   └── golden_frames.json # sampled frames for browser-port parity
 ├── api/                  # FastAPI
 ├── web/                  # MapLibre frontend
 ├── tools/review_ui/      # PDF-vs-data review UI
@@ -146,16 +155,34 @@ Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
 - `overrides(id, target_table, target_key, patch_json, reason, created_by, created_at)`
 - `station_coord_candidates(id, code, source, source_id, lat, lon, status, reason, retrieved_on)` —
   every coordinate ever considered, including rejected ones. Evidence is never deleted.
-- `trip_geometry_status(trip_id, status, osm_routed, osm_suspect, straight_line, unmeasured, total_length_m)`
+- `trip_geometry_status(trip_id, status, has_bypassed_waypoints, osm_routed, osm_suspect, straight_line, unmeasured, total_length_m)`
+  - `status` is `complete | complete_estimated | has_fallback | has_unmeasured`.
+  - `complete_estimated` means every non-bypassed hop is `osm_routed` and at least one
+    waypoint was bypassed (Q4). `has_bypassed_waypoints` is `1` on those trips.
+- `trip_waypoint_estimates(trip_id, seq, station_code, method)` — one row per bypassed
+  waypoint (`method = bypass_between_neighbours`). Nothing is dropped silently.
 
 Coordinate provenance rules:
 - External coordinates come from Wikidata (CC0) then OpenStreetMap (ODbL), never guessed.
 - A human decision is recorded in `data/config/station_overrides.yaml` (gitignored, human-authored)
   with source, source_id, corroboration, reason, `decided_by`, `date`. The pipeline never writes it.
-- **Neighbour-consistency rule:** a coordinate is accepted only if it is inside Java, snaps to rail
-  within `snap_accept_m`, and the triple A-B-C satisfies `d(A,B)+d(B,C) <= 1.15 * d(A,C)` against
-  already accepted neighbours. A failing entry is reported with its numbers, never applied.
+- **Neighbour-consistency rule (rail-path version, Q3):** a coordinate is accepted only if it
+  is inside Java and snaps to rail within `snap_accept_m`. The triple A-B-C is then tested on the
+  **routed rail graph** — `d_rail(A,B) + d_rail(B,C) <= 1.15 * d_rail(A,C)` — together with the
+  turn angle at B. A very sharp turn-back (angle `>= 150°`) is classified `junction_turnback`
+  and reported as **info**, not failure: a train that reverses at a junction legitimately gives a
+  high ratio. The old straight-line test flagged **43** triples (32 distinct stations); the
+  rail-path test clears **28** of those stations as false positives (including `BBG`, `CNP`,
+  `KH`, `SRI`) and keeps only `AND`, `BD`, `JNG`, `SLO` as failures. See
+  `data/review/q3_vs_a3.json` and run `python -m pipeline.triple_rail`.
+  A failing entry is reported with its numbers, never applied.
 - A coordinate that fails is `rejected`, never silently corrected.
+- **Waypoint bypass (Q4):** a row may be skipped only when (a) its `stop_type` is `pass` or
+  `unknown_untimed`, (b) its station has no accepted coordinate, (c) both neighbouring rows have
+  accepted coordinates, and (d) at most **3** consecutive rows are bypassed. A `stop` row is
+  **never** bypassed. The neighbour pair is routed as one segment and the row is recorded in
+  `trip_waypoint_estimates`. The bypassed station stays `missing` and flagged; no coordinate is
+  ever invented for it.
 
 Domain notes:
 - `day_offset` = 0, 1, 2 for times after midnight on the same journey.
@@ -257,23 +284,63 @@ formats (two trains per page, `Berh`/`Sb` markers, `Lintas Pelayanan` only).
 - Route **every** consecutive stop pair, including `pass` (`Ls`) and untimed rows: the PDF lists every station, so segments stay short and route ambiguity is small.
 - Quality tiers: `osm_routed`, `osm_suspect` (detour above the configured ratio), `straight_line` (both ends snapped, no path), `unmeasured` (no accepted coordinate or unsnapped). Nothing is silently routed.
 - Validators V5 (connectivity), V12 (detour), V13 (implied speed vs printed maximum — **evidence for Phase 5, not a gate**), V14 (cumulative consistency).
-- `trip_geometry_status` records `complete | has_fallback | has_unmeasured` per trip; non-complete trips are always listed.
+- Human-approved **bridges** (`data/config/geometry_bridges.yaml`) join two OSM nodes that are the same track but were disconnected in the extract (a digitising seam). The pipeline never invents a bridge, and each one is recorded in the report as `human_bridges`. Routing weights stay at the default (no cost tuning).
+- `trip_geometry_status` records `complete | complete_estimated | has_fallback | has_unmeasured` per trip; non-complete trips are always listed.
 
 **DoD**: segment coverage recorded; every fallback, unmeasured pair and suspect detour listed; stations above the snap-accept threshold listed; review map produced.
 
 ### Phase 5 — Position Engine
-**Tasks**: `engine/position.py` with a pure function, e.g. `positions_at(t_utc, schedule, calendar_policy) -> list[TrainPosition]`.
+**Built (see `docs/phase5_report.md`, ADR 004)**
 
-`calendar_policy` is a required argument (ADR 002). The PDF does not state which days a train runs, so the engine must not assume daily operation. The policy decides what to do with trips whose `service_pattern` is `unknown`; the choice is explicit, never a hidden default.
+Layout: `engine/model.py` (dataclasses, `Policy`), `engine/snapshot.py` (the only SQLite
+reader; verifies the geometry content hash and the `gapeka_versions` row), `engine/profile.py`
+(motion maths), `engine/position.py` (`positions_at`, `trajectory`), `engine/cli.py`.
+**`profile.py` and `position.py` are pure**: input = snapshot + time + policy; no DB, no network,
+no system clock, no randomness.
 
-Logic per active trip:
-1. Determine the operating day, including trips that started yesterday and are still running (`day_offset`).
+Time model: every Java station is WIB (`Asia/Jakarta`, asserted on load). Schedule times are
+seconds from the start of the **service date**, plus `86400 * day_offset`. For a query instant the
+engine scans service dates `date(t_local) - k` for `k in 0..max_day_offset`, so a trip that started
+yesterday still appears after midnight.
+
+`positions_at(snapshot, instant, policy)` — `Policy` is explicit and immutable:
+`calendar_policy = "regular_daily_assumed"`, `show_fakultatif = False`,
+`enforce_effective_from = False`, `geometry_policy in {complete_and_estimated (default),
+complete_only, allow_fallback}`, `accel_time_s = 60`, `origin_lead_s = 0`,
+`terminal_linger_s = 0`. Trips with an unknown `service_class` are treated like fakultatif.
+
+Motion (`motion_model = "trapezoid_v1"`, ADR 004): between consecutive **timed** waypoints, a
+trapezoidal profile. An end gets an acceleration/deceleration phase only if that row is a `stop`;
+`pass` rows get none. `a_s = min(accel_time_s, D/3)`, `v = L / (D - a_s/2 - a_e/2)`, and the
+profile reaches exactly `S_j` at `T_j`. This is an **assumption**, not Gapeka data.
+
+Rules per active trip:
+1. Determine the operating day, including trips that started yesterday (`day_offset`).
 2. `arrive <= t <= depart` at a station -> status `at_station`.
-3. `depart_A < t < arrive_B` -> status `running`; `progress = (t - depart_A) / (arrive_B - depart_A)`; apply an ease-in-out curve; position = point on the polyline at `progress * length`.
-4. `pass` stations (non-stopping trains): do not pause; interpolate continuously.
-5. Before the first time / after the last time -> not returned.
+3. `depart_A < t < arrive_B` -> status `running`; the position is the point on the trip polyline at
+   the distance given by the motion profile.
+4. `pass` rows (non-stopping trains): no dwell, interpolate continuously.
+5. Before the first departure / after the last arrival -> not returned.
+6. Untimed rows inside a leg only mark distance; they never create a pause.
 
-**DoD**: unit tests cover midnight crossing, non-stopping trains, very short dwell (<1 min), Gapeka version switchover, non-operating days, `straight_line` fallback; golden test of >= 50 manually verified trains passes; property tests: progress always in [0,1] and position always lies on the polyline.
+Every output carries `estimated = true`, `motion_model`, and the flags `coarse`
+(`has_untimed_markers`), `has_bypassed_waypoints`, `has_straight_line_segment`.
+
+Geometry policy: `complete` and `complete_estimated` are shown by default; `allow_fallback` also
+draws `has_fallback` trips with flags; **`has_unmeasured` is never shown, under any policy**.
+
+**DoD**: unit tests cover midnight crossing, non-stopping trains, dwell < 1 min, fakultatif
+hidden/shown, `enforce_effective_from`, `has_unmeasured` never shown, `straight_line` flagged,
+bypassed waypoints; property tests confirm the distance is monotonic, the position lies on the
+polyline, and speed is bounded; a 250-frame regression set is exported. The golden test of
+>= 50 **manually verified** trains is still open — the 6 pilot trains are parsed but only their
+pilot rows are human-verified.
+
+**Browser-port parity requirement (Phase 6):** if positions are computed in the browser, the
+TypeScript port must reproduce `trapezoid_v1` and the time model exactly, and its output must match
+`engine/golden_frames.json` (250 frames: `trip_id`, `t_s`, `time`, `lat`, `lon`, `s_m`, `status`)
+within 1 m. Those frames are **not** human-verified; they are a parity fixture, not a correctness
+claim. Any disagreement means the port is wrong, not the fixture.
 
 ### Phase 6 — API & Frontend
 **Backend (FastAPI)**
@@ -308,6 +375,10 @@ make parse        # raw -> parsed
 make validate     # run all validators; fail on any violation
 make build-db     # validated -> database
 make geometry     # OSM -> segments
+make triple       # rail-path neighbour-consistency triples (Q3)
+make engine-sweep # 24 h sweep + benchmark (R1)
+make engine-replay# self-contained replay page (R2)
+make reports      # regenerate docs/phase4d_report.md, phase5_report.md, verification_status.md
 make test         # unit + golden
 make serve        # API + web dev
 ```
