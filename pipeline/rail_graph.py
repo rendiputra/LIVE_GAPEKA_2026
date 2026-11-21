@@ -90,6 +90,25 @@ class Edge:
     way_id: int
 
 
+def orient_geometry(segment: dict, from_code: str, to_code: str) -> list[list[float]]:
+    """Return a segment's coordinates oriented from ``from_code`` to ``to_code``.
+
+    Segments are stored once per undirected pair, keyed with ``from_code < to_code``.
+    A hop travelling the other way MUST have its coordinates reversed, otherwise the
+    concatenated trip polyline jumps back and forth between the two ends (observed:
+    a 116.8 km trip drawn as 256.2 km).
+
+    Ground truth is the segment's own ``from_code``: if it differs from the hop's
+    origin, reverse.
+    """
+    coordinates = (segment.get("geometry") or {}).get("coordinates") or []
+    if not coordinates:
+        return []
+    if segment["from_code"] == from_code:
+        return coordinates
+    return list(reversed(coordinates))
+
+
 @dataclass
 class SnapResult:
     """Where a station landed on the network."""
@@ -123,6 +142,7 @@ class RailGraph:
     coords: dict[int, tuple[float, float]]
     adjacency: dict[int, list[Edge]] = field(default_factory=dict)
     way_of_edge: dict[tuple[int, int], int] = field(default_factory=dict)
+    service_of_edge: dict[tuple[int, int], str] = field(default_factory=dict)
 
     @classmethod
     def from_ways(cls, ways: list[dict], coords: dict[int, tuple[float, float]]) -> RailGraph:
@@ -139,6 +159,9 @@ class RailGraph:
                 graph.adjacency.setdefault(b, []).append(Edge(b, a, length, way["id"]))
                 graph.way_of_edge[(a, b)] = way["id"]
                 graph.way_of_edge[(b, a)] = way["id"]
+                service = way.get("service") or "mainline"
+                graph.service_of_edge[(a, b)] = service
+                graph.service_of_edge[(b, a)] = service
         return graph
 
     @property
@@ -197,6 +220,9 @@ class RailGraph:
         length_a = haversine_m(self.coords[a], projected)
         length_b = haversine_m(projected, self.coords[b])
         way = self.way_of_edge.get((a, b), 0)
+        # Synthetic split edges inherit the original edge's service class, so a
+        # station's own stub is not counted as an unknown class.
+        service = self.service_of_edge.get((a, b), "mainline")
 
         # Remove the original edge in both directions.
         self.adjacency[a] = [e for e in self.adjacency.get(a, []) if not (e.a == a and e.b == b)]
@@ -212,6 +238,7 @@ class RailGraph:
 
         for key in ((a, new_id), (new_id, a), (b, new_id), (new_id, b)):
             self.way_of_edge[key] = way
+            self.service_of_edge[key] = service
         self.way_of_edge.pop((a, b), None)
         self.way_of_edge.pop((b, a), None)
         return new_id
@@ -268,6 +295,9 @@ class RailGraph:
             self.adjacency[other].append(Edge(other, node, gap, 0))
             self.way_of_edge[(node, other)] = 0
             self.way_of_edge[(other, node)] = 0
+            # A synthetic topology repair is mainline-equivalent for reporting.
+            self.service_of_edge[(node, other)] = "gap_bridge"
+            self.service_of_edge[(other, node)] = "gap_bridge"
             used.add(node)
             used.add(other)
             bridged += 1

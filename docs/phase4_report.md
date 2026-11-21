@@ -124,14 +124,41 @@ The printed **Kecepatan Maksimum** column behaves like a section limit, not an a
 - non-positive segments: **0**
 - pairs with no segment row: **0**
 
+## Siding / crossover usage (Q-A)
+
+Segments may traverse `service=siding|crossover|spur` edges. That is necessary on double track, but a high share means the drawn line runs through yard-like track, which can look wrong on a map.
+
+- routed segments: **355**
+- using siding/crossover/spur at least once: **299 (84.2%)**
+- share distribution: p50 **0.09**, p90 **0.24**, max **0.55**
+
+| Pair | Share | Service counts |
+|---|---|---|
+| KDN→TRK | 0.55 | {'mainline': 21, 'siding': 26} |
+| BRN→KTS | 0.48 | {'siding': 39, 'mainline': 42} |
+| CN→CNP | 0.44 | {'siding': 22, 'mainline': 28} |
+| BD→CTH | 0.44 | {'siding': 16, 'mainline': 27, 'crossover': 5} |
+| LPN→MGW | 0.42 | {'siding': 13, 'mainline': 18} |
+| KPA→WDU | 0.40 | {'siding': 12, 'mainline': 21, 'crossover': 2} |
+| CMK→GDB | 0.39 | {'mainline': 19, 'crossover': 5, 'siding': 7} |
+| CTH→KAC | 0.36 | {'mainline': 21, 'crossover': 1, 'siding': 11} |
+| JG→SMB | 0.36 | {'siding': 11, 'mainline': 21, 'crossover': 1} |
+| CKP→DWN | 0.33 | {'siding': 14, 'crossover': 2, 'mainline': 32} |
+
+## V14b — polyline consistency (G2)
+- segments checked: **357**
+- findings: **0**
+- checks: {'a_polyline_vs_length': 0, 'b_continuity': 0, 'c_reversal': 0, 'c_reversal_end': 0, 'd_point_jump': 0, 'e_trip_polyline': 0}
+- trip drift: {'max': 0.0, 'p50': 0.0}
+
 ## Review page
 
 `data/review/geometry_review.html` — stations by snap band, every non-routed/suspect segment, and the full routes of KA 249, 250, 259F, 260F, 1 and one long-distance train chosen deterministically (the longest fully routed non-pilot trip).
 
 ## Runtime
 
-- geometry build: **22.2s**
-- segment content hash: `dfbfdd63bd7580d4808db6e89bc8d8d7fccf65a4582cc1d7d2341c0b0a195ac3`
+- geometry build: **23.7s**
+- segment content hash: `a561ccea86f2970e1d2ce9907f505dee31af8c61e4868338cadc17dbbaa864ff`
 
 ## Limitations
 

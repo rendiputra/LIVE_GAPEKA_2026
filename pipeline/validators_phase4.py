@@ -283,6 +283,180 @@ def validate_v14(trips: list[dict], segments: dict) -> RuleReport:
     return report
 
 
+def _polyline_length_m(coordinates: list[list[float]]) -> float:
+    """Length of a [lon, lat] polyline."""
+    from pipeline.rail_graph import haversine_m
+
+    total = 0.0
+    for first, second in zip(coordinates, coordinates[1:], strict=False):
+        total += haversine_m((first[1], first[0]), (second[1], second[0]))
+    return total
+
+
+def validate_v14b(trips: list[dict], segments: dict, config: dict) -> RuleReport:
+    """V14b: internal geometry consistency (gate for geometry-complete trips).
+
+    a) each segment's polyline length equals its ``length_m`` within 1%
+    b) hop joins are continuous within the snap tolerance + 50 m
+    c) reversal symmetry: a segment used backwards has reversed coordinates
+    d) no single point-to-point jump inside a segment exceeds the threshold
+    e) a trip's assembled polyline equals the sum of its segment lengths within 1%
+    """
+    from pipeline.rail_graph import haversine_m, orient_geometry
+
+    tolerance = config.get("v14b_jump_m", 5000.0)
+    join_slack = config.get("v14b_join_slack_m", 50.0)
+    report = RuleReport("V14b", "segment/trip polyline internal consistency")
+
+    # (a) and (d) per segment
+    segment_lengths: dict[tuple[str, str], float] = {}
+    for (a, b), segment in sorted(segments.items()):
+        coordinates = (segment.get("geometry") or {}).get("coordinates") or []
+        if not coordinates or segment.get("length_m") is None:
+            continue
+        report.checked += 1
+        poly = _polyline_length_m(coordinates)
+        segment_lengths[(a, b)] = poly
+        if segment["length_m"] > 0 and abs(poly - segment["length_m"]) / segment["length_m"] > 0.01:
+            report.findings.append(
+                {
+                    "check": "a_polyline_vs_length",
+                    "pair": f"{a}->{b}",
+                    "length_m": segment["length_m"],
+                    "polyline_m": round(poly, 1),
+                }
+            )
+        # (d) is about the SPACING of digitised points inside a routed segment. A
+        # straight_line fallback has exactly two points by definition, so its
+        # length is not a "jump".
+        if segment.get("quality") == "straight_line":
+            continue
+        worst = max(
+            (
+                haversine_m((p[1], p[0]), (q[1], q[0]))
+                for p, q in zip(coordinates, coordinates[1:], strict=False)
+            ),
+            default=0.0,
+        )
+        if worst > tolerance:
+            report.findings.append(
+                {
+                    "check": "d_point_jump",
+                    "pair": f"{a}->{b}",
+                    "jump_m": round(worst, 1),
+                    "threshold_m": tolerance,
+                }
+            )
+
+    # (c) reversal symmetry, property-checked on every segment
+    for (a, b), segment in segments.items():
+        coordinates = (segment.get("geometry") or {}).get("coordinates") or []
+        if len(coordinates) < 2:
+            continue
+        forward = orient_geometry(segment, segment["from_code"], segment["to_code"])
+        backward = orient_geometry(segment, segment["to_code"], segment["from_code"])
+        if forward != list(reversed(backward)):
+            report.findings.append({"check": "c_reversal", "pair": f"{a}->{b}"})
+        if backward[0] != forward[-1]:
+            report.findings.append({"check": "c_reversal_end", "pair": f"{a}->{b}"})
+
+    # (b) and (e) per trip
+    trip_rows = []
+    for train in trips:
+        codes = [s["station_code"] for s in train["stops"] if s["station_code"]]
+        # A trip is evaluated in RUNS of consecutive measured hops. An unmeasured
+        # hop genuinely breaks the drawn line, so it must never be bridged by the
+        # check (bridging produced a bogus 29 km "internal jump").
+        assembled: list[list[float]] = []
+        total = 0.0
+        gaps = []
+        previous_hop: tuple[str, str] | None = None
+        runs: list[tuple[float, float]] = []  # (sum_m, polyline_m) per run
+        for a, b in zip(codes, codes[1:], strict=False):
+            segment = segments.get((a, b)) or segments.get((b, a))
+            if not segment or not segment.get("length_m"):
+                # Close the current run; the next measured hop starts a new one.
+                if assembled and total > 0:
+                    runs.append((total, _polyline_length_m(assembled)))
+                assembled, total, previous_hop = [], 0.0, None
+                continue
+            oriented = orient_geometry(segment, a, b)
+            if not oriented:
+                previous_hop = None
+                continue
+            # Continuity is checked against the immediately preceding measured hop
+            # only when no unmeasured hop sits between them.
+            if assembled and previous_hop is not None:
+                gap = haversine_m(
+                    (assembled[-1][1], assembled[-1][0]), (oriented[0][1], oriented[0][0])
+                )
+                if gap > join_slack:
+                    gaps.append({"from": a, "to": b, "gap_m": round(gap, 1)})
+            assembled.extend(oriented)
+            total += segment["length_m"]
+            previous_hop = (a, b)
+
+        if assembled and total > 0:
+            runs.append((total, _polyline_length_m(assembled)))
+        if not runs:
+            continue
+        total = sum(r[0] for r in runs)
+        poly = sum(r[1] for r in runs)
+        drift = abs(poly - total) / total
+        trip_rows.append(
+            {
+                "train_no": train["train_no"],
+                "book": train.get("book"),
+                "sum_m": round(total, 1),
+                "polyline_m": round(poly, 1),
+                "drift": round(drift, 4),
+            }
+        )
+        if gaps:
+            report.findings.append(
+                {
+                    "check": "b_continuity",
+                    "train_no": train["train_no"],
+                    "gaps": gaps[:10],
+                    "gap_count": len(gaps),
+                }
+            )
+        if drift > 0.01:
+            report.findings.append(
+                {
+                    "check": "e_trip_polyline",
+                    "train_no": train["train_no"],
+                    "sum_m": round(total, 1),
+                    "polyline_m": round(poly, 1),
+                    "drift": round(drift, 4),
+                }
+            )
+
+    drifts = sorted(row["drift"] for row in trip_rows)
+    report.details = {
+        "thresholds": {"jump_m": tolerance, "join_slack_m": join_slack},
+        "segments_checked": report.checked,
+        "trips_checked": len(trip_rows),
+        "drift": {
+            "max": drifts[-1] if drifts else None,
+            "p50": drifts[len(drifts) // 2] if drifts else None,
+        },
+        "worst_trips": sorted(trip_rows, key=lambda r: -r["drift"])[:10],
+        "checks": {
+            name: sum(1 for f in report.findings if f["check"] == name)
+            for name in (
+                "a_polyline_vs_length",
+                "b_continuity",
+                "c_reversal",
+                "c_reversal_end",
+                "d_point_jump",
+                "e_trip_polyline",
+            )
+        },
+    }
+    return report
+
+
 def run(config: dict) -> dict:
     segments = _segments_by_pair()
     trips = _trips()
@@ -293,5 +467,6 @@ def run(config: dict) -> dict:
             trips, segments, config["implausible_fast_kmh"], config["implausible_slow_kmh"]
         ),
         validate_v14(trips, segments),
+        validate_v14b(trips, segments, config),
     ]
     return {r.rule: r.as_dict() for r in reports}

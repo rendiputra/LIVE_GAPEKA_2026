@@ -31,3 +31,7 @@ gap_bridge_m: 25
 # that breaks every double-track station: the parallel tracks are joined only by
 # crossovers and sidings. Excluding yard alone fixed 80 of 88 broken segments.
 service_excluded: [yard, parking_aisle]
+
+# V14b polyline consistency (G2)
+v14b_jump_m: 5000        # max gap between two consecutive points inside one segment
+v14b_join_slack_m: 50    # extra slack on top of snap distances at hop joins

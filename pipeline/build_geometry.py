@@ -89,6 +89,19 @@ def trips() -> list[dict]:
     return out
 
 
+def path_service_counts(graph: RailGraph, path: list[int]) -> dict[str, int]:
+    """Count the OSM ``service`` class of each hop in a routed path.
+
+    Needed to show how much of the network relies on sidings/crossovers, which
+    are kept for connectivity but can create visual artefacts.
+    """
+    counts: dict[str, int] = {}
+    for a, b in zip(path, path[1:], strict=False):
+        service = graph.service_of_edge.get((a, b), "unknown")
+        counts[service] = counts.get(service, 0) + 1
+    return counts
+
+
 def shortest_path(graph: RailGraph, start: int, goal: int) -> tuple[float, list[int]] | None:
     """BFS on hop count, then Dijkstra-style relaxation by length.
 
@@ -206,10 +219,20 @@ def build(config: dict, graph_file: str = "java_rail_graph.json") -> dict:
         ratio = length / straight if straight > 0 else None
         suspect = ratio is not None and ratio > config["detour_suspect_ratio"]
 
+        service_counts = path_service_counts(graph, path)
+        special = (
+            service_counts.get("siding", 0)
+            + service_counts.get("crossover", 0)
+            + service_counts.get("spur", 0)
+        )
+        total_hops = sum(service_counts.values()) or 1
+
         segments[(a, b)] = {
             "from_code": a,
             "to_code": b,
             "quality": "osm_suspect" if suspect else "osm_routed",
+            "service_counts": service_counts,
+            "special_service_share": round(special / total_hops, 4),
             "reason": (
                 f"detour ratio {ratio:.2f} exceeds {config['detour_suspect_ratio']}"
                 if suspect
@@ -252,8 +275,24 @@ def build(config: dict, graph_file: str = "java_rail_graph.json") -> dict:
     for key in sorted(segments):
         digest.update(json.dumps(segments[key], sort_keys=True).encode())
 
+    # Per-trip length, computed ONLY from the segments table.
+    trip_lengths: dict[str, float | None] = {}
+    for trip_key, sequence in trip_pairs.items():
+        total = 0.0
+        complete = True
+        for a, b in sequence:
+            if a == b:
+                continue
+            entry = segments.get((a, b) if a < b else (b, a))
+            if entry is None or entry["length_m"] is None:
+                complete = False
+                break
+            total += entry["length_m"]
+        trip_lengths[trip_key] = round(total, 1) if complete else None
+
     payload = {
         "config": config,
+        "trip_lengths_m": trip_lengths,
         "graph": {
             "nodes": graph.node_count,
             "edges": graph.edge_count,

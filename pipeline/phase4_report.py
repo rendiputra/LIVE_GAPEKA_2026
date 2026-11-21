@@ -170,6 +170,48 @@ def render(payload: dict, v: dict, manifest: list) -> str:
     add(f"- pairs with no segment row: **{v14['details']['pairs_without_segment_row']}**")
     add("")
 
+    add("## Siding / crossover usage (Q-A)")
+    add("")
+    add(
+        "Segments may traverse `service=siding|crossover|spur` edges. That is "
+        "necessary on double track, but a high share means the drawn line runs "
+        "through yard-like track, which can look wrong on a map."
+    )
+    add("")
+    segs = load(PARSED / "segments.json", {"segments": []})["segments"]
+    routed = [s for s in segs if s.get("special_service_share") is not None]
+    using = [s for s in routed if s["special_service_share"] > 0]
+    add(f"- routed segments: **{len(routed)}**")
+    add(
+        f"- using siding/crossover/spur at least once: **{len(using)} "
+        f"({len(using) / len(routed):.1%})**"
+        if routed
+        else "- none"
+    )
+    if routed:
+        shares = sorted(s["special_service_share"] for s in routed)
+        add(
+            f"- share distribution: p50 **{shares[len(shares) // 2]:.2f}**, "
+            f"p90 **{shares[int(len(shares) * 0.9)]:.2f}**, max **{shares[-1]:.2f}**"
+        )
+    add("")
+    add("| Pair | Share | Service counts |")
+    add("|---|---|---|")
+    for row in sorted(using, key=lambda r: -r["special_service_share"])[:10]:
+        add(
+            f"| {row['from_code']}→{row['to_code']} | "
+            f"{row['special_service_share']:.2f} | {row['service_counts']} |"
+        )
+    add("")
+
+    add("## V14b — polyline consistency (G2)")
+    v14b = v.get("V14b", {})
+    add(f"- segments checked: **{v14b.get('checked', 0)}**")
+    add(f"- findings: **{v14b.get('finding_count', 0)}**")
+    add(f"- checks: {v14b.get('details', {}).get('checks', {})}")
+    add(f"- trip drift: {v14b.get('details', {}).get('drift', {})}")
+    add("")
+
     add("## Review page")
     add("")
     add(
