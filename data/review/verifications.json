@@ -38,6 +38,40 @@
       },
       "artefact": "data/review/pilot_259F_260F.html",
       "result": "accepted"
+    },
+    {
+      "verifier": "human",
+      "date": "2026-11-22",
+      "method": "manual lookup of KAI station codes and names",
+      "scope": {
+        "codes": [
+          "CIK",
+          "CKI",
+          "JBU",
+          "KLI",
+          "LR",
+          "LRA",
+          "MLK",
+          "MRI",
+          "MTR",
+          "PRI",
+          "PS",
+          "RO",
+          "SBP",
+          "SD",
+          "SMO",
+          "SMT",
+          "STM",
+          "TIS",
+          "TLM",
+          "TPR"
+        ],
+        "covers": "code<->name identity only",
+        "does_not_cover": "coordinates"
+      },
+      "artefact": "data/config/station_aliases.yaml",
+      "result": "accepted",
+      "notes": "LARANGAN LR vs LRA resolved: two distinct stations. KARANGSARI (KRAI/KRR) remains open."
     }
   ]
 }

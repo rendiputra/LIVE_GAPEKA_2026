@@ -59,6 +59,40 @@ def in_java(lat: float, lon: float) -> bool:
     )
 
 
+def load_alias_config(path: Path = Path("data/config/station_aliases.yaml")) -> dict:
+    """Read official names and alternatives from the human alias file."""
+    if not path.exists():
+        return {}
+    text = path.read_text(encoding="utf-8")
+    if "stations:" not in text:
+        return {}
+    block = text.split("stations:", 1)[1]
+    out: dict[str, dict] = {}
+    current = None
+    for line in block.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if line.startswith("  ") and not line.startswith("   ") and stripped.endswith(":"):
+            current = stripped[:-1].strip()
+            out[current] = {"official_name": None, "alternatives": []}
+            continue
+        if current is None:
+            continue
+        if stripped.startswith("official_name:"):
+            out[current]["official_name"] = stripped.split(":", 1)[1].strip().strip('"')
+        elif stripped.startswith("alternatives:"):
+            raw = stripped.split(":", 1)[1].strip()
+            items = [x.strip().strip('"') for x in raw.strip("[]").split(",") if x.strip()]
+            out[current]["alternatives"] = items
+    return out
+
+
+def squash(text: str) -> str:
+    """Whitespace-insensitive form: 'Jambubaru' == 'Jambu Baru'."""
+    return normalise_name(text).replace(" ", "")
+
+
 def similarity(a: str, b: str) -> float:
     def clean(text: str) -> str:
         upper = normalise_name(text)
@@ -67,9 +101,11 @@ def similarity(a: str, b: str) -> float:
                 upper = upper[len(prefix) :]
         return upper
 
-    left, right = clean(a), clean(b)
+    left, right = squash(clean(a)), squash(clean(b))
     if not left or not right:
         return 0.0
+    if left == right:
+        return 1.0
     return round(difflib.SequenceMatcher(None, left, right).ratio(), 3)
 
 
@@ -235,21 +271,50 @@ def build() -> dict:
                 for other, point in neighbour_points.items()
             }
 
+        # A2b: cluster candidates within 100 m. Wikidata and OSM agreeing on the
+        # same spot is ONE candidate with corroboration, not an ambiguity.
+        clusters: list[dict] = []
+        for candidate in sorted(candidates, key=lambda c: -c["name_similarity"]):
+            for cluster in clusters:
+                if (
+                    rail_haversine(
+                        (candidate["lat"], candidate["lon"]),
+                        (cluster["lat"], cluster["lon"]),
+                    )
+                    <= 100
+                ):
+                    cluster["members"].append(candidate)
+                    break
+            else:
+                clusters.append(
+                    {
+                        "lat": candidate["lat"],
+                        "lon": candidate["lon"],
+                        "members": [candidate],
+                    }
+                )
+        for cluster in clusters:
+            cluster["sources"] = sorted({m["source"] for m in cluster["members"]})
+            cluster["corroborated"] = len(cluster["sources"]) > 1
+            cluster["best"] = max(cluster["members"], key=lambda m: m["name_similarity"])
+
         plausible = [
             c
-            for c in candidates
-            if c["in_java"]
-            and c["name_similarity"] == 1.0
-            and c["snap_distance_m"] <= config["snap_accept_m"]
+            for c in clusters
+            if c["best"]["in_java"]
+            and c["best"]["name_similarity"] == 1.0
+            and c["best"]["snap_distance_m"] <= config["snap_accept_m"]
         ]
 
         if not candidates:
             recommendation, reason = "none", "no candidate from any source"
         elif len(plausible) == 1:
+            corroborated = plausible[0]["corroborated"]
             recommendation, reason = (
                 "strong",
-                "single exact-name candidate inside Java, snapping to rail "
-                f"<= {config['snap_accept_m']:.0f} m",
+                "single exact-name cluster inside Java, snapping to rail "
+                f"<= {config['snap_accept_m']:.0f} m"
+                + (" (Wikidata + OSM corroborate)" if corroborated else ""),
             )
         elif len(plausible) > 1:
             recommendation, reason = (
@@ -268,6 +333,16 @@ def build() -> dict:
 
         proposals.append(
             {
+                "clusters": [
+                    {
+                        "lat": c["lat"],
+                        "lon": c["lon"],
+                        "sources": c["sources"],
+                        "corroborated": c["corroborated"],
+                        "members": len(c["members"]),
+                    }
+                    for c in clusters
+                ],
                 "code": code,
                 "name": entry["name"],
                 "current_status": entry["status"],
@@ -283,6 +358,12 @@ def build() -> dict:
 
     counts = Counter(p["recommendation"] for p in proposals)
     return {"proposals": proposals, "counts": dict(counts), "config": config}
+
+
+def applied_codes() -> set[str]:
+    from pipeline.station_overrides import load as load_overrides
+
+    return {o.code for o in load_overrides()}
 
 
 def _yaml(payload: dict) -> str:
@@ -301,8 +382,10 @@ def _yaml(payload: dict) -> str:
         "overrides: []",
         "",
     ]
+    applied = applied_codes()
     for item in payload["proposals"]:
-        lines.append(f"# --- {item['code']}  {item['name']}  [{item['current_status']}]")
+        state = "APPLIED" if item["code"] in applied else "PENDING"
+        lines.append(f"# --- {item['code']}  {item['name']}  [{item['current_status']}] [{state}]")
         if item["named_station"]:
             lines.append(f"#     noted by the reviewer as: {item['named_station']}")
         lines.append(f"#     recommendation: {item['recommendation']} — {item['reason']}")

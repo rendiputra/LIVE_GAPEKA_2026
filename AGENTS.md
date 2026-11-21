@@ -125,7 +125,12 @@ Glossary:
 Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
 
 - `gapeka_versions(id, name, effective_from, effective_to, pdf_sha256, status[draft|validated|active|retired])`
-- `stations(code, name, lat, lon, daop, tz)`
+- `stations(code, name, official_name, name_source, lat, lon, coord_status, coord_source, coord_source_id, coord_match, coord_confidence, coord_retrieved, daop, tz)`
+  - `name` is exactly what the PDF prints; `official_name` is the human-verified name from
+    `data/config/station_aliases.yaml` (H1) and the UI shows that one. `name_source` is `pdf` or `human`.
+  - `coord_status` is `accepted | override | rejected | missing`. Only `accepted` and `override` may
+    reach geometry; `rejected` keeps `lat/lon` NULL and its evidence lives in
+    `station_coord_candidates`.
 - `trains(train_no, name, class, relation)`
 - `trips(trip_id, train_no, version_id, operating_days, notes)`
 - `stop_times(trip_id, seq, station_code, arrive, depart, day_offset, stop_type[stop|pass], needs_review)`
@@ -139,6 +144,18 @@ Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
   parameter and must never hard-code "runs daily".
 - `segments(from_station, to_station, geometry, length_m, geometry_quality[osm|straight_line])`
 - `overrides(id, target_table, target_key, patch_json, reason, created_by, created_at)`
+- `station_coord_candidates(id, code, source, source_id, lat, lon, status, reason, retrieved_on)` —
+  every coordinate ever considered, including rejected ones. Evidence is never deleted.
+- `trip_geometry_status(trip_id, status, osm_routed, osm_suspect, straight_line, unmeasured, total_length_m)`
+
+Coordinate provenance rules:
+- External coordinates come from Wikidata (CC0) then OpenStreetMap (ODbL), never guessed.
+- A human decision is recorded in `data/config/station_overrides.yaml` (gitignored, human-authored)
+  with source, source_id, corroboration, reason, `decided_by`, `date`. The pipeline never writes it.
+- **Neighbour-consistency rule:** a coordinate is accepted only if it is inside Java, snaps to rail
+  within `snap_accept_m`, and the triple A-B-C satisfies `d(A,B)+d(B,C) <= 1.15 * d(A,C)` against
+  already accepted neighbours. A failing entry is reported with its numbers, never applied.
+- A coordinate that fails is `rejected`, never silently corrected.
 
 Domain notes:
 - `day_offset` = 0, 1, 2 for times after midnight on the same journey.
@@ -296,6 +313,10 @@ make serve        # API + web dev
 ```
 
 ## 8. Working Conventions for the Agent
+
+- **Every number quoted in a chat summary must be copied from a generated artefact** (`docs/*.md` or
+  `data/review/*.json`), never recomputed by hand. Hand arithmetic has already produced wrong figures
+  that contradicted the generated reports.
 
 - One phase per session; small commits with clear messages (`feat(parser): ...`).
 - Write tests **before or together with** parsers and validators. Fixtures use real pages (crop small pages; never the whole PDF).

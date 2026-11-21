@@ -172,6 +172,13 @@ class RailGraph:
     def edge_count(self) -> int:
         return sum(len(v) for v in self.adjacency.values()) // 2
 
+    def edge_length(self, a: int, b: int) -> float:
+        """Geometric length of the edge a->b (0 if absent)."""
+        for edge in self.adjacency.get(a, []):
+            if edge.b == b:
+                return edge.length_m
+        return 0.0
+
     def snap(
         self,
         code: str,

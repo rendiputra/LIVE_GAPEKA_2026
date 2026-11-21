@@ -31,6 +31,9 @@ CREATE TABLE gapeka_versions (
 CREATE TABLE stations (
     code            TEXT    PRIMARY KEY,
     name            TEXT    NOT NULL,           -- exactly as printed in the PDF
+    official_name   TEXT,                       -- human-verified name (H1); NULL if none
+    name_source     TEXT    NOT NULL DEFAULT 'pdf'
+                    CHECK (name_source IN ('pdf', 'human')),
     -- Accepted coordinate. NULL unless coord_status says it is usable.
     lat             REAL,
     lon             REAL,

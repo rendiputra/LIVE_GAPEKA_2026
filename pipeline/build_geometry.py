@@ -39,6 +39,11 @@ DEFAULT_CONFIG = {
     "implausible_fast_kmh": 160.0,
     "implausible_slow_kmh": 10.0,
     "gap_bridge_m": 25.0,
+    "cost_mainline": 1.0,
+    "cost_siding": 1.0,
+    "cost_crossover": 1.0,
+    "cost_spur": 1.0,
+    "cost_yard": 4.0,
 }
 
 
@@ -64,16 +69,28 @@ def load_graph(name: str = "java_rail_graph.json") -> RailGraph:
 
 
 def accepted_coordinates() -> dict[str, dict]:
+    """Coordinates usable for geometry: external matches plus human overrides.
+
+    Human overrides win, and a rejected coordinate never reaches this function.
+    """
+    from pipeline.station_overrides import apply_to
+    from pipeline.station_overrides import load as load_overrides
+
     path = PARSED / "station_coordinates.json"
-    if not path.exists():
-        return {}
-    matched = json.loads(path.read_text(encoding="utf-8"))["matched"]
-    # A station with a rejected coordinate must not be routed.
+    matched = json.loads(path.read_text(encoding="utf-8"))["matched"] if path.exists() else {}
+    overrides = load_overrides()
+    if overrides:
+        matched = apply_to(overrides, matched)
+    # A rejected coordinate must not be routed, but a human override supersedes
+    # the rejection: the override IS the correction.
+    override_codes = {o.code for o in overrides}
     rejected = REVIEW / "stations_suspicious_coords.json"
     if rejected.exists():
         for row in json.loads(rejected.read_text(encoding="utf-8"))["stations"]:
             for code in row["code"].split(","):
-                matched.pop(code.strip(), None)
+                code = code.strip()
+                if code not in override_codes:
+                    matched.pop(code, None)
     return matched
 
 
@@ -102,7 +119,18 @@ def path_service_counts(graph: RailGraph, path: list[int]) -> dict[str, int]:
     return counts
 
 
-def shortest_path(graph: RailGraph, start: int, goal: int) -> tuple[float, list[int]] | None:
+def shortest_path(
+    graph: RailGraph,
+    start: int,
+    goal: int,
+    costs: dict[str, float] | None = None,
+) -> tuple[float, list[int]] | None:
+    """Dijkstra over geometric length, optionally weighted by service class.
+
+    ``costs`` multiplies an edge's LENGTH for path CHOICE only. The returned
+    length is always the real geometric distance, so reported km never depend on
+    the experiment's weights.
+    """
     """BFS on hop count, then Dijkstra-style relaxation by length.
 
     The rail network is small per component; a bounded Dijkstra over a deque of
@@ -115,6 +143,7 @@ def shortest_path(graph: RailGraph, start: int, goal: int) -> tuple[float, list[
     previous: dict[int, int] = {}
     heap: list[tuple[float, int]] = [(0.0, start)]
     seen: set[int] = set()
+    real_length: dict[int, float] = {start: 0.0}
 
     while heap:
         cost, node = heapq.heappop(heap)
@@ -125,13 +154,20 @@ def shortest_path(graph: RailGraph, start: int, goal: int) -> tuple[float, list[
             path = [goal]
             while path[-1] != start:
                 path.append(previous[path[-1]])
-            return cost, list(reversed(path))
+            path.reverse()
+            # Report the real geometric length, never the weighted cost.
+            total = sum(graph.edge_length(a, b) for a, b in zip(path, path[1:], strict=False))
+            return total, path
         for edge in graph.adjacency.get(node, []):
             if edge.b in seen:
                 continue
-            new_cost = cost + edge.length_m
+            weight = 1.0
+            if costs:
+                weight = costs.get(graph.service_of_edge.get((edge.a, edge.b), "mainline"), 1.0)
+            new_cost = cost + edge.length_m * weight
             if new_cost < dist.get(edge.b, float("inf")):
                 dist[edge.b] = new_cost
+                real_length[edge.b] = real_length.get(node, 0.0) + edge.length_m
                 previous[edge.b] = node
                 heapq.heappush(heap, (new_cost, edge.b))
     return None

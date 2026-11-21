@@ -1,0 +1,86 @@
+# Station identity - AUTHORED BY THE HUMAN (H1, 2026-11-22).
+#
+# Official names and alternatives, looked up by the human from KAI sources. The
+# station CODES are the PDF's; the names here are authoritative for display.
+#
+# station_kind:
+#   passenger      - a passenger station/halt in normal service
+#   halt_inactive  - an inactive halt; may still appear in the timetable
+#   junction_post  - a junction/wye post, not a passenger station
+#
+# name_source in the database is "human" for every code below.
+stations:
+  CIK:
+    official_name: "Cilaku"
+    station_kind: halt_inactive
+    note: "Inactive."
+  CKI:
+    official_name: "Cikini"
+    station_kind: passenger
+  JBU:
+    official_name: "Jambu Baru"
+    alternatives: ["Jambubaru"]
+    station_kind: passenger
+  KLI:
+    official_name: "Klari"
+    station_kind: passenger
+  LR:
+    official_name: "Larangan"
+    alternatives: ["Larangan (Tegal)"]
+    station_kind: passenger
+    note: "Daop 4 Tegal. DISTINCT from LRA (Larangan, Brebes, Daop 3)."
+  LRA:
+    official_name: "Larangan"
+    alternatives: ["Larangan (Brebes)"]
+    station_kind: passenger
+    note: "Daop 3 Brebes. A DIFFERENT station from LR; the shared name is not an error."
+  MLK:
+    official_name: "Malang Kotalama"
+    alternatives: ["Malangkotalama"]
+    station_kind: passenger
+  MRI:
+    official_name: "Manggarai"
+    station_kind: passenger
+  MTR:
+    official_name: "Matraman"
+    station_kind: passenger
+  PRI:
+    official_name: "Pringkasap"
+    station_kind: passenger
+  PS:
+    official_name: "Pasuruan"
+    station_kind: passenger
+  RO:
+    official_name: "Rejoso"
+    station_kind: passenger
+  SBP:
+    official_name: "Sumberpucung"
+    station_kind: passenger
+  SD:
+    official_name: "Surodadi"
+    station_kind: passenger
+  SMO:
+    official_name: "Bandara Adi Soemarmo"
+    alternatives: ["Adi Soemarmo"]
+    station_kind: passenger
+  SMT:
+    official_name: "Semarang Tawang"
+    alternatives: ["Semarang Tawang Bank Jateng"]
+    station_kind: passenger
+  STM:
+    official_name: "Pos Segitiga Mesigit"
+    station_kind: junction_post
+    note: >-
+      Junction/wye post linking SBI, SB/SDT and KLM. NOT a passenger station.
+  TIS:
+    official_name: "Terisi"
+    station_kind: passenger
+  TLM:
+    official_name: "Metland Telagamurni"
+    alternatives: ["Telaga Murni", "Cikarang Barat"]
+    station_kind: passenger
+    note: "Between CIT and CKR."
+  TPR:
+    official_name: "Tipar"
+    station_kind: halt_inactive
+    note: "Inactive halte on Cianjur-Padalarang, between MLB and SLJ."

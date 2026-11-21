@@ -53,3 +53,10 @@ data/review/station_overrides.draft.yaml
 data/review/station_candidates_map.html
 data/review/q2_problem_segments.json
 data/review/station_coord_candidates_dump.json
+data/review/a1_before_after.json
+data/review/after_h2.json
+data/review/a3_coord_hygiene.json
+data/review/a4_bypass_candidates.json
+data/review/a5_routing_experiment.json
+data/review/a6_kh_component.json
+data/review/coord_safety_report.json

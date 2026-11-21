@@ -35,3 +35,11 @@ service_excluded: [yard, parking_aisle]
 # V14b polyline consistency (G2)
 v14b_jump_m: 5000        # max gap between two consecutive points inside one segment
 v14b_join_slack_m: 50    # extra slack on top of snap distances at hop joins
+
+# A5 routing cost experiment. Costs affect PATH CHOICE only; length_m always
+# reports the real geometric length. main track = 1.0.
+cost_mainline: 1.0
+cost_siding: 1.0
+cost_crossover: 1.0
+cost_spur: 1.0
+cost_yard: 4.0

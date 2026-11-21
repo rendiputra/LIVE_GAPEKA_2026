@@ -45,6 +45,32 @@ BOOKS = [
 ]
 
 
+def load_aliases(path: Path = Path("data/config/station_aliases.yaml")) -> dict:
+    """Parse the human-authored station alias file (H1)."""
+    if not path.exists():
+        return {}
+    text = path.read_text(encoding="utf-8")
+    if "stations:" not in text:
+        return {}
+    block = text.split("stations:", 1)[1]
+    aliases: dict[str, dict] = {}
+    current: str | None = None
+    for line in block.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if line.startswith("  ") and not line.startswith("   ") and stripped.endswith(":"):
+            current = stripped[:-1].strip()
+            aliases[current] = {}
+            continue
+        if current and ":" in stripped:
+            key, _, value = stripped.partition(":")
+            key = key.strip()
+            if key in ("official_name", "station_kind", "note"):
+                aliases[current][key] = value.strip().strip('"')
+    return aliases
+
+
 def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -138,10 +164,16 @@ def build(db_path: Path = DB_PATH) -> dict:
                     if stop["station_name"]:
                         station_names.setdefault(stop["station_code"], stop["station_name"])
 
+    aliases = load_aliases()
     for code in sorted(all_codes):
         name = station_names.get(code) or code
-        # A rejected coordinate must never be stored on the station row.
-        if code in rejected:
+        alias = aliases.get(code, {})
+        official = alias.get("official_name")
+        name_source = "human" if official else "pdf"
+        # A rejected coordinate must never be stored on the station row -- UNLESS a
+        # human override exists for that code, which supersedes the rejection.
+        is_override = any(o.code == code for o in overrides)
+        if code in rejected and not is_override:
             effective.pop(code, None)
 
         entry = effective.get(code)
@@ -150,18 +182,21 @@ def build(db_path: Path = DB_PATH) -> dict:
             # no source ever produced one. The distinction drives the report.
             status = "rejected" if code in rejected else "missing"
             connection.execute(
-                "INSERT INTO stations (code, name, coord_status) VALUES (?, ?, ?)",
-                (code, name, status),
+                "INSERT INTO stations (code, name, official_name, name_source, coord_status)"
+                " VALUES (?, ?, ?, ?, ?)",
+                (code, name, official, name_source, status),
             )
         else:
             status = entry.get("coord_status", "accepted")
             connection.execute(
-                "INSERT INTO stations (code, name, lat, lon, coord_source, coord_source_id,"
-                " coord_match, coord_confidence, coord_retrieved, coord_status)"
-                " VALUES (?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO stations (code, name, official_name, name_source, lat, lon,"
+                " coord_source, coord_source_id, coord_match, coord_confidence,"
+                " coord_retrieved, coord_status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                 (
                     code,
                     name,
+                    official,
+                    name_source,
                     entry["lat"],
                     entry["lon"],
                     entry["source"],

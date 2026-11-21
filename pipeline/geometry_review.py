@@ -74,7 +74,11 @@ def select_trips(trips: list[dict], geometry: dict) -> list[dict]:
 
     extra = [
         ("KA 265 markers", lambda t: t["train_no"] == "265"),
-        ("GBN-NBO", has_pair("GBN", "NBO")),
+        # KA 1 already covers GBN-NBO; pick a DIFFERENT train so the map shows
+        # another segment of the same pair.
+        ("GBN-NBO (KA 35)", lambda t: t["train_no"] == "35"),
+        # A Jabodetabek train with many untimed Ls rows (KA 127 has 13).
+        ("untimed Ls (KA 127)", lambda t: t["train_no"] == "127"),
         ("KH-MA fallback", has_pair("KH", "MA")),
         ("Book 2", lambda t: t.get("book") == 2),
         (
@@ -119,9 +123,13 @@ def build() -> str:
 
     # Stations, coloured by snap band.
     station_points = []
+    from pipeline.build_geometry import accepted_coordinates
+
+    accepted = accepted_coordinates()
     for code, snap in geometry["snaps"].items():
         if snap["lat"] is None:
             continue
+        entry = accepted.get(code, {})
         station_points.append(
             {
                 "code": code,
@@ -129,6 +137,9 @@ def build() -> str:
                 "lon": snap["lon"],
                 "band": snap["band"],
                 "snap_m": snap["snap_distance_m"],
+                "coord_status": entry.get("coord_status", "unknown"),
+                "coord_source": entry.get("source", "unknown"),
+                "coord_source_id": entry.get("source_id"),
             }
         )
 
@@ -236,7 +247,10 @@ DATA.stations.forEach(s => {
     radius: 3,
     color: s.band === 'ok' ? '#2e7d32' : (s.band === 'review' ? '#f9a825' : '#b00020'),
     fillOpacity: 0.85, weight: 1
-  }).bindPopup(`<b>${s.code}</b><br>snap ${s.snap_m} m<br>band ${s.band}`).addTo(bands);
+  }).bindPopup(
+    `<b>${s.code}</b><br>snap ${s.snap_m} m<br>band ${s.band}<br>` +
+    `coord ${s.coord_status} (${s.coord_source})<br>${s.coord_source_id || ''}`
+  ).addTo(bands);
 });
 
 DATA.problem.forEach(p => {
