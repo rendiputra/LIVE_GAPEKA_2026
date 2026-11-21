@@ -1,0 +1,68 @@
+{
+  "note": "H3: report only, nothing applied. LRA is a distinct station from LR. Every figure quoted about LRA must come from this file.",
+  "station": {
+    "code": "LRA",
+    "name": "Larangan",
+    "official_name": "Larangan",
+    "coord_status": "accepted",
+    "lat": -6.99056,
+    "lon": 108.949,
+    "coord_source": "wikidata",
+    "coord_source_id": "Q2414446",
+    "coord_match": "code",
+    "coord_confidence": "high",
+    "coord_retrieved": "2026-11-21",
+    "in_accepted_coordinates": true
+  },
+  "osm_candidate": {
+    "node_id": 7835804385,
+    "name": "Larangan",
+    "railway": "station",
+    "lat": -6.9903744,
+    "lon": 108.9488204,
+    "distance_from_accepted_m": 28.6
+  },
+  "usage": {
+    "trips": 72,
+    "trip_ids_sample": [
+      "b1-121-v1-01",
+      "b1-124-v1-01",
+      "b1-125-v1-01",
+      "b1-126-v1-01",
+      "b1-13-v1-01",
+      "b1-14-v1-01",
+      "b1-149-v1-01",
+      "b1-15-v1-01",
+      "b1-150-v1-01",
+      "b1-16-v1-01"
+    ],
+    "neighbours": {
+      "SGG": 72,
+      "KGG": 72
+    }
+  },
+  "rail_path_triple": {
+    "via": "SGG-LRA-KGG",
+    "ratio": 1.0,
+    "ratio_limit": 1.15,
+    "passes": true,
+    "turn_angle_deg": 178.5,
+    "rail_direct_km": 15.1,
+    "rail_via_km": 15.1
+  },
+  "q3_mention": {
+    "in_failures": false,
+    "in_turnbacks": false
+  },
+  "lr_for_contrast": {
+    "code": "LR",
+    "name": "Larangan",
+    "official_name": "Larangan",
+    "coord_status": "override",
+    "lat": -6.868086,
+    "lon": 109.185451,
+    "coord_source": "override",
+    "coord_source_id": "human:human:2026-11-22",
+    "distance_from_lra_km": 29.44
+  }
+}
