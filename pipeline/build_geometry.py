@@ -57,8 +57,8 @@ def load_config(path: Path = CONFIG) -> dict:
     return config
 
 
-def load_graph() -> RailGraph:
-    payload = json.loads((EXTERNAL / "java_rail_graph.json").read_text(encoding="utf-8"))
+def load_graph(name: str = "java_rail_graph.json") -> RailGraph:
+    payload = json.loads((EXTERNAL / name).read_text(encoding="utf-8"))
     coords = {item["id"]: (item["lat"], item["lon"]) for item in payload["node_coords"]}
     return RailGraph.from_ways(payload["ways"], coords)
 
@@ -124,9 +124,9 @@ def shortest_path(graph: RailGraph, start: int, goal: int) -> tuple[float, list[
     return None
 
 
-def build(config: dict) -> dict:
+def build(config: dict, graph_file: str = "java_rail_graph.json") -> dict:
     started = time.time()
-    graph = load_graph()
+    graph = load_graph(graph_file)
     bridged = graph.bridge_gaps(config.get("gap_bridge_m", 0.0))
     coordinates = accepted_coordinates()
 

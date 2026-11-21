@@ -25,6 +25,10 @@ src = ["pipeline", "engine", "api", "tests"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
+[tool.ruff.lint.per-file-ignores]
+# The Leaflet page is a long inline HTML/CSS/JS template.
+"pipeline/geometry_review.py" = ["E501"]
+
 [tool.ruff.lint.isort]
 known-first-party = ["pipeline", "engine", "api"]
 

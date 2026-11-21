@@ -237,24 +237,32 @@ def suspicious_coordinates(matched: dict[str, dict]) -> list[dict]:
 
     suspicious = []
 
-    # Duplicate coordinates: two DISTINCT codes on exactly the same point means at
-    # least one external item is wrong. (Observed: Q12516294 "Larangan (Tegal)" and
-    # Q12516348 "Suradadi" both geolocated at -7.69738, 109.701.)
-    by_point: dict[tuple[float, float], list[str]] = defaultdict(list)
-    for code, entry in matched.items():
-        by_point[(round(entry["lat"], 4), round(entry["lon"], 4))].append(code)
-    for point, codes in sorted(by_point.items()):
-        if len(codes) > 1:
+    # Duplicate coordinates: two DISTINCT codes on (nearly) the same point means
+    # at least one external item is wrong. Distance-based, not exact equality:
+    # MLK/SBP sit 15 m apart because SBP was given Malang Kotalama's coordinate.
+
+    codes_sorted = sorted(matched)
+    for i, left in enumerate(codes_sorted):
+        for right in codes_sorted[i + 1 :]:
+            gap_m = (
+                haversine_km(
+                    (matched[left]["lat"], matched[left]["lon"]),
+                    (matched[right]["lat"], matched[right]["lon"]),
+                )
+                * 1000
+            )
+            if gap_m > 50.0:
+                continue
             suspicious.append(
                 {
-                    "code": ",".join(sorted(codes)),
+                    "code": f"{left},{right}",
                     "name": "duplicate coordinates",
-                    "lat": point[0],
-                    "lon": point[1],
-                    "source_id": ", ".join(matched[c]["source_id"] for c in sorted(codes)),
+                    "lat": matched[left]["lat"],
+                    "lon": matched[left]["lon"],
+                    "source_id": f"{matched[left]['source_id']}, {matched[right]['source_id']}",
                     "neighbours": [],
                     "neighbour_distances_km": [],
-                    "reason": "two distinct station codes share one coordinate",
+                    "reason": f"two distinct codes only {gap_m:.0f} m apart",
                 }
             )
 

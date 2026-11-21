@@ -51,7 +51,11 @@ EXCLUDED_RAILWAY = {
     "monorail",
     "funicular",
 }
-EXCLUDED_SERVICE = {"yard", "siding", "spur", "crossover", "parking_aisle"}
+# Only ``yard`` is excluded. Sidings, spurs and crossovers MUST stay in: on a
+# double-track line they are the only ways joining the two parallel tracks, and
+# dropping them broke the network at every station (88 of 394 segments became
+# 15-180x detours until this was fixed).
+EXCLUDED_SERVICE = {"yard", "parking_aisle"}
 
 
 class WaysPass(osmium.SimpleHandler):

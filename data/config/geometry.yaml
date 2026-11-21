@@ -24,3 +24,10 @@ implausible_slow_kmh: 10
 # are joined with a synthetic edge and the join is COUNTED in the report.
 # Set to 0 to disable the repair.
 gap_bridge_m: 25
+
+# Which service classes may be routed (Phase 4 step 1, corrected by evidence).
+#
+# The original instruction excluded yard|siding|spur|crossover. Measurement showed
+# that breaks every double-track station: the parallel tracks are joined only by
+# crossovers and sidings. Excluding yard alone fixed 80 of 88 broken segments.
+service_excluded: [yard, parking_aisle]

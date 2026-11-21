@@ -344,6 +344,69 @@ def build(db_path: Path = DB_PATH) -> dict:
                 )
                 loaded_stops += 1
 
+    # --- geometry (Phase 4 output). Only rows whose endpoints exist are loaded. ---
+    segments_path = PARSED_DIR / "segments.json"
+    geometry_summary = {}
+    if segments_path.exists():
+        geo = load_json(segments_path)
+        existing = {row[0] for row in connection.execute("SELECT code FROM stations")}
+        for seg in geo["segments"]:
+            if seg["from_code"] not in existing or seg["to_code"] not in existing:
+                continue
+            connection.execute(
+                "INSERT OR REPLACE INTO segments (from_station, to_station, geometry,"
+                " length_m, straight_m, detour_ratio, geometry_quality, reason, source_way_ids)"
+                " VALUES (?,?,?,?,?,?,?,?,?)",
+                (
+                    seg["from_code"],
+                    seg["to_code"],
+                    json.dumps(seg["geometry"]) if seg["geometry"] else None,
+                    seg["length_m"],
+                    seg["straight_m"],
+                    seg["detour_ratio"],
+                    seg["quality"],
+                    seg.get("reason", ""),
+                    "[]",
+                ),
+            )
+
+        trip_ids = {
+            f"b{book}-{number}-v{VERSION_ID}-{occ:02d}": tid
+            for tid, book, number, occ in connection.execute(
+                "SELECT trip_id, book, train_no, substr(trip_id, -2) FROM trips"
+            ).fetchall()
+            for occ in [int(occ)]
+        }
+        for key, status in geo["trip_status"].items():
+            book_s, number = key.split(":", 1)
+            tid = None
+            for candidate, mapped in trip_ids.items():
+                if candidate.startswith(f"b{book_s}-{number}-v"):
+                    tid = mapped
+                    break
+            if tid is None:
+                continue
+            counts = status["counts"]
+            connection.execute(
+                "INSERT OR REPLACE INTO trip_geometry_status (trip_id, status, osm_routed,"
+                " osm_suspect, straight_line, unmeasured, total_length_m)"
+                " VALUES (?,?,?,?,?,?,?)",
+                (
+                    tid,
+                    status["status"],
+                    counts.get("osm_routed", 0),
+                    counts.get("osm_suspect", 0),
+                    counts.get("straight_line", 0),
+                    counts.get("unmeasured", 0),
+                    None,
+                ),
+            )
+        geometry_summary = {
+            "quality_counts": geo["quality_counts"],
+            "trip_status_counts": geo["trip_status_counts"],
+            "content_hash": geo["content_hash"],
+        }
+
     connection.commit()
 
     counts = {
@@ -356,6 +419,8 @@ def build(db_path: Path = DB_PATH) -> dict:
             "stop_times",
             "calendar",
             "station_coord_candidates",
+            "segments",
+            "trip_geometry_status",
         )
     }
     station_coords = connection.execute(
@@ -372,6 +437,8 @@ def build(db_path: Path = DB_PATH) -> dict:
         "stop_times",
         "calendar",
         "station_coord_candidates",
+        "segments",
+        "trip_geometry_status",
     ):
         rows = connection.execute(f"SELECT * FROM {table} ORDER BY 1, 2").fetchall()
         digest.update(table.encode())
@@ -397,6 +464,7 @@ def build(db_path: Path = DB_PATH) -> dict:
 
     return {
         "db": str(db_path),
+        "geometry": geometry_summary,
         "counts": counts,
         "stations_with_coordinates": station_coords,
         "content_hash": digest.hexdigest(),

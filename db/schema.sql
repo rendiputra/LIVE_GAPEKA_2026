@@ -131,10 +131,29 @@ CREATE TABLE calendar (
 CREATE TABLE segments (
     from_station    TEXT    NOT NULL REFERENCES stations(code),
     to_station      TEXT    NOT NULL REFERENCES stations(code),
-    geometry        TEXT,                       -- reserved for Phase 4
-    length_m        REAL,
-    geometry_quality TEXT   CHECK (geometry_quality IN ('osm', 'straight_line')),
+    geometry        TEXT,                       -- GeoJSON LineString
+    length_m        REAL,                       -- routed length; null when unmeasured
+    straight_m      REAL,                       -- straight-line reference
+    detour_ratio    REAL,                       -- length / straight
+    geometry_quality TEXT   NOT NULL
+                    CHECK (geometry_quality IN
+                           ('osm_routed', 'osm_suspect', 'straight_line', 'unmeasured')),
+    reason          TEXT    NOT NULL DEFAULT '',
+    source_way_ids  TEXT    NOT NULL DEFAULT '[]',
     PRIMARY KEY (from_station, to_station)
+);
+
+-- Per-trip geometry readiness (Phase 4 step 6). A trip that is not "complete" is
+-- listed in the report, never hidden.
+CREATE TABLE trip_geometry_status (
+    trip_id         TEXT    PRIMARY KEY REFERENCES trips(trip_id) ON DELETE CASCADE,
+    status          TEXT    NOT NULL
+                    CHECK (status IN ('complete', 'has_fallback', 'has_unmeasured')),
+    osm_routed      INTEGER NOT NULL DEFAULT 0,
+    osm_suspect     INTEGER NOT NULL DEFAULT 0,
+    straight_line   INTEGER NOT NULL DEFAULT 0,
+    unmeasured      INTEGER NOT NULL DEFAULT 0,
+    total_length_m  REAL
 );
 
 CREATE TABLE overrides (

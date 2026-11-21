@@ -234,12 +234,15 @@ formats (two trains per page, `Berh`/`Sb` markers, `Lintas Pelayanan` only).
 
 ### Phase 4 — Rail Geometry
 **Tasks**
-- Download/extract OSM `railway=rail` for the coverage area; build a graph; snap stations to the nearest node (configurable distance threshold).
-- For each consecutive stop pair in `stop_times`, compute the shortest path -> polyline + cumulative distance -> `segments`.
-- On failure: straight-line fallback, set `geometry_quality = 'straight_line'`, record in the report.
-- Enable validation V5.
+- OSM rail for Java from a hash-pinned **Geofabrik extract** (an Overpass query is not stable enough; see `docs/DATA_SOURCES.md`). Cache under `data/external/` (gitignored) with SHA-256 and retrieval date.
+- Routing graph over `railway=rail` ways. **Allowlist, not blocklist:** only real track enters the graph, because a blocklist let `railway=platform` in and fragmented the network. `service=yard` is excluded; **siding, spur and crossover stay in**, because on double track they are the only links between the parallel tracks (excluding them broke 80 of 88 segments).
+- Snap each station onto the nearest **edge**, splitting the edge at the projection so routed lengths stay accurate. Distance bands configurable in `data/config/geometry.yaml`.
+- Route **every** consecutive stop pair, including `pass` (`Ls`) and untimed rows: the PDF lists every station, so segments stay short and route ambiguity is small.
+- Quality tiers: `osm_routed`, `osm_suspect` (detour above the configured ratio), `straight_line` (both ends snapped, no path), `unmeasured` (no accepted coordinate or unsnapped). Nothing is silently routed.
+- Validators V5 (connectivity), V12 (detour), V13 (implied speed vs printed maximum — **evidence for Phase 5, not a gate**), V14 (cumulative consistency).
+- `trip_geometry_status` records `complete | has_fallback | has_unmeasured` per trip; non-complete trips are always listed.
 
-**DoD**: OSM segment coverage meets the target (agreed with the human); list of fallback segments and problematic stations produced; stations with off-target coordinates flagged.
+**DoD**: segment coverage recorded; every fallback, unmeasured pair and suspect detour listed; stations above the snap-accept threshold listed; review map produced.
 
 ### Phase 5 — Position Engine
 **Tasks**: `engine/position.py` with a pure function, e.g. `positions_at(t_utc, schedule, calendar_policy) -> list[TrainPosition]`.

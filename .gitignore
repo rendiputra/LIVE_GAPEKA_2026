@@ -43,3 +43,9 @@ data/*.db
 data/external/
 
 data/config/station_overrides.yaml
+data/review/geometry_snaps.json
+data/review/geometry_summary.json
+data/review/phase4_validators.json
+data/review/geometry_review.html
+data/review/stations_crosscheck.json
+data/review/untimed_breakdown.json
