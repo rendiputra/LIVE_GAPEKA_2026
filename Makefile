@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications export-web parity web-dev web-build web-test web-e2e reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit export-web parity web-dev web-build web-test web-e2e reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -83,6 +83,12 @@ verify-sheet: ## build the 20-train human verification sheet (T1)
 
 import-verifications: ## ingest verification_result.json (T1)
 	uv run python -m pipeline.import_verifications
+
+v15: ## V15 endpoint cross-check, all trips (T2)
+	uv run python -m pipeline.v15_endpoints
+
+snap-audit: ## every station's snap distance and band (T3)
+	uv run python -m pipeline.snap_audit
 
 export-web: ## export the static schedule into web/public/data (B1)
 	uv run python -m pipeline.export_web
