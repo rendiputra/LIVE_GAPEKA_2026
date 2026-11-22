@@ -103,6 +103,10 @@ test("benchmark: frame time with the full schedule", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("radio", { name: "Ulang" }).click();
   await page.locator("#date").fill("2026-12-01");
+  // The worker now starts after `load`, so wait for the first real frame before
+  // sampling; otherwise the first iterations record a frame that never ran.
+  await expect(page.locator("#status")).toContainText("2026-12-01");
+  await expect(page.locator("#status")).toContainText(/[1-9]\d* KA aktif/);
   const samples: number[] = [];
   let trains = 0;
   for (let i = 0; i < 40; i += 1) {

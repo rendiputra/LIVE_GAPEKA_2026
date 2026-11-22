@@ -3,18 +3,18 @@
   "form_factor": "mobile",
   "note": "Report only. Measured with tiles stubbed, so this reflects the app, not the tile provider.",
   "scores": {
-    "performance": 61,
+    "performance": 71,
     "accessibility": 100,
     "best-practices": 100,
-    "seo": 82
+    "seo": 91
   },
   "metrics": {
-    "first_contentful_paint_ms": 752.4659999999999,
-    "largest_contentful_paint_ms": 3753.6989999999996,
-    "total_blocking_time_ms": 1823.7330000000002,
-    "cumulative_layout_shift": 0.0636801177879756,
-    "speed_index_ms": 1575.0880340928197,
-    "total_byte_weight": 571279
+    "first_contentful_paint_ms": 751.826,
+    "largest_contentful_paint_ms": 751.826,
+    "total_blocking_time_ms": 2899.5000000000005,
+    "cumulative_layout_shift": 0.035047187109626746,
+    "speed_index_ms": 1872.9663932877015,
+    "total_byte_weight": 666285
   },
   "endpoint": "http://127.0.0.1:9222"
 }

@@ -36,6 +36,9 @@ export interface PreparedWaypoint {
 
 export interface PreparedTrip {
   data: TripData;
+  /** Cached legs, keyed by accelTimeS. Rebuilding them for every trip on every
+   *  frame was the dominant cost of a render. */
+  legsCache?: { accelTimeS: number; legs: Array<{ leg: Leg; a: PreparedWaypoint; b: PreparedWaypoint }> };
   waypoints: PreparedWaypoint[];
   segments: SegmentGeometry[];
   segmentOffsets: number[];
@@ -207,6 +210,7 @@ export function legsOf(trip: PreparedTrip, policy: Policy): Array<{ leg: Leg; a:
     );
     if (leg) legs.push({ leg, a, b });
   }
+  trip.legsCache = { accelTimeS: policy.accelTimeS, legs };
   return legs;
 }
 

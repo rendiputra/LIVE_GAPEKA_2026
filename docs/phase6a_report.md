@@ -9,15 +9,15 @@ Static site (ADR 008). `python -m pipeline.export_web` writes the schedule into 
 
 ## Export sizes
 
-Content hash: `e68ebc4bc3d98628`
+Content hash: `ce8b397007790812`
 
 | File | Raw kB | Gzip kB |
 |---|---|---|
 | manifest | 1.0 | 0.5 |
 | segments | 156.0 | 94.6 |
 | stations | 35.8 | 7.2 |
-| total | 1124.1 | 264.1 |
-| trips | 931.3 | 161.7 |
+| total | 1130.4 | 264.2 |
+| trips | 937.6 | 161.8 |
 
 Trips exported: **625**, segments **391**, stations **389**. Target was < 2 MB gzip.
 
@@ -45,9 +45,9 @@ Tolerances: 1 m for lat/lon and `s_m`, 0.2 km/h for speed, identical status / fr
 | Metric | Value |
 |---|---|
 | samples | 40 |
-| median frame | **0.60 ms** |
-| p95 frame | 4.90 ms |
-| most trains on screen | 83 |
+| median frame | **5.00 ms** |
+| p95 frame | 5.00 ms |
+| most trains on screen | 101 |
 
 Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-01. The target was < 10 ms per frame.
 
@@ -57,11 +57,11 @@ Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-0
 
 Screenshots (`data/review/web_screens/`, gitignored):
 
-- `01-load.png` (71 kB)
-- `02-ka249-0900.png` (90 kB)
-- `03-ka260f-0005.png` (99 kB)
-- `04-ka260f-0013.png` (99 kB)
-- `05-fakultatif-on.png` (54 kB)
+- `01-load.png` (65 kB)
+- `02-ka249-0900.png` (85 kB)
+- `03-ka260f-0005.png` (93 kB)
+- `04-ka260f-0013.png` (92 kB)
+- `05-fakultatif-on.png` (94 kB)
 
 ## What the UI does
 

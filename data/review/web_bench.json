@@ -1,6 +1,6 @@
 {
  "samples": 40,
- "median_ms": 4.400000095367432,
- "p95_ms": 4.400000095367432,
- "max_trains": 78
+ "median_ms": 5,
+ "p95_ms": 5,
+ "max_trains": 101
 }

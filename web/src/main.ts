@@ -13,7 +13,7 @@ import {
   SPRITE_URL,
   TILE_MODE,
 } from "./config";
-import { prepare, type Dataset, type TrainPosition } from "./engine/position";
+import type { Dataset, TrainPosition } from "./engine/position";
 import { decodePolyline } from "./engine/polyline";
 import { defaultPolicy, type Manifest, type Policy, type TripData } from "./engine/types";
 
@@ -130,13 +130,17 @@ async function loadData(): Promise<void> {
     `${DATA_BASE}/trips.json`,
   );
 
-  dataset = prepare(
+  // F6: the UI does NOT call prepare(). That decodes all 391 polylines and
+  // builds every trip, which the worker already does — doing it twice on the
+  // main thread was most of the 1.8 s total blocking time. The UI only needs the
+  // station list and the raw segment records.
+  dataset = {
     manifest,
-    stations.stations,
-    segments.segments,
-    trips.trips,
-    trips.stop_types,
-  );
+    stations: stations.stations,
+    stationByCode: new Map(stations.stations.map((station) => [station.code, station])),
+    segments: segments.segments,
+    trips: [],
+  };
   tripsById = new Map(trips.trips.map((trip) => [trip.trip_id, trip]));
   stopTypes = trips.stop_types;
   stationName = new Map(
@@ -240,12 +244,12 @@ function buildMap(): void {
       },
     });
 
-    // F3: the exported rail network as a subtle background layer, so the Java
-    // rail geography is readable at every zoom even where the basemap fades
-    // railways out.
+    // F3/F6: the exported rail network as a subtle background layer. Building it
+    // decodes 391 polylines, so it is DEFERRED to idle time: it must not compete
+    // with the first paint (that was long-task blocking time).
     map.addSource("rail", {
       type: "geojson",
-      data: railGeoJson(),
+      data: { type: "FeatureCollection", features: [] },
     });
     map.addLayer(
       {
@@ -262,6 +266,17 @@ function buildMap(): void {
       // Under the train markers, above the basemap.
       "trains-dot",
     );
+    const buildRail = () => {
+      const source = map.getSource("rail") as maplibregl.GeoJSONSource | undefined;
+      source?.setData(railGeoJson());
+    };
+    const idle = (
+      window as Window & {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      }
+    ).requestIdleCallback;
+    if (idle) idle(buildRail, { timeout: 2000 });
+    else setTimeout(buildRail, 300);
 
     // F3: the selected train's route, highlighted.
     map.addSource("route", {
@@ -558,7 +573,14 @@ function renderStationBoard(code: string): void {
 
 // --- search -----------------------------------------------------------------
 
+/** F6: 3,000 <option> elements at startup was a long task. Built once, on first
+ *  focus, and capped: the search matches on input anyway, so the list is a hint. */
+let searchIndexBuilt = false;
+const SEARCH_HINT_LIMIT = 500;
+
 function buildSearchIndex(): void {
+  if (searchIndexBuilt) return;
+  searchIndexBuilt = true;
   const list = $("search-list");
   const options: string[] = [];
   for (const trip of tripsById.values()) {
@@ -569,7 +591,7 @@ function buildSearchIndex(): void {
   }
   options.sort();
   list.innerHTML = options
-    .slice(0, 3000)
+    .slice(0, SEARCH_HINT_LIMIT)
     .map((option) => `<option value="${option.replace(/"/g, "&quot;")}"></option>`)
     .join("");
 }
@@ -821,14 +843,26 @@ function updateBanner(): void {
 async function main(): Promise<void> {
   await loadData();
   buildMap();
-  buildSearchIndex();
+  // Built on first interaction, not at startup.
+  const searchInput = $("search") as HTMLInputElement;
+  searchInput.addEventListener("focus", buildSearchIndex, { once: true });
+  searchInput.addEventListener("input", buildSearchIndex, { once: true });
   wireControls();
   // Only the LABEL is initialised here. Writing the inputs at startup can race a
   // user (or a test) that already moved the slider, silently resetting it.
   $("clock").textContent = hhmm(state.secondsOfDay);
   setMode(state.mode);
-  startWorker();
-  tick();
+  // Let the first paint happen before the worker loads and parses the schedule:
+  // LCP should not wait for ~1 MB of JSON.
+  const start = () => {
+    startWorker();
+    tick();
+  };
+  if (document.readyState === "complete") {
+    window.setTimeout(start, 0);
+  } else {
+    window.addEventListener("load", () => window.setTimeout(start, 0), { once: true });
+  }
 }
 
 window.addEventListener("unhandledrejection", (event) => {
