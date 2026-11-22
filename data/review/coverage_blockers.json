@@ -14,7 +14,7 @@
   },
   "top_blockers": [
     {
-      "blocker": "segment:KDB:WK",
+      "blocker": "segment:KDB:KRO",
       "marginal_unblocked": 0,
       "trips_touching": 74,
       "mode": "reduces_only",
@@ -22,12 +22,12 @@
       "still_blocked_after": 75,
       "kind": "segment",
       "from": "KDB",
-      "to": "WK",
+      "to": "KRO",
       "quality": "unmeasured",
-      "label": "segment KDB-WK (unmeasured)"
+      "label": "segment KDB-KRO (unmeasured)"
     },
     {
-      "blocker": "segment:KDB:KRO",
+      "blocker": "segment:KDB:WK",
       "marginal_unblocked": 74,
       "trips_touching": 74,
       "mode": "unblocks",
@@ -86,9 +86,9 @@
       "still_blocked_after": 1,
       "kind": "segment",
       "from": "KDB",
-      "to": "KRO",
+      "to": "WK",
       "quality": "unmeasured",
-      "label": "segment KDB-KRO (unmeasured)"
+      "label": "segment KDB-WK (unmeasured)"
     },
     {
       "blocker": "segment:PS:RO",
@@ -122,7 +122,7 @@
   "top_blockers_by_book": {
     "1": [
       {
-        "blocker": "segment:KDB:WK",
+        "blocker": "segment:KDB:KRO",
         "marginal_unblocked": 0,
         "trips_touching": 64,
         "mode": "reduces_only",
@@ -130,12 +130,12 @@
         "still_blocked_after": 65,
         "kind": "segment",
         "from": "KDB",
-        "to": "WK",
+        "to": "KRO",
         "quality": "unmeasured",
-        "label": "segment KDB-WK (unmeasured)"
+        "label": "segment KDB-KRO (unmeasured)"
       },
       {
-        "blocker": "segment:KDB:KRO",
+        "blocker": "segment:KDB:WK",
         "marginal_unblocked": 64,
         "trips_touching": 64,
         "mode": "unblocks",
@@ -194,9 +194,9 @@
         "still_blocked_after": 1,
         "kind": "segment",
         "from": "KDB",
-        "to": "KRO",
+        "to": "WK",
         "quality": "unmeasured",
-        "label": "segment KDB-KRO (unmeasured)"
+        "label": "segment KDB-WK (unmeasured)"
       },
       {
         "blocker": "segment:PS:RO",
@@ -229,7 +229,7 @@
     ],
     "2": [
       {
-        "blocker": "segment:KDB:WK",
+        "blocker": "segment:KDB:KRO",
         "marginal_unblocked": 0,
         "trips_touching": 10,
         "mode": "reduces_only",
@@ -237,12 +237,12 @@
         "still_blocked_after": 10,
         "kind": "segment",
         "from": "KDB",
-        "to": "WK",
+        "to": "KRO",
         "quality": "unmeasured",
-        "label": "segment KDB-WK (unmeasured)"
+        "label": "segment KDB-KRO (unmeasured)"
       },
       {
-        "blocker": "segment:KDB:KRO",
+        "blocker": "segment:KDB:WK",
         "marginal_unblocked": 10,
         "trips_touching": 10,
         "mode": "unblocks",
@@ -261,9 +261,9 @@
         "still_blocked_after": 0,
         "kind": "segment",
         "from": "KDB",
-        "to": "KRO",
+        "to": "WK",
         "quality": "unmeasured",
-        "label": "segment KDB-KRO (unmeasured)"
+        "label": "segment KDB-WK (unmeasured)"
       }
     ]
   },

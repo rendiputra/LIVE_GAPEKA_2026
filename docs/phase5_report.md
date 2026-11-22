@@ -21,20 +21,20 @@ A pure function: `positions_at(snapshot, instant, policy) -> [TrainPosition]`. N
 - effective_from: `2026-12-01`, effective_to: `None`
 - trips loaded: **550**
 - max day_offset: **1**
-- geometry content hash: `75f62831b4b32522c320a6f207c02a12fda42558f5fa08067817b1c123a5eef6`
+- geometry content hash: `76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49`
 
 ## 24-hour sweep (2026-12-01, 60 s step)
 
 | Metric | Value |
 |---|---|
 | samples | 1440 |
-| active trips, peak | **54** |
-| active trips, median | **39** |
+| active trips, peak | **87** |
+| active trips, median | **72** |
 | positions off-polyline (> 1 m) | **0** |
 | continuity violations | **0** |
 | continuity samples skipped (ambiguous) | 0 |
 | timed legs | 13718 |
-| legs with cruise > printed max +10% | **14** of 13718 |
+| legs with cruise > printed max +10% | **6** of 13718 |
 
 ### Cruise speed vs the printed maximum
 
@@ -44,8 +44,7 @@ Each timed leg's cruise speed is compared with the PDF's `Kecepatan Maksimum` on
 |---|---|
 | 1.00-1.10 | 80 |
 | 1.10-1.25 | 6 |
-| 1.25-1.50 | 8 |
-| <=1.00 | 13624 |
+| <=1.00 | 13632 |
 
 Legs above the printed maximum by more than 10%:
 
@@ -56,31 +55,21 @@ Legs above the printed maximum by more than 10%:
 | `b1-178-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 | `b1-186-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 | `b1-196-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
-| `b1-265-v1-01` | MSG -> BTT | 70.1 | 50 | 1.401 |
-| `b1-266-v1-01` | BTT -> MSG | 70.1 | 50 | 1.401 |
-| `b1-267-v1-01` | MSG -> BTT | 70.1 | 50 | 1.401 |
-| `b1-268-v1-01` | BTT -> MSG | 65.4 | 50 | 1.308 |
-| `b1-269-v1-01` | MSG -> BTT | 65.4 | 50 | 1.308 |
-| `b1-270-v1-01` | BTT -> MSG | 70.1 | 50 | 1.401 |
-| `b1-271-v1-01` | MSG -> BTT | 70.1 | 50 | 1.401 |
-| `b1-272-v1-01` | BTT -> MSG | 70.1 | 50 | 1.401 |
 | `b1-298-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 
 ## Benchmark
 
-`positions_at` over all active trips: median **2.44 ms**, p95 **2.75 ms**, max **2.75 ms** (20 runs). Target was < 50 ms.
+`positions_at` over all active trips: median **5.12 ms**, p95 **5.41 ms**, max **5.54 ms** (20 runs). Target was < 50 ms.
 
 ## Trips excluded, by reason
 
-Of **625** trips in the database, **373** are shown under the default policy. These counts read the database, not the snapshot (the snapshot has already dropped `has_unmeasured` trips, so counting from it would hide them).
+Of **625** trips in the database, **507** are shown under the default policy. These counts read the database, not the snapshot (the snapshot has already dropped `has_unmeasured` trips, so counting from it would hide them).
 
 | Reason | Trips |
 |---|---|
-| `book1:fakultatif_hidden` | 32 |
-| `book1:has_fallback_hidden` | 113 |
+| `book1:fakultatif_hidden` | 37 |
 | `book1:has_unmeasured` | 65 |
 | `book2:fakultatif_hidden` | 6 |
-| `book2:has_fallback_hidden` | 26 |
 | `book2:has_unmeasured` | 10 |
 
 ## Replay page
@@ -93,11 +82,11 @@ Of **625** trips in the database, **373** are shown under the default policy. Th
 | 250 | complete | reguler | no |
 | 259F | complete | fakultatif | no |
 | 260F | complete | fakultatif | no |
-| 265 | has_fallback | reguler | yes |
+| 265 | complete | reguler | yes |
 | 351 | complete_estimated | reguler | no |
-| 13 | complete_estimated | reguler | no |
+| 13 | complete | reguler | no |
 | 436 | complete | reguler | no |
-| 183 | has_fallback | reguler | no |
+| 183 | complete | reguler | no |
 
 ## Golden frames
 
@@ -110,7 +99,7 @@ Of **625** trips in the database, **373** are shown under the default policy. Th
 - Fakultatif and unknown-class trips are hidden by default.
 - Trips with `has_unmeasured` geometry are never shown.
 - KA 249/250 are not loaded because SRI snaps 1,806 m from rail (> 1,000 m limit), so they are absent from the replay page; the page states this rather than substituting a different train silently.
-- 14 of 13718 legs imply a cruise speed more than 10% above the printed maximum. They are reported as V13 evidence and left uncorrected.
+- 6 of 13718 legs imply a cruise speed more than 10% above the printed maximum. They are reported as V13 evidence and left uncorrected.
 - The replay's reproduction check is CIRCULAR: the engine is built from the same printed times, so agreement only shows the loader, cumulative distances and motion profile are mutually consistent. It is not independent validation.
 - 12 `stop_times` rows arrive before midnight and depart after it; one `day_offset` per row cannot represent that, so those arrivals are a day late. Reported, not patched (see `docs/phase5b_report.md`).
 - No position has been checked against reality; this is a schedule estimate only.

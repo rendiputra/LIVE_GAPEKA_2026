@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment reproduce reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -77,6 +77,9 @@ bridge-probe: ## measure each draft bridge candidate (P4), nothing applied
 
 snap-experiment: ## routing-aware snapping experiment (Q1b), nothing applied
 	uv run python -m pipeline.snap_experiment
+
+reproduce: ## prove a clean clone rebuilds identical hashes (P2)
+	uv run python -m pipeline.reproduce
 
 reports: ## regenerate the generated reports
 	uv run python -m pipeline.phase4d_report

@@ -87,7 +87,7 @@ Unusable pins: **0**.
 |---|---|---|
 | segments | `75f62831b4b32522c320a6f207c02a12fda42558f5fa08067817b1c123a5eef6` | `76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49` |
 | database | `9a04832377f6ae64b458fb958870b24babfc6e779b738c1bc4fc5ea80b281826` | `0d9e88b54a8a19ca0c9832dfb9afde182c13c414c7f6b00d1e6c61b2dd01102b` |
-| config (tracked) | `n/a` | `b1509c2f65ecbaa5981a34497e125f0bb861eb3b20b08d7d5f7b8801da09400d` |
+| config (tracked) | `n/a` | `087b2df270b404cbe3be59902b90640f5a6aaf6391e207dafcf2a336b4367915` |
 
 ## Midnight-straddling rows (Q3)
 
@@ -172,7 +172,7 @@ The experiment is **not** the default (ADR 006). Without the guard it made four 
 | positions off-polyline | 0 |
 | continuity violations | 0 |
 | legs over printed max +10% | 6 of 13718 |
-| benchmark median ms | 5.05 |
+| benchmark median ms | 5.12 |
 
 ## Coverage (T4)
 
@@ -187,8 +187,8 @@ Top blockers by greedy marginal gain:
 
 | Unblocks | Touches | Blocker |
 |---|---|---|
-| 0 | 74 | segment KDB-WK (unmeasured) |
-| 74 | 74 | segment KDB-KRO (unmeasured) |
+| 0 | 74 | segment KDB-KRO (unmeasured) |
+| 74 | 74 | segment KDB-WK (unmeasured) |
 | 0 | 1 | segment PS-RO (unmeasured) |
 | 1 | 1 | segment GI-RO (unmeasured) |
 

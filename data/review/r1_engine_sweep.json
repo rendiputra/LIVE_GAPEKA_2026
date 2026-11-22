@@ -228,9 +228,9 @@
   "trips_total": 625,
   "trips_shown_by_default": 507,
   "benchmark_ms": {
-    "median": 5.05,
-    "p95": 5.36,
-    "max": 5.37,
+    "median": 5.12,
+    "p95": 5.41,
+    "max": 5.54,
     "runs": 20
   },
   "runtime_s": 9.4

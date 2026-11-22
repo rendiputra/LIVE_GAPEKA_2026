@@ -17,6 +17,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import time
@@ -158,10 +159,8 @@ def rejected_evidence(path: Path | None = None) -> list[dict]:
         key = key.strip()
         value = value.strip().strip('"')
         if key in ("lat", "lon"):
-            try:
+            with contextlib.suppress(ValueError):
                 current[key] = float(value)
-            except ValueError:
-                pass
         elif key in ("source", "source_id", "reason", "status", "decided_by", "date", "retrieved"):
             current[key] = value
     return rows

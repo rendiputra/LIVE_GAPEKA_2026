@@ -75,44 +75,33 @@ The gate enumerates every rail edge within the snap threshold, because a station
 
 ## F-d — suspect segments and over-speed legs
 
-14 of 13718 timed legs imply a cruise speed more than 10% above the printed maximum.
+6 of 13718 timed legs imply a cruise speed more than 10% above the printed maximum.
 
 | Ratio bucket | Legs |
 |---|---|
 | 1.00-1.10 | 80 |
 | 1.10-1.25 | 6 |
-| 1.25-1.50 | 8 |
-| <=1.00 | 13624 |
+| <=1.00 | 13632 |
 
 Root cause of the `MSG <-> BTT` cases: the routed `BTT-CS` line is far too long because `BTT` snaps to a stub. Routing from the adjacent way gives ~4.95 km instead of 11.54 km. It is a SNAP problem, not a missing way; the draft bridge file records it as such.
 
 ## T3 — Coverage blockers
 
-Of **625** trips, **373** are shown by default.
+Of **625** trips, **507** are shown by default.
 
 | Reason | Trips |
 |---|---|
-| `fakultatif` | 38 |
-| `fallback` | 139 |
+| `fakultatif` | 43 |
 | `unmeasured` | 75 |
 
 Top blockers by greedy marginal gain:
 
 | Unblocks | Touches | Blocker |
 |---|---|---|
-| 46 | 68 | segment JNG-POK (osm_suspect) |
-| 21 | 25 | segment SB-SBI (osm_suspect) |
-| 23 | 24 | segment KLT-KTK (osm_suspect) |
-| 8 | 8 | segment BTT-CS (osm_suspect) |
-| 3 | 38 | segment LBJ-LL (osm_suspect) |
-| 6 | 28 | segment CAA-CPD (osm_suspect) |
 | 0 | 74 | segment KDB-KRO (unmeasured) |
 | 74 | 74 | segment KDB-WK (unmeasured) |
-| 0 | 32 | segment CLE-SKT (osm_suspect) |
-| 0 | 32 | segment CD-CG (osm_suspect) |
-| 32 | 32 | segment CA-PWK (osm_suspect) |
-| 0 | 1 | segment GI-RO (unmeasured) |
-| 1 | 1 | segment PS-RO (unmeasured) |
+| 0 | 1 | segment PS-RO (unmeasured) |
+| 1 | 1 | segment GI-RO (unmeasured) |
 
 ## Q3 — rail-path triples
 

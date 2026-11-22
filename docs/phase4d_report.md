@@ -114,8 +114,8 @@ so the comparison is reproducible, not because it is used anywhere.
 | `trips` | 625 |
 | `stop_times` | 22808 |
 | `calendar` | 625 |
-| `station_coord_candidates` | 393 |
-| `segments` | 391 |
+| `station_coord_candidates` | 394 |
+| `segments` | 392 |
 | `trip_geometry_status` | 625 |
-| `trip_waypoint_estimates` | 224 |
+| `trip_waypoint_estimates` | 66 |
 

@@ -410,6 +410,7 @@ make h5h6         # H5/H6 gate record
 make day-offsets  # midnight-straddling rows report (Q3)
 make bridge-probe # what each draft bridge would change (P4)
 make snap-experiment # routing-aware snapping, experiment only (Q1b)
+make reproduce    # clone, rebuild, compare segments/DB/config hashes (P2)
 make reports      # regenerate the generated reports
 make test         # unit + golden
 make serve        # API + web dev
