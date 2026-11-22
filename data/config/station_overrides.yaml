@@ -120,6 +120,9 @@ overrides:
     evidence: "OpenStreetMap node/1244940845 via Geofabrik Java extract 2026-11-20; data/review/h5_h6_gate.json"
     decided_by: "rule:H6"
     date: "2026-11-22"
+    # H9: the human validated node/1244940845 on the map on 2026-11-22. This
+    # confirms the coordinate; it does NOT turn the rule into a human choice.
+    human_confirmed: true
   # H5 (2026-11-22): Metland Telagamurni. The human supplied this coordinate
   # (map lookup). Applied together with the TLM snap pin, because the coordinate
   # alone is not enough: the nearest track routes 2.8x too far.
@@ -129,4 +132,27 @@ overrides:
     reason: "H5 coordinate; snap 20.6 m; with pin 1311188691 the triple CIT-TLM-CKR is 1.000"
     evidence: "human map lookup 2026-11-22; data/review/h5_h6_gate.json"
     decided_by: "human"
+    date: "2026-11-22"
+  # H11 (2026-11-22): Kedungbanteng, applied by RULE. The Wikidata coordinate
+  # (Q2353211) snaps 5,208 m from rail, which made KDB-KRO and KDB-WK unmeasured
+  # and blocked 74 trips. The OSM extract holds exactly one station named
+  # "Kedungbanteng": node/1347352060. Gate: snap 1.4 m, rail-path triple
+  # WK-KDB-KRO ratio 1.019, no snap ambiguity.
+  - code: "KDB"
+    lat: -7.405233
+    lon: 111.1171061
+    reason: "rule H11: single exact OSM name match; snap 1.4 m; triple WK-KDB-KRO 1.019"
+    evidence: "OpenStreetMap node/1347352060; data/review/h8_h11_gate.json"
+    decided_by: "rule:H11"
+    date: "2026-11-22"
+  # H10 (2026-11-22): Rejoso, applied by RULE. RO is a distinct station, not a
+  # duplicate of PS. The OSM extract holds exactly one station named "Rejoso":
+  # node/1360626493. Gate: snap 1.0 m, rail-path triple PS-RO-GI ratio 1.000,
+  # no snap ambiguity, inside Java.
+  - code: "RO"
+    lat: -7.691326
+    lon: 112.9679326
+    reason: "rule H10: distinct station; single exact OSM match; snap 1.0 m; triple PS-RO-GI 1.000"
+    evidence: "OpenStreetMap node/1360626493; data/review/h8_h11_gate.json"
+    decided_by: "rule:H10"
     date: "2026-11-22"

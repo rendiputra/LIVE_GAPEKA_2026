@@ -171,6 +171,12 @@ Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
     waypoint was bypassed (Q4). `has_bypassed_waypoints` is `1` on those trips.
 - `trip_waypoint_estimates(trip_id, seq, station_code, method)` — one row per bypassed
   waypoint (`method = bypass_between_neighbours`). Nothing is dropped silently.
+- `data/config/rejected_stations.yaml` (tracked) — stations whose external coordinate must not be
+  routed, plus the rejected-coordinate evidence rows. Tracked so a clean clone reproduces the build
+  (P2). An override supersedes an entry here.
+- `data/config/station_aliases.yaml` also carries `conflict_resolutions:`, a recorded human decision
+  per name conflict (H8: KARANGSARI = KRAI Garut and KRR Banyumas, two stations). A conflict without
+  a resolution stays reported.
 - `data/config/snap_pins.yaml` (human-authored, committed) — **ADR 006.** Pins a station to a
   named OSM way when the nearest edge is the wrong track of a double line. A pin farther than
   `snap_accept_m` is reported as unusable and the normal snap is used.
@@ -197,6 +203,9 @@ Coordinate provenance rules:
 - `stations.coord_provenance` is `external_match | human_override | override_rule_approved`.
   A `decided_by` beginning with `rule:` marks the third; it is reported in its own section,
   never counted as a human choice.
+- `stations.human_confirmed` (0/1) records that a human checked the coordinate on a map. It is
+  **independent of provenance**: a rule-approved coordinate can be human-confirmed without
+  becoming a human choice (H9, SRI). Evidence: `data/review/verifications.json`.
   The rule requires ALL of: exactly one OSM candidate cluster, an exact normalised
   name match, inside the Java bbox, snap within the stated limit, a rail-path triple
   ratio <= 1.15, and neighbour distances consistent with the direct pair.

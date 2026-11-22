@@ -7,11 +7,12 @@ A train is described as *human-verified* only when a record below names the arte
 
 ## Human-verified records
 
-| Verifier | Date | Method | Pages | Trains | Rows | Artefact |
-|---|---|---|---|---|---|---|
-| human | 2026-11-20 | visual comparison of review HTML against PDF pages | 521, 522 | 249, 250, 251, 252 | all rows in scope | `data/review/pilot_249_250.html` |
-| human | 2026-11-20 | visual comparison of PDF page screenshots against review HTML cell text | 527, 528 | 259F, 260F | all rows | `data/review/pilot_259F_260F.html` |
-| human | 2026-11-22 | manual lookup of KAI station codes and names |  |  | all rows in scope | `data/config/station_aliases.yaml` |
+| Verifier | Date | Method | Pages | Trains | Rows | Scope detail | Artefact |
+|---|---|---|---|---|---|---|---|
+| human | 2026-11-20 | visual comparison of review HTML against PDF pages | 521, 522 | 249, 250, 251, 252 | all rows in scope |  | `data/review/pilot_249_250.html` |
+| human | 2026-11-20 | visual comparison of PDF page screenshots against review HTML cell text | 527, 528 | 259F, 260F | all rows |  | `data/review/pilot_259F_260F.html` |
+| human | 2026-11-22 | manual lookup of KAI station codes and names |  |  | all rows in scope |  | `data/config/station_aliases.yaml` |
+| human | 2026-11-22 | map check |  |  | all rows in scope | stations SRI; OSM node 1244940845 | `data/review/h5_h6_gate.json` |
 
 ## Golden fixtures
 

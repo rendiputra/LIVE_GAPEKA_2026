@@ -165,55 +165,50 @@ The experiment is **not** the default (ADR 006). Without the guard it made four 
 
 | Metric | Value |
 |---|---|
-| active trips, peak | 87 |
-| active trips, median | 72 |
-| active 00:00-05:00, peak | 57 |
-| active 00:00-05:00, median | 42 |
+| active trips, peak | 120 |
+| active trips, median | 103 |
+| active 00:00-05:00, peak | 88 |
+| active 00:00-05:00, median | 69 |
 | positions off-polyline | 0 |
 | continuity violations | 0 |
-| legs over printed max +10% | 6 of 13718 |
-| benchmark median ms | 5.12 |
+| legs over printed max +10% | 11 of 19862 |
+| benchmark median ms | 7.68 |
 
 ## Coverage (T4)
 
-**507** of **625** trips are shown by default.
+**577** of **625** trips are shown by default.
 
 | Reason | Trips |
 |---|---|
-| `fakultatif` | 43 |
-| `unmeasured` | 75 |
+| `fakultatif` | 48 |
 
 Top blockers by greedy marginal gain:
 
 | Unblocks | Touches | Blocker |
 |---|---|---|
-| 0 | 74 | segment KDB-KRO (unmeasured) |
-| 74 | 74 | segment KDB-WK (unmeasured) |
-| 0 | 1 | segment PS-RO (unmeasured) |
-| 1 | 1 | segment GI-RO (unmeasured) |
 
 Twenty services still never shown:
 
 | KA | Name | Book | Reason | Blockers |
 |---|---|---|---|---|
-| 10 | Argo Wilis | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 109 | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 11 | Turangga | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 110 | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 111 | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 112 | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 113 | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 114 | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 115F | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 116F | Sancaka | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 12 | Turangga | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 149 | Singasari | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 150 | Singasari | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 151 | Brantas | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 152 | Brantas | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 169 | Ranggajati | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 170 | Ranggajati | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 171 | Wijaya Kusuma | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 172 | Wijaya Kusuma | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
-| 175 | Bangunkarta | 1 | unmeasured | segment KDB-KRO (unmeasured); segment KDB-WK (unmeasured) |
+| 115F | Sancaka | 1 | fakultatif | - |
+| 116F | Sancaka | 1 | fakultatif | - |
+| 141F | Parahyangan Fakultatif | 1 | fakultatif | - |
+| 142F | Parahyangan Fakultatif | 1 | fakultatif | - |
+| 143F | Cirebon Fakultatif | 1 | fakultatif | - |
+| 144F | Cirebon Fakultatif | 1 | fakultatif | - |
+| 215F | Sancaka Utara | 1 | fakultatif | - |
+| 216F | Sancaka Utara | 1 | fakultatif | - |
+| 217F | Sancaka Utara | 1 | fakultatif | - |
+| 218F | Sancaka Utara | 1 | fakultatif | - |
+| 219F | Sancaka Utara | 1 | fakultatif | - |
+| 220F | Sancaka Utara | 1 | fakultatif | - |
+| 221F | Ijen | 1 | fakultatif | - |
+| 222F | Ijen | 1 | fakultatif | - |
+| 223F | Ijen | 1 | fakultatif | - |
+| 224F | Ijen | 1 | fakultatif | - |
+| 257F | Kaligung | 1 | fakultatif | - |
+| 258F | Kaligung | 1 | fakultatif | - |
+| 259F | Banyubiru | 1 | fakultatif | - |
+| 260F | Banyubiru | 1 | fakultatif | - |
 

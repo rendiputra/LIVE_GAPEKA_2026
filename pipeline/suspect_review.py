@@ -276,10 +276,17 @@ def main() -> int:
     snapshot = load_snapshot()
     fast, over_speed_use = over_speed_segments(sweep, snapshot)
 
+    from pipeline import segment_reviews
+
+    reviews = {review.key: review for review in segment_reviews.load()}
+
     selected: dict[tuple[str, str], dict] = {}
+    decided: dict[tuple[str, str], dict] = {}
     for key, row in segments.items():
         if row["quality"] == "osm_suspect":
             selected[key] = row
+        elif row["quality"] == "osm_routed_reviewed":
+            decided[(a := row["from_code"], b := row["to_code"])] = row
     for key in fast:
         row = undirected.get(key)
         if row and row["quality"] != "unmeasured":
@@ -324,6 +331,30 @@ def main() -> int:
             }
         )
 
+    decided_rows = []
+    for (a, b), row in sorted(decided.items()):
+        review = reviews.get((a, b) if a < b else (b, a))
+        straight = (accepted[a]["lat"], accepted[a]["lon"]) if a in accepted else None
+        other = (accepted[b]["lat"], accepted[b]["lon"]) if b in accepted else None
+        geometry = (row.get("geometry") or {}).get("coordinates") or []
+        decided_rows.append(
+            {
+                "from": a,
+                "to": b,
+                "quality": row["quality"],
+                "decision": review.decision if review else "unknown",
+                "decided_by": review.decided_by if review else "",
+                "date": review.date if review else "",
+                "reason": review.reason if review else "",
+                "straight_km": round(row["straight_m"] / 1000, 3),
+                "routed_km": round(row["length_m"] / 1000, 3),
+                "detour_ratio": row["detour_ratio"],
+                "trips": usage.get((a, b) if a < b else (b, a), 0),
+                "over_speed_legs": over_speed_use.get((a, b) if a < b else (b, a), 0),
+                "route": [[round(c[1], 5), round(c[0], 5)] for c in geometry],
+            }
+        )
+
     stations = {
         code: {
             "name": entry.get("name"),
@@ -338,6 +369,7 @@ def main() -> int:
     payload = {
         "generated": "suspect_segments_review",
         "segments": rows,
+        "decided_segments": decided_rows,
         "stations": stations,
         "draft_candidates": draft,
         "note": (
@@ -521,6 +553,21 @@ Object.entries(DATA.stations).forEach(([code,s])=>{
 if(bounds.length) map.fitBounds(bounds,{padding:[20,20]});
 
 const tbl=document.getElementById('tbl');
+(DATA.decided_segments||[]).forEach(seg=>{
+  if(seg.route && seg.route.length>1){
+    L.polyline(seg.route,{color:'#2e7d32',weight:3,opacity:0.9})
+      .bindPopup(`<b>${seg.from} &rarr; ${seg.to}</b><br>`+
+        `human ${seg.decision} on ${seg.date}<br>${seg.reason||''}`).addTo(group);
+  }
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${seg.from}</td><td>${seg.to}</td><td>${seg.quality}</td>`+
+    `<td>${seg.decision}</td><td>${seg.decided_by}</td><td>${seg.date}</td>`+
+    `<td class="num">${seg.straight_km}</td><td class="num">${seg.routed_km}</td>`+
+    `<td class="num">${seg.detour_ratio ?? ''}</td><td class="num">${seg.trips}</td>`+
+    `<td class="num">${seg.over_speed_legs}</td>`;
+  document.getElementById('decided').appendChild(tr);
+});
+
 DATA.segments.forEach((seg,j)=>{
   const alt=seg.best_alt;
   const tr=document.createElement('tr');

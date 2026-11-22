@@ -95,17 +95,22 @@ def render() -> str:
     if not records:
         add("None.")
     else:
-        add("| Verifier | Date | Method | Pages | Trains | Rows | Artefact |")
-        add("|---|---|---|---|---|---|---|")
+        add("| Verifier | Date | Method | Pages | Trains | Rows | Scope detail | Artefact |")
+        add("|---|---|---|---|---|---|---|---|")
         for record in records:
             scope = record.get("scope", {})
             pages = ", ".join(str(p) for p in scope.get("pages", []))
             trains = ", ".join(scope.get("trains", []))
             rows = scope.get("rows", "all rows in scope")
+            detail_parts = []
+            if scope.get("stations"):
+                detail_parts.append("stations " + ", ".join(scope["stations"]))
+            if scope.get("osm_node"):
+                detail_parts.append(f"OSM node {scope['osm_node']}")
             add(
                 f"| {record.get('verifier')} | {record.get('date')} | "
                 f"{record.get('method')} | {pages} | {trains} | {rows} | "
-                f"`{record.get('artefact')}` |"
+                f"{'; '.join(detail_parts)} | `{record.get('artefact')}` |"
             )
     add("")
 

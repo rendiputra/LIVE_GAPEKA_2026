@@ -1,0 +1,98 @@
+{
+  "note": "H8-H11 rail-path gate. 'applied' = in station_overrides.yaml; 'no_change_needed' = the station already snaps fine and the triple could not be evaluated because a neighbour was missing.",
+  "ratio_limit": 1.15,
+  "results": [
+    {
+      "code": "RO",
+      "rule": "H10",
+      "source": "OSM node/1360626493 (Rejoso)",
+      "lat": -7.691326,
+      "lon": 112.9679326,
+      "outcome": "applied",
+      "snap_m": 1.0,
+      "ratio": 1.0,
+      "angle": 167.8,
+      "neighbours": [
+        "PS",
+        "GI"
+      ],
+      "checks": {
+        "in_java": true,
+        "snap_within_max": true,
+        "triple_evaluated": true,
+        "nearest_edge_triple_passes": true,
+        "snap_ambiguous": false
+      },
+      "already_overridden": true
+    },
+    {
+      "code": "KDB",
+      "rule": "H11",
+      "source": "OSM node/1347352060 (Kedungbanteng)",
+      "lat": -7.405233,
+      "lon": 111.1171061,
+      "outcome": "applied",
+      "snap_m": 1.4,
+      "ratio": 1.019,
+      "angle": 169.2,
+      "neighbours": [
+        "WK",
+        "KRO"
+      ],
+      "checks": {
+        "in_java": true,
+        "snap_within_max": true,
+        "triple_evaluated": true,
+        "nearest_edge_triple_passes": true,
+        "snap_ambiguous": false
+      },
+      "already_overridden": true
+    },
+    {
+      "code": "KRO",
+      "rule": "H11",
+      "source": "OSM node/1347352057 (Kebonromo)",
+      "lat": -7.4190235,
+      "lon": 111.0639984,
+      "outcome": "no_change_needed",
+      "snap_m": 1.9,
+      "ratio": 1.0,
+      "angle": 177.9,
+      "neighbours": [
+        "KDB",
+        "SR"
+      ],
+      "checks": {
+        "in_java": true,
+        "snap_within_max": true,
+        "triple_evaluated": true,
+        "nearest_edge_triple_passes": true,
+        "snap_ambiguous": false
+      },
+      "already_overridden": false
+    },
+    {
+      "code": "WK",
+      "rule": "H11",
+      "source": "OSM node/1347355649 (Walikukun)",
+      "lat": -7.3989084,
+      "lon": 111.2244869,
+      "outcome": "no_change_needed",
+      "snap_m": 3.4,
+      "ratio": 1.0,
+      "angle": 163.2,
+      "neighbours": [
+        "KG",
+        "KDB"
+      ],
+      "checks": {
+        "in_java": true,
+        "snap_within_max": true,
+        "triple_evaluated": true,
+        "nearest_edge_triple_passes": true,
+        "snap_ambiguous": false
+      },
+      "already_overridden": false
+    }
+  ]
+}

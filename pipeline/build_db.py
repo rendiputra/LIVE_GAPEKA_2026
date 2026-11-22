@@ -185,7 +185,8 @@ def build(db_path: Path = DB_PATH) -> dict:
             status = "rejected" if code in rejected else "missing"
             connection.execute(
                 "INSERT INTO stations (code, name, official_name, name_source,"
-                " coord_status, coord_provenance) VALUES (?, ?, ?, ?, ?, ?)",
+                " coord_status, coord_provenance, human_confirmed)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?)",
                 (
                     code,
                     name,
@@ -193,6 +194,7 @@ def build(db_path: Path = DB_PATH) -> dict:
                     name_source,
                     status,
                     None if entry is None else entry.get("coord_provenance"),
+                    1 if entry and entry.get("human_confirmed") else 0,
                 ),
             )
         else:
@@ -200,8 +202,8 @@ def build(db_path: Path = DB_PATH) -> dict:
             connection.execute(
                 "INSERT INTO stations (code, name, official_name, name_source, lat, lon,"
                 " coord_source, coord_source_id, coord_match, coord_confidence,"
-                " coord_retrieved, coord_status, coord_provenance)"
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                " coord_retrieved, coord_status, coord_provenance, human_confirmed)"
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (
                     code,
                     name,
@@ -216,6 +218,7 @@ def build(db_path: Path = DB_PATH) -> dict:
                     entry["retrieved"],
                     status,
                     entry.get("coord_provenance", "external_match"),
+                    1 if entry.get("human_confirmed") else 0,
                 ),
             )
 

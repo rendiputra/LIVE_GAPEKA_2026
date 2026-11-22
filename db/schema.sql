@@ -48,6 +48,8 @@ CREATE TABLE stations (
     -- are different things and the reports must not blur them.
     coord_provenance TEXT   CHECK (coord_provenance IN
                            ('external_match', 'human_override', 'override_rule_approved')),
+    -- H9: a human checked this coordinate on a map. Independent of provenance.
+    human_confirmed INTEGER NOT NULL DEFAULT 0 CHECK (human_confirmed IN (0, 1)),
     -- A usable coordinate exists only for accepted/override.
     CHECK (
         (coord_status IN ('accepted', 'override')

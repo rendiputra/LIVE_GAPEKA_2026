@@ -75,33 +75,28 @@ The gate enumerates every rail edge within the snap threshold, because a station
 
 ## F-d — suspect segments and over-speed legs
 
-6 of 13718 timed legs imply a cruise speed more than 10% above the printed maximum.
+11 of 19862 timed legs imply a cruise speed more than 10% above the printed maximum.
 
 | Ratio bucket | Legs |
 |---|---|
-| 1.00-1.10 | 80 |
-| 1.10-1.25 | 6 |
-| <=1.00 | 13632 |
+| 1.00-1.10 | 157 |
+| 1.10-1.25 | 11 |
+| <=1.00 | 19694 |
 
 Root cause of the `MSG <-> BTT` cases: the routed `BTT-CS` line is far too long because `BTT` snaps to a stub. Routing from the adjacent way gives ~4.95 km instead of 11.54 km. It is a SNAP problem, not a missing way; the draft bridge file records it as such.
 
 ## T3 — Coverage blockers
 
-Of **625** trips, **507** are shown by default.
+Of **625** trips, **577** are shown by default.
 
 | Reason | Trips |
 |---|---|
-| `fakultatif` | 43 |
-| `unmeasured` | 75 |
+| `fakultatif` | 48 |
 
 Top blockers by greedy marginal gain:
 
 | Unblocks | Touches | Blocker |
 |---|---|---|
-| 0 | 74 | segment KDB-KRO (unmeasured) |
-| 74 | 74 | segment KDB-WK (unmeasured) |
-| 0 | 1 | segment PS-RO (unmeasured) |
-| 1 | 1 | segment GI-RO (unmeasured) |
 
 ## Q3 — rail-path triples
 

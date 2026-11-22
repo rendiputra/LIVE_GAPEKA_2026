@@ -16,142 +16,142 @@
     "version_name": "Gapeka 2026",
     "effective_from": "2026-12-01",
     "effective_to": null,
-    "content_hash": "76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49",
-    "trips": 550,
+    "content_hash": "fa367ec699df1c885f027f2d7e4189e359b3c2ae2d0b94fd4670071ad27deabf",
+    "trips": 625,
     "max_day_offset": 1,
     "station_tz": "Asia/Jakarta"
   },
   "active": {
-    "peak": 87,
-    "median": 72,
+    "peak": 120,
+    "median": 103,
     "samples": 1440
   },
   "active_00_05": {
-    "peak": 57,
-    "median": 42,
-    "min": 36,
+    "peak": 88,
+    "median": 69,
+    "min": 54,
     "samples": 300
   },
   "active_per_hour": [
     {
       "hour": 0,
-      "peak": 57,
-      "median": 54
-    },
-    {
-      "hour": 1,
-      "peak": 53,
-      "median": 49
-    },
-    {
-      "hour": 2,
-      "peak": 45,
-      "median": 42
-    },
-    {
-      "hour": 3,
-      "peak": 39,
-      "median": 38
-    },
-    {
-      "hour": 4,
-      "peak": 43,
-      "median": 38
-    },
-    {
-      "hour": 5,
-      "peak": 61,
-      "median": 53
-    },
-    {
-      "hour": 6,
-      "peak": 68,
-      "median": 64
-    },
-    {
-      "hour": 7,
-      "peak": 73,
-      "median": 69
-    },
-    {
-      "hour": 8,
-      "peak": 80,
-      "median": 75
-    },
-    {
-      "hour": 9,
-      "peak": 83,
-      "median": 80
-    },
-    {
-      "hour": 10,
-      "peak": 85,
-      "median": 75
-    },
-    {
-      "hour": 11,
-      "peak": 87,
+      "peak": 88,
       "median": 83
     },
     {
+      "hour": 1,
+      "peak": 82,
+      "median": 78
+    },
+    {
+      "hour": 2,
+      "peak": 72,
+      "median": 69
+    },
+    {
+      "hour": 3,
+      "peak": 64,
+      "median": 58
+    },
+    {
+      "hour": 4,
+      "peak": 60,
+      "median": 56
+    },
+    {
+      "hour": 5,
+      "peak": 78,
+      "median": 70
+    },
+    {
+      "hour": 6,
+      "peak": 87,
+      "median": 82
+    },
+    {
+      "hour": 7,
+      "peak": 90,
+      "median": 88
+    },
+    {
+      "hour": 8,
+      "peak": 101,
+      "median": 94
+    },
+    {
+      "hour": 9,
+      "peak": 106,
+      "median": 103
+    },
+    {
+      "hour": 10,
+      "peak": 107,
+      "median": 99
+    },
+    {
+      "hour": 11,
+      "peak": 113,
+      "median": 109
+    },
+    {
       "hour": 12,
-      "peak": 83,
-      "median": 80
+      "peak": 107,
+      "median": 105
     },
     {
       "hour": 13,
-      "peak": 84,
-      "median": 80
+      "peak": 112,
+      "median": 107
     },
     {
       "hour": 14,
-      "peak": 84,
-      "median": 81
+      "peak": 113,
+      "median": 110
     },
     {
       "hour": 15,
-      "peak": 86,
-      "median": 79
+      "peak": 117,
+      "median": 109
     },
     {
       "hour": 16,
-      "peak": 76,
-      "median": 72
+      "peak": 110,
+      "median": 103
     },
     {
       "hour": 17,
-      "peak": 84,
-      "median": 77
+      "peak": 120,
+      "median": 111
     },
     {
       "hour": 18,
-      "peak": 78,
-      "median": 73
+      "peak": 114,
+      "median": 107
     },
     {
       "hour": 19,
-      "peak": 78,
-      "median": 75
+      "peak": 114,
+      "median": 110
     },
     {
       "hour": 20,
-      "peak": 74,
-      "median": 71
+      "peak": 110,
+      "median": 106
     },
     {
       "hour": 21,
-      "peak": 74,
-      "median": 71
+      "peak": 109,
+      "median": 106
     },
     {
       "hour": 22,
-      "peak": 72,
-      "median": 68
+      "peak": 108,
+      "median": 103
     },
     {
       "hour": 23,
-      "peak": 66,
-      "median": 59
+      "peak": 101,
+      "median": 92
     }
   ],
   "off_polyline_positions": 0,
@@ -160,13 +160,13 @@
   "continuity_ambiguous_skipped": 0,
   "continuity_examples": [],
   "legs": {
-    "total": 13718,
-    "with_printed_max": 13718,
-    "over_printed_max_10pct": 6,
+    "total": 19862,
+    "with_printed_max": 19862,
+    "over_printed_max_10pct": 11,
     "cruise_to_printed_ratio_buckets": {
-      "1.00-1.10": 80,
-      "1.10-1.25": 6,
-      "<=1.00": 13632
+      "1.00-1.10": 157,
+      "1.10-1.25": 11,
+      "<=1.00": 19694
     }
   },
   "fast_leg_examples": [
@@ -185,6 +185,30 @@
       "cruise_kmh": 127.9,
       "printed_max_kmh": 115,
       "ratio": 1.112
+    },
+    {
+      "trip_id": "b1-152-v1-01",
+      "from": "PAS",
+      "to": "CKM",
+      "cruise_kmh": 110.0,
+      "printed_max_kmh": 100,
+      "ratio": 1.1
+    },
+    {
+      "trip_id": "b1-175-v1-01",
+      "from": "CKM",
+      "to": "PAS",
+      "cruise_kmh": 110.0,
+      "printed_max_kmh": 100,
+      "ratio": 1.1
+    },
+    {
+      "trip_id": "b1-176-v1-01",
+      "from": "PAS",
+      "to": "CKM",
+      "cruise_kmh": 110.0,
+      "printed_max_kmh": 100,
+      "ratio": 1.1
     },
     {
       "trip_id": "b1-178-v1-01",
@@ -217,21 +241,35 @@
       "cruise_kmh": 110.0,
       "printed_max_kmh": 100,
       "ratio": 1.1
+    },
+    {
+      "trip_id": "b1-49-v1-01",
+      "from": "LWG",
+      "to": "CNP",
+      "cruise_kmh": 127.9,
+      "printed_max_kmh": 115,
+      "ratio": 1.112
+    },
+    {
+      "trip_id": "b1-54-v1-01",
+      "from": "PAS",
+      "to": "CKM",
+      "cruise_kmh": 110.0,
+      "printed_max_kmh": 100,
+      "ratio": 1.1
     }
   ],
   "excluded": {
-    "book1:has_unmeasured": 65,
-    "book1:fakultatif_hidden": 37,
-    "book2:has_unmeasured": 10,
+    "book1:fakultatif_hidden": 42,
     "book2:fakultatif_hidden": 6
   },
   "trips_total": 625,
-  "trips_shown_by_default": 507,
+  "trips_shown_by_default": 577,
   "benchmark_ms": {
-    "median": 5.12,
-    "p95": 5.41,
-    "max": 5.54,
+    "median": 7.68,
+    "p95": 8.23,
+    "max": 8.34,
     "runs": 20
   },
-  "runtime_s": 9.4
+  "runtime_s": 16.0
 }

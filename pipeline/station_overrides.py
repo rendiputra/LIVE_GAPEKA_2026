@@ -18,7 +18,10 @@ DEFAULT = Path("data/config/station_overrides.yaml")
 #   lon: 109.14
 #   reason: "..."
 _ENTRY_RE = re.compile(r"^\s*-\s+code:\s*\"?([A-Za-z0-9]+)\"?\s*$", re.MULTILINE)
-_FIELD_RE = re.compile(r"^\s+(lat|lon|reason|evidence|decided_by|date):\s*(.+?)\s*$", re.MULTILINE)
+_FIELD_RE = re.compile(
+    r"^\s+(lat|lon|reason|evidence|decided_by|date|human_confirmed):\s*(.+?)\s*$",
+    re.MULTILINE,
+)
 
 REQUIRED_FIELDS = ("lat", "lon", "reason", "evidence", "decided_by", "date")
 
@@ -43,6 +46,7 @@ class Override:
     evidence: str
     decided_by: str
     date: str
+    human_confirmed: bool = False
 
     @property
     def provenance(self) -> str:
@@ -106,6 +110,7 @@ def load(path: Path = DEFAULT) -> list[Override]:
                 evidence=fields["evidence"],
                 decided_by=fields["decided_by"],
                 date=fields["date"],
+                human_confirmed=fields.get("human_confirmed", "").lower() in ("true", "yes", "1"),
             )
         )
 
@@ -134,6 +139,7 @@ def apply_to(overrides: list[Override], matched: dict[str, dict]) -> dict[str, d
             "source": "override",
             "source_id": f"{override.decided_by}:{override.date}",
             "coord_provenance": override.provenance,
+            "human_confirmed": override.human_confirmed,
             "match_method": "human",
             "confidence": "high",
             "retrieved": override.date,

@@ -90,16 +90,6 @@ evidence:
     decided_by: "pending"
     date: "2026-11-22"
     retrieved: "2026-11-20"
-  - code: "RO"
-    source: "wikidata"
-    source_id: "Q2739193"
-    lat: -7.63778
-    lon: 112.91
-    reason: "two distinct codes only 7 m apart"
-    status: "open"
-    decided_by: "pending"
-    date: "2026-11-22"
-    retrieved: "2026-11-20"
   - code: "TIS"
     source: "wikidata"
     source_id: "Q12516356"

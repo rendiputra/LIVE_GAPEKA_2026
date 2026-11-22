@@ -15,6 +15,42 @@ from pathlib import Path
 from pipeline import override_gate
 
 OUT = Path("data/review/h5_h6_gate.json")
+OUT_H8 = Path("data/review/h8_h11_gate.json")
+
+H8_H11 = [
+    {
+        "code": "RO",
+        "lat": -7.691326,
+        "lon": 112.9679326,
+        "snap_max_m": 50.0,
+        "rule": "H10",
+        "source": "OSM node/1360626493 (Rejoso)",
+    },
+    {
+        "code": "KDB",
+        "lat": -7.405233,
+        "lon": 111.1171061,
+        "snap_max_m": 50.0,
+        "rule": "H11",
+        "source": "OSM node/1347352060 (Kedungbanteng)",
+    },
+    {
+        "code": "KRO",
+        "lat": -7.4190235,
+        "lon": 111.0639984,
+        "snap_max_m": 50.0,
+        "rule": "H11",
+        "source": "OSM node/1347352057 (Kebonromo)",
+    },
+    {
+        "code": "WK",
+        "lat": -7.3989084,
+        "lon": 111.2244869,
+        "snap_max_m": 50.0,
+        "rule": "H11",
+        "source": "OSM node/1347355649 (Walikukun)",
+    },
+]
 
 PROPOSALS = [
     {
@@ -95,6 +131,61 @@ def main() -> int:
         "results": results,
     }
     OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+    # H8-H11: the same gate, recorded separately so the two rounds stay apart.
+    h8_rows = []
+    for proposal in H8_H11:
+        result = override_gate.evaluate(
+            proposal["code"], proposal["lat"], proposal["lon"], proposal["snap_max_m"]
+        )
+        nearest = result["triples"][0] if result["triples"] else {}
+        from pipeline import station_overrides as so
+
+        overridden = {entry.code: entry.decided_by for entry in so.load()}
+        already = overridden.get(proposal["code"], "").startswith("rule:")
+        if already:
+            outcome = "applied"
+        elif proposal["code"] in overridden:
+            outcome = "human_override_unchanged"
+        elif result["passes"] or not result["checks"].get("triple_evaluated"):
+            outcome = "no_change_needed"
+        else:
+            outcome = "proposal_only"
+        h8_rows.append(
+            {
+                "code": proposal["code"],
+                "rule": proposal["rule"],
+                "source": proposal["source"],
+                "lat": proposal["lat"],
+                "lon": proposal["lon"],
+                "outcome": outcome,
+                "snap_m": result["snap"]["distance_m"],
+                "ratio": nearest.get("ratio"),
+                "angle": nearest.get("turn_angle_deg"),
+                "neighbours": result["neighbours_used"],
+                "checks": result["checks"],
+                "already_overridden": already,
+            }
+        )
+    Path(OUT_H8).write_text(
+        json.dumps(
+            {
+                "note": (
+                    "H8-H11 rail-path gate. 'applied' = in station_overrides.yaml; "
+                    "'no_change_needed' = the station already snaps fine and the "
+                    "triple could not be evaluated because a neighbour was missing."
+                ),
+                "ratio_limit": override_gate.RATIO_LIMIT,
+                "results": h8_rows,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    print(f"wrote {OUT_H8}")
+    for row in h8_rows:
+        print(f"  {row['code']}: {row['outcome']} snap {row['snap_m']} m ratio {row['ratio']}")
     print(f"wrote {OUT}")
     for row in results:
         print(

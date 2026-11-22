@@ -63,3 +63,13 @@ It is not the default for three reasons:
 - `snap_bands` gains `ok_pinned`, so a pinned station is never invisible.
 - Pins are tracked in git with the other human config.
 - A pin that becomes stale is reported, not applied.
+
+## Addendum (Phase 5d, 2026-11-22)
+
+The routing-aware experiment is **not promoted**. The human reviewed the evidence
+and decided it stays an experiment: the pins are the mechanism, and an optimiser
+that scores stations by the same distances it is judged on cannot validate a
+coordinate.
+
+`make snap-experiment` remains available for future diagnosis. Its output is
+`data/review/snap_experiment.json` and it never writes `data/parsed/segments.json`.

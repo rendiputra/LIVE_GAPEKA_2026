@@ -19,22 +19,22 @@ A pure function: `positions_at(snapshot, instant, policy) -> [TrainPosition]`. N
 
 - version: **Gapeka 2026** (id 1)
 - effective_from: `2026-12-01`, effective_to: `None`
-- trips loaded: **550**
+- trips loaded: **625**
 - max day_offset: **1**
-- geometry content hash: `76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49`
+- geometry content hash: `fa367ec699df1c885f027f2d7e4189e359b3c2ae2d0b94fd4670071ad27deabf`
 
 ## 24-hour sweep (2026-12-01, 60 s step)
 
 | Metric | Value |
 |---|---|
 | samples | 1440 |
-| active trips, peak | **87** |
-| active trips, median | **72** |
+| active trips, peak | **120** |
+| active trips, median | **103** |
 | positions off-polyline (> 1 m) | **0** |
 | continuity violations | **0** |
 | continuity samples skipped (ambiguous) | 0 |
-| timed legs | 13718 |
-| legs with cruise > printed max +10% | **6** of 13718 |
+| timed legs | 19862 |
+| legs with cruise > printed max +10% | **11** of 19862 |
 
 ### Cruise speed vs the printed maximum
 
@@ -42,9 +42,9 @@ Each timed leg's cruise speed is compared with the PDF's `Kecepatan Maksimum` on
 
 | cruise / printed | legs |
 |---|---|
-| 1.00-1.10 | 80 |
-| 1.10-1.25 | 6 |
-| <=1.00 | 13632 |
+| 1.00-1.10 | 157 |
+| 1.10-1.25 | 11 |
+| <=1.00 | 19694 |
 
 Legs above the printed maximum by more than 10%:
 
@@ -52,25 +52,28 @@ Legs above the printed maximum by more than 10%:
 |---|---|---|---|---|
 | `b1-143F-v1-01` | CKM -> PAS | 110.0 | 100 | 1.1 |
 | `b1-15-v1-01` | LWG -> CNP | 127.9 | 115 | 1.112 |
+| `b1-152-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
+| `b1-175-v1-01` | CKM -> PAS | 110.0 | 100 | 1.1 |
+| `b1-176-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 | `b1-178-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 | `b1-186-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 | `b1-196-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 | `b1-298-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
+| `b1-49-v1-01` | LWG -> CNP | 127.9 | 115 | 1.112 |
+| `b1-54-v1-01` | PAS -> CKM | 110.0 | 100 | 1.1 |
 
 ## Benchmark
 
-`positions_at` over all active trips: median **5.12 ms**, p95 **5.41 ms**, max **5.54 ms** (20 runs). Target was < 50 ms.
+`positions_at` over all active trips: median **7.68 ms**, p95 **8.23 ms**, max **8.34 ms** (20 runs). Target was < 50 ms.
 
 ## Trips excluded, by reason
 
-Of **625** trips in the database, **507** are shown under the default policy. These counts read the database, not the snapshot (the snapshot has already dropped `has_unmeasured` trips, so counting from it would hide them).
+Of **625** trips in the database, **577** are shown under the default policy. These counts read the database, not the snapshot (the snapshot has already dropped `has_unmeasured` trips, so counting from it would hide them).
 
 | Reason | Trips |
 |---|---|
-| `book1:fakultatif_hidden` | 37 |
-| `book1:has_unmeasured` | 65 |
+| `book1:fakultatif_hidden` | 42 |
 | `book2:fakultatif_hidden` | 6 |
-| `book2:has_unmeasured` | 10 |
 
 ## Replay page
 
@@ -99,7 +102,7 @@ Of **625** trips in the database, **507** are shown under the default policy. Th
 - Fakultatif and unknown-class trips are hidden by default.
 - Trips with `has_unmeasured` geometry are never shown.
 - KA 249/250 are not loaded because SRI snaps 1,806 m from rail (> 1,000 m limit), so they are absent from the replay page; the page states this rather than substituting a different train silently.
-- 6 of 13718 legs imply a cruise speed more than 10% above the printed maximum. They are reported as V13 evidence and left uncorrected.
+- 11 of 19862 legs imply a cruise speed more than 10% above the printed maximum. They are reported as V13 evidence and left uncorrected.
 - The replay's reproduction check is CIRCULAR: the engine is built from the same printed times, so agreement only shows the loader, cumulative distances and motion profile are mutually consistent. It is not independent validation.
 - 12 `stop_times` rows arrive before midnight and depart after it; one `day_offset` per row cannot represent that, so those arrivals are a day late. Reported, not patched (see `docs/phase5b_report.md`).
 - No position has been checked against reality; this is a schedule estimate only.

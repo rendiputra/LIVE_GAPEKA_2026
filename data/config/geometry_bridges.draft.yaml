@@ -126,12 +126,6 @@ bridges: []  # nothing applied
 
 # --- NOTE: the suspect segments are NOT all bridge candidates ---
 #
-# For BTT-CS the routed line is 4.953 km vs
-# 4.255 km straight. There is no missing way: the station snaps
-# to a nearby stub. Routing from the adjacent way gives 4.949 km
-# (ratio 1.163). That is a SNAP problem (nearest edge vs the
-# track the trains use), not a bridge. It needs a human decision about
-# snap strategy, not a bridge entry.
 #
 # Where the best alternative track gives nearly the SAME distance (every
 # other suspect segment), the detour is a property of the line, and

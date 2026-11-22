@@ -38,16 +38,19 @@ MAX_BYTES = 15 * 1024 * 1024
 S_M_TOLERANCE_M = 1.0
 
 # train_no -> why it is on the page
+# Why each train is on the page. These reasons describe the SELECTION, never the
+# current status: the status is appended from the loaded trip, so a note can
+# never contradict the data again.
 CHOSEN: dict[str, str] = {
-    "249": "pilot; unblocked by the H6 SRI override; complete geometry",
-    "250": "pilot; unblocked by the H6 SRI override; complete geometry",
-    "259F": "pilot; fakultatif; exercises the shown/hidden policy",
-    "260F": "pilot; crosses midnight (day_offset 1)",
-    "265": "has_fallback geometry; shows flagged output",
-    "351": "Book 2; complete_estimated (a bypassed waypoint)",
-    "13": "Book 1; longest trip (574 km, 87 waypoints); complete_estimated",
-    "436": "Book 2; complete geometry (no bypass, no fallback)",
-    "183": "Book 1; has_fallback; long trip",
+    "249": "pilot; only reachable after the H6 SRI override",
+    "250": "pilot; same route as KA 249 in the other direction",
+    "259F": "pilot; fakultatif, so it tests the shown/hidden policy",
+    "260F": "pilot; crosses midnight, so it tests day_offset",
+    "265": "chosen for the BTT/CS junction area",
+    "351": "Book 2; exercises a bypassed waypoint",
+    "13": "Book 1; one of the longest trips",
+    "436": "Book 2; a short regional service",
+    "183": "Book 1; a long service",
 }
 
 # The replay shows everything it can, with flags: it is an inspection tool, not
@@ -324,11 +327,13 @@ _TEMPLATE = """<!doctype html>
 <div id="banner">Estimated positions from the Gapeka schedule (assumes on-time, assumed daily)</div>
 <div id="bar">
  <button id="play">Play</button>
- <input id="slider" type="range" min="0" max="0" value="0" style="flex:1;min-width:180px">
+ <input id="slider" type="range" min="0" max="0" value="0" style="flex:1;min-width:160px">
  <span id="clock" style="font-variant-numeric:tabular-nums">--</span>
  <label>speed <select id="speed">
    <option>1</option><option selected>4</option><option>12</option><option>40</option>
  </select></label>
+ <label>train <select id="tripSel"><option value="">-- pick a train --</option></select></label>
+ <label><input type="checkbox" id="follow"> follow selected</label>
 </div>
 <div id="map"></div>
 <div id="panel"></div>
@@ -374,9 +379,39 @@ const markers = DATA.trips.map((t,i)=>{
     fillColor:COLOURS[i%COLOURS.length],fillOpacity:0.9,weight:2}).addTo(map);
 });
 const slider=document.getElementById('slider'); slider.max=DATA.frames.length-1;
+// Dropdown: jumping to a trip's FIRST frame is how you find a train that is only
+// on the map for a few minutes (e.g. KA 260F just after midnight).
+const tripSel=document.getElementById('tripSel');
+DATA.trips.forEach((t,i)=>{
+  const o=document.createElement('option'); o.value=i;
+  o.textContent=`KA ${t.train_no} (${t.status})`; tripSel.appendChild(o);
+});
+let selected=null;
+function firstFrameOf(i){
+  for(let f=0;f<DATA.frames.length;f++){
+    if((DATA.frames[f]||[]).some(p=>p.i===i)) return f;
+  }
+  return -1;
+}
+tripSel.onchange=()=>{
+  const v=tripSel.value;
+  selected = v==='' ? null : +v;
+  if(selected!==null){
+    const f=firstFrameOf(selected);
+    if(f>=0){ idx=f; slider.value=idx; }
+    const m=markers[selected];
+    if(m && m.getLatLng()) map.setView(m.getLatLng(), Math.max(map.getZoom(),9));
+  }
+  render();
+};
 const clock=document.getElementById('clock'); let idx=0,timer=null;
+const follow=document.getElementById('follow');
 function render(){
   const row=DATA.frames[idx]||[];
+  if(follow.checked && selected!==null){
+    const p=row.find(x=>x.i===selected);
+    if(p){ map.panTo([p.lat,p.lon]); }
+  }
   markers.forEach(m=>m.setStyle({opacity:0.10,fillOpacity:0.10}));
   row.forEach(p=>{
     const m=markers[p.i];
@@ -407,12 +442,19 @@ const checks = DATA.check.policies.map(c=>
   `<tr><td>${c.policy}</td><td>${c.trips_checked}</td><td>${c.printed_times_checked}</td>`+
   `<td class="${c.mismatches?'warn':''}">${c.mismatches}</td>`+
   `<td class="${c.absent?'warn':''}">${c.absent}</td><td>${c.tolerance_m} m</td></tr>`).join('');
+const activeNow=(DATA.frames[idx]||[]).map(p=>{
+  const t=DATA.trips[p.i];
+  return `<li>KA ${t.train_no} &middot; ${p.s} &middot; ${p.f} &rarr; ${p.t}`+
+    ` &middot; next ${p.n||'-'} ${p.nt||''} &middot; ${p.k} km/h</li>`;
+}).join('') || '<li><i>no active trains at this instant</i></li>';
 document.getElementById('panel').innerHTML =
   `<div><b>Window</b> ${DATA.date} + ${DATA.window_hours} h, ${DATA.step_s} s frames `+
   `(${DATA.frames.length} frames)</div>`+
   `<div style="margin-top:6px"><b>Trains on this page</b></div><div>${legend}</div>`+
   `<div style="margin-top:6px"><b>Selection notes</b>`+
   `<ul style="margin:4px 0 0 18px">${notes}</ul></div>`+
+  `<div style="margin-top:8px"><b>Active now</b> (${(DATA.frames[idx]||[]).length})`+
+  `<ul style="margin:4px 0 0 18px">${activeNow}</ul></div>`+
   `<div style="margin-top:8px"><b>Reproduction check</b> - `+
   `${DATA.check.note}</div>`+
   `<table><tr><th>policy</th><th>trips</th><th>printed times</th>`+

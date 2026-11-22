@@ -2,16 +2,14 @@
   "db": "data/gapeka.db",
   "geometry": {
     "quality_counts": {
-      "osm_routed": 380,
-      "osm_routed_reviewed": 8,
-      "unmeasured": 4
+      "osm_routed": 383,
+      "osm_routed_reviewed": 8
     },
     "trip_status_counts": {
-      "complete": 498,
-      "has_unmeasured": 75,
-      "complete_estimated": 52
+      "complete": 594,
+      "complete_estimated": 31
     },
-    "content_hash": "76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49"
+    "content_hash": "fa367ec699df1c885f027f2d7e4189e359b3c2ae2d0b94fd4670071ad27deabf"
   },
   "counts": {
     "gapeka_versions": 1,
@@ -21,12 +19,12 @@
     "stop_times": 22808,
     "calendar": 625,
     "station_coord_candidates": 394,
-    "segments": 392,
+    "segments": 391,
     "trip_geometry_status": 625,
-    "trip_waypoint_estimates": 66
+    "trip_waypoint_estimates": 37
   },
-  "stations_with_coordinates": 385,
-  "content_hash": "0d9e88b54a8a19ca0c9832dfb9afde182c13c414c7f6b00d1e6c61b2dd01102b",
+  "stations_with_coordinates": 386,
+  "content_hash": "06a999ddb26e19e36e863cb96c9c8536e10b51fc7fe01d3445d803666e69d4c0",
   "skipped": 0,
   "service_class": {
     "reguler": 577,
@@ -34,16 +32,16 @@
   },
   "trips_with_untimed_markers": 68,
   "config": {
-    "config_hash": "087b2df270b404cbe3be59902b90640f5a6aaf6391e207dafcf2a336b4367915",
+    "config_hash": "f4c0e8d08a8dc3ce6557609187fffb66a432db71021d9d036c005ea9e02a4a01",
     "files": {
-      "station_overrides.yaml": "74509c9276a2704a5f3c5c1398d7deb45557f296997aea34a7bf2aed0a5e1f90",
-      "station_aliases.yaml": "5d3f680fc08bc055023f0246cafe1635b6beeb51159f732c4d37323b80b7a337",
+      "station_overrides.yaml": "54e202de5396eae2c8530ef8c86d3b6dc8fe6b8120f60c58a845d2479eef7427",
+      "station_aliases.yaml": "d1084ca9e038330757b07f60e773608dda6181fd7f40a3099c5c367666ec35cc",
       "segment_reviews.yaml": "4141d21aa5e2276045a77b26a10273ab32bff0d727b5fe6f246bb74bda446044",
       "geometry_bridges.yaml": "aa3fe832323754d17d8f3f470ac919bf06320b209def9d11175d2636a9b0e087",
       "snap_pins.yaml": "3ef51725ec7b55db89aac33602afb06efa8d72e851d6adf5378a8195a1b4197d",
       "cell_markers.yaml": "1918feb255938f06c2b5a5de6aa5b2ec22099420c00f78a1d377df7d42b32755",
       "geometry.yaml": "9c8191e8e9f72841585a8b2fa214a96962567e3154c3126d3157664765f3d0fa",
-      "rejected_stations.yaml": "6cf77a1c5b2797ff5f4d81947b8c45312532454536bc770d7d1272e124c18db6"
+      "rejected_stations.yaml": "88cf4eb255f6aaf5e382441b4e0a7fcb92bb063e31eac241b29aabac2e0e519c"
     }
   }
 }

@@ -79,8 +79,16 @@ def build_report(words_dir: Path = DEFAULT_WORDS) -> dict:
         name: sorted(codes) for name, codes in sorted(index.name_to_codes.items()) if len(codes) > 1
     }
 
+    from pipeline import station_aliases
+
+    resolutions = station_aliases.load_resolutions()
+
     return {
-        "status": "resolution deferred to Phase 3; nothing here is resolved",
+        "status": (
+            f"{len(resolutions)} conflict(s) resolved by a human; the rest are "
+            "evidence only and remain unresolved"
+        ),
+        "human_resolutions": resolutions,
         "note": (
             "Evidence only. Two codes printing the same name may be two distinct "
             "stations on different lines, or one station printed inconsistently. "
@@ -91,6 +99,8 @@ def build_report(words_dir: Path = DEFAULT_WORDS) -> dict:
         "name_to_multiple_codes": {
             name: {
                 "codes": codes,
+                "resolved_by_human": name in resolutions,
+                "resolution": resolutions.get(name, {}).get("resolution"),
                 "per_code": {
                     code: _shrink(occurrences[code]) if code in occurrences else None
                     for code in codes

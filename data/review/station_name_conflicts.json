@@ -1,5 +1,16 @@
 {
-  "status": "resolution deferred to Phase 3; nothing here is resolved",
+  "status": "1 conflict(s) resolved by a human; the rest are evidence only and remain unresolved",
+  "human_resolutions": {
+    "KARANGSARI": {
+      "codes": [
+        "KRAI",
+        "KRR"
+      ],
+      "resolution": "two distinct stations: KRAI in Kab. Garut (Jawa Barat), KRR in Kab. Banyumas (Jawa Tengah)",
+      "decided_by": "human",
+      "date": "2026-11-22"
+    }
+  },
   "note": "Evidence only. Two codes printing the same name may be two distinct stations on different lines, or one station printed inconsistently. A human decides.",
   "codes_total": 455,
   "names_total": 453,
@@ -9,6 +20,8 @@
         "KRAI",
         "KRR"
       ],
+      "resolved_by_human": true,
+      "resolution": "two distinct stations: KRAI in Kab. Garut (Jawa Barat), KRR in Kab. Banyumas (Jawa Tengah)",
       "per_code": {
         "KRAI": {
           "pages_count": 30,
@@ -156,6 +169,8 @@
         "LR",
         "LRA"
       ],
+      "resolved_by_human": false,
+      "resolution": null,
       "per_code": {
         "LR": {
           "pages_count": 113,

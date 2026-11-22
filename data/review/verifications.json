@@ -72,6 +72,24 @@
       "artefact": "data/config/station_aliases.yaml",
       "result": "accepted",
       "notes": "LARANGAN LR vs LRA resolved: two distinct stations. KARANGSARI (KRAI/KRR) remains open."
+    },
+    {
+      "verifier": "human",
+      "date": "2026-11-22",
+      "method": "map check",
+      "scope": {
+        "stations": [
+          "SRI"
+        ],
+        "coordinate": {
+          "lat": -6.923724274475478,
+          "lon": 109.57099433659796
+        },
+        "osm_node": 1244940845,
+        "note": "The human validated node/1244940845 (Sragi) on the map. The coordinate was applied by rule H6; confirmation does not change the provenance."
+      },
+      "artefact": "data/review/h5_h6_gate.json",
+      "result": "accepted"
     }
   ]
 }

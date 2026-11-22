@@ -84,3 +84,22 @@ stations:
     official_name: "Tipar"
     station_kind: halt_inactive
     note: "Inactive halte on Cianjur-Padalarang, between MLB and SLJ."
+  KRAI:
+    official_name: "Karangsari"
+    disambiguator: "Garut"
+    station_kind: passenger
+    note: "H8: Karangsari in Kab. Garut, Jawa Barat. Distinct from KRR."
+  KRR:
+    official_name: "Karangsari"
+    disambiguator: "Banyumas"
+    station_kind: passenger
+    note: "H8: Karangsari in Kab. Banyumas, Jawa Tengah. Distinct from KRAI."
+
+# Human decisions about name conflicts (H8). The evidence report keeps listing
+# the conflict; this block records how it was resolved.
+conflict_resolutions:
+  KARANGSARI:
+    codes: ["KRAI", "KRR"]
+    resolution: "two distinct stations: KRAI in Kab. Garut (Jawa Barat), KRR in Kab. Banyumas (Jawa Tengah)"
+    decided_by: "human"
+    date: "2026-11-22"

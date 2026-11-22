@@ -264,3 +264,48 @@ def _cell(value):
         page=1,
         bbox=(0.0, 0.0, 1.0, 1.0),
     )
+
+
+# --- H9: human confirmation of a rule-approved coordinate ------------------
+
+
+def test_human_confirmed_flag_is_parsed(tmp_path):
+    from pipeline import station_overrides as so
+
+    path = tmp_path / "overrides.yaml"
+    path.write_text(
+        "overrides:\n"
+        '  - code: "ABC"\n'
+        "    lat: -6.5\n"
+        "    lon: 107.0\n"
+        '    reason: "rule"\n'
+        '    evidence: "gate"\n'
+        '    decided_by: "rule:H6"\n'
+        '    date: "2026-11-22"\n'
+        "    human_confirmed: true\n",
+        encoding="utf-8",
+    )
+    overrides = so.load(path)
+    assert overrides[0].human_confirmed is True
+    applied = so.apply_to(overrides, {})
+    assert applied["ABC"]["human_confirmed"] is True
+    # Confirmation does not change the provenance.
+    assert applied["ABC"]["coord_provenance"] == "override_rule_approved"
+
+
+def test_human_confirmed_defaults_to_false(tmp_path):
+    from pipeline import station_overrides as so
+
+    path = tmp_path / "overrides.yaml"
+    path.write_text(
+        "overrides:\n"
+        '  - code: "ABC"\n'
+        "    lat: -6.5\n"
+        "    lon: 107.0\n"
+        '    reason: "r"\n'
+        '    evidence: "e"\n'
+        '    decided_by: "human"\n'
+        '    date: "2026-11-22"\n',
+        encoding="utf-8",
+    )
+    assert so.load(path)[0].human_confirmed is False
