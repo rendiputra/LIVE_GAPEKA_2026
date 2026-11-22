@@ -149,3 +149,25 @@ test("every time is labelled WIB", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#status")).toContainText("WIB");
 });
+
+test("F1: Live mode shows the LIVE clock and date, never the replay time", async ({ page }) => {
+  // Pin the wall clock so the assertion is deterministic. `setFixedTime` fixes
+  // Date.now() while leaving timers running, which is what a clock display needs.
+  await page.clock.setFixedTime(new Date("2026-11-25T15:45:00Z")); // 22:45 WIB
+  await page.goto("/");
+
+  // Live is the default mode; the replay controls must be out of the way.
+  await expect(page.getByRole("radio", { name: "Sekarang" })).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
+  await expect(page.locator("#replay-controls")).toBeHidden();
+
+  // Wait for a rendered frame before reading: an empty status means "not yet".
+  await expect(page.locator("#status")).toContainText(/[1-9]\d* KA aktif/);
+  const status = (await page.locator("#status").textContent()) ?? "";
+  // 2026-11-25 22:45 WIB, with the date, not the 09:00 replay default.
+  expect(status).toContain("22:45 WIB");
+  expect(status).toContain("2026-11-25");
+  expect(status).not.toContain("09:00");
+});

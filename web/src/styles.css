@@ -19,6 +19,12 @@
   box-sizing: border-box;
 }
 
+/* An author `display` rule beats the UA `[hidden]` rule, so `hidden` silently
+   does nothing on .replay / .notice. Make it authoritative. */
+[hidden] {
+  display: none !important;
+}
+
 /* Removes the 300 ms double-tap delay without disabling zoom. */
 button,
 input,

@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit basemap web-assets export-web parity web-dev web-build web-test web-e2e web-lighthouse reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit station-spacing basemap web-assets export-web parity web-dev web-build web-test web-e2e web-lighthouse reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -96,6 +96,9 @@ basemap: ## extract the Java PMTiles basemap + self-host glyphs/sprites (T5)
 
 web-assets: ## only the glyphs and sprites (T5)
 	uv run python -m pipeline.web_assets
+
+station-spacing: ## F4 report: run-together station names, nothing renamed
+	uv run python -m pipeline.station_spacing
 
 export-web: ## export the static schedule into web/public/data (B1)
 	uv run python -m pipeline.export_web

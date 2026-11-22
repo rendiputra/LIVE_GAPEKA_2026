@@ -149,3 +149,29 @@ def test_no_duplicate_polyline_content(exported):
     segments = json.loads((out / "segments.json").read_text(encoding="utf-8"))["segments"]
     polylines = [segment["polyline"] for segment in segments]
     assert len(polylines) == len(set(polylines)), "same polyline exported twice"
+
+
+def test_train_name_is_the_real_name_not_the_number(exported):
+    """F2: 'KA 50 — 50' came from the export writing train_no into name.
+
+    Every trip must carry the train's real name from the PDF, never its number.
+    """
+    import sqlite3
+
+    out, _summary = exported
+    trips = json.loads((out / "trips.json").read_text(encoding="utf-8"))["trips"]
+
+    connection = sqlite3.connect("file:data/gapeka.db?mode=ro", uri=True)
+    try:
+        real = {row[0]: row[1] for row in connection.execute("SELECT train_no, name FROM trains")}
+    finally:
+        connection.close()
+
+    duplicated = [trip for trip in trips if trip["name"].strip() == trip["train_no"].strip()]
+    assert duplicated == [], f"{len(duplicated)} trips repeat the train number as the name"
+
+    for trip in trips:
+        expected = (real.get(trip["train_no"]) or "").strip()
+        assert trip["name"].strip() == expected, (
+            f"KA {trip['train_no']}: name {trip['name']!r} != {expected!r}"
+        )

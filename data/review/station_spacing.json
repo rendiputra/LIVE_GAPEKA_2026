@@ -1,0 +1,742 @@
+{
+  "note": "F4 report only. 'suggested' names split into two words the data itself proves (other station names or their parts). 'review' names are run-together and long, but the data cannot prove a split, so they need a human eye. Nothing is renamed: a spacing fix requires the PDF or station_aliases.yaml to carry the spaced form.",
+  "stations": 389,
+  "suggested": [
+    {
+      "code": "SB",
+      "name": "Surabayakota",
+      "pdf_name": "Surabayakota",
+      "official_name": null,
+      "in_aliases": false,
+      "split_candidates": [
+        "Surabaya kota"
+      ]
+    }
+  ],
+  "review": [
+    {
+      "code": "BJK",
+      "name": "Banjarkemantren",
+      "pdf_name": "Banjarkemantren",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": [
+        "banjar"
+      ]
+    },
+    {
+      "code": "BKST",
+      "name": "Bekasitimur",
+      "pdf_name": "Bekasitimur",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": [
+        "bekasi"
+      ]
+    },
+    {
+      "code": "TGA",
+      "name": "Tanggulangin",
+      "pdf_name": "Tanggulangin",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": [
+        "tanggul"
+      ]
+    },
+    {
+      "code": "TJS",
+      "name": "Tanjungrasa",
+      "pdf_name": "Tanjungrasa",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": [
+        "tanjung"
+      ]
+    },
+    {
+      "code": "WB",
+      "name": "Warungbandrek",
+      "pdf_name": "Warungbandrek",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": [
+        "waru"
+      ]
+    },
+    {
+      "code": "AWN",
+      "name": "Arjawinangun",
+      "pdf_name": "Arjawinangun",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "BJ",
+      "name": "Bojonegoro",
+      "pdf_name": "Bojonegoro",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "BLP",
+      "name": "Balapulang",
+      "pdf_name": "Balapulang",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "BMW",
+      "name": "Bumiwaluya",
+      "pdf_name": "Bumiwaluya",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "BSS",
+      "name": "Bangsalsari",
+      "pdf_name": "Bangsalsari",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "CCL",
+      "name": "Cicalengka",
+      "pdf_name": "Cicalengka",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "CD",
+      "name": "Cikadongdong",
+      "pdf_name": "Cikadongdong",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "CPD",
+      "name": "Cipeundeuy",
+      "pdf_name": "Cipeundeuy",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "CRA",
+      "name": "Cipunegara",
+      "pdf_name": "Cipunegara",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "CRM",
+      "name": "Curahmalang",
+      "pdf_name": "Curahmalang",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "CTH",
+      "name": "Cikudapateuh",
+      "pdf_name": "Cikudapateuh",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "GBN",
+      "name": "Gambringan",
+      "pdf_name": "Gambringan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "GDD",
+      "name": "Gondangdia",
+      "pdf_name": "Gondangdia",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "GDM",
+      "name": "Gandrungmangun",
+      "pdf_name": "Gandrungmangun",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "GK",
+      "name": "Gadobangkong",
+      "pdf_name": "Gadobangkong",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "GST",
+      "name": "Gangsentiong",
+      "pdf_name": "Gangsentiong",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "HGL",
+      "name": "Haurgeulis",
+      "pdf_name": "Haurgeulis",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "JNG",
+      "name": "Jatinegara",
+      "pdf_name": "Jatinegara",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "JTB",
+      "name": "Jatibarang",
+      "pdf_name": "Jatibarang",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KA",
+      "name": "Karanganyar",
+      "pdf_name": "Karanganyar",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KAB",
+      "name": "Kadokangabus",
+      "pdf_name": "Kadokangabus",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KAC",
+      "name": "Kiaracondong",
+      "pdf_name": "Kiaracondong",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KDB",
+      "name": "Kedungbanteng",
+      "pdf_name": "Kedungbanteng",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KDH",
+      "name": "Kedunggedeh",
+      "pdf_name": "Kedunggedeh",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KE",
+      "name": "Karangtengah",
+      "pdf_name": "Karangtengah",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KEJ",
+      "name": "Kedungjati",
+      "pdf_name": "Kedungjati",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KG",
+      "name": "Kedunggalar",
+      "pdf_name": "Kedunggalar",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KGD",
+      "name": "Karanggandul",
+      "pdf_name": "Karanggandul",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KGG",
+      "name": "Ketanggungan",
+      "pdf_name": "Ketanggungan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KGT",
+      "name": "Karangjati",
+      "pdf_name": "Karangjati",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KKD",
+      "name": "Karangkandri",
+      "pdf_name": "Karangkandri",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KNP",
+      "name": "Karangpucung",
+      "pdf_name": "Karangpucung",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KRA",
+      "name": "Karangantu",
+      "pdf_name": "Karangantu",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KRAI",
+      "name": "Karangsari",
+      "pdf_name": "Karangsari",
+      "official_name": "Karangsari",
+      "in_aliases": true,
+      "prefix_matches": []
+    },
+    {
+      "code": "KRR",
+      "name": "Karangsari",
+      "pdf_name": "Karangsari",
+      "official_name": "Karangsari",
+      "in_aliases": true,
+      "prefix_matches": []
+    },
+    {
+      "code": "KSL",
+      "name": "Kalisetail",
+      "pdf_name": "Kalisetail",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KSO",
+      "name": "Karangsono",
+      "pdf_name": "Karangsono",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KTL",
+      "name": "Kertomenanggal",
+      "pdf_name": "Kertomenanggal",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KTM",
+      "name": "Kertasemaya",
+      "pdf_name": "Kertasemaya",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KWG",
+      "name": "Kawunganten",
+      "pdf_name": "Kawunganten",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "KWN",
+      "name": "Kutowinangun",
+      "pdf_name": "Kutowinangun",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "LG",
+      "name": "Linggapura",
+      "pdf_name": "Linggapura",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "LMB",
+      "name": "Lemahabang",
+      "pdf_name": "Lemahabang",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "LO",
+      "name": "Leuwigoong",
+      "pdf_name": "Leuwigoong",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "LPN",
+      "name": "Lempuyangan",
+      "pdf_name": "Lempuyangan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "NDL",
+      "name": "Ngadiluwih",
+      "pdf_name": "Ngadiluwih",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PAS",
+      "name": "Pasirbungur",
+      "pdf_name": "Pasirbungur",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PB",
+      "name": "Probolinggo",
+      "pdf_name": "Probolinggo",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PDL",
+      "name": "Padalarang",
+      "pdf_name": "Padalarang",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PGB",
+      "name": "Pegadenbaru",
+      "pdf_name": "Pegadenbaru",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PK",
+      "name": "Pekalongan",
+      "pdf_name": "Pekalongan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PNL",
+      "name": "Panunggalan",
+      "pdf_name": "Panunggalan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PNT",
+      "name": "Pasarnguter",
+      "pdf_name": "Pasarnguter",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "POK",
+      "name": "Pondokjati",
+      "pdf_name": "Pondokjati",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PRI",
+      "name": "Pringkasap",
+      "pdf_name": "Pringkasap",
+      "official_name": "Pringkasap",
+      "in_aliases": true,
+      "prefix_matches": []
+    },
+    {
+      "code": "PRK",
+      "name": "Parungkuda",
+      "pdf_name": "Parungkuda",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PSE",
+      "name": "Pasarsenen",
+      "pdf_name": "Pasarsenen",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PSJ",
+      "name": "Pasirjengkol",
+      "pdf_name": "Pasirjengkol",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PTR",
+      "name": "Peterongan",
+      "pdf_name": "Peterongan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PWK",
+      "name": "Purwakarta",
+      "pdf_name": "Purwakarta",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "PWT",
+      "name": "Purwokerto",
+      "pdf_name": "Purwokerto",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "RBG",
+      "name": "Randublatung",
+      "pdf_name": "Randublatung",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "RDA",
+      "name": "Randuagung",
+      "pdf_name": "Randuagung",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "RJ",
+      "name": "Rejotangan",
+      "pdf_name": "Rejotangan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "RK",
+      "name": "Rangkasbitung",
+      "pdf_name": "Rangkasbitung",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "RM",
+      "name": "Rajamandala",
+      "pdf_name": "Rajamandala",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SBL",
+      "name": "Sumbergempol",
+      "pdf_name": "Sumbergempol",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SBP",
+      "name": "Sumberpucung",
+      "pdf_name": "Sumberpucung",
+      "official_name": "Sumberpucung",
+      "in_aliases": true,
+      "prefix_matches": []
+    },
+    {
+      "code": "SDU",
+      "name": "Sindanglaut",
+      "pdf_name": "Sindanglaut",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SGJ",
+      "name": "Singojuruh",
+      "pdf_name": "Singojuruh",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SGU",
+      "name": "Surabayagubeng",
+      "pdf_name": "Surabayagubeng",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SK",
+      "name": "Solojebres",
+      "pdf_name": "Solojebres",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SLO",
+      "name": "Solobalapan",
+      "pdf_name": "Solobalapan",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SRJ",
+      "name": "Sumberrejo",
+      "pdf_name": "Sumberrejo",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SSI",
+      "name": "Sindangresmi",
+      "pdf_name": "Sindangresmi",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "STP",
+      "name": "Sawotratap",
+      "pdf_name": "Sawotratap",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SUM",
+      "name": "Sumberlawang",
+      "pdf_name": "Sumberlawang",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "SWD",
+      "name": "Sumberwadung",
+      "pdf_name": "Sumberwadung",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "TA",
+      "name": "Tulungagung",
+      "pdf_name": "Tulungagung",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "TLS",
+      "name": "Telagasari",
+      "pdf_name": "Telagasari",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "TOJB",
+      "name": "Tonjongbaru",
+      "pdf_name": "Tonjongbaru",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "TSM",
+      "name": "Tasikmalaya",
+      "pdf_name": "Tasikmalaya",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "UJN",
+      "name": "Ujungnegoro",
+      "pdf_name": "Ujungnegoro",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    },
+    {
+      "code": "YK",
+      "name": "Yogyakarta",
+      "pdf_name": "Yogyakarta",
+      "official_name": null,
+      "in_aliases": false,
+      "prefix_matches": []
+    }
+  ],
+  "suggested_count": 1,
+  "review_count": 89
+}

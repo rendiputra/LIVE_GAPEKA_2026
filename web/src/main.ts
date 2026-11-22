@@ -61,6 +61,9 @@ let policy: Policy;
 let worker: Worker;
 let map: MapLibreMap;
 let lastRendered: TrainPosition[] = [];
+/** The instant the currently displayed frame was computed for. The status line
+ *  must describe THIS, never the replay slider, or live mode shows replay time. */
+let lastRenderedInstantMs = 0;
 
 // --- time helpers -----------------------------------------------------------
 
@@ -69,6 +72,15 @@ const WIB_MS = 7 * 3600 * 1000;
 function instantFor(dateIso: string, secondsOfDay: number): number {
   const [year, month, day] = dateIso.split("-").map(Number);
   return Date.UTC(year, month - 1, day, 0, 0, 0) - WIB_MS + secondsOfDay * 1000;
+}
+
+/** WIB date and time for an instant, using fixed UTC+7 (no DST in Java). */
+function wibClock(instantMs: number): { date: string; time: string } {
+  const shifted = new Date(instantMs + WIB_MS);
+  const date = shifted.toISOString().slice(0, 10);
+  const seconds =
+    shifted.getUTCHours() * 3600 + shifted.getUTCMinutes() * 60 + shifted.getUTCSeconds();
+  return { date, time: hhmm(seconds) };
 }
 
 function hhmm(seconds: number): string {
@@ -262,9 +274,9 @@ function renderPositions(positions: TrainPosition[]): void {
       },
     })),
   });
+  const shown = wibClock(lastRenderedInstantMs);
   $("status").textContent =
-    `${positions.length} KA aktif · ${hhmm(state.secondsOfDay)} WIB` +
-    (state.mode === "replay" ? ` · ${state.date}` : "");
+    `${positions.length} KA aktif · ${shown.time} WIB · ${shown.date}`;
 }
 
 function panelHtml(position: TrainPosition): string {
@@ -528,6 +540,10 @@ declare global {
 }
 
 async function requestFrame(): Promise<void> {
+  // The worker is created after the controls are wired, and it may fail to
+  // construct; asking for a frame before then must be a no-op, not a crash.
+  // startWorker() requests the first frame once the data is ready.
+  if (!worker) return;
   // Coalesce, but never DROP the last request: a slider drag or a clock tick
   // that arrives while a frame is in flight must still be rendered.
   if (frameInFlight) {
@@ -541,6 +557,9 @@ async function requestFrame(): Promise<void> {
       const instant = currentInstant();
       const started = performance.now();
       const positions = await workerPositions(instant);
+      // Record the instant this frame describes BEFORE rendering, so the status
+      // line can never show a different clock from the positions on the map.
+      lastRenderedInstantMs = instant;
       renderPositions(positions);
       renderPanel();
       // Exposed for the Playwright benchmark; not used by the UI.
@@ -566,6 +585,7 @@ function tick(): void {
     $("time").setAttribute("value", String(state.secondsOfDay));
     ($("time") as HTMLInputElement).value = String(state.secondsOfDay);
     $("clock").textContent = hhmm(state.secondsOfDay);
+  setMode(state.mode);
     requestFrame();
   }
   window.setTimeout(tick, 200);
@@ -578,25 +598,31 @@ function syncReplayInputs(): void {
   ($("date") as HTMLInputElement).value = state.date;
   ($("time") as HTMLInputElement).value = String(state.secondsOfDay);
   $("clock").textContent = hhmm(state.secondsOfDay);
+  setMode(state.mode);
+}
+
+/** Switching mode also shows/hides the replay controls, so live and replay can
+ *  never be confused. */
+function setMode(mode: "live" | "replay"): void {
+  state.mode = mode;
+  $("mode-live").setAttribute("aria-checked", String(mode === "live"));
+  $("mode-replay").setAttribute("aria-checked", String(mode === "replay"));
+  ($("replay-controls") as HTMLElement).hidden = mode === "live";
+  if (mode === "live") {
+    // Leaving replay stops playback; otherwise the slider keeps advancing
+    // invisibly and the user cannot tell which clock they are looking at.
+    state.playing = false;
+    $("play").setAttribute("aria-pressed", "false");
+    $("play").textContent = "Putar";
+  } else {
+    syncReplayInputs();
+  }
+  requestFrame();
 }
 
 function wireControls(): void {
-  $("mode-live").addEventListener("click", () => {
-    state.mode = "live";
-    $("mode-live").setAttribute("aria-checked", "true");
-    $("mode-replay").setAttribute("aria-checked", "false");
-    ($("replay-controls") as HTMLElement).hidden = true;
-    requestFrame();
-  });
-
-  $("mode-replay").addEventListener("click", () => {
-    state.mode = "replay";
-    $("mode-live").setAttribute("aria-checked", "false");
-    $("mode-replay").setAttribute("aria-checked", "true");
-    ($("replay-controls") as HTMLElement).hidden = false;
-    syncReplayInputs();
-    requestFrame();
-  });
+  $("mode-live").addEventListener("click", () => setMode("live"));
+  $("mode-replay").addEventListener("click", () => setMode("replay"));
 
   ($("date") as HTMLInputElement).addEventListener("change", (event) => {
     state.date = (event.target as HTMLInputElement).value || "2026-12-01";
@@ -606,6 +632,7 @@ function wireControls(): void {
   ($("time") as HTMLInputElement).addEventListener("input", (event) => {
     state.secondsOfDay = Number((event.target as HTMLInputElement).value);
     $("clock").textContent = hhmm(state.secondsOfDay);
+  setMode(state.mode);
     requestFrame();
   });
 
@@ -663,6 +690,7 @@ async function main(): Promise<void> {
   // Only the LABEL is initialised here. Writing the inputs at startup can race a
   // user (or a test) that already moved the slider, silently resetting it.
   $("clock").textContent = hhmm(state.secondsOfDay);
+  setMode(state.mode);
   startWorker();
   tick();
 }

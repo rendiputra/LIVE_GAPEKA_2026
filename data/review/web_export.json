@@ -1,5 +1,5 @@
 {
- "content_hash": "e68ebc4bc3d98628",
+ "content_hash": "ce8b397007790812",
  "manifest": {
   "attribution": {
    "disclaimer": "Posisi estimasi berdasarkan jadwal Gapeka 2026, bukan posisi aktual. Diasumsikan tepat waktu dan beroperasi setiap hari.",
@@ -7,7 +7,7 @@
    "osm_url": "https://www.openstreetmap.org/copyright",
    "preview_banner": "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)"
   },
-  "content_hash": "e68ebc4bc3d98628",
+  "content_hash": "ce8b397007790812",
   "counts": {
    "segments": 391,
    "stations": 389,
@@ -18,7 +18,7 @@
   "files": {
    "segments": "segments.ba87c8ea7fa78c4e.json",
    "stations": "stations.4975a442e16adc9e.json",
-   "trips": "trips.67bfdb92c997c3c8.json"
+   "trips": "trips.1c7ff9a8e83555e3.json"
   },
   "max_day_offset": 1,
   "policy": {
@@ -50,12 +50,12 @@
    "raw": 36619
   },
   "total": {
-   "gzip": 270443,
-   "raw": 1151076
+   "gzip": 270517,
+   "raw": 1157513
   },
   "trips": {
-   "gzip": 165630,
-   "raw": 953662
+   "gzip": 165704,
+   "raw": 960099
   }
  },
  "stations": 389,

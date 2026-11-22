@@ -297,16 +297,20 @@ def build_payload() -> dict:
         relations = {
             row[0]: row[1] for row in connection.execute("SELECT trip_id, relation FROM trips")
         }
-        names = {
-            row[0]: (row[1], row[2])
-            for row in connection.execute("SELECT trip_id, train_no, relation FROM trips")
+        # F2: the train's NAME lives in `trains.name`. The old fallback wrote
+        # `train_no` into `name`, so every trip rendered as "KA 50 - 50".
+        train_names = {
+            row[0]: (row[1] or "").strip()
+            for row in connection.execute("SELECT train_no, name FROM trains")
         }
     finally:
         connection.close()
     for trip in trips:
         trip["relation"] = relations.get(trip["trip_id"], "") or ""
-        if not trip["name"] and trip["trip_id"] in names:
-            trip["name"] = names[trip["trip_id"]][0] or ""
+        if not trip["name"].strip():
+            # Empty means the PDF printed no name; the UI then shows "KA <no>"
+            # once, never the number twice.
+            trip["name"] = train_names.get(trip["train_no"], "")
 
     return {
         "stations": stations,
