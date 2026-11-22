@@ -43,6 +43,20 @@ FLAG_BYPASSED = 2
 FLAG_STRAIGHT_LINE = 4
 
 
+def _seconds(value: str | None) -> int | None:
+    """'HH:MM:SS' -> seconds of day."""
+    if not value:
+        return None
+    parts = value.split(":")
+    if len(parts) != 3:
+        return None
+    try:
+        hours, minutes, seconds = (int(part) for part in parts)
+    except ValueError:
+        return None
+    return hours * 3600 + minutes * 60 + seconds
+
+
 def encode_polyline(points: list[tuple[float, float]], precision: int = POLYLINE_PRECISION) -> str:
     """Google polyline encoding, scaled to ``precision`` decimal places."""
     factor = 10**precision
@@ -65,6 +79,55 @@ def encode_polyline(points: list[tuple[float, float]], precision: int = POLYLINE
         out.append(encode_value(ilon - last_lon))
         last_lat, last_lon = ilat, ilon
     return "".join(out)
+
+
+def _read_stop_rows() -> dict[str, list[dict]]:
+    """Every printed row per trip, including the ones the bypass skipped.
+
+    T4: a station without a coordinate (STM, TPR, CIK) is bypassed for geometry,
+    but it is still a row in the PDF and must appear in the UI stop list. The
+    bypassed rows carry ``bypassed = 1`` and inherit the previous known distance.
+    """
+    connection = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+    try:
+        rows = connection.execute(
+            "SELECT trip_id, seq, station_code, arrive, depart, arrive_day_offset,"
+            " depart_day_offset, stop_type, time_source FROM stop_times"
+            " ORDER BY trip_id, seq"
+        ).fetchall()
+        bypassed = {
+            (row[0], row[1])
+            for row in connection.execute("SELECT trip_id, seq FROM trip_waypoint_estimates")
+        }
+    finally:
+        connection.close()
+
+    out: dict[str, list[dict]] = {}
+    for (
+        trip_id,
+        seq,
+        code,
+        arrive,
+        depart,
+        arrive_offset,
+        depart_offset,
+        stop_type,
+        time_source,
+    ) in rows:
+        out.setdefault(trip_id, []).append(
+            {
+                "seq": seq,
+                "code": code,
+                "arrive": arrive,
+                "depart": depart,
+                "arrive_offset": arrive_offset,
+                "depart_offset": depart_offset,
+                "stop_type": stop_type,
+                "time_source": time_source,
+                "bypassed": 1 if (trip_id, seq) in bypassed else 0,
+            }
+        )
+    return out
 
 
 def _read_stations() -> dict[str, dict]:
@@ -95,27 +158,53 @@ def build_payload() -> dict:
     # the UI apply `hidden_by_default`. No Policy is used here on purpose.
     stations = _read_stations()
     by_code = {code: index for index, code in enumerate(sorted(stations))}
+    all_stop_rows = _read_stop_rows()
 
     # --- unique segments ---------------------------------------------------
-    segment_index: dict[tuple[tuple[float, float], ...], int] = {}
+    # F1: a segment must be exported ONCE, in ONE canonical direction. Keying on
+    # the trip-oriented coordinates exported A->B and B->A separately (782 for 391
+    # segments). The canonical record comes from data/parsed/segments.json, whose
+    # geometry starts at its own `from_code`; the trip's direction becomes the
+    # `reversed` flag and is applied at runtime.
+    canonical_records = json.loads(
+        (Path("data/parsed") / "segments.json").read_text(encoding="utf-8")
+    )["segments"]
+    canonical: dict[tuple[str, str], dict] = {}
+    for record in canonical_records:
+        pair = tuple(sorted((record["from_code"], record["to_code"])))
+        canonical[pair] = record
+
+    segment_index: dict[tuple[str, str], int] = {}
     segments: list[dict] = []
 
-    def segment_id(segment) -> int:
-        key = tuple(segment.coordinates)
-        if key not in segment_index:
-            points = [(lat, lon) for lat, lon in segment.coordinates]
-            segment_index[key] = len(segments)
+    def segment_id(segment) -> tuple[int, int]:
+        pair = tuple(sorted((segment.from_code, segment.to_code)))
+        record = canonical.get(pair)
+        if record is None:
+            # Should not happen: geometry only exists for routed segments.
+            raise ValueError(f"no canonical segment for {segment.from_code}-{segment.to_code}")
+        if pair not in segment_index:
+            points = [
+                (coordinate[1], coordinate[0])
+                for coordinate in (record.get("geometry") or {}).get("coordinates", [])
+            ]
+            segment_index[pair] = len(segments)
             segments.append(
                 {
-                    "from": segment.from_code,
-                    "to": segment.to_code,
-                    "length_m": round(segment.length_m, 1),
-                    "quality": segment.quality,
+                    "from": record["from_code"],
+                    "to": record["to_code"],
+                    "length_m": round(float(record["length_m"]), 1),
+                    "quality": record["quality"],
                     "polyline": encode_polyline(points),
                     "points": len(points),
                 }
             )
-        return segment_index[key]
+        reversed_flag = (
+            0
+            if (segment.from_code, segment.to_code) == (record["from_code"], record["to_code"])
+            else 1
+        )
+        return segment_index[pair], reversed_flag
 
     trips: list[dict] = []
     for trip in snapshot.trips:
@@ -125,14 +214,9 @@ def build_payload() -> dict:
         segment_ids: list[int] = []
         reversed_flags: list[int] = []
         for segment in trip.segments:
-            sid = segment_id(segment)
-            canonical = segments[sid]
-            reversed_flags.append(
-                1
-                if (canonical["from"], canonical["to"]) != (segment.from_code, segment.to_code)
-                else 0
-            )
+            sid, reversed_flag = segment_id(segment)
             segment_ids.append(sid)
+            reversed_flags.append(reversed_flag)
 
         flags = 0
         if trip.has_untimed_markers:
@@ -142,13 +226,59 @@ def build_payload() -> dict:
         if trip.has_straight_line_segment:
             flags |= FLAG_STRAIGHT_LINE
 
+        # Waypoints come from the DB rows so bypassed stations are still listed.
+        distance_by_seq = {w.seq: w.s_m for w in trip.waypoints}
         rows = {
-            "code": [by_code.get(w.station_code, -1) for w in trip.waypoints],
-            "s_m": [round(w.s_m, 1) for w in trip.waypoints],
-            "arrive": [-1 if w.arrive_abs is None else int(w.arrive_abs) for w in trip.waypoints],
-            "depart": [-1 if w.depart_abs is None else int(w.depart_abs) for w in trip.waypoints],
-            "stop_type": [STOP_TYPES.index(w.stop_type) for w in trip.waypoints],
+            "code": [],
+            "s_m": [],
+            "arrive": [],
+            "depart": [],
+            "stop_type": [],
+            "bypassed": [],
         }
+        last_distance = 0.0
+        trip_stops = all_stop_rows.get(trip.trip_id, [])
+        for index, stop in enumerate(trip_stops):
+            distance = distance_by_seq.get(stop["seq"])
+            if distance is None:
+                # Bypassed: no distance of its own, so it sits where the last
+                # known point was. The flag tells the UI it is an estimate.
+                distance = last_distance
+            else:
+                last_distance = distance
+            arrive_sod = None if stop["arrive"] is None else _seconds(stop["arrive"])
+            depart_sod = None if stop["depart"] is None else _seconds(stop["depart"])
+            # Mirror engine/snapshot.py exactly: the first row has arrive=depart,
+            # the last has depart=arrive, and a pass row with only one time shares
+            # it. Without this the TypeScript port sees a different timetable.
+            if arrive_sod is None and depart_sod is not None and index == 0:
+                arrive_sod = depart_sod
+            if (
+                depart_sod is None
+                and arrive_sod is not None
+                and index == len(trip_stops) - 1
+            ):
+                depart_sod = arrive_sod
+            if stop["stop_type"] == "pass" and arrive_sod is None:
+                arrive_sod = depart_sod
+            arrive_abs = (
+                None
+                if arrive_sod is None
+                else arrive_sod + 86400 * int(stop["arrive_offset"] or 0)
+            )
+            depart_abs = (
+                None
+                if depart_sod is None
+                else depart_sod + 86400 * int(stop["depart_offset"] or 0)
+            )
+            rows["code"].append(by_code.get(stop["code"], -1))
+            rows["s_m"].append(round(distance, 1))
+            rows["arrive"].append(-1 if arrive_abs is None else int(arrive_abs))
+            rows["depart"].append(-1 if depart_abs is None else int(depart_abs))
+            rows["stop_type"].append(
+                STOP_TYPES.index(stop["stop_type"]) if stop["stop_type"] in STOP_TYPES else 0
+            )
+            rows["bypassed"].append(int(stop["bypassed"]))
 
         trips.append(
             {

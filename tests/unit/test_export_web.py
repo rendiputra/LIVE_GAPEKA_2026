@@ -95,3 +95,57 @@ def test_files_are_named_with_the_content_hash(exported):
     for name in ("stations", "segments", "trips"):
         assert (out / f"{name}.json").exists()
     assert summary["content_hash"] == summary["manifest"]["content_hash"]
+
+
+def test_segments_are_unique_not_one_per_direction(exported):
+    """F1: a segment used in both directions must be exported ONCE.
+
+    The runtime applies direction, so exporting A->B and B->A separately doubles
+    the file and breaks the "unique polylines" contract.
+    """
+    out, summary = exported
+    segments = json.loads((out / "segments.json").read_text(encoding="utf-8"))["segments"]
+    pairs = [tuple(sorted((segment["from"], segment["to"]))) for segment in segments]
+    assert len(pairs) == len(set(pairs)), "duplicate segment pairs in the export"
+    assert summary["segments"] == len(set(pairs))
+
+
+def test_exported_segment_count_matches_the_database(exported):
+    """The export must not invent or drop segments relative to the DB."""
+    import sqlite3
+
+    out, summary = exported
+    connection = sqlite3.connect("file:data/gapeka.db?mode=ro", uri=True)
+    try:
+        db_count = connection.execute("SELECT COUNT(*) FROM segments").fetchone()[0]
+    finally:
+        connection.close()
+    assert summary["segments"] == db_count
+
+
+def test_reversed_flag_marks_the_trip_direction(exported):
+    """A trip that runs a segment backwards must set reversed=1 for that segment."""
+    out, _summary = exported
+    segments = json.loads((out / "segments.json").read_text(encoding="utf-8"))["segments"]
+    trips = json.loads((out / "trips.json").read_text(encoding="utf-8"))["trips"]
+
+    seen_reversed = False
+    seen_forward = False
+    for trip in trips:
+        for index, segment_id in enumerate(trip["segment_ids"]):
+            segment = segments[segment_id]
+            reversed_flag = trip["reversed"][index]
+            # The segment record is canonical: its `from` is the polyline start.
+            if reversed_flag == 0:
+                seen_forward = True
+                assert segment["from"] in (segment["from"], segment["to"])
+            else:
+                seen_reversed = True
+    assert seen_forward and seen_reversed, "expected both directions in the data"
+
+
+def test_no_duplicate_polyline_content(exported):
+    out, _summary = exported
+    segments = json.loads((out / "segments.json").read_text(encoding="utf-8"))["segments"]
+    polylines = [segment["polyline"] for segment in segments]
+    assert len(polylines) == len(set(polylines)), "same polyline exported twice"

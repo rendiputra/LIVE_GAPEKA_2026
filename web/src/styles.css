@@ -237,6 +237,10 @@ body {
   background: #e8f1fd;
   font-weight: 600;
 }
+.stoplist li.bypassed {
+  color: var(--muted);
+  font-style: italic;
+}
 .stoplist span:first-child {
   overflow-wrap: anywhere;
 }

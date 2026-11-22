@@ -229,12 +229,17 @@ function panelHtml(position: TrainPosition): string {
         const depart = trip.waypoints.depart[i];
         const printed = arrive >= 0 ? arrive : depart;
         const clock = printed >= 0 ? hhmm(((printed % 86400) + 86400) % 86400) : "—";
+        const bypassed = (trip.waypoints.bypassed?.[i] ?? 0) === 1;
         const isCurrent =
-          Math.abs(trip.waypoints.s_m[i] - position.sM) < 1 ||
-          code === position.fromCode ||
-          code === position.toCode;
-        return `<li class="${isCurrent ? "current" : ""}">
-          <span>${stationName.get(code) ?? code}</span>
+          !bypassed &&
+          (Math.abs(trip.waypoints.s_m[i] - position.sM) < 1 ||
+            code === position.fromCode ||
+            code === position.toCode);
+        // A bypassed row has no coordinate, so its position is an estimate
+        // between its neighbours. Say so rather than pretending it is exact.
+        const note = bypassed ? ' <span class="t">(tanpa koordinat)</span>' : "";
+        return `<li class="${isCurrent ? "current" : ""}${bypassed ? " bypassed" : ""}">
+          <span>${stationName.get(code) ?? code}${note}</span>
           <span class="t">${clock}</span>
           <span class="t">${stopTypes[trip.waypoints.stop_type[i]] ?? ""}</span>
         </li>`;

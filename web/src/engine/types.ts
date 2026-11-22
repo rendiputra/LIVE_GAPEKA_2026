@@ -32,6 +32,8 @@ export interface WaypointColumns {
   arrive: number[];
   depart: number[];
   stop_type: number[];
+  /** 1 when the row was bypassed for geometry (no coordinate). Display only. */
+  bypassed?: number[];
 }
 
 export interface TripData {

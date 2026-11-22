@@ -30,6 +30,8 @@ export interface PreparedWaypoint {
   departAbs: number | null;
   stopType: string;
   timed: boolean;
+  /** Bypassed rows are listed in the UI but never form a leg, exactly as in Python. */
+  bypassed: boolean;
 }
 
 export interface PreparedTrip {
@@ -112,6 +114,7 @@ export function prepare(
         departAbs: depart < 0 ? null : depart,
         stopType: stopTypes[trip.waypoints.stop_type[i]] ?? "stop",
         timed: arrive >= 0 || depart >= 0,
+        bypassed: (trip.waypoints.bypassed?.[i] ?? 0) === 1,
       };
     });
 
@@ -184,7 +187,11 @@ function bearingAt(trip: PreparedTrip, sM: number): number {
 }
 
 export function legsOf(trip: PreparedTrip, policy: Policy): Array<{ leg: Leg; a: PreparedWaypoint; b: PreparedWaypoint }> {
-  const timed = trip.waypoints.filter((w) => w.arriveAbs !== null && w.departAbs !== null);
+  // Bypassed rows are display-only: they have no reliable distance, so they must
+  // not create a leg. This mirrors the Python snapshot, which never loads them.
+  const timed = trip.waypoints.filter(
+    (w) => !w.bypassed && w.arriveAbs !== null && w.departAbs !== null,
+  );
   const legs: Array<{ leg: Leg; a: PreparedWaypoint; b: PreparedWaypoint }> = [];
   for (let i = 0; i + 1 < timed.length; i += 1) {
     const a = timed[i];
@@ -205,6 +212,7 @@ export function legsOf(trip: PreparedTrip, policy: Policy): Array<{ leg: Leg; a:
 
 function nextStop(trip: PreparedTrip, sM: number): { code: string | null; time: string | null } {
   for (const waypoint of trip.waypoints) {
+    if (waypoint.bypassed) continue;
     if (waypoint.sM >= sM - 1e-6 && waypoint.stopType === "stop") {
       const printed = sod(waypoint.arriveAbs) ?? sod(waypoint.departAbs);
       return { code: waypoint.stationCode, time: formatSod(printed) };

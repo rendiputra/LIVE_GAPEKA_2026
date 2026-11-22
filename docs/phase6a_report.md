@@ -9,26 +9,26 @@ Static site (ADR 008). `python -m pipeline.export_web` writes the schedule into 
 
 ## Export sizes
 
-Content hash: `85a821c708323f5a`
+Content hash: `e68ebc4bc3d98628`
 
 | File | Raw kB | Gzip kB |
 |---|---|---|
 | manifest | 1.0 | 0.5 |
-| segments | 312.1 | 188.2 |
+| segments | 156.0 | 94.6 |
 | stations | 35.8 | 7.2 |
-| total | 1231.6 | 353.9 |
-| trips | 882.7 | 158.0 |
+| total | 1124.1 | 264.1 |
+| trips | 931.3 | 161.7 |
 
-Trips exported: **625**, segments **782**, stations **389**. Target was < 2 MB gzip.
+Trips exported: **625**, segments **391**, stations **389**. Target was < 2 MB gzip.
 
 ## Bundle size
 
 | Asset | Raw kB | Gzip kB |
 |---|---|---|
-| `index-BPUI_tr3.css` | 67.4 | 10.1 |
-| `index-C8kha7o7.js` | 795.9 | 216.0 |
-| `positions.worker-z0jkbTfN.js` | 6.1 | 2.6 |
-| **total** | **869.5** | **228.7** |
+| `index-CzcDnXo7.js` | 796.1 | 216.1 |
+| `index-KId1o3Dk.css` | 67.5 | 10.1 |
+| `positions.worker-hn7uUTIx.js` | 6.2 | 2.6 |
+| **total** | **869.8** | **228.8** |
 
 MapLibre GL JS dominates the bundle. It is bundled, not loaded from a CDN.
 
@@ -46,7 +46,7 @@ Tolerances: 1 m for lat/lon and `s_m`, 0.2 km/h for speed, identical status / fr
 |---|---|
 | samples | 40 |
 | median frame | **0.60 ms** |
-| p95 frame | 1.00 ms |
+| p95 frame | 5.20 ms |
 | most trains on screen | 83 |
 
 Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-01. The target was < 10 ms per frame.
