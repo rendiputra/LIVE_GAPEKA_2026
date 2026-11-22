@@ -163,6 +163,18 @@ def render() -> str:
             "`data/review/r1_engine_sweep.json`",
             "24 h sweep: active counts, off-polyline, continuity, benchmark",
         ),
+        (
+            "`data/review/suspect_segments_review.html`",
+            "routed vs straight geometry for suspect segments; no decision",
+        ),
+        (
+            "`data/review/coverage_blockers.json`",
+            "why trips are hidden and which blocker would unblock most",
+        ),
+        (
+            "`data/review/h5_h6_gate.json`",
+            "rail-path gate evidence for the H5/H6 coordinates",
+        ),
     ):
         add(f"| {name} | {what} | No |")
     add("")

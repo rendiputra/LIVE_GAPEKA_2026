@@ -39,6 +39,9 @@ correctness, and none is human-verified.
 | `engine/golden_frames.json` | sampled frames for browser-port parity (trip, t, lat, lon, s_m, status) | No |
 | `data/review/engine_replay.html` | Leaflet replay page, 30 s frames for 2026-12-01 | No |
 | `data/review/r1_engine_sweep.json` | 24 h sweep: active counts, off-polyline, continuity, benchmark | No |
+| `data/review/suspect_segments_review.html` | routed vs straight geometry for suspect segments; no decision | No |
+| `data/review/coverage_blockers.json` | why trips are hidden and which blocker would unblock most | No |
+| `data/review/h5_h6_gate.json` | rail-path gate evidence for the H5/H6 coordinates | No |
 
 ## What is explicitly out of scope
 

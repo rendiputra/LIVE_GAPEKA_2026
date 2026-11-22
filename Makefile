@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -60,8 +60,18 @@ engine-sweep: ## R1: 24 h sweep + benchmark -> data/review/r1_engine_sweep.json
 engine-replay: ## R2: self-contained Leaflet replay -> data/review/engine_replay.html
 	uv run python -m pipeline.engine_replay
 
+suspects: ## suspect-segment review page + draft bridge candidates (T2)
+	uv run python -m pipeline.suspect_review
+
+coverage: ## why trips are hidden + top blockers (T3)
+	uv run python -m pipeline.coverage_blockers
+
+h5h6: ## rail-path gate record for H5/H6
+	uv run python -m pipeline.h5_h6
+
 reports: ## regenerate the generated reports
 	uv run python -m pipeline.phase4d_report
+	uv run python -m pipeline.phase5b_report
 	uv run python -m pipeline.phase5_report
 	uv run python -m pipeline.verification_status
 

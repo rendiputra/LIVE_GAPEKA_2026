@@ -157,10 +157,15 @@ Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
   every coordinate ever considered, including rejected ones. Evidence is never deleted.
 - `trip_geometry_status(trip_id, status, has_bypassed_waypoints, osm_routed, osm_suspect, straight_line, unmeasured, total_length_m)`
   - `status` is `complete | complete_estimated | has_fallback | has_unmeasured`.
+  - `osm_routed_reviewed` (ADR 005) counts as **complete**: a human accepted the route.
   - `complete_estimated` means every non-bypassed hop is `osm_routed` and at least one
     waypoint was bypassed (Q4). `has_bypassed_waypoints` is `1` on those trips.
 - `trip_waypoint_estimates(trip_id, seq, station_code, method)` — one row per bypassed
   waypoint (`method = bypass_between_neighbours`). Nothing is dropped silently.
+- `data/config/segment_reviews.yaml` (human-authored, committed) — one decision per
+  suspect segment: `accept_route` (quality becomes `osm_routed_reviewed`, counts as
+  complete) or `needs_bridge` (stays `osm_suspect`). A review on a non-suspect segment
+  is ignored and reported. The pipeline never writes the file. See ADR 005.
 
 Coordinate provenance rules:
 - External coordinates come from Wikidata (CC0) then OpenStreetMap (ODbL), never guessed.
@@ -177,6 +182,12 @@ Coordinate provenance rules:
   `data/review/q3_vs_a3.json` and run `python -m pipeline.triple_rail`.
   A failing entry is reported with its numbers, never applied.
 - A coordinate that fails is `rejected`, never silently corrected.
+- A coordinate applied under an explicit rule (H6) records provenance
+  `override_rule_approved` in its own report section, so a human can review it.
+  The rule requires ALL of: exactly one OSM candidate cluster, an exact normalised
+  name match, inside the Java bbox, snap within the stated limit, a rail-path triple
+  ratio <= 1.15, and neighbour distances consistent with the direct pair.
+  If any condition fails the coordinate stays a proposal.
 - **Waypoint bypass (Q4):** a row may be skipped only when (a) its `stop_type` is `pass` or
   `unknown_untimed`, (b) its station has no accepted coordinate, (c) both neighbouring rows have
   accepted coordinates, and (d) at most **3** consecutive rows are bypassed. A `stop` row is
@@ -286,6 +297,7 @@ formats (two trains per page, `Berh`/`Sb` markers, `Lintas Pelayanan` only).
 - Validators V5 (connectivity), V12 (detour), V13 (implied speed vs printed maximum — **evidence for Phase 5, not a gate**), V14 (cumulative consistency).
 - Human-approved **bridges** (`data/config/geometry_bridges.yaml`) join two OSM nodes that are the same track but were disconnected in the extract (a digitising seam). The pipeline never invents a bridge, and each one is recorded in the report as `human_bridges`. Routing weights stay at the default (no cost tuning).
 - `trip_geometry_status` records `complete | complete_estimated | has_fallback | has_unmeasured` per trip; non-complete trips are always listed.
+- Segment reviews (ADR 005) let a human accept a suspect route. `osm_routed_reviewed` counts as complete; `needs_bridge` stays suspect. Evidence page: `data/review/suspect_segments_review.html`. Candidate bridges live in `data/config/geometry_bridges.draft.yaml` and are **never** applied automatically.
 
 **DoD**: segment coverage recorded; every fallback, unmeasured pair and suspect detour listed; stations above the snap-accept threshold listed; review map produced.
 
@@ -375,10 +387,13 @@ make parse        # raw -> parsed
 make validate     # run all validators; fail on any violation
 make build-db     # validated -> database
 make geometry     # OSM -> segments
-make triple       # rail-path neighbour-consistency triples (Q3)
+make triple       # rail-path neighbour-consistency triples (Q3) + q3_vs_a3.json
 make engine-sweep # 24 h sweep + benchmark (R1)
-make engine-replay# self-contained replay page (R2)
-make reports      # regenerate docs/phase4d_report.md, phase5_report.md, verification_status.md
+make engine-replay# self-contained replay page (R2, 30 h window)
+make suspects     # suspect-segment review page + draft bridges
+make coverage     # coverage blockers (T3)
+make h5h6         # H5/H6 gate record
+make reports      # regenerate the generated reports
 make test         # unit + golden
 make serve        # API + web dev
 ```

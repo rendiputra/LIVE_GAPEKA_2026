@@ -236,6 +236,22 @@ def main() -> int:
             "median": int(statistics.median(active_counts)),
             "samples": len(active_counts),
         },
+        # 00:00-05:00 is where previous-service-date tails live. Reporting it
+        # separately makes them visible instead of averaging them away.
+        "active_00_05": {
+            "peak": max(active_counts[: 5 * 60]),
+            "median": int(statistics.median(active_counts[: 5 * 60])),
+            "min": min(active_counts[: 5 * 60]),
+            "samples": len(active_counts[: 5 * 60]),
+        },
+        "active_per_hour": [
+            {
+                "hour": hour,
+                "peak": max(active_counts[hour * 60 : (hour + 1) * 60]),
+                "median": int(statistics.median(active_counts[hour * 60 : (hour + 1) * 60])),
+            }
+            for hour in range(24)
+        ],
         "off_polyline_positions": off_polyline,
         "continuity_violations": len(continuity),
         "continuity_method": (
@@ -272,6 +288,8 @@ def main() -> int:
             {
                 "active_peak": payload["active"]["peak"],
                 "active_median": payload["active"]["median"],
+                "active_00_05_peak": payload["active_00_05"]["peak"],
+                "active_00_05_median": payload["active_00_05"]["median"],
                 "off_polyline": off_polyline,
                 "continuity": len(continuity),
                 "continuity_ambiguous_skipped": ambiguous_skipped,

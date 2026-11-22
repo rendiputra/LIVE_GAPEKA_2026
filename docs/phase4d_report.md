@@ -62,25 +62,25 @@ A `stop` row is never bypassed, so `RO` (one `stop` row) keeps that trip blocked
 
 ## Neighbour-consistency triples (Q3, rail-path)
 
-**401** triples evaluated on the routed rail graph: 393 ok, **4** failures, 4 `junction_turnback` (info).
+**404** triples evaluated on the routed rail graph: 396 ok, **5** failures, 3 `junction_turnback` (info).
 
 The superseded straight-line test (`data/review/a3_coord_hygiene.json`) flagged **43** triples over 32 distinct stations. The rail-path test clears **28** of those stations as false positives, and adds no new failure that the old test had missed.
-
-| Code | Triple | Ratio | Turn angle |
-|---|---|---|---|
-| `AND` | BD-AND-CIR | 3.055 | 13.8° |
-| `BD` | AND-BD-CIR | 2.94 | 14.0° |
-| `JNG` | MTR-JNG-POK | 1.46 | 23.8° |
-| `SLO` | SK-SLO-KDO | 1.317 | 113.9° |
-
-Classified `junction_turnback` (information, not failure):
 
 | Code | Triple | Ratio | Turn angle |
 |---|---|---|---|
 | `BTT` | CS-BTT-BOP | 1.737 | 157.1° |
 | `CS` | MSG-CS-BTT | 1.649 | 165.6° |
 | `GDD` | CKI-GDD-GMR | 1.319 | 156.2° |
+| `SLO` | SK-SLO-KDO | 1.317 | 113.9° |
 | `CKI` | MRI-CKI-GDD | 1.261 | 178.1° |
+
+Classified `junction_turnback` (information, not failure):
+
+| Code | Triple | Ratio | Turn angle |
+|---|---|---|---|
+| `AND` | BD-AND-CIR | 3.055 | 13.8° |
+| `BD` | AND-BD-CIR | 2.94 | 14.0° |
+| `JNG` | MTR-JNG-POK | 1.46 | 23.8° |
 
 ## Bridges reported but not applied (Q1 side report)
 
@@ -98,8 +98,8 @@ Classified `junction_turnback` (information, not failure):
 | Artefact | Hash |
 |---|---|
 | baseline segments (not applied) | `dc2629dd13c64fc0b5f7a9659b050a0b4aeffafe0441768dab1a7c24672b9bc4` |
-| current segments | `c9d0fd0f33c1b9ae31811ecb4115d4356f7bae744eae1757fe98536d867d4aa3` |
-| database | `de17da3fd154ee078c7923ab8186173a2eddec0ec31fc13d1a62896d7714198d` |
+| segments after Phase 4d | `c9d0fd0f33c1b9ae31811ecb4115d4356f7bae744eae1757fe98536d867d4aa3` |
+| database after Phase 4d | `None` |
 
 The baseline hash differs from the current one by construction; it is recorded
 so the comparison is reproducible, not because it is used anywhere.

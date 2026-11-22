@@ -41,7 +41,6 @@ def row(label: str, before, after) -> str:
 def main() -> int:
     before = load(REVIEW / "t1_before.json")
     after = load(REVIEW / "t1_after.json")
-    segments = load(Path("data/parsed/segments.json"), {})
     db = load(REVIEW / "db_build.json", {})
     q1 = load(REVIEW / "q1_bridge_candidates.json", {})
     q3 = load(REVIEW / "q3_triple_rail.json", {})
@@ -206,8 +205,10 @@ def main() -> int:
     add("| Artefact | Hash |")
     add("|---|---|")
     add(f"| baseline segments (not applied) | `{before['content_hash']}` |")
-    add(f"| current segments | `{segments.get('content_hash')}` |")
-    add(f"| database | `{db.get('content_hash')}` |")
+    # Phase 4d's own "after" hash, pinned in t1_after.json. Reading the live
+    # segments here would silently show a later round's geometry.
+    add(f"| segments after Phase 4d | `{after.get('segments_hash')}` |")
+    add(f"| database after Phase 4d | `{after.get('db_hash')}` |")
     add("")
     add("The baseline hash differs from the current one by construction; it is recorded")
     add("so the comparison is reproducible, not because it is used anywhere.")

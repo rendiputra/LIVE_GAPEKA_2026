@@ -27,6 +27,22 @@ def render(sweep: dict, replay_trips: list[dict], golden_count: int) -> str:
     add("> Nothing here is described as *verified*; see `docs/verification_status.md`.")
     add("")
 
+    add("## Phase 5b (follow-up)")
+    add("")
+    add(
+        "Phase 5b applied the H6 SRI override (which unblocks KA 249/250), corrected the "
+        "inverted turn-back rule, added the human segment-review mechanism (ADR 005) and "
+        "rebuilt the replay on a 30-hour window. Full detail and before/after tables: "
+        "`docs/phase5b_report.md`."
+    )
+    add("")
+    b5 = load(REVIEW / "t1_5b_after.json", {})
+    if b5:
+        add(f"- trips loaded by the engine: **{b5.get('trips_loaded_by_engine')}**")
+        add(f"- trips shown by default: **{b5.get('shown_by_default')}**")
+        add(f"- geometry content hash: `{b5.get('segments_hash')}`")
+        add("")
+
     add("## What the engine is")
     add("")
     add(
@@ -156,6 +172,12 @@ def render(sweep: dict, replay_trips: list[dict], golden_count: int) -> str:
         f"{sweep['legs']['over_printed_max_10pct']} of {sweep['legs']['with_printed_max']} "
         "legs imply a cruise speed more than 10% above the printed maximum. They are "
         "reported as V13 evidence and left uncorrected.",
+        "The replay's reproduction check is CIRCULAR: the engine is built from the same "
+        "printed times, so agreement only shows the loader, cumulative distances and "
+        "motion profile are mutually consistent. It is not independent validation.",
+        "12 `stop_times` rows arrive before midnight and depart after it; one `day_offset` "
+        "per row cannot represent that, so those arrivals are a day late. Reported, not "
+        "patched (see `docs/phase5b_report.md`).",
         "No position has been checked against reality; this is a schedule estimate only.",
     ]:
         add(f"- {item}")
