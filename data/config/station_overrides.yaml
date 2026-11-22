@@ -1,0 +1,132 @@
+# Station coordinate overrides - AUTHORED BY THE HUMAN (H2, 2026-11-22).
+#
+# Source of every coordinate: the OpenStreetMap station node named below.
+# Corroboration: Wikidata and OSM agreeing within 100 m is recorded where true.
+# These entries were validated before application by `python -m pipeline.coord_safety`:
+#   inside Java bbox, snap to rail <= snap_accept_m, triple ratio <= 1.15.
+#
+# Rejected candidates are recorded in data/review/coord_safety_report.json.
+
+overrides:
+  - code: "CKI"
+    lat: -6.198517
+    lon: 106.841243
+    reason: "OSM station node 4817686767 (Cikini); snap 1.7 m; triple ratio 1.0"
+    evidence: "OpenStreetMap node/4817686767 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "JBU"
+    lat: -6.302998
+    lon: 106.260485
+    reason: "OSM station node 5311399822 (Jambu Baru); snap 2.0 m; triple ratio 1.0"
+    evidence: "OpenStreetMap node/5311399822 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "KLI"
+    lat: -6.349852
+    lon: 107.345373
+    reason: "OSM station node 11738786421 (Klari); snap 3.2 m; triple ratio 1.004"
+    evidence: "OpenStreetMap node/11738786421 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "LR"
+    lat: -6.868086
+    lon: 109.185451
+    reason: "OSM station node 1244940776 (Larangan); snap 1.8 m; triple ratio 1.002"
+    evidence: "OpenStreetMap node/1244940776 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "MLK"
+    lat: -7.994841
+    lon: 112.632514
+    reason: "OSM station node 8072001320 (Malang Kotalama); snap 2.8 m; triple ratio 1.002"
+    evidence: "OpenStreetMap node/8072001320 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "MRI"
+    lat: -6.21017
+    lon: 106.849935
+    reason: "OSM station node 4815286700 (Manggarai); snap 0.2 m; triple ratio 1.061"
+    evidence: "OpenStreetMap node/4815286700 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "MTR"
+    lat: -6.212567
+    lon: 106.859753
+    reason: "OSM station node 7764926504 (Matraman); snap 3.2 m; triple ratio 1.0"
+    evidence: "OpenStreetMap node/7764926504 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "PRI"
+    lat: -6.418069
+    lon: 107.634511
+    reason: "OSM station node 7849142889 (Pringkasap); snap 1.6 m; triple ratio 1.0"
+    evidence: "OpenStreetMap node/7849142889 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "PS"
+    lat: -7.637755
+    lon: 112.910135
+    reason: "OSM station node 1359918326 (Pasuruan); snap 1.2 m; triple ratio 1.002"
+    evidence: "OpenStreetMap node/1359918326 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "SBP"
+    lat: -8.158368
+    lon: 112.478385
+    reason: "OSM station node 11778643372 (Sumberpucung); snap 1.5 m; triple ratio 1.005"
+    evidence: "OpenStreetMap node/11778643372 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "SD"
+    lat: -6.880573
+    lon: 109.275956
+    reason: "OSM station node 1244940858 (Surodadi); snap 0.6 m; triple ratio 1.001"
+    evidence: "OpenStreetMap node/1244940858 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "SMO"
+    lat: -7.51344
+    lon: 110.747865
+    reason: "OSM station node 7109010878 (Adi Soemarmo); snap 2.2 m; triple ratio None"
+    evidence: "OpenStreetMap node/7109010878 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "SMT"
+    lat: -6.964126
+    lon: 110.427725
+    reason: "OSM station node 12165656405 (Semarang Tawang); snap 1.2 m; triple ratio 1.092"
+    evidence: "OpenStreetMap node/12165656405 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  - code: "TIS"
+    lat: -6.469976
+    lon: 108.161079
+    reason: "OSM station node 1228535141 (Terisi); snap 1.5 m; triple ratio 1.002"
+    evidence: "OpenStreetMap node/1228535141 via Geofabrik Java extract 2026-11-20"
+    decided_by: "human"
+    date: "2026-11-22"
+  # H6 (2026-11-22): Sragi, applied by RULE, not by a human choice of coordinate.
+  # The human supplied no SRI coordinate. Rule H6 was applied: the OSM extract
+  # holds exactly one railway station named "Sragi" (node/1244940845), the gate
+  # passed (snap 1.4 m, rail-path triple PK-SRI-CO ratio 1.000, no snap
+  # ambiguity). Evidence: data/review/h5_h6_gate.json.
+  # `decided_by: "rule:H6"` is what marks the provenance as
+  # override_rule_approved in the database and the reports.
+  - code: "SRI"
+    lat: -6.923724274475478
+    lon: 109.57099433659796
+    reason: "rule H6: single exact OSM name match; snap 1.4 m; triple ratio 1.000"
+    evidence: "OpenStreetMap node/1244940845 via Geofabrik Java extract 2026-11-20; data/review/h5_h6_gate.json"
+    decided_by: "rule:H6"
+    date: "2026-11-22"
+  # H5 (2026-11-22): Metland Telagamurni. The human supplied this coordinate
+  # (map lookup). Applied together with the TLM snap pin, because the coordinate
+  # alone is not enough: the nearest track routes 2.8x too far.
+  - code: "TLM"
+    lat: -6.257272
+    lon: 107.111231
+    reason: "H5 coordinate; snap 20.6 m; with pin 1311188691 the triple CIT-TLM-CKR is 1.000"
+    evidence: "human map lookup 2026-11-22; data/review/h5_h6_gate.json"
+    decided_by: "human"
+    date: "2026-11-22"

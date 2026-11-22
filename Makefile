@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -69,9 +69,19 @@ coverage: ## why trips are hidden + top blockers (T3)
 h5h6: ## rail-path gate record for H5/H6
 	uv run python -m pipeline.h5_h6
 
+day-offsets: ## midnight-straddling rows (Q3)
+	uv run python -m pipeline.day_offsets
+
+bridge-probe: ## measure each draft bridge candidate (P4), nothing applied
+	uv run python -m pipeline.bridge_probe
+
+snap-experiment: ## routing-aware snapping experiment (Q1b), nothing applied
+	uv run python -m pipeline.snap_experiment
+
 reports: ## regenerate the generated reports
 	uv run python -m pipeline.phase4d_report
 	uv run python -m pipeline.phase5b_report
+	uv run python -m pipeline.phase5c_report
 	uv run python -m pipeline.phase5_report
 	uv run python -m pipeline.verification_status
 

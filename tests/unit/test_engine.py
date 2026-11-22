@@ -84,6 +84,8 @@ def simple_trip(
             arrive_sod=arrive_sod,
             depart_sod=arrive_sod,
             day_offset=arrive_day_offset,
+            arrive_day_offset=arrive_day_offset,
+            depart_day_offset=arrive_day_offset,
             s_m=length_m,
             timed=True,
         ),

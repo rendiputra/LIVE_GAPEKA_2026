@@ -1,0 +1,63 @@
+{
+  "note": "Report only. Each candidate is applied to a COPY of the graph to measure the effect; data/config/geometry_bridges.yaml is untouched.",
+  "candidates": [
+    {
+      "label": "BTT-CS seam",
+      "from_node": 563692098,
+      "to_node": 9794788929,
+      "segments": [
+        [
+          "BTT",
+          "CS"
+        ],
+        [
+          "BOP",
+          "BTT"
+        ]
+      ]
+    },
+    {
+      "label": "SB-SBI seam",
+      "from_node": 14313928655,
+      "to_node": 14313928656,
+      "segments": [
+        [
+          "SB",
+          "SBI"
+        ]
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "candidate": "BTT-CS seam",
+      "segment": "BTT-CS",
+      "straight_km": 4.263,
+      "routed_without_km": 4.953,
+      "routed_with_km": 4.953,
+      "delta_km": 0.0,
+      "detour_without": 1.162,
+      "detour_with": 1.162
+    },
+    {
+      "candidate": "BTT-CS seam",
+      "segment": "BOP-BTT",
+      "straight_km": 3.759,
+      "routed_without_km": 3.98,
+      "routed_with_km": 3.98,
+      "delta_km": 0.0,
+      "detour_without": 1.059,
+      "detour_with": 1.059
+    },
+    {
+      "candidate": "SB-SBI seam",
+      "segment": "SB-SBI",
+      "straight_km": 1.238,
+      "routed_without_km": 2.999,
+      "routed_with_km": 2.999,
+      "delta_km": 0.0,
+      "detour_without": 2.422,
+      "detour_with": 2.422
+    }
+  ]
+}

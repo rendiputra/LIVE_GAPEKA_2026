@@ -2,17 +2,16 @@
   "db": "data/gapeka.db",
   "geometry": {
     "quality_counts": {
-      "osm_routed": 378,
-      "osm_suspect": 9,
+      "osm_routed": 380,
+      "osm_routed_reviewed": 8,
       "unmeasured": 4
     },
     "trip_status_counts": {
-      "complete_estimated": 74,
+      "complete": 498,
       "has_unmeasured": 75,
-      "has_fallback": 139,
-      "complete": 337
+      "complete_estimated": 52
     },
-    "content_hash": "75f62831b4b32522c320a6f207c02a12fda42558f5fa08067817b1c123a5eef6"
+    "content_hash": "76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49"
   },
   "counts": {
     "gapeka_versions": 1,
@@ -21,17 +20,29 @@
     "trips": 625,
     "stop_times": 22808,
     "calendar": 625,
-    "station_coord_candidates": 393,
-    "segments": 391,
+    "station_coord_candidates": 394,
+    "segments": 392,
     "trip_geometry_status": 625,
-    "trip_waypoint_estimates": 224
+    "trip_waypoint_estimates": 66
   },
-  "stations_with_coordinates": 384,
-  "content_hash": "9a04832377f6ae64b458fb958870b24babfc6e779b738c1bc4fc5ea80b281826",
+  "stations_with_coordinates": 385,
+  "content_hash": "0d9e88b54a8a19ca0c9832dfb9afde182c13c414c7f6b00d1e6c61b2dd01102b",
   "skipped": 0,
   "service_class": {
     "reguler": 577,
     "fakultatif": 48
   },
-  "trips_with_untimed_markers": 68
+  "trips_with_untimed_markers": 68,
+  "config": {
+    "config_hash": "b1509c2f65ecbaa5981a34497e125f0bb861eb3b20b08d7d5f7b8801da09400d",
+    "files": {
+      "station_overrides.yaml": "74509c9276a2704a5f3c5c1398d7deb45557f296997aea34a7bf2aed0a5e1f90",
+      "station_aliases.yaml": "5d3f680fc08bc055023f0246cafe1635b6beeb51159f732c4d37323b80b7a337",
+      "segment_reviews.yaml": "4141d21aa5e2276045a77b26a10273ab32bff0d727b5fe6f246bb74bda446044",
+      "geometry_bridges.yaml": "aa3fe832323754d17d8f3f470ac919bf06320b209def9d11175d2636a9b0e087",
+      "snap_pins.yaml": "3ef51725ec7b55db89aac33602afb06efa8d72e851d6adf5378a8195a1b4197d",
+      "cell_markers.yaml": "1918feb255938f06c2b5a5de6aa5b2ec22099420c00f78a1d377df7d42b32755",
+      "geometry.yaml": "9c8191e8e9f72841585a8b2fa214a96962567e3154c3126d3157664765f3d0fa"
+    }
+  }
 }

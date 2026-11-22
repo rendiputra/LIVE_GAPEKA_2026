@@ -88,7 +88,12 @@ def pick_trips(snapshot) -> tuple[list, list[dict]]:
             notes.append({"train_no": number, "note": "not loaded"})
             continue
         picked.append(trip)
-        notes.append({"train_no": number, "note": reason})
+        notes.append(
+            {
+                "train_no": number,
+                "note": f"{reason} [status={trip.geometry_status}, class={trip.service_class}]",
+            }
+        )
     return picked, notes
 
 

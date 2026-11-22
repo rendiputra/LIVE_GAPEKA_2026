@@ -23,7 +23,7 @@ import time
 from collections import Counter
 from pathlib import Path
 
-from pipeline import segment_reviews
+from pipeline import segment_reviews, snap_pins
 from pipeline.rail_graph import RailGraph, haversine_m
 
 PARSED = Path("data/parsed")
@@ -247,20 +247,47 @@ def build(
     # before/after comparison stays about Q1/Q4.
     reviews = [] if baseline else segment_reviews.load()
     review_index = segment_reviews.index(reviews)
+    # Q1a snap pins: a human says which track a station is on. Ignored in
+    # baseline mode so the pre-Q1 state stays reproducible.
+    pins = [] if baseline else snap_pins.load()
+    pin_index = snap_pins.index(pins)
     coordinates = accepted_coordinates()
 
     # Snap every station with an accepted coordinate.
     snaps: dict[str, dict] = {}
     band_counts: Counter[str] = Counter()
+    pins_applied: dict[str, dict] = {}
+    pins_unusable: list[dict] = []
     for code, entry in sorted(coordinates.items()):
+        pin = pin_index.get(code)
         result = graph.snap(
             code,
             (entry["lat"], entry["lon"]),
             config["snap_accept_m"],
             config["snap_review_m"],
+            pin_way=pin.way_id if pin else None,
         )
         snaps[code] = result.as_dict()
         band_counts[result.band] += 1
+        if pin is not None:
+            if result.band == "ok_pinned":
+                pins_applied[code] = {
+                    "way_id": pin.way_id,
+                    "snap_distance_m": round(result.snap_distance_m or 0.0, 1),
+                    "decided_by": pin.decided_by,
+                }
+            else:
+                pins_unusable.append(
+                    {
+                        "station": code,
+                        "way_id": pin.way_id,
+                        "snap_distance_m": None
+                        if result.snap_distance_m is None
+                        else round(result.snap_distance_m, 1),
+                        "band": result.band,
+                        "reason": "pin farther than snap_accept_m; normal snap used",
+                    }
+                )
 
     # Distinct undirected pairs needed by any trip.
     #
@@ -477,6 +504,8 @@ def build(
         "quality_counts": dict(quality_counts),
         "trip_status": trip_status,
         "trip_bypass": trip_bypass,
+        "snap_pins_applied": pins_applied,
+        "snap_pins_unusable": pins_unusable,
         "trip_status_counts": dict(status_counts),
         "content_hash": digest.hexdigest(),
         "runtime_seconds": round(time.time() - started, 1),

@@ -57,10 +57,13 @@ def test_client_key_is_order_independent():
     assert forward.key == backward.key
 
 
-def test_load_reads_the_committed_empty_file():
-    """The committed file has no decisions; the loader must not invent any."""
+def test_load_reads_the_committed_decisions():
+    """The committed file holds the Q4 human decisions and nothing else."""
     reviews = sr.load()
-    assert reviews == []
+    assert len(reviews) == 8
+    assert all(review.decision == sr.ACCEPT_ROUTE for review in reviews)
+    # BTT-CS is NOT accepted: it was a snap problem, fixed by a pin instead.
+    assert ("BTT", "CS") not in {review.key for review in reviews}
 
 
 def test_load_parses_a_real_entry(tmp_path):

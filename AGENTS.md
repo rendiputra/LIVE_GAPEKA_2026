@@ -75,6 +75,12 @@ Glossary:
 10. **Never mix up night-time trips.** Times after midnight on the same trip use `day_offset`, never a new trip.
 11. **Never rely on the PDF text-stream order.** Always reconstruct rows and columns from x/y coordinates. (Observed: on KRL pages, `Berangkat` is emitted before `Datang`.)
 
+**Human decisions are versioned (P2).** `data/config/*.yaml` is TRACKED: station overrides,
+aliases, segment reviews, bridges, snap pins and cell markers are part of the record. The PDF,
+raw words, parsed data, the database, review artefacts and external datasets stay gitignored.
+`pipeline/config_tracking.py` hashes every tracked config file; the hash is stored in the DB
+build summary and every report, so two builds can be compared honestly.
+
 ## 3. Tech Stack (defaults; may be changed with a written reason in `docs/decisions/`)
 
 | Layer | Choice |
@@ -142,7 +148,10 @@ Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
     `station_coord_candidates`.
 - `trains(train_no, name, class, relation)`
 - `trips(trip_id, train_no, version_id, operating_days, notes)`
-- `stop_times(trip_id, seq, station_code, arrive, depart, day_offset, stop_type[stop|pass], needs_review)`
+- `stop_times(trip_id, seq, station_code, arrive, depart, arrive_day_offset, depart_day_offset,
+  day_offset_source[printed|derived_midnight_dwell], stop_type[stop|pass], needs_review)`
+  — **ADR 007.** A stop can arrive at 23:58 and depart at 00:03, so each side carries its own
+  day offset. `day_offset` is a deprecated alias for `depart_day_offset`.
 - `calendar(trip_id, weekdays, valid_from, valid_to, extra_dates, exclude_dates)`
   — **see ADR 002.** The Gapeka PDF provides a validity **start** date only
   (`Berlaku Mulai Tanggal 01 Desember 2026`, present on all 135 dividers and
@@ -162,6 +171,9 @@ Use Pydantic models that mirror this exactly. Any schema change requires an ADR.
     waypoint was bypassed (Q4). `has_bypassed_waypoints` is `1` on those trips.
 - `trip_waypoint_estimates(trip_id, seq, station_code, method)` — one row per bypassed
   waypoint (`method = bypass_between_neighbours`). Nothing is dropped silently.
+- `data/config/snap_pins.yaml` (human-authored, committed) — **ADR 006.** Pins a station to a
+  named OSM way when the nearest edge is the wrong track of a double line. A pin farther than
+  `snap_accept_m` is reported as unusable and the normal snap is used.
 - `data/config/segment_reviews.yaml` (human-authored, committed) — one decision per
   suspect segment: `accept_route` (quality becomes `osm_routed_reviewed`, counts as
   complete) or `needs_bridge` (stays `osm_suspect`). A review on a non-suspect segment
@@ -182,8 +194,9 @@ Coordinate provenance rules:
   `data/review/q3_vs_a3.json` and run `python -m pipeline.triple_rail`.
   A failing entry is reported with its numbers, never applied.
 - A coordinate that fails is `rejected`, never silently corrected.
-- A coordinate applied under an explicit rule (H6) records provenance
-  `override_rule_approved` in its own report section, so a human can review it.
+- `stations.coord_provenance` is `external_match | human_override | override_rule_approved`.
+  A `decided_by` beginning with `rule:` marks the third; it is reported in its own section,
+  never counted as a human choice.
   The rule requires ALL of: exactly one OSM candidate cluster, an exact normalised
   name match, inside the Java bbox, snap within the stated limit, a rail-path triple
   ratio <= 1.15, and neighbour distances consistent with the direct pair.
@@ -297,6 +310,7 @@ formats (two trains per page, `Berh`/`Sb` markers, `Lintas Pelayanan` only).
 - Validators V5 (connectivity), V12 (detour), V13 (implied speed vs printed maximum — **evidence for Phase 5, not a gate**), V14 (cumulative consistency).
 - Human-approved **bridges** (`data/config/geometry_bridges.yaml`) join two OSM nodes that are the same track but were disconnected in the extract (a digitising seam). The pipeline never invents a bridge, and each one is recorded in the report as `human_bridges`. Routing weights stay at the default (no cost tuning).
 - `trip_geometry_status` records `complete | complete_estimated | has_fallback | has_unmeasured` per trip; non-complete trips are always listed.
+- Snap pins (ADR 006) let a human name the track a station is on; `snap_bands` gains `ok_pinned`.
 - Segment reviews (ADR 005) let a human accept a suspect route. `osm_routed_reviewed` counts as complete; `needs_bridge` stays suspect. Evidence page: `data/review/suspect_segments_review.html`. Candidate bridges live in `data/config/geometry_bridges.draft.yaml` and are **never** applied automatically.
 
 **DoD**: segment coverage recorded; every fallback, unmeasured pair and suspect detour listed; stations above the snap-accept threshold listed; review map produced.
@@ -393,6 +407,9 @@ make engine-replay# self-contained replay page (R2, 30 h window)
 make suspects     # suspect-segment review page + draft bridges
 make coverage     # coverage blockers (T3)
 make h5h6         # H5/H6 gate record
+make day-offsets  # midnight-straddling rows report (Q3)
+make bridge-probe # what each draft bridge would change (P4)
+make snap-experiment # routing-aware snapping, experiment only (Q1b)
 make reports      # regenerate the generated reports
 make test         # unit + golden
 make serve        # API + web dev

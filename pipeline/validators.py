@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from pipeline import day_offsets
 from pipeline.parsers.stop_table import ParsedTrain, Stop
 
 # V2: inter-station travel time bounds. A dwell or run shorter than this is
@@ -81,10 +82,13 @@ def _anchor_time(stop: Stop) -> tuple[str | None, str]:
 
 
 def validate_v1(trains: list[ParsedTrain]) -> ValidationReport:
-    """V1: times within a trip increase monotonically (day_offset-aware).
+    """V1: times within a trip increase monotonically.
 
-    A trip may cross midnight, so a decrease is only reported when it is large
-    enough that a midnight rollover cannot explain it (i.e. more than one day).
+    Q3: a stop can arrive before midnight and depart after it, so each side uses
+    its own day offset (``day_offsets.derive``). The anchor is the departure when
+    one is printed, else the arrival. A decrease in absolute time is a real
+    violation; the old "+24h rollover allowance" is gone because it hid rows whose
+    day offset was wrong.
     """
     report = ValidationReport("V1", "times within a trip are monotonically increasing")
     for train in trains:
@@ -94,29 +98,33 @@ def validate_v1(trains: list[ParsedTrain]) -> ValidationReport:
             seconds = _seconds(value)
             if seconds is None:
                 continue
+            arrive_abs, depart_abs = day_offsets.absolute_times(
+                getattr(stop.arrive, "value", stop.arrive),
+                getattr(stop.depart, "value", stop.depart),
+                stop.day_offset,
+            )
+            absolute = depart_abs if depart_abs is not None else arrive_abs
+            if absolute is None:
+                continue
             report.checked += 1
             if previous is not None:
-                prev_seconds, prev_stop = previous
-                delta = seconds - prev_seconds
-                if delta < 0:
-                    # Allow a midnight rollover: treat as +24h.
-                    delta += 24 * 3600
-                    if delta < 0:
-                        report.violations.append(
-                            Violation(
-                                rule="V1",
-                                train_no=train.train_no,
-                                page=stop.provenance.get("page"),
-                                seq=stop.seq,
-                                station_code=stop.station_code,
-                                detail=(
-                                    f"time went backwards beyond one day: "
-                                    f"{prev_stop.seq}->{stop.seq} "
-                                    f"({_anchor_time(prev_stop)[0]} -> {value})"
-                                ),
-                            )
+                prev_absolute, prev_stop = previous
+                if absolute < prev_absolute:
+                    report.violations.append(
+                        Violation(
+                            rule="V1",
+                            train_no=train.train_no,
+                            page=stop.provenance.get("page"),
+                            seq=stop.seq,
+                            station_code=stop.station_code,
+                            detail=(
+                                f"absolute time went backwards: "
+                                f"{prev_stop.seq}->{stop.seq} "
+                                f"({_anchor_time(prev_stop)[0]} -> {value})"
+                            ),
                         )
-            previous = (seconds, stop)
+                    )
+            previous = (absolute, stop)
     return report
 
 

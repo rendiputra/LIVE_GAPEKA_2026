@@ -1,0 +1,48 @@
+{
+ "coord_status": {
+  "accepted": 369,
+  "missing": 3,
+  "override": 16,
+  "rejected": 1
+ },
+ "coord_provenance": {
+  "none": 4,
+  "external_match": 369,
+  "human_override": 15,
+  "override_rule_approved": 1
+ },
+ "trip_status": {
+  "complete": 498,
+  "complete_estimated": 52,
+  "has_unmeasured": 75
+ },
+ "segment_quality": {
+  "osm_routed": 380,
+  "osm_routed_reviewed": 8,
+  "unmeasured": 4
+ },
+ "blocked": {
+  "1": 65,
+  "2": 10
+ },
+ "shown_by_default": 507,
+ "bypass_rows": 66,
+ "segments_hash": "76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49",
+ "db_hash": "0d9e88b54a8a19ca0c9832dfb9afde182c13c414c7f6b00d1e6c61b2dd01102b",
+ "config_hash": "b1509c2f65ecbaa5981a34497e125f0bb861eb3b20b08d7d5f7b8801da09400d",
+ "trips_loaded_by_engine": 550,
+ "snap_pins_applied": {
+  "BTT": {
+   "way_id": 163741924,
+   "snap_distance_m": 9.8,
+   "decided_by": "human"
+  },
+  "TLM": {
+   "way_id": 1311188691,
+   "snap_distance_m": 23.7,
+   "decided_by": "human"
+  }
+ },
+ "snap_pins_unusable": [],
+ "day_offset_derived_rows": 12
+}

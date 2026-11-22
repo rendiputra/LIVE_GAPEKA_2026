@@ -186,12 +186,37 @@ class RailGraph:
         accept_m: float,
         review_m: float,
         max_edges: int | None = None,
+        pin_way: int | None = None,
     ) -> SnapResult:
         """Snap a station to the nearest edge, splitting it at the projection.
 
         A split inserts a synthetic node so a later route from this station
         measures the true remaining length instead of overshooting.
+
+        ``pin_way`` (Q1a) forces the station onto that OSM way. On a double-track
+        line the geometrically nearest edge can be a stub, and a pin is how a
+        human says which track the station is really on. A pin farther than
+        ``accept_m`` is NOT honoured: the normal nearest-edge snap is used, so a
+        stale pin can never silently move a station.
         """
+        if pin_way is not None:
+            pinned: tuple[float, int, int, tuple[float, float]] | None = None
+            for edges in self.adjacency.values():
+                for edge in edges:
+                    if edge.a > edge.b or edge.way_id != pin_way:
+                        continue
+                    projected, distance, _t = project_point_to_segment(
+                        point, self.coords[edge.a], self.coords[edge.b]
+                    )
+                    if pinned is None or distance < pinned[0]:
+                        pinned = (distance, edge.a, edge.b, projected)
+            if pinned is not None and pinned[0] <= accept_m:
+                distance, a, b, projected = pinned
+                new_id = self._split_edge(a, b, projected)
+                return SnapResult(
+                    code, new_id, projected[0], projected[1], distance, (a, b), "ok_pinned"
+                )
+
         best: tuple[float, int, int, tuple[float, float]] | None = None
         for edges in self.adjacency.values():
             for edge in edges:

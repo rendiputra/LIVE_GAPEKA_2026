@@ -56,22 +56,26 @@ class Waypoint:
     stop_type: str
     arrive_sod: int | None  # seconds from the start of the SERVICE DATE
     depart_sod: int | None
-    day_offset: int
+    day_offset: int  # DEPRECATED alias for depart_day_offset
     s_m: float  # cumulative distance along the trip polyline
     timed: bool  # False for distance-only markers
+    arrive_day_offset: int = 0
+    depart_day_offset: int = 0
     bypassed: bool = False
 
     @property
     def arrive_abs(self) -> int | None:
         if self.arrive_sod is None:
             return None
-        return self.arrive_sod + 86400 * self.day_offset
+        # Q3: the arrival may be on the previous day when the stop straddles
+        # midnight (e.g. arrive 23:58, depart 00:03).
+        return self.arrive_sod + 86400 * self.arrive_day_offset
 
     @property
     def depart_abs(self) -> int | None:
         if self.depart_sod is None:
             return None
-        return self.depart_sod + 86400 * self.day_offset
+        return self.depart_sod + 86400 * self.depart_day_offset
 
 
 @dataclass(frozen=True)

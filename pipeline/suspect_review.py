@@ -21,6 +21,7 @@ import json
 from pathlib import Path
 
 from pipeline import build_geometry as bg
+from pipeline import trip_pairs
 from pipeline.rail_graph import haversine_m, project_point_to_segment
 
 REVIEW = Path("data/review")
@@ -87,14 +88,14 @@ def over_speed_segments(sweep: dict, snapshot) -> tuple[set[tuple[str, str]], di
     return pairs, counts
 
 
-def trips_per_segment(trips: list[dict]) -> dict[tuple[str, str], int]:
-    counts: dict[tuple[str, str], int] = {}
-    for train in trips:
-        codes = [row["station_code"] for row in train["stops"] if row["station_code"]]
-        for a, b in zip(codes, codes[1:], strict=False):
-            key = (a, b) if a < b else (b, a)
-            counts[key] = counts.get(key, 0) + 1
-    return counts
+def trips_per_segment() -> dict[tuple[str, str], int]:
+    """Segment usage under the SAME definition the geometry and coverage use (P3).
+
+    Counting adjacent pairs from the parsed sequence gives a different answer from
+    the database once the Q4 bypass removes a row (SBI-STM-SB becomes SBI-SB), so
+    the shared helper is the only definition allowed here.
+    """
+    return dict(trip_pairs.load()[1])
 
 
 def best_alternative_routes(
@@ -269,8 +270,7 @@ def main() -> int:
     undirected = {}
     for (a, b), row in segments.items():
         undirected[(a, b) if a < b else (b, a)] = row
-    trips = bg.trips()
-    usage = trips_per_segment(trips)
+    usage = trips_per_segment()
     from engine.snapshot import load as load_snapshot
 
     snapshot = load_snapshot()

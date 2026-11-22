@@ -16,142 +16,142 @@
     "version_name": "Gapeka 2026",
     "effective_from": "2026-12-01",
     "effective_to": null,
-    "content_hash": "75f62831b4b32522c320a6f207c02a12fda42558f5fa08067817b1c123a5eef6",
+    "content_hash": "76f76cad1710009511d86e5bb78a2fa33a8ede8265917a90d1c8adf65c9c2b49",
     "trips": 550,
     "max_day_offset": 1,
     "station_tz": "Asia/Jakarta"
   },
   "active": {
-    "peak": 54,
-    "median": 39,
+    "peak": 87,
+    "median": 72,
     "samples": 1440
   },
   "active_00_05": {
-    "peak": 26,
-    "median": 19,
-    "min": 17,
+    "peak": 57,
+    "median": 42,
+    "min": 36,
     "samples": 300
   },
   "active_per_hour": [
     {
       "hour": 0,
-      "peak": 24,
-      "median": 22
+      "peak": 57,
+      "median": 54
     },
     {
       "hour": 1,
-      "peak": 21,
-      "median": 21
+      "peak": 53,
+      "median": 49
     },
     {
       "hour": 2,
-      "peak": 19,
-      "median": 18
+      "peak": 45,
+      "median": 42
     },
     {
       "hour": 3,
-      "peak": 18,
-      "median": 18
+      "peak": 39,
+      "median": 38
     },
     {
       "hour": 4,
-      "peak": 26,
-      "median": 19
+      "peak": 43,
+      "median": 38
     },
     {
       "hour": 5,
-      "peak": 40,
-      "median": 31
+      "peak": 61,
+      "median": 53
     },
     {
       "hour": 6,
-      "peak": 43,
-      "median": 39
+      "peak": 68,
+      "median": 64
     },
     {
       "hour": 7,
-      "peak": 39,
-      "median": 37
+      "peak": 73,
+      "median": 69
     },
     {
       "hour": 8,
-      "peak": 46,
-      "median": 43
+      "peak": 80,
+      "median": 75
     },
     {
       "hour": 9,
-      "peak": 48,
-      "median": 46
+      "peak": 83,
+      "median": 80
     },
     {
       "hour": 10,
-      "peak": 53,
-      "median": 44
+      "peak": 85,
+      "median": 75
     },
     {
       "hour": 11,
-      "peak": 54,
-      "median": 51
+      "peak": 87,
+      "median": 83
     },
     {
       "hour": 12,
-      "peak": 50,
-      "median": 48
+      "peak": 83,
+      "median": 80
     },
     {
       "hour": 13,
-      "peak": 50,
-      "median": 46
+      "peak": 84,
+      "median": 80
     },
     {
       "hour": 14,
-      "peak": 49,
-      "median": 47
+      "peak": 84,
+      "median": 81
     },
     {
       "hour": 15,
-      "peak": 49,
-      "median": 45
+      "peak": 86,
+      "median": 79
     },
     {
       "hour": 16,
-      "peak": 46,
-      "median": 38
+      "peak": 76,
+      "median": 72
     },
     {
       "hour": 17,
-      "peak": 50,
-      "median": 46
+      "peak": 84,
+      "median": 77
     },
     {
       "hour": 18,
-      "peak": 44,
-      "median": 37
+      "peak": 78,
+      "median": 73
     },
     {
       "hour": 19,
-      "peak": 42,
-      "median": 40
+      "peak": 78,
+      "median": 75
     },
     {
       "hour": 20,
-      "peak": 40,
-      "median": 38
+      "peak": 74,
+      "median": 71
     },
     {
       "hour": 21,
-      "peak": 42,
-      "median": 40
+      "peak": 74,
+      "median": 71
     },
     {
       "hour": 22,
-      "peak": 40,
-      "median": 36
+      "peak": 72,
+      "median": 68
     },
     {
       "hour": 23,
-      "peak": 33,
-      "median": 25
+      "peak": 66,
+      "median": 59
     }
   ],
   "off_polyline_positions": 0,
@@ -162,12 +162,11 @@
   "legs": {
     "total": 13718,
     "with_printed_max": 13718,
-    "over_printed_max_10pct": 14,
+    "over_printed_max_10pct": 6,
     "cruise_to_printed_ratio_buckets": {
       "1.00-1.10": 80,
       "1.10-1.25": 6,
-      "1.25-1.50": 8,
-      "<=1.00": 13624
+      "<=1.00": 13632
     }
   },
   "fast_leg_examples": [
@@ -212,70 +211,6 @@
       "ratio": 1.1
     },
     {
-      "trip_id": "b1-265-v1-01",
-      "from": "MSG",
-      "to": "BTT",
-      "cruise_kmh": 70.1,
-      "printed_max_kmh": 50,
-      "ratio": 1.401
-    },
-    {
-      "trip_id": "b1-266-v1-01",
-      "from": "BTT",
-      "to": "MSG",
-      "cruise_kmh": 70.1,
-      "printed_max_kmh": 50,
-      "ratio": 1.401
-    },
-    {
-      "trip_id": "b1-267-v1-01",
-      "from": "MSG",
-      "to": "BTT",
-      "cruise_kmh": 70.1,
-      "printed_max_kmh": 50,
-      "ratio": 1.401
-    },
-    {
-      "trip_id": "b1-268-v1-01",
-      "from": "BTT",
-      "to": "MSG",
-      "cruise_kmh": 65.4,
-      "printed_max_kmh": 50,
-      "ratio": 1.308
-    },
-    {
-      "trip_id": "b1-269-v1-01",
-      "from": "MSG",
-      "to": "BTT",
-      "cruise_kmh": 65.4,
-      "printed_max_kmh": 50,
-      "ratio": 1.308
-    },
-    {
-      "trip_id": "b1-270-v1-01",
-      "from": "BTT",
-      "to": "MSG",
-      "cruise_kmh": 70.1,
-      "printed_max_kmh": 50,
-      "ratio": 1.401
-    },
-    {
-      "trip_id": "b1-271-v1-01",
-      "from": "MSG",
-      "to": "BTT",
-      "cruise_kmh": 70.1,
-      "printed_max_kmh": 50,
-      "ratio": 1.401
-    },
-    {
-      "trip_id": "b1-272-v1-01",
-      "from": "BTT",
-      "to": "MSG",
-      "cruise_kmh": 70.1,
-      "printed_max_kmh": 50,
-      "ratio": 1.401
-    },
-    {
       "trip_id": "b1-298-v1-01",
       "from": "PAS",
       "to": "CKM",
@@ -286,19 +221,17 @@
   ],
   "excluded": {
     "book1:has_unmeasured": 65,
-    "book1:has_fallback_hidden": 113,
-    "book1:fakultatif_hidden": 32,
-    "book2:has_fallback_hidden": 26,
+    "book1:fakultatif_hidden": 37,
     "book2:has_unmeasured": 10,
     "book2:fakultatif_hidden": 6
   },
   "trips_total": 625,
-  "trips_shown_by_default": 373,
+  "trips_shown_by_default": 507,
   "benchmark_ms": {
-    "median": 2.44,
-    "p95": 2.75,
-    "max": 2.75,
+    "median": 5.05,
+    "p95": 5.36,
+    "max": 5.37,
     "runs": 20
   },
-  "runtime_s": 4.7
+  "runtime_s": 9.4
 }

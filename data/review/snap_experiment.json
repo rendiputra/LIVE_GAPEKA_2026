@@ -1,0 +1,600 @@
+{
+  "pilot_trips": {
+    "249": {
+      "found": true,
+      "trip_id": "b1-249-v1-01",
+      "before_km": 160.337,
+      "after_km": 160.056,
+      "delta_pct": -0.175,
+      "within_0_5pct": true
+    },
+    "250": {
+      "found": true,
+      "trip_id": "b1-250-v1-01",
+      "before_km": 160.337,
+      "after_km": 160.056,
+      "delta_pct": -0.175,
+      "within_0_5pct": true
+    },
+    "259F": {
+      "found": true,
+      "trip_id": "b1-259F-v1-01",
+      "before_km": 109.629,
+      "after_km": 109.628,
+      "delta_pct": -0.001,
+      "within_0_5pct": true
+    },
+    "260F": {
+      "found": true,
+      "trip_id": "b1-260F-v1-01",
+      "before_km": 109.629,
+      "after_km": 109.628,
+      "delta_pct": -0.001,
+      "within_0_5pct": true
+    }
+  },
+  "detour_changes": [
+    {
+      "segment": "BGR-WLG",
+      "detour_before": 1.311,
+      "detour_after": 1.274,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "BKST-TB",
+      "detour_before": 1.03,
+      "detour_after": 1.001,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "CCR-CGB",
+      "detour_before": 1.214,
+      "detour_after": 1.199,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "CGB-MSG",
+      "detour_before": 1.261,
+      "detour_after": 1.209,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "CIT-TB",
+      "detour_before": 1.054,
+      "detour_after": 1.016,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "CNP-LWG",
+      "detour_before": 1.15,
+      "detour_after": 1.123,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "GG-NGW",
+      "detour_before": 1.1,
+      "detour_after": 1.038,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "JTR-TGL",
+      "detour_before": 1.108,
+      "detour_after": 1.074,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "KD-NDL",
+      "detour_before": 1.039,
+      "detour_after": 1.008,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "KM-SOA",
+      "detour_before": 1.363,
+      "detour_after": 1.134,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "KNS-PLB",
+      "detour_before": 1.122,
+      "detour_after": 1.09,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "MA-SKP",
+      "detour_before": 1.057,
+      "detour_after": 1.0,
+      "crosses_suspect_1_6": false
+    },
+    {
+      "segment": "PTN-RWL",
+      "detour_before": 1.035,
+      "detour_after": 1.004,
+      "crosses_suspect_1_6": false
+    }
+  ],
+  "v13_note": "V13 (cruise vs printed max) is NOT re-run: the experiment is not applied, so there is no rebuilt schedule to sweep. Every changed segment got shorter, so cruise speeds would fall, not rise.",
+  "shown_trips_note": "Trip status does not change: no segment crosses the 1.6 suspect threshold in either direction (see detour_changes).",
+  "note": "Experiment only. data/parsed/segments.json is unchanged. Each station gets ONE edge: the one minimising routed distance to its neighbours, within snap_accept_m.",
+  "min_improvement_pct": 1.0,
+  "stations_evaluated": 382,
+  "stations_changed": 23,
+  "changed_stations": {
+    "BGR": {
+      "edge": [
+        7556721628,
+        11193804051
+      ],
+      "way_id": 1316495139,
+      "pinned": false,
+      "nearest_way": 1316495140,
+      "chosen_way": 1316495139,
+      "snap_distance_m": 3.6,
+      "nearest_snap_distance_m": 2.9,
+      "score_m": 13369.3,
+      "nearest_score_m": 13579.5
+    },
+    "BKST": {
+      "edge": [
+        3865048842,
+        14148752109
+      ],
+      "way_id": 1555119680,
+      "pinned": false,
+      "nearest_way": 1555119681,
+      "chosen_way": 1555119680,
+      "snap_distance_m": 14.2,
+      "nearest_snap_distance_m": 4.1,
+      "score_m": 6872.2,
+      "nearest_score_m": 6989.8
+    },
+    "CD": {
+      "edge": [
+        10314211393,
+        10694595369
+      ],
+      "way_id": 1302181751,
+      "pinned": false,
+      "nearest_way": 1302181753,
+      "chosen_way": 1302181751,
+      "snap_distance_m": 2.8,
+      "nearest_snap_distance_m": 1.8,
+      "score_m": 8363.4,
+      "nearest_score_m": 8585.6
+    },
+    "CG": {
+      "edge": [
+        8096602921,
+        12066636089
+      ],
+      "way_id": 868618599,
+      "pinned": false,
+      "nearest_way": 558668710,
+      "chosen_way": 868618599,
+      "snap_distance_m": 6.8,
+      "nearest_snap_distance_m": 3.0,
+      "score_m": 11537.8,
+      "nearest_score_m": 11737.9
+    },
+    "CGB": {
+      "edge": [
+        9207861514,
+        12092217901
+      ],
+      "way_id": 978289671,
+      "pinned": false,
+      "nearest_way": 997185979,
+      "chosen_way": 978289671,
+      "snap_distance_m": 3.8,
+      "nearest_snap_distance_m": 3.1,
+      "score_m": 12756.8,
+      "nearest_score_m": 13075.2
+    },
+    "CKI": {
+      "edge": [
+        14361248396,
+        14361248398
+      ],
+      "way_id": 1311298027,
+      "pinned": false,
+      "nearest_way": 1311298026,
+      "chosen_way": 1311298027,
+      "snap_distance_m": 2.2,
+      "nearest_snap_distance_m": 1.7,
+      "score_m": 3416.4,
+      "nearest_score_m": 4457.8
+    },
+    "CNP": {
+      "edge": [
+        7712332396,
+        13162002186
+      ],
+      "way_id": 826027796,
+      "pinned": false,
+      "nearest_way": 826027798,
+      "chosen_way": 826027796,
+      "snap_distance_m": 23.2,
+      "nearest_snap_distance_m": 11.2,
+      "score_m": 10023.0,
+      "nearest_score_m": 10142.5
+    },
+    "CPT": {
+      "edge": [
+        1227216856,
+        12096822548
+      ],
+      "way_id": 1306128319,
+      "pinned": false,
+      "nearest_way": 1182809605,
+      "chosen_way": 1306128319,
+      "snap_distance_m": 6.1,
+      "nearest_snap_distance_m": 1.1,
+      "score_m": 4521.2,
+      "nearest_score_m": 4710.2
+    },
+    "GDD": {
+      "edge": [
+        7563303018,
+        14361248347
+      ],
+      "way_id": 1311298030,
+      "pinned": false,
+      "nearest_way": 1311298031,
+      "chosen_way": 1311298030,
+      "snap_distance_m": 37.3,
+      "nearest_snap_distance_m": 33.2,
+      "score_m": 2670.1,
+      "nearest_score_m": 3709.3
+    },
+    "GG": {
+      "edge": [
+        11207247317,
+        12184366029
+      ],
+      "way_id": 808504490,
+      "pinned": false,
+      "nearest_way": 1209685713,
+      "chosen_way": 808504490,
+      "snap_distance_m": 18.2,
+      "nearest_snap_distance_m": 13.7,
+      "score_m": 15546.8,
+      "nearest_score_m": 16071.9
+    },
+    "KH": {
+      "edge": [
+        9926551936,
+        9926551940
+      ],
+      "way_id": 1308307901,
+      "pinned": false,
+      "nearest_way": 1083146628,
+      "chosen_way": 1308307901,
+      "snap_distance_m": 4.0,
+      "nearest_snap_distance_m": 0.4,
+      "score_m": 7650.9,
+      "nearest_score_m": 7762.1
+    },
+    "KM": {
+      "edge": [
+        7463903087,
+        7463903090
+      ],
+      "way_id": 798026821,
+      "pinned": false,
+      "nearest_way": 1390474742,
+      "chosen_way": 798026821,
+      "snap_distance_m": 1.0,
+      "nearest_snap_distance_m": 0.8,
+      "score_m": 7261.8,
+      "nearest_score_m": 8218.9
+    },
+    "KNS": {
+      "edge": [
+        5012472445,
+        7734879802
+      ],
+      "way_id": 512629236,
+      "pinned": false,
+      "nearest_way": 1313852236,
+      "chosen_way": 512629236,
+      "snap_distance_m": 3.3,
+      "nearest_snap_distance_m": 3.2,
+      "score_m": 14857.9,
+      "nearest_score_m": 15139.3
+    },
+    "KTG": {
+      "edge": [
+        9832048773,
+        9832048774
+      ],
+      "way_id": 1071397354,
+      "pinned": false,
+      "nearest_way": 1071397344,
+      "chosen_way": 1071397354,
+      "snap_distance_m": 24.5,
+      "nearest_snap_distance_m": 8.5,
+      "score_m": 5807.3,
+      "nearest_score_m": 5902.9
+    },
+    "MA": {
+      "edge": [
+        10314211379,
+        10314211381
+      ],
+      "way_id": 1308317363,
+      "pinned": false,
+      "nearest_way": 1083145398,
+      "chosen_way": 1308317363,
+      "snap_distance_m": 17.8,
+      "nearest_snap_distance_m": 13.0,
+      "score_m": 8334.1,
+      "nearest_score_m": 8594.0
+    },
+    "MSG": {
+      "edge": [
+        563695695,
+        9794787465
+      ],
+      "way_id": 159043796,
+      "pinned": false,
+      "nearest_way": 1066682801,
+      "chosen_way": 159043796,
+      "snap_distance_m": 5.4,
+      "nearest_snap_distance_m": 0.4,
+      "score_m": 10389.3,
+      "nearest_score_m": 10631.4
+    },
+    "NDL": {
+      "edge": [
+        11185339810,
+        11185339812
+      ],
+      "way_id": 1316811609,
+      "pinned": false,
+      "nearest_way": 1005721275,
+      "chosen_way": 1316811609,
+      "snap_distance_m": 3.8,
+      "nearest_snap_distance_m": 0.7,
+      "score_m": 15830.3,
+      "nearest_score_m": 16192.5
+    },
+    "PLB": {
+      "edge": [
+        5012472158,
+        13760763944
+      ],
+      "way_id": 512629227,
+      "pinned": false,
+      "nearest_way": 1313852231,
+      "chosen_way": 512629227,
+      "snap_distance_m": 6.4,
+      "nearest_snap_distance_m": 0.7,
+      "score_m": 16808.6,
+      "nearest_score_m": 17080.0
+    },
+    "PTN": {
+      "edge": [
+        12149459477,
+        12149459480
+      ],
+      "way_id": 509890657,
+      "pinned": false,
+      "nearest_way": 509890659,
+      "chosen_way": 509890657,
+      "snap_distance_m": 7.5,
+      "nearest_snap_distance_m": 1.8,
+      "score_m": 8744.1,
+      "nearest_score_m": 8880.0
+    },
+    "SRD": {
+      "edge": [
+        7556721504,
+        7556721508
+      ],
+      "way_id": 1209076504,
+      "pinned": false,
+      "nearest_way": 1237461451,
+      "chosen_way": 1209076504,
+      "snap_distance_m": 10.8,
+      "nearest_snap_distance_m": 0.3,
+      "score_m": 17371.9,
+      "nearest_score_m": 18320.1
+    },
+    "TB": {
+      "edge": [
+        316744644,
+        14149871843
+      ],
+      "way_id": 1311188678,
+      "pinned": false,
+      "nearest_way": 1087564711,
+      "chosen_way": 1311188678,
+      "snap_distance_m": 7.3,
+      "nearest_snap_distance_m": 3.6,
+      "score_m": 7518.5,
+      "nearest_score_m": 7758.1
+    },
+    "TGL": {
+      "edge": [
+        9889666391,
+        11749774122
+      ],
+      "way_id": 1078803063,
+      "pinned": false,
+      "nearest_way": 1078803064,
+      "chosen_way": 1078803063,
+      "snap_distance_m": 11.3,
+      "nearest_snap_distance_m": 6.1,
+      "score_m": 21501.3,
+      "nearest_score_m": 21764.5
+    },
+    "WLG": {
+      "edge": [
+        7556721558,
+        7556721562
+      ],
+      "way_id": 1209076479,
+      "pinned": false,
+      "nearest_way": 1209076477,
+      "chosen_way": 1209076479,
+      "snap_distance_m": 16.8,
+      "nearest_snap_distance_m": 10.6,
+      "score_m": 15776.2,
+      "nearest_score_m": 16943.0
+    }
+  },
+  "changes_reverted_by_guard": [
+    {
+      "station": "BBG",
+      "worsened_segments": [
+        {
+          "segment": "BBG-TGG",
+          "before_km": 11.619,
+          "after_km": 12.861
+        }
+      ]
+    },
+    {
+      "station": "CIT",
+      "worsened_segments": [
+        {
+          "segment": "CIT-TLM",
+          "before_km": 3.09,
+          "after_km": 8.577
+        }
+      ]
+    },
+    {
+      "station": "CS",
+      "worsened_segments": [
+        {
+          "segment": "BTT-CS",
+          "before_km": 4.953,
+          "after_km": 11.554
+        }
+      ]
+    }
+  ],
+  "pins_reproduced": {
+    "TLM": {
+      "pinned_way": 1311188691,
+      "chosen_way": 1311188691,
+      "reproduced": true
+    },
+    "BTT": {
+      "pinned_way": 163741924,
+      "chosen_way": 163741924,
+      "reproduced": true
+    }
+  },
+  "segments_total": 388,
+  "segments_changed": [
+    {
+      "segment": "BGR-WLG",
+      "before_km": 7.324,
+      "after_km": 7.116,
+      "delta_km": -0.208,
+      "delta_pct": -2.843,
+      "station_changed": false
+    },
+    {
+      "segment": "BKST-TB",
+      "before_km": 4.518,
+      "after_km": 4.391,
+      "delta_km": -0.127,
+      "delta_pct": -2.809,
+      "station_changed": false
+    },
+    {
+      "segment": "CCR-CGB",
+      "before_km": 7.216,
+      "after_km": 7.129,
+      "delta_km": -0.087,
+      "delta_pct": -1.205,
+      "station_changed": false
+    },
+    {
+      "segment": "CGB-MSG",
+      "before_km": 5.8,
+      "after_km": 5.561,
+      "delta_km": -0.239,
+      "delta_pct": -4.123,
+      "station_changed": false
+    },
+    {
+      "segment": "CIT-TB",
+      "before_km": 3.245,
+      "after_km": 3.129,
+      "delta_km": -0.117,
+      "delta_pct": -3.596,
+      "station_changed": false
+    },
+    {
+      "segment": "CNP-LWG",
+      "before_km": 8.523,
+      "after_km": 8.323,
+      "delta_km": -0.2,
+      "delta_pct": -2.351,
+      "station_changed": false
+    },
+    {
+      "segment": "GG-NGW",
+      "before_km": 7.933,
+      "after_km": 7.488,
+      "delta_km": -0.445,
+      "delta_pct": -5.614,
+      "station_changed": false
+    },
+    {
+      "segment": "JTR-TGL",
+      "before_km": 11.331,
+      "after_km": 10.98,
+      "delta_km": -0.351,
+      "delta_pct": -3.101,
+      "station_changed": false
+    },
+    {
+      "segment": "KD-NDL",
+      "before_km": 9.89,
+      "after_km": 9.596,
+      "delta_km": -0.295,
+      "delta_pct": -2.982,
+      "station_changed": false
+    },
+    {
+      "segment": "KM-SOA",
+      "before_km": 3.33,
+      "after_km": 2.771,
+      "delta_km": -0.56,
+      "delta_pct": -16.805,
+      "station_changed": false
+    },
+    {
+      "segment": "KNS-PLB",
+      "before_km": 9.797,
+      "after_km": 9.518,
+      "delta_km": -0.279,
+      "delta_pct": -2.844,
+      "station_changed": false
+    },
+    {
+      "segment": "MA-SKP",
+      "before_km": 6.919,
+      "after_km": 6.547,
+      "delta_km": -0.373,
+      "delta_pct": -5.387,
+      "station_changed": false
+    },
+    {
+      "segment": "PTN-RWL",
+      "before_km": 4.674,
+      "after_km": 4.532,
+      "delta_km": -0.142,
+      "delta_pct": -3.033,
+      "station_changed": false
+    }
+  ],
+  "segments_longer": [],
+  "total_length_before_km": 2649.0,
+  "total_length_after_km": 2645.6
+}

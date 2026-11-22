@@ -22,6 +22,17 @@ _FIELD_RE = re.compile(r"^\s+(lat|lon|reason|evidence|decided_by|date):\s*(.+?)\
 
 REQUIRED_FIELDS = ("lat", "lon", "reason", "evidence", "decided_by", "date")
 
+# P1: provenance. A coordinate a human chose is not the same thing as a
+# coordinate applied by a written rule with a passing gate, and the reports must
+# not blur them.
+PROVENANCE_HUMAN = "human_override"
+PROVENANCE_RULE = "override_rule_approved"
+
+
+def provenance_of(decided_by: str) -> str:
+    """A `decided_by` starting with `rule:` means a rule was applied, not a person."""
+    return PROVENANCE_RULE if decided_by.strip().lower().startswith("rule:") else PROVENANCE_HUMAN
+
 
 @dataclass(frozen=True)
 class Override:
@@ -32,6 +43,10 @@ class Override:
     evidence: str
     decided_by: str
     date: str
+
+    @property
+    def provenance(self) -> str:
+        return provenance_of(self.decided_by)
 
 
 def _unquote(value: str) -> str:
@@ -105,8 +120,9 @@ def load(path: Path = DEFAULT) -> list[Override]:
 def apply_to(overrides: list[Override], matched: dict[str, dict]) -> dict[str, dict]:
     """Return the coordinate map with overrides taking precedence.
 
-    Every overridden entry gets ``match_method='human'``, ``source='override'``
-    and ``confidence='high'`` with ``coord_status='override'``.
+    Every overridden entry gets ``source='override'``, ``confidence='high'`` and
+    ``coord_status='override'``, plus ``coord_provenance`` which distinguishes a
+    human choice from a rule-approved one (P1).
     """
     result = {code: {**entry, "coord_status": "accepted"} for code, entry in matched.items()}
     for override in overrides:
@@ -116,7 +132,8 @@ def apply_to(overrides: list[Override], matched: dict[str, dict]) -> dict[str, d
             "lat": override.lat,
             "lon": override.lon,
             "source": "override",
-            "source_id": f"human:{override.decided_by}:{override.date}",
+            "source_id": f"{override.decided_by}:{override.date}",
+            "coord_provenance": override.provenance,
             "match_method": "human",
             "confidence": "high",
             "retrieved": override.date,

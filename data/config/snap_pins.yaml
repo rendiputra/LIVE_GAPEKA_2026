@@ -1,0 +1,42 @@
+# Snap pins - AUTHORED BY THE HUMAN.
+#
+# A station can sit between two adjacent tracks. `snap` takes the geometrically
+# nearest edge, which may be a stub that forces a long detour even though the
+# coordinate is correct. A pin says "this station is on THIS way".
+#
+# The pipeline never writes this file. A pin is honoured only when the station is
+# within `snap_accept_m` of the pinned way; otherwise it is reported as unusable
+# and the normal nearest-edge snap is used, so a stale pin cannot move a station
+# silently.
+#
+# Schema:
+#   pins:
+#     - station:   "<station code>"
+#       way_id:    <OSM way id>
+#       reason:    "<why this way>"
+#       evidence:  "<measurement or file>"
+#       decided_by: "<your name>"
+#       date:      "<YYYY-MM-DD>"
+pins:
+  # Q1a-approved 2026-11-22.
+  # TLM sits on way 1311188691. The nearest edge (way 1154169186, 20.6 m) routes
+  # 12.4 km via a distant crossover; this way routes 6.9 km. Rail-path triple
+  # ratio 1.000 here vs 1.794 on the nearest way. Evidence:
+  # data/review/h5_h6_gate.json.
+  - station: "TLM"
+    way_id: 1311188691
+    reason: "rail-path triple 1.000 vs 1.794 on the nearest way; routed 6.9 km vs 12.4 km"
+    evidence: "data/review/h5_h6_gate.json"
+    decided_by: "human"
+    date: "2026-11-22"
+
+  # Q1a-approved 2026-11-22. BTT is the station at fault for BTT-CS, not CS:
+  # pinning BTT gives 4.953 km (ratio 1.162); pinning CS gives 6.763 km.
+  # The nearest edge (way 163744589, 5.4 m) routes 11.5 km; this way routes
+  # 4.95 km. BTT's only other segment, BOP-BTT, must not get worse.
+  - station: "BTT"
+    way_id: 163741924
+    reason: "nearest way routes BTT-CS 11.5 km via a stub; this way routes 4.95 km (ratio 1.162)"
+    evidence: "data/review/suspect_segments_review.html; data/review/pin_evaluation.json"
+    decided_by: "human"
+    date: "2026-11-22"

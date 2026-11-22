@@ -44,6 +44,10 @@ CREATE TABLE stations (
     coord_retrieved TEXT,                       -- ISO date
     coord_status    TEXT    NOT NULL DEFAULT 'missing'
                     CHECK (coord_status IN ('accepted', 'rejected', 'missing', 'override')),
+    -- P1: why this coordinate is here. A human choice and a rule-approved one
+    -- are different things and the reports must not blur them.
+    coord_provenance TEXT   CHECK (coord_provenance IN
+                           ('external_match', 'human_override', 'override_rule_approved')),
     -- A usable coordinate exists only for accepted/override.
     CHECK (
         (coord_status IN ('accepted', 'override')
@@ -105,7 +109,14 @@ CREATE TABLE stop_times (
     station_code    TEXT    NOT NULL REFERENCES stations(code),
     arrive          TEXT,                       -- HH:MM:SS, station-local
     depart          TEXT,
-    day_offset      INTEGER NOT NULL DEFAULT 0 CHECK (day_offset IN (0, 1, 2)),
+    -- Q3: a stop can arrive before midnight and depart after it, so each side
+    -- needs its own day. `day_offset` is kept as a DEPRECATED alias for the
+    -- departure side; new code reads the two explicit columns.
+    day_offset        INTEGER NOT NULL DEFAULT 0 CHECK (day_offset IN (0, 1, 2)),
+    arrive_day_offset INTEGER NOT NULL DEFAULT 0 CHECK (arrive_day_offset IN (0, 1, 2)),
+    depart_day_offset INTEGER NOT NULL DEFAULT 0 CHECK (depart_day_offset IN (0, 1, 2)),
+    day_offset_source TEXT    NOT NULL DEFAULT 'printed'
+                    CHECK (day_offset_source IN ('printed', 'derived_midnight_dwell')),
     stop_type       TEXT    NOT NULL
                     CHECK (stop_type IN ('stop', 'pass', 'unknown_untimed')),
     time_source     TEXT    NOT NULL

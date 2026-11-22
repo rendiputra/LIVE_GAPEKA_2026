@@ -24,6 +24,7 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
+from pipeline import config_tracking, day_offsets
 from pipeline.station_overrides import apply_to as apply_overrides
 from pipeline.station_overrides import load as load_overrides
 
@@ -137,6 +138,7 @@ def build(db_path: Path = DB_PATH) -> dict:
                     }
                 )
 
+    config_manifest = config_tracking.manifest()
     overrides = load_overrides()
     effective = apply_overrides(overrides, coordinates)
 
@@ -182,16 +184,24 @@ def build(db_path: Path = DB_PATH) -> dict:
             # no source ever produced one. The distinction drives the report.
             status = "rejected" if code in rejected else "missing"
             connection.execute(
-                "INSERT INTO stations (code, name, official_name, name_source, coord_status)"
-                " VALUES (?, ?, ?, ?, ?)",
-                (code, name, official, name_source, status),
+                "INSERT INTO stations (code, name, official_name, name_source,"
+                " coord_status, coord_provenance) VALUES (?, ?, ?, ?, ?, ?)",
+                (
+                    code,
+                    name,
+                    official,
+                    name_source,
+                    status,
+                    None if entry is None else entry.get("coord_provenance"),
+                ),
             )
         else:
             status = entry.get("coord_status", "accepted")
             connection.execute(
                 "INSERT INTO stations (code, name, official_name, name_source, lat, lon,"
                 " coord_source, coord_source_id, coord_match, coord_confidence,"
-                " coord_retrieved, coord_status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                " coord_retrieved, coord_status, coord_provenance)"
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (
                     code,
                     name,
@@ -205,6 +215,7 @@ def build(db_path: Path = DB_PATH) -> dict:
                     entry["confidence"],
                     entry["retrieved"],
                     status,
+                    entry.get("coord_provenance", "external_match"),
                 ),
             )
 
@@ -352,11 +363,20 @@ def build(db_path: Path = DB_PATH) -> dict:
                 else:
                     time_source = "not_printed"
 
+                # Q3: derive the two day offsets from the printed pair.
+                arrive_offset, depart_offset = day_offsets.derive(
+                    stop["arrive"]["value"], stop["depart"]["value"], stop["day_offset"]
+                )
+                offset_source = (
+                    "derived_midnight_dwell" if arrive_offset != depart_offset else "printed"
+                )
+
                 connection.execute(
                     "INSERT INTO stop_times (trip_id, seq, station_code, arrive, depart,"
-                    " day_offset, stop_type, time_source, raw_arrive, raw_depart, estimated,"
+                    " day_offset, arrive_day_offset, depart_day_offset, day_offset_source,"
+                    " stop_type, time_source, raw_arrive, raw_depart, estimated,"
                     " speed_raw, keterangan_raw, source_page, needs_review)"
-                    " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     (
                         tid,
                         stop["seq"],
@@ -364,6 +384,9 @@ def build(db_path: Path = DB_PATH) -> dict:
                         stop["arrive"]["value"],
                         stop["depart"]["value"],
                         stop["day_offset"],
+                        arrive_offset,
+                        depart_offset,
+                        offset_source,
                         stop["stop_type"],
                         time_source,
                         stop["arrive"]["raw"],
@@ -534,6 +557,9 @@ def build(db_path: Path = DB_PATH) -> dict:
         "skipped": len(skipped),
         "service_class": dict(class_counts),
         "trips_with_untimed_markers": untimed_trains,
+        # P2: the hash of every tracked human config file. Two builds that
+        # disagree here were built from different human decisions.
+        "config": config_manifest,
     }
 
 

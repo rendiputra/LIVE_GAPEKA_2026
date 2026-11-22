@@ -243,20 +243,27 @@ def main() -> int:
         for entry in greedy(blocked)
     ]
 
-    never_shown = [
-        {
-            "trip_id": row["trip_id"],
-            "train_no": row["train_no"],
-            "name": row["name"],
-            "book": row["book"],
-            "service_class": row["service_class"],
-            "status": row["status"],
-            "reason": reason_of(row),
-            "relation": row["relation"],
-        }
-        for row in rows
-        if not is_shown(row)
-    ]
+    never_shown = []
+    for row in rows:
+        if is_shown(row):
+            continue
+        items = sorted(blocked.get(row["trip_id"], []))
+        never_shown.append(
+            {
+                "trip_id": row["trip_id"],
+                "train_no": row["train_no"],
+                "name": row["name"],
+                "book": row["book"],
+                "service_class": row["service_class"],
+                "status": row["status"],
+                "reason": reason_of(row),
+                "relation": row["relation"],
+                "blockers": [blocker_label(item, segments, stations)["label"] for item in items],
+            }
+        )
+    # "Most important" = the longest trips, because they cover the most stations
+    # and would add the most to the map.
+    never_shown.sort(key=lambda entry: (-len(entry["blockers"]), entry["train_no"]))
 
     payload = {
         "note": (

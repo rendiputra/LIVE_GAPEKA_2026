@@ -126,7 +126,8 @@ def load(
 
             stop_rows = connection.execute(
                 "SELECT seq, station_code, arrive, depart, day_offset, stop_type,"
-                " time_source FROM stop_times WHERE trip_id = ? ORDER BY seq",
+                " time_source, arrive_day_offset, depart_day_offset"
+                " FROM stop_times WHERE trip_id = ? ORDER BY seq",
                 (trip_id,),
             ).fetchall()
             if len(stop_rows) < 2:
@@ -141,7 +142,17 @@ def load(
             previous_index: int | None = None
 
             for index, row in enumerate(stop_rows):
-                seq, code, arrive, depart, day_offset, stop_type, time_source = row
+                (
+                    seq,
+                    code,
+                    arrive,
+                    depart,
+                    day_offset,
+                    stop_type,
+                    time_source,
+                    arrive_day_offset,
+                    depart_day_offset,
+                ) = row
                 max_day_offset = max(max_day_offset, int(day_offset or 0))
                 is_bypassed = seq in bypassed_seqs
 
@@ -187,6 +198,8 @@ def load(
                         arrive_sod=arrive_sod,
                         depart_sod=depart_sod,
                         day_offset=int(day_offset or 0),
+                        arrive_day_offset=int(arrive_day_offset or 0),
+                        depart_day_offset=int(depart_day_offset or 0),
                         s_m=cumulative,
                         timed=timed,
                         bypassed=False,
