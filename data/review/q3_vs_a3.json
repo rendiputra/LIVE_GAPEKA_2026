@@ -2,9 +2,9 @@
   "note": "Comparison of the old straight-line triple test (a3_coord_hygiene.json) with the rail-path test (q3_triple_rail.json). Report only.",
   "old_straight_line_entries": 43,
   "old_unique_codes": 32,
-  "rail_ok": 393,
-  "rail_failures": 4,
-  "rail_junction_turnbacks": 4,
+  "rail_ok": 396,
+  "rail_failures": 5,
+  "rail_junction_turnbacks": 3,
   "old_flagged_now_ok": [
     "BBG",
     "BG",
@@ -37,10 +37,12 @@
   ],
   "old_flagged_now_ok_count": 28,
   "old_flagged_still_failing": [
-    "AND",
-    "BD",
-    "JNG",
     "SLO"
   ],
-  "new_failures_not_previously_flagged": []
+  "new_failures_not_previously_flagged": [
+    "BTT",
+    "CKI",
+    "CS",
+    "GDD"
+  ]
 }

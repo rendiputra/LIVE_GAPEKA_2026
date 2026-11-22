@@ -2,17 +2,17 @@
   "db": "data/gapeka.db",
   "geometry": {
     "quality_counts": {
-      "osm_routed": 376,
+      "osm_routed": 378,
       "osm_suspect": 9,
-      "unmeasured": 6
+      "unmeasured": 4
     },
     "trip_status_counts": {
-      "has_unmeasured": 147,
-      "complete_estimated": 46,
-      "has_fallback": 119,
-      "complete": 313
+      "complete_estimated": 74,
+      "has_unmeasured": 75,
+      "has_fallback": 139,
+      "complete": 337
     },
-    "content_hash": "c9d0fd0f33c1b9ae31811ecb4115d4356f7bae744eae1757fe98536d867d4aa3"
+    "content_hash": "75f62831b4b32522c320a6f207c02a12fda42558f5fa08067817b1c123a5eef6"
   },
   "counts": {
     "gapeka_versions": 1,
@@ -27,7 +27,7 @@
     "trip_waypoint_estimates": 224
   },
   "stations_with_coordinates": 384,
-  "content_hash": "de17da3fd154ee078c7923ab8186173a2eddec0ec31fc13d1a62896d7714198d",
+  "content_hash": "9a04832377f6ae64b458fb958870b24babfc6e779b738c1bc4fc5ea80b281826",
   "skipped": 0,
   "service_class": {
     "reguler": 577,

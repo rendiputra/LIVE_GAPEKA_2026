@@ -23,6 +23,7 @@ import time
 from collections import Counter
 from pathlib import Path
 
+from pipeline import segment_reviews
 from pipeline.rail_graph import RailGraph, haversine_m
 
 PARSED = Path("data/parsed")
@@ -242,6 +243,10 @@ def build(
     bridged = graph.bridge_gaps(config.get("gap_bridge_m", 0.0))
     human_bridges = [] if baseline else load_bridges()
     human_bridged = apply_bridges(graph, human_bridges)
+    # Human segment reviews (ADR 005). Ignored in baseline mode so the
+    # before/after comparison stays about Q1/Q4.
+    reviews = [] if baseline else segment_reviews.load()
+    review_index = segment_reviews.index(reviews)
     coordinates = accepted_coordinates()
 
     # Snap every station with an accepted coordinate.
@@ -380,17 +385,22 @@ def build(
         )
         total_hops = sum(service_counts.values()) or 1
 
+        base_quality = "osm_suspect" if suspect else "osm_routed"
+        review = review_index.get((a, b))
+        quality, review_note = segment_reviews.apply_quality(base_quality, review)
+        reason = (
+            f"detour ratio {ratio:.2f} exceeds {config['detour_suspect_ratio']}" if suspect else ""
+        )
+        if review_note:
+            reason = f"{reason}; {review_note}" if reason else review_note
+
         segments[(a, b)] = {
             "from_code": a,
             "to_code": b,
-            "quality": "osm_suspect" if suspect else "osm_routed",
+            "quality": quality,
             "service_counts": service_counts,
             "special_service_share": round(special / total_hops, 4),
-            "reason": (
-                f"detour ratio {ratio:.2f} exceeds {config['detour_suspect_ratio']}"
-                if suspect
-                else ""
-            ),
+            "reason": reason,
             "length_m": round(length, 1),
             "straight_m": round(straight, 1),
             "detour_ratio": None if ratio is None else round(ratio, 3),
@@ -416,6 +426,8 @@ def build(
         if counts.get("unmeasured"):
             status = "has_unmeasured"
         elif counts.get("straight_line") or counts.get("osm_suspect"):
+            # osm_routed_reviewed is deliberately NOT here: a human accepted the
+            # route, so it counts as complete (ADR 005).
             status = "has_fallback"
         elif trip_key in trip_bypass:
             status = "complete_estimated"

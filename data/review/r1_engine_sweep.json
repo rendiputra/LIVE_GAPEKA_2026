@@ -16,30 +16,158 @@
     "version_name": "Gapeka 2026",
     "effective_from": "2026-12-01",
     "effective_to": null,
-    "content_hash": "c9d0fd0f33c1b9ae31811ecb4115d4356f7bae744eae1757fe98536d867d4aa3",
-    "trips": 478,
+    "content_hash": "75f62831b4b32522c320a6f207c02a12fda42558f5fa08067817b1c123a5eef6",
+    "trips": 550,
     "max_day_offset": 1,
     "station_tz": "Asia/Jakarta"
   },
   "active": {
-    "peak": 40,
-    "median": 27,
+    "peak": 54,
+    "median": 39,
     "samples": 1440
   },
+  "active_00_05": {
+    "peak": 26,
+    "median": 19,
+    "min": 17,
+    "samples": 300
+  },
+  "active_per_hour": [
+    {
+      "hour": 0,
+      "peak": 24,
+      "median": 22
+    },
+    {
+      "hour": 1,
+      "peak": 21,
+      "median": 21
+    },
+    {
+      "hour": 2,
+      "peak": 19,
+      "median": 18
+    },
+    {
+      "hour": 3,
+      "peak": 18,
+      "median": 18
+    },
+    {
+      "hour": 4,
+      "peak": 26,
+      "median": 19
+    },
+    {
+      "hour": 5,
+      "peak": 40,
+      "median": 31
+    },
+    {
+      "hour": 6,
+      "peak": 43,
+      "median": 39
+    },
+    {
+      "hour": 7,
+      "peak": 39,
+      "median": 37
+    },
+    {
+      "hour": 8,
+      "peak": 46,
+      "median": 43
+    },
+    {
+      "hour": 9,
+      "peak": 48,
+      "median": 46
+    },
+    {
+      "hour": 10,
+      "peak": 53,
+      "median": 44
+    },
+    {
+      "hour": 11,
+      "peak": 54,
+      "median": 51
+    },
+    {
+      "hour": 12,
+      "peak": 50,
+      "median": 48
+    },
+    {
+      "hour": 13,
+      "peak": 50,
+      "median": 46
+    },
+    {
+      "hour": 14,
+      "peak": 49,
+      "median": 47
+    },
+    {
+      "hour": 15,
+      "peak": 49,
+      "median": 45
+    },
+    {
+      "hour": 16,
+      "peak": 46,
+      "median": 38
+    },
+    {
+      "hour": 17,
+      "peak": 50,
+      "median": 46
+    },
+    {
+      "hour": 18,
+      "peak": 44,
+      "median": 37
+    },
+    {
+      "hour": 19,
+      "peak": 42,
+      "median": 40
+    },
+    {
+      "hour": 20,
+      "peak": 40,
+      "median": 38
+    },
+    {
+      "hour": 21,
+      "peak": 42,
+      "median": 40
+    },
+    {
+      "hour": 22,
+      "peak": 40,
+      "median": 36
+    },
+    {
+      "hour": 23,
+      "peak": 33,
+      "median": 25
+    }
+  ],
   "off_polyline_positions": 0,
   "continuity_violations": 0,
   "continuity_method": "Trackers are kept per trip_id and are (a) reset when a trip_id appears twice at one instant (yesterday's run plus today's) and (b) dropped when a trip is absent for a step, because a trip that reappears is a new run rather than a jump. Only continuous, single-occurrence samples are compared.",
   "continuity_ambiguous_skipped": 0,
   "continuity_examples": [],
   "legs": {
-    "total": 9379,
-    "with_printed_max": 9379,
-    "over_printed_max_10pct": 13,
+    "total": 13718,
+    "with_printed_max": 13718,
+    "over_printed_max_10pct": 14,
     "cruise_to_printed_ratio_buckets": {
-      "1.00-1.10": 33,
-      "1.10-1.25": 5,
+      "1.00-1.10": 80,
+      "1.10-1.25": 6,
       "1.25-1.50": 8,
-      "<=1.00": 9333
+      "<=1.00": 13624
     }
   },
   "fast_leg_examples": [
@@ -58,6 +186,14 @@
       "cruise_kmh": 127.9,
       "printed_max_kmh": 115,
       "ratio": 1.112
+    },
+    {
+      "trip_id": "b1-178-v1-01",
+      "from": "PAS",
+      "to": "CKM",
+      "cruise_kmh": 110.0,
+      "printed_max_kmh": 100,
+      "ratio": 1.1
     },
     {
       "trip_id": "b1-186-v1-01",
@@ -149,20 +285,20 @@
     }
   ],
   "excluded": {
-    "book1:has_unmeasured": 137,
-    "book1:has_fallback_hidden": 93,
-    "book1:fakultatif_hidden": 30,
+    "book1:has_unmeasured": 65,
+    "book1:has_fallback_hidden": 113,
+    "book1:fakultatif_hidden": 32,
     "book2:has_fallback_hidden": 26,
     "book2:has_unmeasured": 10,
     "book2:fakultatif_hidden": 6
   },
   "trips_total": 625,
-  "trips_shown_by_default": 323,
+  "trips_shown_by_default": 373,
   "benchmark_ms": {
-    "median": 1.08,
-    "p95": 1.3,
-    "max": 1.34,
+    "median": 2.44,
+    "p95": 2.75,
+    "max": 2.75,
     "runs": 20
   },
-  "runtime_s": 2.6
+  "runtime_s": 4.7
 }

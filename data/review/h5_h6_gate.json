@@ -1,0 +1,65 @@
+{
+  "note": "H5/H6 rail-path gate outcomes. 'applied' means the coordinate is in data/config/station_overrides.yaml; 'proposal_only' means it is not.",
+  "ratio_limit": 1.15,
+  "turnback_max_angle_deg": 45.0,
+  "results": [
+    {
+      "code": "TLM",
+      "lat": -6.257272,
+      "lon": 107.111231,
+      "source": "human, map lookup (H5)",
+      "snap_max_m": 300.0,
+      "outcome": "proposal_only",
+      "note": "nearest-edge snap and a nearby track disagree; applying the coordinate now would route on the wrong track",
+      "snap_m": 20.6,
+      "ratio": 1.794,
+      "angle": 173.6,
+      "neighbours": [
+        "CKR",
+        "CIT"
+      ],
+      "checks": {
+        "in_java": true,
+        "snap_within_max": true,
+        "triple_evaluated": true,
+        "nearest_edge_triple_passes": false,
+        "snap_ambiguous": true
+      },
+      "best_alternative_track": {
+        "way_id": 1311188691,
+        "snap_distance_m": 23.7,
+        "passes": true,
+        "ratio": 1.0
+      }
+    },
+    {
+      "code": "SRI",
+      "lat": -6.923724274475478,
+      "lon": 109.57099433659796,
+      "source": "human coordinate; OSM node/1244940845 corroboration (H6)",
+      "snap_max_m": 50.0,
+      "outcome": "applied",
+      "note": "all gate conditions hold",
+      "snap_m": 1.4,
+      "ratio": 1.0,
+      "angle": 136.7,
+      "neighbours": [
+        "PK",
+        "CO"
+      ],
+      "checks": {
+        "in_java": true,
+        "snap_within_max": true,
+        "triple_evaluated": true,
+        "nearest_edge_triple_passes": true,
+        "snap_ambiguous": false
+      },
+      "best_alternative_track": {
+        "way_id": 1313840417,
+        "snap_distance_m": 1.4,
+        "passes": true,
+        "ratio": 1.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+ "coord_status": {
+  "accepted": 369,
+  "missing": 4,
+  "override": 15,
+  "rejected": 1
+ },
+ "trip_status": {
+  "complete": 337,
+  "complete_estimated": 74,
+  "has_fallback": 139,
+  "has_unmeasured": 75
+ },
+ "segment_quality": {
+  "osm_routed": 378,
+  "osm_suspect": 9,
+  "unmeasured": 4
+ },
+ "blocked": {
+  "1": 65,
+  "2": 10
+ },
+ "shown_by_default": 373,
+ "bypass_rows": 224,
+ "segments_hash": "75f62831b4b32522c320a6f207c02a12fda42558f5fa08067817b1c123a5eef6",
+ "db_hash": "9a04832377f6ae64b458fb958870b24babfc6e779b738c1bc4fc5ea80b281826",
+ "stations_total": 389,
+ "stations_with_coordinates": 384,
+ "trips_loaded_by_engine": 550
+}

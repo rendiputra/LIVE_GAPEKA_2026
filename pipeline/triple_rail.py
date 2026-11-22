@@ -28,8 +28,16 @@ from pipeline.rail_graph import haversine_m
 OUT = Path("data/review/q3_triple_rail.json")
 
 RATIO_LIMIT = 1.15
-# A reversal sharper than this is treated as a legitimate junction turn-back.
-TURNBACK_ANGLE_DEG = 150.0
+# A genuine turn-back puts the two neighbours on the SAME side of B, so the angle
+# at B is SMALL: the human's own example TGG-BBG-TGW measures 20.4 deg. A station
+# that simply sits BETWEEN its neighbours measures close to 180 deg, which is the
+# normal pass-through case and must NOT be excused as a turn-back.
+#
+# An earlier version used ">= 150 deg" here. That was inverted: it excused four
+# in-line pass-throughs (CS, BTT, CKI, GDD, all 156-178 deg with a straight-line
+# ratio of 1.00-1.02) whose ROUTED distance was inflated, hiding real routing
+# failures. The threshold is now an upper bound.
+TURNBACK_MAX_ANGLE_DEG = 45.0
 
 
 def bearing_deg(a: tuple[float, float], b: tuple[float, float]) -> float:
@@ -153,7 +161,9 @@ def main() -> int:
                     counts["ok"] += 1
                     continue
 
-                classification = "junction_turnback" if angle >= TURNBACK_ANGLE_DEG else "failure"
+                classification = (
+                    "junction_turnback" if angle <= TURNBACK_MAX_ANGLE_DEG else "failure"
+                )
                 counts[classification] += 1
                 results.append(
                     {
@@ -191,7 +201,7 @@ def main() -> int:
             "context only; the decision uses routed distances and the turn angle."
         ),
         "ratio_limit": RATIO_LIMIT,
-        "turnback_angle_deg": TURNBACK_ANGLE_DEG,
+        "turnback_max_angle_deg": TURNBACK_MAX_ANGLE_DEG,
         "counts": dict(counts),
         "failures": failures,
         "junction_turnbacks": turnbacks,

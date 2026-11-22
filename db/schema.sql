@@ -140,7 +140,8 @@ CREATE TABLE segments (
     detour_ratio    REAL,                       -- length / straight
     geometry_quality TEXT   NOT NULL
                     CHECK (geometry_quality IN
-                           ('osm_routed', 'osm_suspect', 'straight_line', 'unmeasured')),
+                           ('osm_routed', 'osm_routed_reviewed', 'osm_suspect',
+                            'straight_line', 'unmeasured')),
     reason          TEXT    NOT NULL DEFAULT '',
     source_way_ids  TEXT    NOT NULL DEFAULT '[]',
     PRIMARY KEY (from_station, to_station)

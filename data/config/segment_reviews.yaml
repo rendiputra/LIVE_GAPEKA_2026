@@ -1,0 +1,32 @@
+# Segment reviews - AUTHORED BY THE HUMAN.
+#
+# A segment whose routed detour is above `detour_suspect_ratio` is marked
+# `osm_suspect` by build_geometry. That is a *flag*, not a verdict: sometimes the
+# routed line is right (the railway really does loop) and sometimes the OSM data
+# is missing a connection. Only a human can tell which.
+#
+# This file records that human decision. The pipeline never writes it.
+#
+# Schema:
+#   reviews:
+#     - from:       "<station code>"
+#       to:         "<station code>"
+#       decision:   "accept_route" | "needs_bridge"
+#       reason:     "<why, in your words>"
+#       decided_by: "<your name>"
+#       date:       "<YYYY-MM-DD>"
+#
+# Effect:
+#   accept_route  -> the segment's quality becomes `osm_routed_reviewed`, which
+#                    counts as COMPLETE for trip_geometry_status. The original
+#                    detour ratio is still reported.
+#   needs_bridge  -> the segment stays `osm_suspect` and keeps blocking the trip
+#                    from the default view.
+#
+# A review is only honoured for a segment that build_geometry actually marked
+# `osm_suspect`; a review for a clean segment is ignored and reported.
+#
+# Evidence to look at before deciding:
+#   data/review/suspect_segments_review.html
+#   data/config/geometry_bridges.draft.yaml   (candidate bridges, NOT applied)
+reviews: []
