@@ -408,7 +408,24 @@ Every trip with `has_untimed_markers = true` must be labelled "coarser estimate"
 - every open item in `docs/LEGAL_CHECKLIST.md` has a written decision.
 
 ### Phase 7 — Operations & Release
-- Release flow: extract -> validate -> review -> staging -> swap to production, with one-command rollback.
+
+**Launch checklist (target 2026-12-01).** Every line must be true and evidenced
+before the site is public. Nothing here is optional.
+
+| # | Gate | Evidence |
+|---|---|---|
+| 1 | **>= 20 trains human-verified with zero uncorrected errors** | `data/review/verifications.json` + `tests/golden/verified_*.json` from `make verify-sheet` / `make import-verifications` |
+| 2 | Any verification finding is either fixed (with a test) or recorded as accepted | `data/review/verification_findings.json`, every entry `status != open` |
+| 3 | Tile provider live and NOT the public OSM server | `web/public/tiles/manifest.json`; `VITE_TILE_MODE=pmtiles`; `make web-build` succeeds |
+| 4 | Tiles hosted separately with Range + CORS | `curl -r 0-99 -o /dev/null -w "%{http_code}" <url>` prints `206` |
+| 5 | Legal items closed | `docs/LEGAL_CHECKLIST.md` has no `OPEN`; `docs/LICENSE-DATA.md` reviewed |
+| 6 | Disclaimer and preview banner visible | Playwright smoke test; the banner must disappear at `effective_from` |
+| 7 | Parity with the Python engine exact | `make parity && make web-test` (zero mismatches) |
+| 8 | Lighthouse and axe numbers recorded | `data/review/lighthouse.json`, `data/review/axe_report.json`; no serious/critical axe violation |
+| 9 | Reproducible build | `make reproduce` prints `REPRODUCIBLE` |
+| 10 | Deploy dry-run done | static upload + rollback rehearsed, `docs/DEPLOY.md` |
+
+Release flow: extract -> validate -> review -> staging -> swap to production, with one-command rollback.
 - Monitoring: log trains without schedules, validation failures, API latency.
 - Docs: `docs/RUNBOOK.md` (how to process a new/revised Gapeka), `docs/DATA_SCHEMA.md`.
 - CI: lint + unit + golden tests + sample validation on every PR.
