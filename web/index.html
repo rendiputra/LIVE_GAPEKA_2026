@@ -16,8 +16,11 @@
     </div>
 
     <header class="topbar">
-      <h1 class="title">Posisi Estimasi KA</h1>
-      <p class="subtitle">Gapeka 2026 · Jawa · WIB</p>
+      <div class="title-row">
+        <h1 class="title">Posisi Estimasi KA</h1>
+        <button id="about-open" class="link-button" type="button">Tentang</button>
+      </div>
+      <p class="subtitle">Gapeka 2026 · Jawa · waktu WIB</p>
     </header>
 
     <div id="controls" class="controls" role="group" aria-label="Kontrol peta">
@@ -67,6 +70,11 @@
       <div id="status" class="status" role="status" aria-live="polite"></div>
     </div>
 
+    <p id="loading" class="notice" role="status">Memuat jadwal…</p>
+    <p id="load-error" class="notice error" role="alert" hidden>
+      Gagal memuat data jadwal. Periksa koneksi lalu muat ulang halaman.
+    </p>
+
     <main class="stage">
       <div id="map" class="map" role="application" aria-label="Peta posisi kereta"></div>
       <aside id="panel" class="panel" aria-live="polite">
@@ -85,6 +93,29 @@
         Peta &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
       </p>
     </footer>
+
+    <dialog id="about" class="about" aria-labelledby="about-title">
+      <h2 id="about-title">Tentang aplikasi ini</h2>
+      <p>
+        Posisi kereta di peta ini <b>diperkirakan</b> dari jadwal Gapeka 2026, bukan
+        posisi aktual. Aplikasi mengasumsikan kereta berangkat tepat waktu dan
+        beroperasi setiap hari.
+      </p>
+      <dl>
+        <dt>Sumber jadwal</dt>
+        <dd>Gapeka 2026, berlaku mulai 1 Desember 2026</dd>
+        <dt>Versi data</dt>
+        <dd><code id="about-hash">—</code></dd>
+        <dt>Peta dasar</dt>
+        <dd>
+          © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>
+          contributors (ODbL). Ubin peta: Protomaps, dihosting sendiri.
+        </dd>
+        <dt>Laporan kesalahan</dt>
+        <dd><em>Belum tersedia — isi tautan kontak sebelum rilis.</em></dd>
+      </dl>
+      <form method="dialog"><button class="chip" type="submit">Tutup</button></form>
+    </dialog>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

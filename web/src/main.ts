@@ -85,6 +85,16 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
+function showLoadError(message: string): void {
+  const loading = document.getElementById("loading");
+  const error = document.getElementById("load-error");
+  if (loading) loading.hidden = true;
+  if (error) {
+    error.textContent = message;
+    error.hidden = false;
+  }
+}
+
 async function loadData(): Promise<void> {
   manifest = await fetchJson<Manifest>(`${DATA_BASE}/manifest.json`);
   const stations = await fetchJson<{ stations: Dataset["stations"] }>(
@@ -116,6 +126,9 @@ async function loadData(): Promise<void> {
   );
   policy = defaultPolicy(manifest);
   policy.showFakultatif = state.showFakultatif;
+
+  const loading = document.getElementById("loading");
+  if (loading) loading.hidden = true;
 }
 
 // --- map --------------------------------------------------------------------
@@ -249,7 +262,8 @@ function renderPositions(positions: TrainPosition[]): void {
       },
     })),
   });
-  $("status").textContent = `${positions.length} KA aktif · ${hhmm(state.secondsOfDay)} WIB` +
+  $("status").textContent =
+    `${positions.length} KA aktif · ${hhmm(state.secondsOfDay)} WIB` +
     (state.mode === "replay" ? ` · ${state.date}` : "");
 }
 
@@ -448,6 +462,11 @@ function handleSearch(query: string): void {
     return;
   }
   $("status").textContent = `Tidak ditemukan: ${query}`;
+  state.selectedTripId = null;
+  state.selectedStation = null;
+  $("panel").innerHTML =
+    `<p class="empty">Tidak ada KA atau stasiun yang cocok dengan “${query}”. ` +
+    "Coba nomor KA (mis. 249) atau nama stasiun (mis. Gambir).</p>";
 }
 
 // --- worker -----------------------------------------------------------------
@@ -611,6 +630,12 @@ function wireControls(): void {
 
   $("disclaimer").textContent = manifest.attribution.disclaimer;
 
+  const about = $("about") as HTMLDialogElement;
+  $("about-open").addEventListener("click", () => about.showModal());
+  const hash = $("about-hash");
+  hash.textContent = manifest.content_hash;
+  hash.setAttribute("translate", "no");
+
   const now = new Date();
   const effective = new Date(`${manifest.effective_from}T00:00:00+07:00`);
   if (now < effective) {
@@ -630,4 +655,12 @@ async function main(): Promise<void> {
   tick();
 }
 
-void main();
+window.addEventListener("unhandledrejection", (event) => {
+  showLoadError(
+    `Gagal memuat aplikasi: ${String(event.reason ?? "kesalahan tidak diketahui")}`,
+  );
+});
+
+void main().catch((error: unknown) => {
+  showLoadError(`Gagal memuat data jadwal: ${String(error)}`);
+});

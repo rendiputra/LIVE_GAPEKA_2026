@@ -121,3 +121,31 @@ test("benchmark: frame time with the full schedule", async ({ page }) => {
   writeFileSync(resolve(SHOTS, "../web_bench.json"), JSON.stringify(result, null, 1));
   expect(median).toBeLessThan(50);
 });
+
+test("Tentang dialog shows the data version and the disclaimer", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#about-open").click();
+  const dialog = page.locator("#about");
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText("Gapeka 2026");
+  await expect(dialog).toContainText("1 Desember 2026");
+  await expect(dialog).toContainText("bukan posisi aktual");
+  await expect(dialog.locator("#about-hash")).not.toHaveText("—");
+  await expect(dialog).toContainText("OpenStreetMap");
+  await page.locator("#about form button").click();
+  await expect(dialog).toBeHidden();
+});
+
+test("loading state disappears and an unknown search shows an empty state", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("#loading")).toBeHidden();
+  await page.locator("#search").fill("zzzz-no-such-train");
+  await page.locator("#search").press("Enter");
+  await expect(page.locator("#panel")).toContainText("Tidak ada KA atau stasiun");
+  await expect(page.locator("#status")).toContainText("Tidak ditemukan");
+});
+
+test("every time is labelled WIB", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("#status")).toContainText("WIB");
+});

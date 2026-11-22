@@ -75,10 +75,27 @@ body {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
+.title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
 .title {
   margin: 0;
   font-size: 17px;
   line-height: 1.2;
+}
+.link-button {
+  min-height: var(--tap);
+  padding: 0 8px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .subtitle {
   margin: 2px 0 0;
@@ -160,6 +177,56 @@ body {
 .switch input {
   width: 20px;
   height: 20px;
+}
+
+.notice {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 13px;
+  background: #eef4fd;
+  border-bottom: 1px solid var(--border);
+}
+.notice.error {
+  background: #ffe9ec;
+  color: #8a0018;
+}
+
+.about {
+  max-width: 34rem;
+  width: calc(100% - 2rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.about::backdrop {
+  background: rgb(15 23 42 / 55%);
+}
+.about h2 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+.about dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 12px;
+  margin: 12px 0;
+}
+.about dt {
+  font-weight: 600;
+  color: var(--muted);
+}
+.about dd {
+  margin: 0;
+}
+.about code {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.about form {
+  margin-top: 12px;
+  text-align: right;
 }
 
 .status {
