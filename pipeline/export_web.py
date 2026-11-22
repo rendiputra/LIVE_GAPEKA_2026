@@ -326,6 +326,12 @@ def _hash(payload: bytes) -> str:
 
 def export(out: Path = OUT) -> dict:
     out.mkdir(parents=True, exist_ok=True)
+    # Remove hash-named files from previous runs. They are content-addressed, so a
+    # stale one is never referenced, but leaving them makes the bundle grow on
+    # every export and hides the real size.
+    for stale in out.glob("*.json"):
+        if stale.name.count(".") >= 2:
+            stale.unlink()
     payload = build_payload()
     snapshot = payload["snapshot"]
 

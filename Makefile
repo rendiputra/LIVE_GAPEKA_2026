@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit station-spacing basemap web-assets export-web parity web-dev web-build web-test web-e2e web-lighthouse reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit station-spacing basemap web-assets export-web parity web-dev web-build web-test web-e2e web-lighthouse deploy-plan reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -123,6 +123,12 @@ web-lighthouse: ## Lighthouse mobile report -> data/review/lighthouse.json (T7)
 
 reproduce: ## prove a clean clone rebuilds identical hashes (P2)
 	uv run python -m pipeline.reproduce
+
+deploy-plan: ## R2 deploy plan and dry-runs (Q3/Q5), touches nothing
+	uv run python -m pipeline.deploy_r2 plan
+	uv run python -m pipeline.deploy_r2 upload --dry-run
+	uv run python -m pipeline.deploy_r2 cors --dry-run
+	uv run python -m pipeline.deploy_r2 rollback --dry-run
 
 reports: ## regenerate the generated reports
 	uv run python -m pipeline.phase4d_report
