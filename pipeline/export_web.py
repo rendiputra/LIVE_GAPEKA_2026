@@ -253,23 +253,15 @@ def build_payload() -> dict:
             # it. Without this the TypeScript port sees a different timetable.
             if arrive_sod is None and depart_sod is not None and index == 0:
                 arrive_sod = depart_sod
-            if (
-                depart_sod is None
-                and arrive_sod is not None
-                and index == len(trip_stops) - 1
-            ):
+            if depart_sod is None and arrive_sod is not None and index == len(trip_stops) - 1:
                 depart_sod = arrive_sod
             if stop["stop_type"] == "pass" and arrive_sod is None:
                 arrive_sod = depart_sod
             arrive_abs = (
-                None
-                if arrive_sod is None
-                else arrive_sod + 86400 * int(stop["arrive_offset"] or 0)
+                None if arrive_sod is None else arrive_sod + 86400 * int(stop["arrive_offset"] or 0)
             )
             depart_abs = (
-                None
-                if depart_sod is None
-                else depart_sod + 86400 * int(stop["depart_offset"] or 0)
+                None if depart_sod is None else depart_sod + 86400 * int(stop["depart_offset"] or 0)
             )
             rows["code"].append(by_code.get(stop["code"], -1))
             rows["s_m"].append(round(distance, 1))

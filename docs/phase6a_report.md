@@ -25,10 +25,10 @@ Trips exported: **625**, segments **391**, stations **389**. Target was < 2 MB g
 
 | Asset | Raw kB | Gzip kB |
 |---|---|---|
-| `index-CzcDnXo7.js` | 796.1 | 216.1 |
-| `index-KId1o3Dk.css` | 67.5 | 10.1 |
+| `index-AzUcrKsq.css` | 68.4 | 10.3 |
+| `index-BVXnrL0O.js` | 854.1 | 230.6 |
 | `positions.worker-hn7uUTIx.js` | 6.2 | 2.6 |
-| **total** | **869.8** | **228.8** |
+| **total** | **928.6** | **243.5** |
 
 MapLibre GL JS dominates the bundle. It is bundled, not loaded from a CDN.
 
@@ -46,7 +46,7 @@ Tolerances: 1 m for lat/lon and `s_m`, 0.2 km/h for speed, identical status / fr
 |---|---|
 | samples | 40 |
 | median frame | **0.60 ms** |
-| p95 frame | 5.20 ms |
+| p95 frame | 4.90 ms |
 | most trains on screen | 83 |
 
 Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-01. The target was < 10 ms per frame.
@@ -57,11 +57,11 @@ Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-0
 
 Screenshots (`data/review/web_screens/`, gitignored):
 
-- `01-load.png` (69 kB)
-- `02-ka249-0900.png` (88 kB)
-- `03-ka260f-0005.png` (97 kB)
-- `04-ka260f-0013.png` (97 kB)
-- `05-fakultatif-on.png` (76 kB)
+- `01-load.png` (71 kB)
+- `02-ka249-0900.png` (90 kB)
+- `03-ka260f-0005.png` (99 kB)
+- `04-ka260f-0013.png` (99 kB)
+- `05-fakultatif-on.png` (54 kB)
 
 ## What the UI does
 

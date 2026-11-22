@@ -126,8 +126,7 @@ def extract(date: str = DEFAULT_DATE, *, out_dir: Path = OUT_DIR) -> dict:
     proc = subprocess.run(command, capture_output=True, text=True, check=False)
     if proc.returncode != 0 or not temporary.exists():
         raise RuntimeError(
-            "pmtiles extract failed: "
-            + (proc.stderr or proc.stdout or "no output").strip()[:600]
+            "pmtiles extract failed: " + (proc.stderr or proc.stdout or "no output").strip()[:600]
         )
 
     temporary.replace(target)
