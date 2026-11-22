@@ -131,17 +131,9 @@ def rejected_codes(path: Path | None = None) -> set[str]:
     path = path or Path("data/config/rejected_stations.yaml")
     if not path.exists():
         return set()
-    text = path.read_text(encoding="utf-8")
-    if "rejected:" not in text:
-        return set()
-    codes: set[str] = set()
-    for line in text.split("rejected:", 1)[1].splitlines():
-        stripped = line.strip()
-        if stripped.startswith("- code:"):
-            code = stripped.split(":", 1)[1].strip().strip('"').strip("'")
-            if code:
-                codes.add(code)
-    return codes
+    # Every listed code is a rejected coordinate, whether it appears under
+    # `rejected:` or under `evidence:`; a human override still supersedes it.
+    return {row["code"] for row in rejected_evidence(path) if row.get("code")}
 
 
 def rejected_evidence(path: Path | None = None) -> list[dict]:
