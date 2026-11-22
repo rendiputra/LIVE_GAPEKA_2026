@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lembar verifikasi 20 KA — Gapeka 2026</title>
+<style>
+ :root{color-scheme:light}
+ *{box-sizing:border-box}
+ body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+   font-size:14px;color:#0f172a}
+ header.top{position:sticky;top:0;z-index:5;background:#fff;
+   border-bottom:2px solid #0f172a;padding:10px 14px}
+ header.top h1{margin:0;font-size:17px}
+ header.top p{margin:4px 0 0;font-size:12px;color:#5b6472}
+ header.top .actions{margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+ button{min-height:44px;padding:0 16px;border-radius:8px;border:1px solid #0f172a;
+   background:#0f172a;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+ button.secondary{background:#fff;color:#0f172a}
+ .train{border-bottom:3px solid #d7dce3;padding:14px}
+ .train h2{margin:0 0 4px;font-size:16px}
+ .meta,.reason{font-size:12px;color:#5b6472;margin:2px 0}
+ .verdict{display:flex;gap:16px;align-items:center;margin:8px 0;flex-wrap:wrap;font-size:13px}
+ .verdict label{display:flex;gap:6px;align-items:center;min-height:32px;cursor:pointer}
+ .count{font-weight:600;color:#b00020}
+ .body{display:grid;grid-template-columns:1fr;gap:14px}
+ @media(min-width:1100px){.body{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+ .pages img{width:100%;height:auto;border:1px solid #d7dce3;display:block}
+ figure{margin:0 0 10px}
+ figcaption{font-size:11px;color:#5b6472}
+ .table-wrap{overflow:auto}
+ table{border-collapse:collapse;width:100%;font-size:12px}
+ th,td{border:1px solid #d7dce3;padding:3px 6px;text-align:left;vertical-align:top}
+ th{background:#f4f6f9;position:sticky;top:0}
+ tbody tr{cursor:pointer}
+ tbody tr:hover{background:#eef4fd}
+ tbody tr.wrong{background:#ffe9ec}
+ tbody tr.wrong td{text-decoration:line-through}
+ .note{width:100%;min-height:56px;margin:6px 0;font:inherit;font-size:13px;padding:6px;display:none}
+ .note.show{display:block}
+ .hint{font-size:12px;color:#5b6472;margin:0 0 6px}
+ .summary{background:#f4f6f9;border:1px solid #d7dce3;border-radius:8px;
+   padding:10px;margin:10px 0;font-size:13px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Lembar verifikasi 20 KA — Gapeka 2026</h1>
+  <p>Bandingkan gambar halaman PDF di kiri dengan tabel hasil parsing di kanan.
+     Semua baris dianggap <b>cocok</b>; klik baris yang salah. Selesai, unduh hasilnya.</p>
+  <div class="actions">
+    <button id="download">Unduh verification_result.json</button>
+    <button class="secondary" id="reset">Atur ulang</button>
+    <span id="summary" class="summary" style="margin:0">Belum ada baris ditandai.</span>
+  </div>
+</header>
+<main id="trains">
+
+<section class="train" data-trip="b1-1-v1-01" data-train="1">
+  <header>
+    <h2>1. KA 1 — Anggrek</h2>
+    <p class="meta">
+      SBI-GMR · buku 1 · reguler ·
+      complete · 97 baris · halaman
+      59, 60, 61
+    </p>
+    <p class="reason">Alasan dipilih: longest trip by routed length</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-1" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-1" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-1">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0059.png" alt="Halaman PDF 59 untuk KA 1" loading="lazy" width="595" height="842"><figcaption>PDF halaman 59</figcaption></figure><figure><img src="img/page_0060.png" alt="Halaman PDF 60 untuk KA 1" loading="lazy" width="595" height="842"><figcaption>PDF halaman 60</figcaption></figure><figure><img src="img/page_0061.png" alt="Halaman PDF 61 untuk KA 1" loading="lazy" width="595" height="842"><figcaption>PDF halaman 61</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>SBI <small>(SBI)</small></td><td>115</td><td></td><td>08:15:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>TES <small>(TES)</small></td><td>115</td><td></td><td>08:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KDA <small>(KDA)</small></td><td>115</td><td></td><td>08:23:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>BNW <small>(BNW)</small></td><td>115</td><td></td><td>08:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>CME <small>(CME)</small></td><td>115</td><td></td><td>08:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>DD <small>(DD)</small></td><td>115</td><td></td><td>08:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>LMG <small>(LMG)</small></td><td>115</td><td></td><td>08:42:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>SBN <small>(SBN)</small></td><td>115</td><td></td><td>08:46:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>PC <small>(PC)</small></td><td>115</td><td></td><td>08:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>GEB <small>(GEB)</small></td><td>115</td><td></td><td>08:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>BBT <small>(BBT)</small></td><td>115</td><td></td><td>08:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>BWO <small>(BWO)</small></td><td>115</td><td></td><td>09:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>SRJ <small>(SRJ)</small></td><td>115</td><td></td><td>09:12:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>KPS <small>(KPS)</small></td><td>115</td><td></td><td>09:17:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>BJ <small>(BJ)</small></td><td>115</td><td></td><td>09:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>KIT <small>(KIT)</small></td><td>115</td><td></td><td>09:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>TBO <small>(TBO)</small></td><td>115</td><td></td><td>09:37:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>CU <small>(CU)</small></td><td>110</td><td></td><td>09:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>KPA <small>(KPA)</small></td><td>110</td><td></td><td>09:47:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>WDU <small>(WDU)</small></td><td>110</td><td></td><td>09:50:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>21</td><td>RBG <small>(RBG)</small></td><td>110</td><td></td><td>09:57:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>22</td><td>DPL <small>(DPL)</small></td><td>110</td><td></td><td>10:05:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>23</td><td>SL <small>(SL)</small></td><td>110</td><td></td><td>10:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>24</td><td>KNN <small>(KNN)</small></td><td>115</td><td></td><td>10:15:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>25</td><td>PNL <small>(PNL)</small></td><td>115</td><td></td><td>10:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>26</td><td>JBN <small>(JBN)</small></td><td>115</td><td></td><td>10:24:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>27</td><td>GBN <small>(GBN)</small></td><td>115</td><td></td><td>10:30:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>28</td><td>NBO <small>(NBO)</small></td><td>115</td><td></td><td>10:31:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>29</td><td>SDI <small>(SDI)</small></td><td>115</td><td></td><td>10:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>30</td><td>KGT <small>(KGT)</small></td><td>115</td><td></td><td>10:40:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>31</td><td>GUB <small>(GUB)</small></td><td>115</td><td></td><td>10:47:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>32</td><td>TGW <small>(TGW)</small></td><td>115</td><td></td><td>10:51:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>33</td><td>BBG <small>(BBG)</small></td><td>115</td><td></td><td>10:57:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>34</td><td>ATA <small>(ATA)</small></td><td>115</td><td></td><td>11:01:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>35</td><td>Semarang Tawang <small>(SMT)</small></td><td>50</td><td>11:09:00</td><td>11:14:00</td><td>// ka 2509 (ka 2509 =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>36</td><td>SMC <small>(SMC)</small></td><td>115</td><td></td><td>11:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>37</td><td>JRK <small>(JRK)</small></td><td>115</td><td></td><td>11:22:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>38</td><td>MKG <small>(MKG)</small></td><td>115</td><td></td><td>11:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>39</td><td>KLN <small>(KLN)</small></td><td>115</td><td></td><td>11:30:00</td><td>// ka 229 (ka 229 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>40</td><td>KBD <small>(KBD)</small></td><td>110</td><td></td><td>11:37:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>41</td><td>WLR <small>(WLR)</small></td><td>110</td><td></td><td>11:42:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>42</td><td>KNS <small>(KNS)</small></td><td>105</td><td></td><td>11:45:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>43</td><td>PLB <small>(PLB)</small></td><td>105</td><td></td><td>11:51:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>44</td><td>KRP <small>(KRP)</small></td><td>105</td><td></td><td>11:56:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>45</td><td>UJN <small>(UJN)</small></td><td>105</td><td></td><td>12:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>46</td><td>BTG <small>(BTG)</small></td><td>115</td><td></td><td>12:07:00</td><td>// ka 2523 (ka 2523 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>47</td><td>PK <small>(PK)</small></td><td>105</td><td></td><td>12:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>48</td><td>SRI <small>(SRI)</small></td><td>105</td><td></td><td>12:20:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>49</td><td>CO <small>(CO)</small></td><td>115</td><td></td><td>12:23:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>50</td><td>PTA <small>(PTA)</small></td><td>115</td><td></td><td>12:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>51</td><td>PML <small>(PML)</small></td><td>115</td><td></td><td>12:33:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>52</td><td>Surodadi <small>(SD)</small></td><td>115</td><td></td><td>12:40:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>53</td><td>Larangan <small>(LR)</small></td><td>115</td><td></td><td>12:46:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>54</td><td>TG <small>(TG)</small></td><td>115</td><td></td><td>12:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>55</td><td>BB <small>(BB)</small></td><td>115</td><td></td><td>12:57:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>56</td><td>TGN <small>(TGN)</small></td><td>115</td><td></td><td>13:08:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>57</td><td>LOS <small>(LOS)</small></td><td>115</td><td></td><td>13:13:00</td><td>// ka 2529 (ka 2529 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>58</td><td>BBK <small>(BBK)</small></td><td>115</td><td></td><td>13:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>59</td><td>WDW <small>(WDW)</small></td><td>115</td><td></td><td>13:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>60</td><td>CNP <small>(CNP)</small></td><td>110</td><td></td><td>13:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>61</td><td>CN <small>(CN)</small></td><td>115</td><td>13:35:00</td><td>13:39:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>62</td><td>CNK <small>(CNK)</small></td><td>115</td><td></td><td>13:45:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>63</td><td>BDW <small>(BDW)</small></td><td>115</td><td></td><td>13:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>64</td><td>AWN <small>(AWN)</small></td><td>115</td><td></td><td>13:51:00</td><td>// ka 2703F jj (ka 2703F jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>65</td><td>KTM <small>(KTM)</small></td><td>110</td><td></td><td>13:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>66</td><td>JTB <small>(JTB)</small></td><td>105</td><td></td><td>14:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>67</td><td>TLS <small>(TLS)</small></td><td>105</td><td></td><td>14:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>68</td><td>Terisi <small>(TIS)</small></td><td>105</td><td></td><td>14:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>69</td><td>KAB <small>(KAB)</small></td><td>105</td><td></td><td>14:19:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>70</td><td>CLH <small>(CLH)</small></td><td>115</td><td></td><td>14:25:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>71</td><td>HGL <small>(HGL)</small></td><td>115</td><td></td><td>14:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>72</td><td>CRA <small>(CRA)</small></td><td>115</td><td></td><td>14:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>73</td><td>PGB <small>(PGB)</small></td><td>115</td><td></td><td>14:40:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>74</td><td>CKM <small>(CKM)</small></td><td>115</td><td></td><td>14:45:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>75</td><td>PAS <small>(PAS)</small></td><td>115</td><td></td><td>14:48:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>76</td><td>Pringkasap <small>(PRI)</small></td><td>110</td><td></td><td>14:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>77</td><td>PAB <small>(PAB)</small></td><td>110</td><td></td><td>14:56:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>78</td><td>TJS <small>(TJS)</small></td><td>110</td><td></td><td>14:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>79</td><td>CKP <small>(CKP)</small></td><td>115</td><td></td><td>15:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>80</td><td>DWN <small>(DWN)</small></td><td>115</td><td></td><td>15:09:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>81</td><td>KOS <small>(KOS)</small></td><td>115</td><td></td><td>15:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>82</td><td>Klari <small>(KLI)</small></td><td>115</td><td></td><td>15:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>83</td><td>KW <small>(KW)</small></td><td>115</td><td></td><td>15:19:00</td><td>// ka 2501F jj (ka 2501F jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>84</td><td>KDH <small>(KDH)</small></td><td>115</td><td></td><td>15:23:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>85</td><td>LMB <small>(LMB)</small></td><td>115</td><td></td><td>15:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>86</td><td>CKR <small>(CKR)</small></td><td>80</td><td></td><td>15:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>87</td><td>Metland Telagamurni <small>(TLM)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>88</td><td>CIT <small>(CIT)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>89</td><td>TB <small>(TB)</small></td><td>80</td><td></td><td>15:42:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>90</td><td>BKST <small>(BKST)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>91</td><td>BKS <small>(BKS)</small></td><td>115</td><td></td><td>15:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>92</td><td>JNG <small>(JNG)</small></td><td>60</td><td></td><td>15:57:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>93</td><td>Matraman <small>(MTR)</small></td><td>60</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>94</td><td>Manggarai <small>(MRI)</small></td><td>80</td><td></td><td>16:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>95</td><td>Cikini <small>(CKI)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>96</td><td>GDD <small>(GDD)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>97</td><td>GMR <small>(GMR)</small></td><td>0</td><td>16:12:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-71F-v1-01" data-train="71F">
+  <header>
+    <h2>2. KA 71F — Purwojaya</h2>
+    <p class="meta">
+      KYA-GMR · buku 1 · fakultatif ·
+      complete · 56 baris · halaman
+      213, 214
+    </p>
+    <p class="reason">Alasan dipilih: fills book1, fakultatif, footnote, midnight, midnight_straddle, multipage, seconds, untimed_ls</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-2" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-2" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-2">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0213.png" alt="Halaman PDF 213 untuk KA 71F" loading="lazy" width="595" height="842"><figcaption>PDF halaman 213</figcaption></figure><figure><img src="img/page_0214.png" alt="Halaman PDF 214 untuk KA 71F" loading="lazy" width="595" height="842"><figcaption>PDF halaman 214</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>KYA <small>(KYA)</small></td><td>115</td><td></td><td>21:40:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>RDN <small>(RDN)</small></td><td>115</td><td></td><td>21:47:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KBS <small>(KBS)</small></td><td>80</td><td></td><td>21:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>NTG <small>(NTG)</small></td><td>85</td><td></td><td>21:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>PWT <small>(PWT)</small></td><td>70</td><td>22:03:00</td><td>22:07:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>KGD <small>(KGD)</small></td><td>70</td><td></td><td>22:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>Karangsari <small>(KRR)</small></td><td>70</td><td></td><td>22:24:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>PAT <small>(PAT)</small></td><td>70</td><td></td><td>22:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>KRT <small>(KRT)</small></td><td>70</td><td></td><td>22:41:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>BMA <small>(BMA)</small></td><td>80</td><td>22:49:00</td><td>22:51:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>LG <small>(LG)</small></td><td>80</td><td></td><td>23:00:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>PPK <small>(PPK)</small></td><td>115</td><td></td><td>23:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>SGG <small>(SGG)</small></td><td>115</td><td></td><td>23:17:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>Larangan <small>(LRA)</small></td><td>115</td><td></td><td>23:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>KGG <small>(KGG)</small></td><td>115</td><td></td><td>23:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>CLD <small>(CLD)</small></td><td>115</td><td></td><td>23:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>SDU <small>(SDU)</small></td><td>115</td><td></td><td>23:44:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>LWG <small>(LWG)</small></td><td>115</td><td></td><td>23:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>CNP <small>(CNP)</small></td><td>110</td><td></td><td>23:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>CN <small>(CN)</small></td><td>115</td><td>23:56:00</td><td>00:01:00</td><td></td><td>stop</td><td>1/0/1</td><td>printed</td></tr><tr><td>21</td><td>CNK <small>(CNK)</small></td><td>115</td><td></td><td>00:07:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>22</td><td>BDW <small>(BDW)</small></td><td>115</td><td></td><td>00:10:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>23</td><td>AWN <small>(AWN)</small></td><td>115</td><td></td><td>00:13:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>24</td><td>KTM <small>(KTM)</small></td><td>110</td><td></td><td>00:22:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>25</td><td>JTB <small>(JTB)</small></td><td>105</td><td></td><td>00:27:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>26</td><td>TLS <small>(TLS)</small></td><td>105</td><td></td><td>00:33:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>27</td><td>Terisi <small>(TIS)</small></td><td>105</td><td></td><td>00:38:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>28</td><td>KAB <small>(KAB)</small></td><td>105</td><td></td><td>00:42:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>29</td><td>CLH <small>(CLH)</small></td><td>115</td><td></td><td>00:48:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>30</td><td>HGL <small>(HGL)</small></td><td>115</td><td></td><td>00:54:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>31</td><td>CRA <small>(CRA)</small></td><td>115</td><td></td><td>00:58:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>32</td><td>PGB <small>(PGB)</small></td><td>115</td><td></td><td>01:02:00</td><td>// ka 289 (ka 289 =)</td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>33</td><td>CKM <small>(CKM)</small></td><td>115</td><td></td><td>01:07:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>34</td><td>PAS <small>(PAS)</small></td><td>115</td><td></td><td>01:11:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>35</td><td>Pringkasap <small>(PRI)</small></td><td>110</td><td></td><td>01:14:30</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>36</td><td>PAB <small>(PAB)</small></td><td>110</td><td></td><td>01:18:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>37</td><td>TJS <small>(TJS)</small></td><td>110</td><td></td><td>01:21:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>38</td><td>CKP <small>(CKP)</small></td><td>115</td><td></td><td>01:28:00</td><td>// ka 2537f jj (ka 2537f jj =)</td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>39</td><td>DWN <small>(DWN)</small></td><td>115</td><td></td><td>01:31:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>40</td><td>KOS <small>(KOS)</small></td><td>115</td><td></td><td>01:35:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>41</td><td>Klari <small>(KLI)</small></td><td>115</td><td></td><td>01:38:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>42</td><td>KW <small>(KW)</small></td><td>115</td><td></td><td>01:42:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>43</td><td>KDH <small>(KDH)</small></td><td>115</td><td></td><td>01:46:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>44</td><td>LMB <small>(LMB)</small></td><td>115</td><td></td><td>01:52:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>45</td><td>CKR <small>(CKR)</small></td><td>80</td><td></td><td>01:56:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>46</td><td>Metland Telagamurni <small>(TLM)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>47</td><td>CIT <small>(CIT)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>48</td><td>TB <small>(TB)</small></td><td>80</td><td></td><td>02:05:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>49</td><td>BKST <small>(BKST)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>50</td><td>BKS <small>(BKS)</small></td><td>115</td><td>02:12:00</td><td>02:14:00</td><td></td><td>stop</td><td>1/1/1</td><td>printed</td></tr><tr><td>51</td><td>JNG <small>(JNG)</small></td><td>60</td><td></td><td>02:26:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>52</td><td>Matraman <small>(MTR)</small></td><td>60</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>53</td><td>Manggarai <small>(MRI)</small></td><td>80</td><td></td><td>02:30:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>54</td><td>Cikini <small>(CKI)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>55</td><td>GDD <small>(GDD)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>56</td><td>GMR <small>(GMR)</small></td><td>-</td><td>02:38:00</td><td></td><td></td><td>stop</td><td>1/1/1</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-76F-v1-01" data-train="76F">
+  <header>
+    <h2>3. KA 76F — Borobudur</h2>
+    <p class="meta">
+      GMR-LPN · buku 1 · fakultatif ·
+      complete · 79 baris · halaman
+      220, 221
+    </p>
+    <p class="reason">Alasan dipilih: fills book1, fakultatif, footnote, midnight, multipage, seconds</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-3" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-3" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-3">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0220.png" alt="Halaman PDF 220 untuk KA 76F" loading="lazy" width="595" height="842"><figcaption>PDF halaman 220</figcaption></figure><figure><img src="img/page_0221.png" alt="Halaman PDF 221 untuk KA 76F" loading="lazy" width="595" height="842"><figcaption>PDF halaman 221</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>GMR <small>(GMR)</small></td><td>80</td><td></td><td>17:00:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>GDD <small>(GDD)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>3</td><td>Cikini <small>(CKI)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>4</td><td>Manggarai <small>(MRI)</small></td><td>60</td><td></td><td>17:09:00</td><td>// ka 5122 (ka 5122 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>Matraman <small>(MTR)</small></td><td>60</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>6</td><td>JNG <small>(JNG)</small></td><td>100</td><td></td><td>17:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>BKS <small>(BKS)</small></td><td>80</td><td>17:24:00</td><td>17:26:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>BKST <small>(BKST)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>9</td><td>TB <small>(TB)</small></td><td>80</td><td></td><td>17:33:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>CIT <small>(CIT)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>11</td><td>Metland Telagamurni <small>(TLM)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>12</td><td>CKR <small>(CKR)</small></td><td>100</td><td>17:43:00</td><td>17:45:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>LMB <small>(LMB)</small></td><td>100</td><td></td><td>17:49:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>KDH <small>(KDH)</small></td><td>100</td><td></td><td>17:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>KW <small>(KW)</small></td><td>100</td><td></td><td>17:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>Klari <small>(KLI)</small></td><td>100</td><td></td><td>18:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>KOS <small>(KOS)</small></td><td>100</td><td></td><td>18:07:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>DWN <small>(DWN)</small></td><td>100</td><td></td><td>18:12:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>CKP <small>(CKP)</small></td><td>100</td><td></td><td>18:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>TJS <small>(TJS)</small></td><td>100</td><td></td><td>18:22:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>21</td><td>PAB <small>(PAB)</small></td><td>100</td><td></td><td>18:25:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>22</td><td>Pringkasap <small>(PRI)</small></td><td>100</td><td></td><td>18:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>23</td><td>PAS <small>(PAS)</small></td><td>100</td><td></td><td>18:33:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>24</td><td>CKM <small>(CKM)</small></td><td>100</td><td></td><td>18:37:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>25</td><td>PGB <small>(PGB)</small></td><td>100</td><td></td><td>18:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>26</td><td>CRA <small>(CRA)</small></td><td>100</td><td></td><td>18:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>27</td><td>HGL <small>(HGL)</small></td><td>100</td><td></td><td>18:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>28</td><td>CLH <small>(CLH)</small></td><td>100</td><td></td><td>18:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>29</td><td>KAB <small>(KAB)</small></td><td>100</td><td></td><td>19:05:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>30</td><td>Terisi <small>(TIS)</small></td><td>100</td><td></td><td>19:09:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>31</td><td>TLS <small>(TLS)</small></td><td>100</td><td></td><td>19:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>32</td><td>JTB <small>(JTB)</small></td><td>100</td><td></td><td>19:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>33</td><td>KTM <small>(KTM)</small></td><td>100</td><td></td><td>19:26:30</td><td>// ka 2762f jj (ka 2762f jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>34</td><td>AWN <small>(AWN)</small></td><td>100</td><td></td><td>19:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>35</td><td>BDW <small>(BDW)</small></td><td>100</td><td></td><td>19:40:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>36</td><td>CNK <small>(CNK)</small></td><td>100</td><td></td><td>19:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>37</td><td>CN <small>(CN)</small></td><td>100</td><td>19:50:00</td><td>19:55:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>38</td><td>CNP <small>(CNP)</small></td><td>100</td><td></td><td>19:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>39</td><td>LWG <small>(LWG)</small></td><td>100</td><td></td><td>20:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>40</td><td>SDU <small>(SDU)</small></td><td>100</td><td></td><td>20:09:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>41</td><td>CLD <small>(CLD)</small></td><td>100</td><td></td><td>20:20:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>42</td><td>KGG <small>(KGG)</small></td><td>100</td><td></td><td>20:31:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>43</td><td>Larangan <small>(LRA)</small></td><td>100</td><td></td><td>20:37:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>44</td><td>SGG <small>(SGG)</small></td><td>100</td><td></td><td>20:41:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>45</td><td>PPK <small>(PPK)</small></td><td>80</td><td></td><td>20:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>46</td><td>LG <small>(LG)</small></td><td>80</td><td></td><td>21:00:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>47</td><td>BMA <small>(BMA)</small></td><td>70</td><td></td><td>21:08:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>48</td><td>KRT <small>(KRT)</small></td><td>70</td><td></td><td>21:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>49</td><td>PAT <small>(PAT)</small></td><td>70</td><td></td><td>21:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>50</td><td>Karangsari <small>(KRR)</small></td><td>70</td><td></td><td>21:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>51</td><td>KGD <small>(KGD)</small></td><td>70</td><td></td><td>21:40:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>52</td><td>PWT <small>(PWT)</small></td><td>85</td><td>21:48:00</td><td>21:53:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>53</td><td>NTG <small>(NTG)</small></td><td>80</td><td></td><td>22:01:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>54</td><td>KBS <small>(KBS)</small></td><td>100</td><td></td><td>22:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>55</td><td>RDN <small>(RDN)</small></td><td>100</td><td></td><td>22:09:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>56</td><td>KYA <small>(KYA)</small></td><td>100</td><td>22:16:00</td><td>22:18:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>57</td><td>KJ <small>(KJ)</small></td><td>100</td><td></td><td>22:25:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>58</td><td>SPH <small>(SPH)</small></td><td>100</td><td></td><td>22:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>59</td><td>TBK <small>(TBK)</small></td><td>100</td><td></td><td>22:33:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>60</td><td>IJ <small>(IJ)</small></td><td>100</td><td></td><td>22:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>61</td><td>GB <small>(GB)</small></td><td>100</td><td>22:43:00</td><td>22:45:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>62</td><td>KA <small>(KA)</small></td><td>100</td><td></td><td>22:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>63</td><td>SRW <small>(SRW)</small></td><td>100</td><td></td><td>22:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>64</td><td>SOA <small>(SOA)</small></td><td>100</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>65</td><td>KM <small>(KM)</small></td><td>100</td><td>23:03:00</td><td>23:05:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>66</td><td>WNS <small>(WNS)</small></td><td>100</td><td></td><td>23:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>67</td><td>KWN <small>(KWN)</small></td><td>100</td><td></td><td>23:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>68</td><td>PRB <small>(PRB)</small></td><td>100</td><td></td><td>23:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>69</td><td>BTH <small>(BTH)</small></td><td>100</td><td></td><td>23:23:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>70</td><td>KTA <small>(KTA)</small></td><td>100</td><td>23:29:00</td><td>23:32:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>71</td><td>JN <small>(JN)</small></td><td>100</td><td></td><td>23:42:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>72</td><td>WJ <small>(WJ)</small></td><td>100</td><td></td><td>23:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>73</td><td>KDG <small>(KDG)</small></td><td>100</td><td></td><td>23:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>74</td><td>WT <small>(WT)</small></td><td>100</td><td>23:59:00</td><td>00:01:00</td><td></td><td>stop</td><td>1/0/1</td><td>printed</td></tr><tr><td>75</td><td>STL <small>(STL)</small></td><td>100</td><td></td><td>00:11:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>76</td><td>RWL <small>(RWL)</small></td><td>100</td><td></td><td>00:18:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>77</td><td>PTN <small>(PTN)</small></td><td>100</td><td></td><td>00:21:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>78</td><td>YK <small>(YK)</small></td><td>65</td><td>00:26:00</td><td>00:30:00</td><td></td><td>stop</td><td>1/1/1</td><td>printed</td></tr><tr><td>79</td><td>LPN <small>(LPN)</small></td><td>0</td><td>00:35:00</td><td></td><td></td><td>stop</td><td>1/1/1</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-489-v1-01" data-train="489">
+  <header>
+    <h2>4. KA 489 — Commuter Line Jenggala</h2>
+    <p class="meta">
+      SBI-MR · buku 2 · reguler ·
+      complete_estimated · 12 baris · halaman
+      748
+    </p>
+    <p class="reason">Alasan dipilih: fills book2, complete_estimated, marker</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-4" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-4" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-4">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0748.png" alt="Halaman PDF 748 untuk KA 489" loading="lazy" width="595" height="842"><figcaption>PDF halaman 748</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>SBI <small>(SBI)</small></td><td>50</td><td></td><td>12:32:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>Pos Segitiga Mesigit <small>(STM)</small></td><td>50</td><td></td><td>12:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>SB <small>(SB)</small></td><td>50</td><td></td><td>12:39:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>SGU <small>(SGU)</small></td><td>80</td><td>12:46:00</td><td>12:49:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>NGA <small>(NGA)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>6</td><td>WO <small>(WO)</small></td><td>80</td><td>12:55:00</td><td>12:58:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>SPJ <small>(SPJ)</small></td><td>80</td><td>13:07:00</td><td>13:10:00</td><td>(ka 500 x)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>BH <small>(BH)</small></td><td>80</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>9</td><td>KRN <small>(KRN)</small></td><td>80</td><td>13:28:00</td><td>13:30:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>KDN <small>(KDN)</small></td><td>80</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>11</td><td>TRK <small>(TRK)</small></td><td>80</td><td>13:45:00</td><td>14:06:00</td><td>= ka 293 (ka 293 //)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>MR <small>(MR)</small></td><td>0</td><td>14:18:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-500-v1-01" data-train="500">
+  <header>
+    <h2>5. KA 500 — Commuter Line Jenggala</h2>
+    <p class="meta">
+      MR-SBI · buku 2 · reguler ·
+      complete_estimated · 12 baris · halaman
+      752
+    </p>
+    <p class="reason">Alasan dipilih: fills book2, complete_estimated, marker</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-5" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-5" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-5">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0752.png" alt="Halaman PDF 752 untuk KA 500" loading="lazy" width="595" height="842"><figcaption>PDF halaman 752</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>MR <small>(MR)</small></td><td>80</td><td></td><td>12:10:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>TRK <small>(TRK)</small></td><td>80</td><td>12:21:00</td><td>12:23:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KDN <small>(KDN)</small></td><td>80</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>4</td><td>KRN <small>(KRN)</small></td><td>80</td><td>12:38:00</td><td>12:40:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>BH <small>(BH)</small></td><td>80</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>6</td><td>SPJ <small>(SPJ)</small></td><td>80</td><td>12:59:00</td><td>13:09:00</td><td>x ka 489</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>WO <small>(WO)</small></td><td>80</td><td>13:18:00</td><td>13:21:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>NGA <small>(NGA)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>9</td><td>SGU <small>(SGU)</small></td><td>50</td><td>13:28:00</td><td>13:32:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>SB <small>(SB)</small></td><td>50</td><td></td><td>13:39:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>Pos Segitiga Mesigit <small>(STM)</small></td><td>50</td><td></td><td>13:42:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>SBI <small>(SBI)</small></td><td>0</td><td>13:46:00</td><td></td><td>(ka r289-3 x)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-219F-v1-01" data-train="219F">
+  <header>
+    <h2>6. KA 219F — Sancaka Utara</h2>
+    <p class="meta">
+      SLO-GBN · buku 1 · fakultatif ·
+      complete · 8 baris · halaman
+      496
+    </p>
+    <p class="reason">Alasan dipilih: fills book1, fakultatif</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-6" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-6" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-6">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0496.png" alt="Halaman PDF 496 untuk KA 219F" loading="lazy" width="595" height="842"><figcaption>PDF halaman 496</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>SLO <small>(SLO)</small></td><td>100</td><td></td><td>21:08:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>KDO <small>(KDO)</small></td><td>100</td><td></td><td>21:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KO <small>(KO)</small></td><td>95</td><td></td><td>21:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>SLM <small>(SLM)</small></td><td>95</td><td>21:30:00</td><td>21:37:00</td><td>x ka 286 (ka 286 x)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>SUM <small>(SUM)</small></td><td>95</td><td></td><td>21:46:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>GPK <small>(GPK)</small></td><td>95</td><td></td><td>21:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>GD <small>(GD)</small></td><td>40</td><td>21:59:00</td><td>22:04:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>GBN <small>(GBN)</small></td><td>0</td><td>22:25:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-596-v1-01" data-train="596">
+  <header>
+    <h2>7. KA 596 — Bandara Smo</h2>
+    <p class="meta">
+      SMO-CRB · buku 2 · reguler ·
+      complete · 18 baris · halaman
+      787
+    </p>
+    <p class="reason">Alasan dipilih: fills book2</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-7" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-7" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-7">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0787.png" alt="Halaman PDF 787 untuk KA 596" loading="lazy" width="595" height="842"><figcaption>PDF halaman 787</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>Bandara Adi Soemarmo <small>(SMO)</small></td><td>80</td><td></td><td>08:25:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>KDO <small>(KDO)</small></td><td>80</td><td>08:36:00</td><td>08:37:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>SLO <small>(SLO)</small></td><td>80</td><td>08:45:00</td><td>08:50:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>SK <small>(SK)</small></td><td>80</td><td>08:54:00</td><td>08:56:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>PL <small>(PL)</small></td><td>80</td><td>09:03:00</td><td>09:05:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>KMR <small>(KMR)</small></td><td>80</td><td></td><td>09:11:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>MSR <small>(MSR)</small></td><td>80</td><td></td><td>09:18:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>SR <small>(SR)</small></td><td>80</td><td>09:28:00</td><td>09:30:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>KRO <small>(KRO)</small></td><td>80</td><td></td><td>09:37:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>KDB <small>(KDB)</small></td><td>80</td><td></td><td>09:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>WK <small>(WK)</small></td><td>80</td><td>09:55:00</td><td>09:57:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>KG <small>(KG)</small></td><td>80</td><td></td><td>10:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>NGW <small>(NGW)</small></td><td>80</td><td>10:16:00</td><td>10:18:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>GG <small>(GG)</small></td><td>80</td><td></td><td>10:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>MAG <small>(MAG)</small></td><td>80</td><td>10:34:00</td><td>10:36:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>MN <small>(MN)</small></td><td>80</td><td>10:48:00</td><td>10:52:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>BBD <small>(BBD)</small></td><td>80</td><td></td><td>11:01:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>CRB <small>(CRB)</small></td><td>0</td><td>11:10:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-363-v1-01" data-train="363">
+  <header>
+    <h2>8. KA 363 — Commuter Line Merak</h2>
+    <p class="meta">
+      MER-RK · buku 2 · reguler ·
+      complete · 11 baris · halaman
+      677
+    </p>
+    <p class="reason">Alasan dipilih: fills book2</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-8" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-8" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-8">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0677.png" alt="Halaman PDF 677 untuk KA 363" loading="lazy" width="595" height="842"><figcaption>PDF halaman 677</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>MER <small>(MER)</small></td><td>80</td><td></td><td>12:50:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>KEN <small>(KEN)</small></td><td>80</td><td>13:02:00</td><td>13:04:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>CLG <small>(CLG)</small></td><td>80</td><td>13:10:00</td><td>13:12:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>TOJB <small>(TOJB)</small></td><td>80</td><td>13:21:00</td><td>13:23:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>KRA <small>(KRA)</small></td><td>80</td><td>13:30:00</td><td>13:32:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>SG <small>(SG)</small></td><td>80</td><td>13:42:00</td><td>13:44:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>WLT <small>(WLT)</small></td><td>80</td><td>13:53:00</td><td>13:55:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>CKL <small>(CKL)</small></td><td>80</td><td>14:05:00</td><td>14:07:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>CT <small>(CT)</small></td><td>80</td><td>14:16:00</td><td>14:18:00</td><td>x ka 364 (ka 364 x)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>Jambu Baru <small>(JBU)</small></td><td>80</td><td>14:24:00</td><td>14:26:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>RK <small>(RK)</small></td><td>0</td><td>14:35:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-270-v1-01" data-train="270">
+  <header>
+    <h2>9. KA 270 — Pangrango</h2>
+    <p class="meta">
+      BOP-SI · buku 1 · reguler ·
+      complete · 13 baris · halaman
+      536
+    </p>
+    <p class="reason">Alasan dipilih: fills book1</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-9" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-9" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-9">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0536.png" alt="Halaman PDF 536 untuk KA 270" loading="lazy" width="595" height="842"><figcaption>PDF halaman 536</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>BOP <small>(BOP)</small></td><td>50</td><td></td><td>17:15:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>BTT <small>(BTT)</small></td><td>50</td><td>17:23:00</td><td>17:24:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>CS <small>(CS)</small></td><td>50</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>4</td><td>MSG <small>(MSG)</small></td><td>50</td><td>17:39:00</td><td>17:41:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>CGB <small>(CGB)</small></td><td>50</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>6</td><td>CCR <small>(CCR)</small></td><td>50</td><td>18:01:00</td><td>18:03:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>CJE <small>(CJE)</small></td><td>50</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>8</td><td>PRK <small>(PRK)</small></td><td>50</td><td>18:15:00</td><td>18:17:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>CBD <small>(CBD)</small></td><td>60</td><td>18:27:00</td><td>18:29:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>KE <small>(KE)</small></td><td>60</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>11</td><td>PON <small>(PON)</small></td><td>60</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>12</td><td>CSA <small>(CSA)</small></td><td>60</td><td>18:46:00</td><td>18:48:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>SI <small>(SI)</small></td><td>0</td><td>18:57:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-227-v1-01" data-train="227">
+  <header>
+    <h2>10. KA 227 — Kamandaka</h2>
+    <p class="meta">
+      PWT-TG · buku 1 · reguler ·
+      complete · 12 baris · halaman
+      506
+    </p>
+    <p class="reason">Alasan dipilih: fills book1</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-10" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-10" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-10">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0506.png" alt="Halaman PDF 506 untuk KA 227" loading="lazy" width="595" height="842"><figcaption>PDF halaman 506</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>PWT <small>(PWT)</small></td><td>70</td><td></td><td>05:30:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>KGD <small>(KGD)</small></td><td>70</td><td></td><td>05:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>Karangsari <small>(KRR)</small></td><td>70</td><td></td><td>05:46:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>PAT <small>(PAT)</small></td><td>70</td><td></td><td>05:57:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>KRT <small>(KRT)</small></td><td>70</td><td></td><td>06:03:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>BMA <small>(BMA)</small></td><td>80</td><td>06:12:00</td><td>06:14:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>LG <small>(LG)</small></td><td>80</td><td></td><td>06:23:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>PPK <small>(PPK)</small></td><td>100</td><td>06:34:00</td><td>06:36:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>MGS <small>(MGS)</small></td><td>100</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>10</td><td>BLP <small>(BLP)</small></td><td>100</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>11</td><td>SLW <small>(SLW)</small></td><td>100</td><td>07:03:00</td><td>07:07:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>TG <small>(TG)</small></td><td>0</td><td>07:24:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-437-v1-01" data-train="437">
+  <header>
+    <h2>11. KA 437 — Commuter Line Dhoho</h2>
+    <p class="meta">
+      SB-KTS · buku 2 · reguler ·
+      complete · 16 baris · halaman
+      713, 714
+    </p>
+    <p class="reason">Alasan dipilih: fills book2</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-11" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-11" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-11">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0713.png" alt="Halaman PDF 713 untuk KA 437" loading="lazy" width="595" height="842"><figcaption>PDF halaman 713</figcaption></figure><figure><img src="img/page_0714.png" alt="Halaman PDF 714 untuk KA 437" loading="lazy" width="595" height="842"><figcaption>PDF halaman 714</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>SB <small>(SB)</small></td><td>50</td><td></td><td>07:40:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>SGU <small>(SGU)</small></td><td>90</td><td>07:48:00</td><td>07:51:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>NGA <small>(NGA)</small></td><td>90</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>4</td><td>WO <small>(WO)</small></td><td>90</td><td>07:58:00</td><td>08:01:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>SPJ <small>(SPJ)</small></td><td>90</td><td>08:09:00</td><td>08:12:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>BH <small>(BH)</small></td><td>90</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>7</td><td>KRN <small>(KRN)</small></td><td>90</td><td>08:29:00</td><td>08:32:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>KDN <small>(KDN)</small></td><td>90</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>9</td><td>TRK <small>(TRK)</small></td><td>90</td><td>08:46:00</td><td>09:05:00</td><td>= ka 9 (ka 9 //)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>MR <small>(MR)</small></td><td>90</td><td>09:15:00</td><td>09:18:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>CRM <small>(CRM)</small></td><td>90</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>12</td><td>SBO <small>(SBO)</small></td><td>90</td><td>09:33:00</td><td>09:52:00</td><td>= ka 5 (ka 5 //)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>PTR <small>(PTR)</small></td><td>90</td><td></td><td></td><td></td><td>unknown_untimed</td><td>0/0/0</td><td>marker</td></tr><tr><td>14</td><td>JG <small>(JG)</small></td><td>90</td><td>10:06:00</td><td>10:08:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>SMB <small>(SMB)</small></td><td>90</td><td>10:17:00</td><td>10:19:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>KTS <small>(KTS)</small></td><td>0</td><td>10:28:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-117-v1-01" data-train="117">
+  <header>
+    <h2>12. KA 117 — Gunungjati</h2>
+    <p class="meta">
+      CN-GMR · buku 1 · reguler ·
+      complete · 37 baris · halaman
+      315
+    </p>
+    <p class="reason">Alasan dipilih: fills book1</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-12" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-12" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-12">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0315.png" alt="Halaman PDF 315 untuk KA 117" loading="lazy" width="595" height="842"><figcaption>PDF halaman 315</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>CN <small>(CN)</small></td><td>110</td><td></td><td>05:40:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>CNK <small>(CNK)</small></td><td>110</td><td></td><td>05:47:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>BDW <small>(BDW)</small></td><td>110</td><td></td><td>05:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>AWN <small>(AWN)</small></td><td>110</td><td>05:54:00</td><td>05:56:00</td><td>// ka 2535 (ka 2535 =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>KTM <small>(KTM)</small></td><td>110</td><td></td><td>06:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>JTB <small>(JTB)</small></td><td>105</td><td>06:12:00</td><td>06:14:00</td><td>// ka 345 (ka 345 =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>TLS <small>(TLS)</small></td><td>105</td><td></td><td>06:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>Terisi <small>(TIS)</small></td><td>105</td><td></td><td>06:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>KAB <small>(KAB)</small></td><td>105</td><td></td><td>06:30:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>CLH <small>(CLH)</small></td><td>110</td><td></td><td>06:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>HGL <small>(HGL)</small></td><td>110</td><td>06:43:00</td><td>06:45:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>CRA <small>(CRA)</small></td><td>110</td><td></td><td>06:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>PGB <small>(PGB)</small></td><td>110</td><td></td><td>06:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>CKM <small>(CKM)</small></td><td>110</td><td></td><td>07:00:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>PAS <small>(PAS)</small></td><td>110</td><td></td><td>07:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>Pringkasap <small>(PRI)</small></td><td>110</td><td></td><td>07:07:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>PAB <small>(PAB)</small></td><td>110</td><td></td><td>07:11:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>TJS <small>(TJS)</small></td><td>110</td><td></td><td>07:14:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>CKP <small>(CKP)</small></td><td>110</td><td>07:22:00</td><td>07:24:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>DWN <small>(DWN)</small></td><td>110</td><td></td><td>07:28:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>21</td><td>KOS <small>(KOS)</small></td><td>110</td><td></td><td>07:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>22</td><td>Klari <small>(KLI)</small></td><td>110</td><td></td><td>07:35:00</td><td>// ka 2539f jj (ka 2539f jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>23</td><td>KW <small>(KW)</small></td><td>110</td><td>07:40:00</td><td>07:42:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>24</td><td>KDH <small>(KDH)</small></td><td>110</td><td></td><td>07:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>25</td><td>LMB <small>(LMB)</small></td><td>110</td><td></td><td>07:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>26</td><td>CKR <small>(CKR)</small></td><td>80</td><td></td><td>07:57:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>27</td><td>Metland Telagamurni <small>(TLM)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>28</td><td>CIT <small>(CIT)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>29</td><td>TB <small>(TB)</small></td><td>80</td><td></td><td>08:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>30</td><td>BKST <small>(BKST)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>31</td><td>BKS <small>(BKS)</small></td><td>110</td><td>08:14:00</td><td>08:16:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>32</td><td>JNG <small>(JNG)</small></td><td>60</td><td>08:29:00</td><td>08:31:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>33</td><td>Matraman <small>(MTR)</small></td><td>60</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>34</td><td>Manggarai <small>(MRI)</small></td><td>80</td><td></td><td>08:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>35</td><td>Cikini <small>(CKI)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>36</td><td>GDD <small>(GDD)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>37</td><td>GMR <small>(GMR)</small></td><td>0</td><td>08:44:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-546-v1-01" data-train="546">
+  <header>
+    <h2>13. KA 546 — Commuter Line Yia</h2>
+    <p class="meta">
+      YIA-YK · buku 2 · reguler ·
+      complete · 7 baris · halaman
+      772
+    </p>
+    <p class="reason">Alasan dipilih: fills book2</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-13" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-13" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-13">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0772.png" alt="Halaman PDF 772 untuk KA 546" loading="lazy" width="595" height="842"><figcaption>PDF halaman 772</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>YIA <small>(YIA)</small></td><td>90</td><td></td><td>09:39:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>KDG <small>(KDG)</small></td><td>90</td><td></td><td>09:45:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>WT <small>(WT)</small></td><td>90</td><td>09:52:00</td><td>09:54:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>STL <small>(STL)</small></td><td>90</td><td></td><td>10:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>RWL <small>(RWL)</small></td><td>90</td><td></td><td>10:12:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>PTN <small>(PTN)</small></td><td>90</td><td></td><td>10:15:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>YK <small>(YK)</small></td><td>0</td><td>10:20:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-101-v1-01" data-train="101">
+  <header>
+    <h2>14. KA 101 — Harina</h2>
+    <p class="meta">
+      SBI-CKP · buku 1 · reguler ·
+      complete · 79 baris · halaman
+      289, 290
+    </p>
+    <p class="reason">Alasan dipilih: fills book1</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-14" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-14" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-14">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0289.png" alt="Halaman PDF 289 untuk KA 101" loading="lazy" width="595" height="842"><figcaption>PDF halaman 289</figcaption></figure><figure><img src="img/page_0290.png" alt="Halaman PDF 290 untuk KA 101" loading="lazy" width="595" height="842"><figcaption>PDF halaman 290</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>SBI <small>(SBI)</small></td><td>115</td><td></td><td>05:50:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>TES <small>(TES)</small></td><td>115</td><td></td><td>05:56:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KDA <small>(KDA)</small></td><td>115</td><td></td><td>05:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>BNW <small>(BNW)</small></td><td>115</td><td></td><td>06:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>CME <small>(CME)</small></td><td>115</td><td></td><td>06:05:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>DD <small>(DD)</small></td><td>115</td><td></td><td>06:11:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>LMG <small>(LMG)</small></td><td>115</td><td>06:20:00</td><td>06:23:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>SBN <small>(SBN)</small></td><td>115</td><td></td><td>06:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>PC <small>(PC)</small></td><td>115</td><td></td><td>06:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>GEB <small>(GEB)</small></td><td>115</td><td></td><td>06:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>BBT <small>(BBT)</small></td><td>115</td><td>06:43:00</td><td>06:46:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>BWO <small>(BWO)</small></td><td>115</td><td></td><td>06:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>SRJ <small>(SRJ)</small></td><td>115</td><td></td><td>07:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>KPS <small>(KPS)</small></td><td>115</td><td></td><td>07:07:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>BJ <small>(BJ)</small></td><td>115</td><td>07:13:00</td><td>07:16:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>KIT <small>(KIT)</small></td><td>115</td><td></td><td>07:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>TBO <small>(TBO)</small></td><td>115</td><td></td><td>07:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>CU <small>(CU)</small></td><td>110</td><td>07:42:00</td><td>07:45:00</td><td>// ka 2509 (ka 2509 =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>KPA <small>(KPA)</small></td><td>110</td><td></td><td>07:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>WDU <small>(WDU)</small></td><td>110</td><td></td><td>07:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>21</td><td>RBG <small>(RBG)</small></td><td>110</td><td></td><td>08:01:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>22</td><td>DPL <small>(DPL)</small></td><td>110</td><td></td><td>08:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>23</td><td>SL <small>(SL)</small></td><td>110</td><td></td><td>08:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>24</td><td>KNN <small>(KNN)</small></td><td>115</td><td></td><td>08:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>25</td><td>PNL <small>(PNL)</small></td><td>115</td><td></td><td>08:27:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>26</td><td>JBN <small>(JBN)</small></td><td>115</td><td></td><td>08:31:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>27</td><td>GBN <small>(GBN)</small></td><td>115</td><td></td><td>08:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>28</td><td>NBO <small>(NBO)</small></td><td>115</td><td>08:41:00</td><td>08:43:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>29</td><td>SDI <small>(SDI)</small></td><td>115</td><td></td><td>08:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>30</td><td>KGT <small>(KGT)</small></td><td>115</td><td></td><td>08:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>31</td><td>GUB <small>(GUB)</small></td><td>115</td><td></td><td>09:01:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>32</td><td>TGW <small>(TGW)</small></td><td>115</td><td></td><td>09:05:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>33</td><td>BBG <small>(BBG)</small></td><td>115</td><td></td><td>09:11:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>34</td><td>ATA <small>(ATA)</small></td><td>115</td><td></td><td>09:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>35</td><td>Semarang Tawang <small>(SMT)</small></td><td>50</td><td>09:23:00</td><td>09:28:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>36</td><td>SMC <small>(SMC)</small></td><td>115</td><td></td><td>09:33:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>37</td><td>JRK <small>(JRK)</small></td><td>115</td><td></td><td>09:37:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>38</td><td>MKG <small>(MKG)</small></td><td>115</td><td></td><td>09:41:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>39</td><td>KLN <small>(KLN)</small></td><td>115</td><td></td><td>09:45:00</td><td>// ka 2523 (ka 2523 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>40</td><td>KBD <small>(KBD)</small></td><td>110</td><td></td><td>09:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>41</td><td>WLR <small>(WLR)</small></td><td>110</td><td>10:00:00</td><td>10:02:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>42</td><td>KNS <small>(KNS)</small></td><td>105</td><td></td><td>10:07:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>43</td><td>PLB <small>(PLB)</small></td><td>105</td><td></td><td>10:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>44</td><td>KRP <small>(KRP)</small></td><td>105</td><td></td><td>10:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>45</td><td>UJN <small>(UJN)</small></td><td>105</td><td></td><td>10:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>46</td><td>BTG <small>(BTG)</small></td><td>115</td><td></td><td>10:29:00</td><td>// ka 2529 (ka 2529 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>47</td><td>PK <small>(PK)</small></td><td>105</td><td>10:37:00</td><td>10:40:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>48</td><td>SRI <small>(SRI)</small></td><td>105</td><td></td><td>10:49:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>49</td><td>CO <small>(CO)</small></td><td>115</td><td></td><td>10:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>50</td><td>PTA <small>(PTA)</small></td><td>115</td><td></td><td>10:58:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>51</td><td>PML <small>(PML)</small></td><td>115</td><td></td><td>11:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>52</td><td>Surodadi <small>(SD)</small></td><td>115</td><td></td><td>11:09:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>53</td><td>Larangan <small>(LR)</small></td><td>115</td><td></td><td>11:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>54</td><td>TG <small>(TG)</small></td><td>115</td><td>11:20:00</td><td>11:23:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>55</td><td>BB <small>(BB)</small></td><td>115</td><td></td><td>11:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>56</td><td>TGN <small>(TGN)</small></td><td>115</td><td></td><td>11:44:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>57</td><td>LOS <small>(LOS)</small></td><td>115</td><td></td><td>11:49:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>58</td><td>BBK <small>(BBK)</small></td><td>115</td><td></td><td>11:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>59</td><td>WDW <small>(WDW)</small></td><td>115</td><td></td><td>12:03:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>60</td><td>CNP <small>(CNP)</small></td><td>110</td><td></td><td>12:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>61</td><td>CN <small>(CN)</small></td><td>115</td><td>12:13:00</td><td>12:17:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>62</td><td>CNK <small>(CNK)</small></td><td>115</td><td></td><td>12:23:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>63</td><td>BDW <small>(BDW)</small></td><td>115</td><td></td><td>12:26:00</td><td>// ka 2725F jj (ka 2725F jj = )</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>64</td><td>AWN <small>(AWN)</small></td><td>115</td><td></td><td>12:29:00</td><td>// ka 2703F jj (ka 2703F jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>65</td><td>KTM <small>(KTM)</small></td><td>110</td><td></td><td>12:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>66</td><td>JTB <small>(JTB)</small></td><td>105</td><td></td><td>12:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>67</td><td>TLS <small>(TLS)</small></td><td>105</td><td></td><td>12:49:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>68</td><td>Terisi <small>(TIS)</small></td><td>105</td><td></td><td>12:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>69</td><td>KAB <small>(KAB)</small></td><td>105</td><td></td><td>12:58:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>70</td><td>CLH <small>(CLH)</small></td><td>115</td><td></td><td>13:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>71</td><td>HGL <small>(HGL)</small></td><td>115</td><td></td><td>13:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>72</td><td>CRA <small>(CRA)</small></td><td>115</td><td></td><td>13:14:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>73</td><td>PGB <small>(PGB)</small></td><td>115</td><td></td><td>13:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>74</td><td>CKM <small>(CKM)</small></td><td>115</td><td></td><td>13:23:00</td><td>// ka 2501F jj (ka 2501F jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>75</td><td>PAS <small>(PAS)</small></td><td>115</td><td></td><td>13:27:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>76</td><td>Pringkasap <small>(PRI)</small></td><td>110</td><td></td><td>13:31:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>77</td><td>PAB <small>(PAB)</small></td><td>110</td><td></td><td>13:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>78</td><td>TJS <small>(TJS)</small></td><td>110</td><td></td><td>13:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>79</td><td>CKP <small>(CKP)</small></td><td>0</td><td>13:47:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-305-v1-01" data-train="305">
+  <header>
+    <h2>15. KA 305 — Airlangga</h2>
+    <p class="meta">
+      SBI-PSE · buku 1 · reguler ·
+      complete · 96 baris · halaman
+      603, 604, 605
+    </p>
+    <p class="reason">Alasan dipilih: fills book1</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-15" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-15" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-15">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0603.png" alt="Halaman PDF 603 untuk KA 305" loading="lazy" width="595" height="842"><figcaption>PDF halaman 603</figcaption></figure><figure><img src="img/page_0604.png" alt="Halaman PDF 604 untuk KA 305" loading="lazy" width="595" height="842"><figcaption>PDF halaman 604</figcaption></figure><figure><img src="img/page_0605.png" alt="Halaman PDF 605 untuk KA 305" loading="lazy" width="595" height="842"><figcaption>PDF halaman 605</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>SBI <small>(SBI)</small></td><td>100</td><td></td><td>12:30:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>TES <small>(TES)</small></td><td>100</td><td></td><td>12:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KDA <small>(KDA)</small></td><td>100</td><td></td><td>12:39:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>BNW <small>(BNW)</small></td><td>100</td><td></td><td>12:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>CME <small>(CME)</small></td><td>100</td><td></td><td>12:47:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>DD <small>(DD)</small></td><td>100</td><td></td><td>12:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>LMG <small>(LMG)</small></td><td>100</td><td>13:03:00</td><td>13:06:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>SBN <small>(SBN)</small></td><td>100</td><td></td><td>13:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>PC <small>(PC)</small></td><td>100</td><td></td><td>13:20:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>GEB <small>(GEB)</small></td><td>100</td><td></td><td>13:24:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>BBT <small>(BBT)</small></td><td>100</td><td>13:29:00</td><td>13:31:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>BWO <small>(BWO)</small></td><td>100</td><td></td><td>13:39:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>SRJ <small>(SRJ)</small></td><td>100</td><td></td><td>13:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>KPS <small>(KPS)</small></td><td>100</td><td></td><td>13:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>BJ <small>(BJ)</small></td><td>100</td><td>13:59:00</td><td>14:01:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>KIT <small>(KIT)</small></td><td>100</td><td></td><td>14:12:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>TBO <small>(TBO)</small></td><td>100</td><td></td><td>14:22:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>CU <small>(CU)</small></td><td>100</td><td>14:29:00</td><td>14:33:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>KPA <small>(KPA)</small></td><td>100</td><td></td><td>14:39:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>WDU <small>(WDU)</small></td><td>100</td><td></td><td>14:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>21</td><td>RBG <small>(RBG)</small></td><td>100</td><td>14:53:00</td><td>14:55:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>22</td><td>DPL <small>(DPL)</small></td><td>100</td><td></td><td>15:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>23</td><td>SL <small>(SL)</small></td><td>100</td><td></td><td>15:12:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>24</td><td>KNN <small>(KNN)</small></td><td>100</td><td></td><td>15:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>25</td><td>PNL <small>(PNL)</small></td><td>100</td><td></td><td>15:25:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>26</td><td>JBN <small>(JBN)</small></td><td>100</td><td></td><td>15:29:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>27</td><td>GBN <small>(GBN)</small></td><td>100</td><td></td><td>15:37:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>28</td><td>NBO <small>(NBO)</small></td><td>100</td><td>15:40:00</td><td>15:42:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>29</td><td>SDI <small>(SDI)</small></td><td>100</td><td></td><td>15:47:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>30</td><td>KGT <small>(KGT)</small></td><td>100</td><td></td><td>15:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>31</td><td>GUB <small>(GUB)</small></td><td>100</td><td></td><td>16:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>32</td><td>TGW <small>(TGW)</small></td><td>100</td><td></td><td>16:07:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>33</td><td>BBG <small>(BBG)</small></td><td>100</td><td></td><td>16:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>34</td><td>ATA <small>(ATA)</small></td><td>100</td><td></td><td>16:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>35</td><td>Semarang Tawang <small>(SMT)</small></td><td>50</td><td></td><td>16:25:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>36</td><td>SMC <small>(SMC)</small></td><td>100</td><td>16:30:00</td><td>16:36:00</td><td>// ka 2537F jj (ka ka 2537F jj =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>37</td><td>JRK <small>(JRK)</small></td><td>100</td><td></td><td>16:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>38</td><td>MKG <small>(MKG)</small></td><td>100</td><td></td><td>16:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>39</td><td>KLN <small>(KLN)</small></td><td>100</td><td></td><td>16:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>40</td><td>KBD <small>(KBD)</small></td><td>100</td><td></td><td>17:00:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>41</td><td>WLR <small>(WLR)</small></td><td>100</td><td>17:08:00</td><td>17:10:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>42</td><td>KNS <small>(KNS)</small></td><td>100</td><td></td><td>17:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>43</td><td>PLB <small>(PLB)</small></td><td>100</td><td></td><td>17:22:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>44</td><td>KRP <small>(KRP)</small></td><td>100</td><td></td><td>17:27:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>45</td><td>UJN <small>(UJN)</small></td><td>100</td><td></td><td>17:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>46</td><td>BTG <small>(BTG)</small></td><td>100</td><td>17:39:00</td><td>17:41:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>47</td><td>PK <small>(PK)</small></td><td>100</td><td>17:52:00</td><td>17:54:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>48</td><td>SRI <small>(SRI)</small></td><td>100</td><td></td><td>18:03:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>49</td><td>CO <small>(CO)</small></td><td>100</td><td></td><td>18:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>50</td><td>PTA <small>(PTA)</small></td><td>100</td><td></td><td>18:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>51</td><td>PML <small>(PML)</small></td><td>100</td><td>18:21:00</td><td>18:44:00</td><td>= ka 21 (ka 21 //)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>52</td><td>Surodadi <small>(SD)</small></td><td>100</td><td></td><td>18:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>53</td><td>Larangan <small>(LR)</small></td><td>100</td><td></td><td>19:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>54</td><td>TG <small>(TG)</small></td><td>100</td><td>19:08:00</td><td>19:11:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>55</td><td>BB <small>(BB)</small></td><td>100</td><td>19:22:00</td><td>19:24:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>56</td><td>TGN <small>(TGN)</small></td><td>100</td><td>19:40:00</td><td>19:42:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>57</td><td>LOS <small>(LOS)</small></td><td>100</td><td></td><td>19:49:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>58</td><td>BBK <small>(BBK)</small></td><td>100</td><td>19:56:00</td><td>19:58:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>59</td><td>WDW <small>(WDW)</small></td><td>100</td><td></td><td>20:08:00</td><td>// ka 2707F jj (ka 2707F jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>60</td><td>CNP <small>(CNP)</small></td><td>100</td><td>20:17:00</td><td>20:22:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>61</td><td>CN <small>(CN)</small></td><td>100</td><td></td><td>20:26:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>62</td><td>CNK <small>(CNK)</small></td><td>100</td><td></td><td>20:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>63</td><td>BDW <small>(BDW)</small></td><td>100</td><td></td><td>20:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>64</td><td>AWN <small>(AWN)</small></td><td>100</td><td>20:41:00</td><td>20:43:00</td><td>// ka 2761F jj (ka 2761F jj =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>65</td><td>KTM <small>(KTM)</small></td><td>100</td><td></td><td>20:55:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>66</td><td>JTB <small>(JTB)</small></td><td>100</td><td>21:03:00</td><td>21:05:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>67</td><td>TLS <small>(TLS)</small></td><td>100</td><td></td><td>21:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>68</td><td>Terisi <small>(TIS)</small></td><td>100</td><td></td><td>21:19:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>69</td><td>KAB <small>(KAB)</small></td><td>100</td><td></td><td>21:24:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>70</td><td>CLH <small>(CLH)</small></td><td>100</td><td></td><td>21:30:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>71</td><td>HGL <small>(HGL)</small></td><td>100</td><td>21:39:00</td><td>21:41:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>72</td><td>CRA <small>(CRA)</small></td><td>100</td><td></td><td>21:47:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>73</td><td>PGB <small>(PGB)</small></td><td>100</td><td>21:54:00</td><td>21:56:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>74</td><td>CKM <small>(CKM)</small></td><td>100</td><td></td><td>22:04:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>75</td><td>PAS <small>(PAS)</small></td><td>100</td><td></td><td>22:08:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>76</td><td>Pringkasap <small>(PRI)</small></td><td>100</td><td></td><td>22:12:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>77</td><td>PAB <small>(PAB)</small></td><td>100</td><td></td><td>22:16:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>78</td><td>TJS <small>(TJS)</small></td><td>100</td><td></td><td>22:19:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>79</td><td>CKP <small>(CKP)</small></td><td>100</td><td>22:27:00</td><td>22:29:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>80</td><td>DWN <small>(DWN)</small></td><td>100</td><td></td><td>22:33:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>81</td><td>KOS <small>(KOS)</small></td><td>100</td><td></td><td>22:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>82</td><td>Klari <small>(KLI)</small></td><td>100</td><td></td><td>22:41:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>83</td><td>KW <small>(KW)</small></td><td>100</td><td></td><td>22:46:00</td><td>// ka 2519 (ka 2519 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>84</td><td>KDH <small>(KDH)</small></td><td>100</td><td></td><td>22:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>85</td><td>LMB <small>(LMB)</small></td><td>100</td><td></td><td>22:56:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>86</td><td>CKR <small>(CKR)</small></td><td>80</td><td>23:00:00</td><td>23:02:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>87</td><td>Metland Telagamurni <small>(TLM)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>88</td><td>CIT <small>(CIT)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>89</td><td>TB <small>(TB)</small></td><td>80</td><td></td><td>23:12:00</td><td>// ka 5185 (ka 5185 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>90</td><td>BKST <small>(BKST)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>91</td><td>BKS <small>(BKS)</small></td><td>100</td><td>23:19:00</td><td>23:21:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>92</td><td>JNG <small>(JNG)</small></td><td>70</td><td>23:34:00</td><td>23:36:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>93</td><td>POK <small>(POK)</small></td><td>70</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>94</td><td>KMT <small>(KMT)</small></td><td>70</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>95</td><td>GST <small>(GST)</small></td><td>70</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>96</td><td>PSE <small>(PSE)</small></td><td>-</td><td>23:46:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-23-v1-01" data-train="23">
+  <header>
+    <h2>16. KA 23 — Muria</h2>
+    <p class="meta">
+      SMT-GMR · buku 1 · reguler ·
+      complete · 63 baris · halaman
+      119, 120, 121
+    </p>
+    <p class="reason">Alasan dipilih: fills book1</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-16" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-16" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-16">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0119.png" alt="Halaman PDF 119 untuk KA 23" loading="lazy" width="595" height="842"><figcaption>PDF halaman 119</figcaption></figure><figure><img src="img/page_0120.png" alt="Halaman PDF 120 untuk KA 23" loading="lazy" width="595" height="842"><figcaption>PDF halaman 120</figcaption></figure><figure><img src="img/page_0121.png" alt="Halaman PDF 121 untuk KA 23" loading="lazy" width="595" height="842"><figcaption>PDF halaman 121</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>Semarang Tawang <small>(SMT)</small></td><td>50</td><td></td><td>06:20:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>SMC <small>(SMC)</small></td><td>115</td><td></td><td>06:24:00</td><td>// ka 2703F jj (ka 2703F jj =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>JRK <small>(JRK)</small></td><td>115</td><td></td><td>06:28:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>MKG <small>(MKG)</small></td><td>115</td><td></td><td>06:32:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>KLN <small>(KLN)</small></td><td>115</td><td></td><td>06:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>KBD <small>(KBD)</small></td><td>110</td><td></td><td>06:43:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>WLR <small>(WLR)</small></td><td>110</td><td></td><td>06:49:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>KNS <small>(KNS)</small></td><td>105</td><td></td><td>06:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>PLB <small>(PLB)</small></td><td>105</td><td></td><td>06:58:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>KRP <small>(KRP)</small></td><td>105</td><td></td><td>07:02:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>UJN <small>(UJN)</small></td><td>105</td><td></td><td>07:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>BTG <small>(BTG)</small></td><td>115</td><td></td><td>07:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>PK <small>(PK)</small></td><td>105</td><td>07:21:00</td><td>07:23:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>SRI <small>(SRI)</small></td><td>105</td><td></td><td>07:31:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>CO <small>(CO)</small></td><td>115</td><td></td><td>07:34:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>PTA <small>(PTA)</small></td><td>115</td><td></td><td>07:40:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>PML <small>(PML)</small></td><td>115</td><td>07:45:00</td><td>07:47:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>Surodadi <small>(SD)</small></td><td>115</td><td></td><td>07:56:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>Larangan <small>(LR)</small></td><td>115</td><td></td><td>08:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>TG <small>(TG)</small></td><td>115</td><td>08:07:00</td><td>08:09:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>21</td><td>BB <small>(BB)</small></td><td>115</td><td></td><td>08:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>22</td><td>TGN <small>(TGN)</small></td><td>115</td><td></td><td>08:30:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>23</td><td>LOS <small>(LOS)</small></td><td>115</td><td></td><td>08:35:00</td><td>// ka 2521 (ka 2521 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>24</td><td>BBK <small>(BBK)</small></td><td>115</td><td></td><td>08:40:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>25</td><td>WDW <small>(WDW)</small></td><td>115</td><td></td><td>08:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>26</td><td>CNP <small>(CNP)</small></td><td>110</td><td></td><td>08:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>27</td><td>CN <small>(CN)</small></td><td>115</td><td>08:57:00</td><td>09:01:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>28</td><td>CNK <small>(CNK)</small></td><td>115</td><td></td><td>09:07:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>29</td><td>BDW <small>(BDW)</small></td><td>115</td><td></td><td>09:10:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>30</td><td>AWN <small>(AWN)</small></td><td>115</td><td></td><td>09:13:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>31</td><td>KTM <small>(KTM)</small></td><td>110</td><td></td><td>09:22:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>32</td><td>JTB <small>(JTB)</small></td><td>105</td><td></td><td>09:27:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>33</td><td>TLS <small>(TLS)</small></td><td>105</td><td></td><td>09:33:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>34</td><td>Terisi <small>(TIS)</small></td><td>105</td><td></td><td>09:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>35</td><td>KAB <small>(KAB)</small></td><td>105</td><td></td><td>09:42:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>36</td><td>CLH <small>(CLH)</small></td><td>115</td><td></td><td>09:48:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>37</td><td>HGL <small>(HGL)</small></td><td>115</td><td></td><td>09:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>38</td><td>CRA <small>(CRA)</small></td><td>115</td><td></td><td>09:58:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>39</td><td>PGB <small>(PGB)</small></td><td>115</td><td></td><td>10:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>40</td><td>CKM <small>(CKM)</small></td><td>115</td><td></td><td>10:07:00</td><td>// ka 2525 (ka 2525 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>41</td><td>PAS <small>(PAS)</small></td><td>115</td><td></td><td>10:11:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>42</td><td>Pringkasap <small>(PRI)</small></td><td>110</td><td></td><td>10:14:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>43</td><td>PAB <small>(PAB)</small></td><td>110</td><td></td><td>10:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>44</td><td>TJS <small>(TJS)</small></td><td>110</td><td></td><td>10:21:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>45</td><td>CKP <small>(CKP)</small></td><td>115</td><td></td><td>10:28:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>46</td><td>DWN <small>(DWN)</small></td><td>115</td><td></td><td>10:31:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>47</td><td>KOS <small>(KOS)</small></td><td>115</td><td></td><td>10:35:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>48</td><td>Klari <small>(KLI)</small></td><td>115</td><td></td><td>10:37:00</td><td>// ka 2535 (ka 2535 =)</td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>49</td><td>KW <small>(KW)</small></td><td>115</td><td>10:42:00</td><td>10:44:00</td><td>// ka 2527 (ka 2527 =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>50</td><td>KDH <small>(KDH)</small></td><td>115</td><td></td><td>10:50:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>51</td><td>LMB <small>(LMB)</small></td><td>115</td><td></td><td>10:56:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>52</td><td>CKR <small>(CKR)</small></td><td>80</td><td></td><td>10:59:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>53</td><td>Metland Telagamurni <small>(TLM)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>54</td><td>CIT <small>(CIT)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>55</td><td>TB <small>(TB)</small></td><td>80</td><td></td><td>11:09:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>56</td><td>BKST <small>(BKST)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>57</td><td>BKS <small>(BKS)</small></td><td>115</td><td>11:16:00</td><td>11:18:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>58</td><td>JNG <small>(JNG)</small></td><td>60</td><td>11:29:00</td><td>11:31:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>59</td><td>Matraman <small>(MTR)</small></td><td>60</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>60</td><td>Manggarai <small>(MRI)</small></td><td>80</td><td></td><td>11:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>61</td><td>Cikini <small>(CKI)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>62</td><td>GDD <small>(GDD)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>63</td><td>GMR <small>(GMR)</small></td><td>0</td><td>11:45:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-516-v1-01" data-train="516">
+  <header>
+    <h2>17. KA 516 — Commuter Line Prameks</h2>
+    <p class="meta">
+      KTA-YK · buku 2 · reguler ·
+      complete · 9 baris · halaman
+      762
+    </p>
+    <p class="reason">Alasan dipilih: diversity fill</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-17" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-17" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-17">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0762.png" alt="Halaman PDF 762 untuk KA 516" loading="lazy" width="595" height="842"><figcaption>PDF halaman 762</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>KTA <small>(KTA)</small></td><td>100</td><td></td><td>08:30:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>JN <small>(JN)</small></td><td>100</td><td>08:42:00</td><td>08:43:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>WJ <small>(WJ)</small></td><td>100</td><td>08:51:00</td><td>08:52:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>KDG <small>(KDG)</small></td><td>100</td><td></td><td>08:58:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>WT <small>(WT)</small></td><td>100</td><td>09:04:00</td><td>09:05:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>STL <small>(STL)</small></td><td>100</td><td></td><td>09:15:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>RWL <small>(RWL)</small></td><td>100</td><td></td><td>09:22:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>PTN <small>(PTN)</small></td><td>100</td><td></td><td>09:25:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>YK <small>(YK)</small></td><td>0</td><td>09:30:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b1-57-v1-01" data-train="57">
+  <header>
+    <h2>18. KA 57 — Sembrani</h2>
+    <p class="meta">
+      SBI-GMR · buku 1 · reguler ·
+      complete · 97 baris · halaman
+      189, 190, 191, 192
+    </p>
+    <p class="reason">Alasan dipilih: diversity fill</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-18" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-18" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-18">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0189.png" alt="Halaman PDF 189 untuk KA 57" loading="lazy" width="595" height="842"><figcaption>PDF halaman 189</figcaption></figure><figure><img src="img/page_0190.png" alt="Halaman PDF 190 untuk KA 57" loading="lazy" width="595" height="842"><figcaption>PDF halaman 190</figcaption></figure><figure><img src="img/page_0191.png" alt="Halaman PDF 191 untuk KA 57" loading="lazy" width="595" height="842"><figcaption>PDF halaman 191</figcaption></figure><figure><img src="img/page_0192.png" alt="Halaman PDF 192 untuk KA 57" loading="lazy" width="595" height="842"><figcaption>PDF halaman 192</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>SBI <small>(SBI)</small></td><td>115</td><td></td><td>21:30:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>TES <small>(TES)</small></td><td>115</td><td></td><td>21:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KDA <small>(KDA)</small></td><td>115</td><td></td><td>21:38:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>BNW <small>(BNW)</small></td><td>115</td><td></td><td>21:41:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>CME <small>(CME)</small></td><td>115</td><td></td><td>21:44:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>DD <small>(DD)</small></td><td>115</td><td></td><td>21:49:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>LMG <small>(LMG)</small></td><td>115</td><td>21:58:00</td><td>22:00:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>SBN <small>(SBN)</small></td><td>115</td><td></td><td>22:06:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>PC <small>(PC)</small></td><td>115</td><td></td><td>22:11:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>GEB <small>(GEB)</small></td><td>115</td><td></td><td>22:14:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>11</td><td>BBT <small>(BBT)</small></td><td>115</td><td></td><td>22:18:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>12</td><td>BWO <small>(BWO)</small></td><td>115</td><td></td><td>22:23:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>13</td><td>SRJ <small>(SRJ)</small></td><td>115</td><td></td><td>22:31:30</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>14</td><td>KPS <small>(KPS)</small></td><td>115</td><td></td><td>22:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>15</td><td>BJ <small>(BJ)</small></td><td>115</td><td>22:42:00</td><td>22:44:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>16</td><td>KIT <small>(KIT)</small></td><td>115</td><td></td><td>22:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>17</td><td>TBO <small>(TBO)</small></td><td>115</td><td></td><td>23:02:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>18</td><td>CU <small>(CU)</small></td><td>110</td><td>23:09:00</td><td>23:11:00</td><td>// ka 345 (ka 345 =)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>19</td><td>KPA <small>(KPA)</small></td><td>110</td><td></td><td>23:16:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>20</td><td>WDU <small>(WDU)</small></td><td>110</td><td></td><td>23:20:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>21</td><td>RBG <small>(RBG)</small></td><td>110</td><td></td><td>23:27:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>22</td><td>DPL <small>(DPL)</small></td><td>110</td><td></td><td>23:36:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>23</td><td>SL <small>(SL)</small></td><td>110</td><td></td><td>23:41:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>24</td><td>KNN <small>(KNN)</small></td><td>115</td><td></td><td>23:47:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>25</td><td>PNL <small>(PNL)</small></td><td>115</td><td></td><td>23:53:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>26</td><td>JBN <small>(JBN)</small></td><td>115</td><td></td><td>23:57:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>27</td><td>GBN <small>(GBN)</small></td><td>115</td><td></td><td>00:04:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>28</td><td>NBO <small>(NBO)</small></td><td>115</td><td></td><td>00:05:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>29</td><td>SDI <small>(SDI)</small></td><td>115</td><td></td><td>00:09:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>30</td><td>KGT <small>(KGT)</small></td><td>115</td><td></td><td>00:14:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>31</td><td>GUB <small>(GUB)</small></td><td>115</td><td></td><td>00:22:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>32</td><td>TGW <small>(TGW)</small></td><td>115</td><td></td><td>00:27:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>33</td><td>BBG <small>(BBG)</small></td><td>115</td><td></td><td>00:33:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>34</td><td>ATA <small>(ATA)</small></td><td>115</td><td></td><td>00:37:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>35</td><td>Semarang Tawang <small>(SMT)</small></td><td>50</td><td>00:45:00</td><td>00:51:00</td><td></td><td>stop</td><td>1/1/1</td><td>printed</td></tr><tr><td>36</td><td>SMC <small>(SMC)</small></td><td>115</td><td></td><td>00:55:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>37</td><td>JRK <small>(JRK)</small></td><td>115</td><td></td><td>00:59:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>38</td><td>MKG <small>(MKG)</small></td><td>115</td><td></td><td>01:03:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>39</td><td>KLN <small>(KLN)</small></td><td>115</td><td></td><td>01:06:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>40</td><td>KBD <small>(KBD)</small></td><td>110</td><td></td><td>01:13:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>41</td><td>WLR <small>(WLR)</small></td><td>110</td><td></td><td>01:19:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>42</td><td>KNS <small>(KNS)</small></td><td>105</td><td></td><td>01:22:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>43</td><td>PLB <small>(PLB)</small></td><td>105</td><td></td><td>01:28:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>44</td><td>KRP <small>(KRP)</small></td><td>105</td><td></td><td>01:33:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>45</td><td>UJN <small>(UJN)</small></td><td>105</td><td></td><td>01:41:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>46</td><td>BTG <small>(BTG)</small></td><td>115</td><td></td><td>01:44:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>47</td><td>PK <small>(PK)</small></td><td>105</td><td></td><td>01:51:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>48</td><td>SRI <small>(SRI)</small></td><td>105</td><td></td><td>01:58:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>49</td><td>CO <small>(CO)</small></td><td>115</td><td></td><td>02:00:30</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>50</td><td>PTA <small>(PTA)</small></td><td>115</td><td></td><td>02:06:00</td><td>// ka 2535 (ka 2535 =)</td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>51</td><td>PML <small>(PML)</small></td><td>115</td><td></td><td>02:10:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>52</td><td>Surodadi <small>(SD)</small></td><td>115</td><td></td><td>02:17:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>53</td><td>Larangan <small>(LR)</small></td><td>115</td><td></td><td>02:23:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>54</td><td>TG <small>(TG)</small></td><td>115</td><td></td><td>02:27:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>55</td><td>BB <small>(BB)</small></td><td>115</td><td></td><td>02:34:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>56</td><td>TGN <small>(TGN)</small></td><td>115</td><td></td><td>02:46:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>57</td><td>LOS <small>(LOS)</small></td><td>115</td><td></td><td>02:51:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>58</td><td>BBK <small>(BBK)</small></td><td>115</td><td></td><td>02:56:30</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>59</td><td>WDW <small>(WDW)</small></td><td>115</td><td></td><td>03:04:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>60</td><td>CNP <small>(CNP)</small></td><td>110</td><td></td><td>03:10:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>61</td><td>CN <small>(CN)</small></td><td>115</td><td>03:13:00</td><td>03:17:00</td><td>// ka 2539f jj (ka 2539f jj =)</td><td>stop</td><td>1/1/1</td><td>printed</td></tr><tr><td>62</td><td>CNK <small>(CNK)</small></td><td>115</td><td></td><td>03:23:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>63</td><td>BDW <small>(BDW)</small></td><td>115</td><td></td><td>03:26:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>64</td><td>AWN <small>(AWN)</small></td><td>115</td><td></td><td>03:29:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>65</td><td>KTM <small>(KTM)</small></td><td>110</td><td></td><td>03:38:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>66</td><td>JTB <small>(JTB)</small></td><td>105</td><td></td><td>03:43:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>67</td><td>TLS <small>(TLS)</small></td><td>105</td><td></td><td>03:49:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>68</td><td>Terisi <small>(TIS)</small></td><td>105</td><td></td><td>03:54:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>69</td><td>KAB <small>(KAB)</small></td><td>105</td><td></td><td>03:58:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>70</td><td>CLH <small>(CLH)</small></td><td>115</td><td></td><td>04:04:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>71</td><td>HGL <small>(HGL)</small></td><td>115</td><td></td><td>04:10:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>72</td><td>CRA <small>(CRA)</small></td><td>115</td><td></td><td>04:14:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>73</td><td>PGB <small>(PGB)</small></td><td>115</td><td></td><td>04:18:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>74</td><td>CKM <small>(CKM)</small></td><td>115</td><td></td><td>04:23:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>75</td><td>PAS <small>(PAS)</small></td><td>115</td><td></td><td>04:27:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>76</td><td>Pringkasap <small>(PRI)</small></td><td>110</td><td></td><td>04:30:30</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>77</td><td>PAB <small>(PAB)</small></td><td>110</td><td></td><td>04:34:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>78</td><td>TJS <small>(TJS)</small></td><td>110</td><td></td><td>04:37:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>79</td><td>CKP <small>(CKP)</small></td><td>115</td><td></td><td>04:44:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>80</td><td>DWN <small>(DWN)</small></td><td>115</td><td></td><td>04:47:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>81</td><td>KOS <small>(KOS)</small></td><td>115</td><td></td><td>04:51:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>82</td><td>Klari <small>(KLI)</small></td><td>115</td><td></td><td>04:53:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>83</td><td>KW <small>(KW)</small></td><td>115</td><td></td><td>04:57:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>84</td><td>KDH <small>(KDH)</small></td><td>115</td><td></td><td>05:01:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>85</td><td>LMB <small>(LMB)</small></td><td>115</td><td></td><td>05:06:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>86</td><td>CKR <small>(CKR)</small></td><td>80</td><td></td><td>05:09:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>87</td><td>Metland Telagamurni <small>(TLM)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>88</td><td>CIT <small>(CIT)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>89</td><td>TB <small>(TB)</small></td><td>80</td><td></td><td>05:18:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>90</td><td>BKST <small>(BKST)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>91</td><td>BKS <small>(BKS)</small></td><td>115</td><td>05:25:00</td><td>05:27:00</td><td></td><td>stop</td><td>1/1/1</td><td>printed</td></tr><tr><td>92</td><td>JNG <small>(JNG)</small></td><td>60</td><td></td><td>05:38:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>93</td><td>Matraman <small>(MTR)</small></td><td>60</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>94</td><td>Manggarai <small>(MRI)</small></td><td>80</td><td></td><td>05:42:00</td><td></td><td>pass</td><td>1/1/1</td><td>printed</td></tr><tr><td>95</td><td>Cikini <small>(CKI)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>96</td><td>GDD <small>(GDD)</small></td><td>80</td><td></td><td></td><td></td><td>pass</td><td>1/1/1</td><td>not_printed</td></tr><tr><td>97</td><td>GMR <small>(GMR)</small></td><td>-</td><td>05:51:00</td><td></td><td></td><td>stop</td><td>1/1/1</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-380-v1-01" data-train="380">
+  <header>
+    <h2>19. KA 380 — Commuter Line Walahar</h2>
+    <p class="meta">
+      CKR-PWK · buku 2 · reguler ·
+      complete · 11 baris · halaman
+      685
+    </p>
+    <p class="reason">Alasan dipilih: diversity fill</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-19" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-19" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-19">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0685.png" alt="Halaman PDF 685 untuk KA 380" loading="lazy" width="595" height="842"><figcaption>PDF halaman 685</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>CKR <small>(CKR)</small></td><td>90</td><td></td><td>18:50:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>LMB <small>(LMB)</small></td><td>90</td><td>18:55:00</td><td>18:56:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>3</td><td>KDH <small>(KDH)</small></td><td>90</td><td>19:05:00</td><td>19:06:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>KW <small>(KW)</small></td><td>90</td><td>19:13:00</td><td>19:15:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>Klari <small>(KLI)</small></td><td>90</td><td>19:22:00</td><td>19:23:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>KOS <small>(KOS)</small></td><td>90</td><td>19:28:00</td><td>19:39:00</td><td>= ka 58 (ka 58 //)</td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>7</td><td>DWN <small>(DWN)</small></td><td>90</td><td>19:46:00</td><td>19:47:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>8</td><td>CKP <small>(CKP)</small></td><td>90</td><td>19:52:00</td><td>19:54:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>9</td><td>CBR <small>(CBR)</small></td><td>90</td><td>20:03:00</td><td>20:05:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>10</td><td>SAD <small>(SAD)</small></td><td>90</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>11</td><td>PWK <small>(PWK)</small></td><td>0</td><td>20:17:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="train" data-trip="b2-624-v1-01" data-train="624">
+  <header>
+    <h2>20. KA 624 — Ka Feeder</h2>
+    <p class="meta">
+      PDL-BD · buku 2 · reguler ·
+      complete · 6 baris · halaman
+      797
+    </p>
+    <p class="reason">Alasan dipilih: diversity fill</p>
+    <p class="verdict">
+      <label><input type="radio" name="verdict-20" value="ok" checked>
+        Semua baris cocok</label>
+      <label><input type="radio" name="verdict-20" value="errors">
+        Ada kesalahan</label>
+      <span class="count" id="count-20">0 baris ditandai</span>
+    </p>
+  </header>
+  <div class="body">
+    <div class="pages"><figure><img src="img/page_0797.png" alt="Halaman PDF 797 untuk KA 624" loading="lazy" width="595" height="842"><figcaption>PDF halaman 797</figcaption></figure></div>
+    <div class="table-wrap">
+      <p class="hint">Klik satu baris untuk menandainya salah. Baris hijau = cocok.</p>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
+          <th>Berangkat</th><th>Keterangan</th><th>type</th>
+          <th>day/arr/dep</th><th>time_source</th>
+        </tr></thead>
+        <tbody><tr><td>1</td><td>PDL <small>(PDL)</small></td><td>100</td><td></td><td>08:41:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>2</td><td>GK <small>(GK)</small></td><td>100</td><td></td><td></td><td></td><td>pass</td><td>0/0/0</td><td>not_printed</td></tr><tr><td>3</td><td>CMI <small>(CMI)</small></td><td>100</td><td>08:47:00</td><td>08:49:00</td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr><tr><td>4</td><td>CMD <small>(CMD)</small></td><td>100</td><td></td><td>08:52:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>5</td><td>AND <small>(AND)</small></td><td>100</td><td></td><td>08:54:00</td><td></td><td>pass</td><td>0/0/0</td><td>printed</td></tr><tr><td>6</td><td>BD <small>(BD)</small></td><td>0</td><td>08:59:00</td><td></td><td></td><td>stop</td><td>0/0/0</td><td>printed</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+const SELECTION = [
+ {
+  &quot;trip_id&quot;: &quot;b1-1-v1-01&quot;,
+  &quot;train_no&quot;: &quot;1&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Anggrek&quot;,
+  &quot;relation&quot;: &quot;SBI-GMR&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   59,
+   60,
+   61
+  ],
+  &quot;stops&quot;: 97,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;longest trip by routed length&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-71F-v1-01&quot;,
+  &quot;train_no&quot;: &quot;71F&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;fakultatif&quot;,
+  &quot;name&quot;: &quot;Purwojaya&quot;,
+  &quot;relation&quot;: &quot;KYA-GMR&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   213,
+   214
+  ],
+  &quot;stops&quot;: 56,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: true,
+  &quot;midnight_straddle&quot;: true,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1, fakultatif, footnote, midnight, midnight_straddle, multipage, seconds, untimed_ls&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-76F-v1-01&quot;,
+  &quot;train_no&quot;: &quot;76F&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;fakultatif&quot;,
+  &quot;name&quot;: &quot;Borobudur&quot;,
+  &quot;relation&quot;: &quot;GMR-LPN&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   220,
+   221
+  ],
+  &quot;stops&quot;: 79,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: true,
+  &quot;midnight_straddle&quot;: true,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1, fakultatif, footnote, midnight, multipage, seconds&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-489-v1-01&quot;,
+  &quot;train_no&quot;: &quot;489&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Commuter Line Jenggala&quot;,
+  &quot;relation&quot;: &quot;SBI-MR&quot;,
+  &quot;status&quot;: &quot;complete_estimated&quot;,
+  &quot;pages&quot;: [
+   748
+  ],
+  &quot;stops&quot;: 12,
+  &quot;marker&quot;: true,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: true,
+  &quot;complete_estimated&quot;: true,
+  &quot;reason&quot;: &quot;fills book2, complete_estimated, marker&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-500-v1-01&quot;,
+  &quot;train_no&quot;: &quot;500&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Commuter Line Jenggala&quot;,
+  &quot;relation&quot;: &quot;MR-SBI&quot;,
+  &quot;status&quot;: &quot;complete_estimated&quot;,
+  &quot;pages&quot;: [
+   752
+  ],
+  &quot;stops&quot;: 12,
+  &quot;marker&quot;: true,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: true,
+  &quot;complete_estimated&quot;: true,
+  &quot;reason&quot;: &quot;fills book2, complete_estimated, marker&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-219F-v1-01&quot;,
+  &quot;train_no&quot;: &quot;219F&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;fakultatif&quot;,
+  &quot;name&quot;: &quot;Sancaka Utara&quot;,
+  &quot;relation&quot;: &quot;SLO-GBN&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   496
+  ],
+  &quot;stops&quot;: 8,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: false,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1, fakultatif&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-596-v1-01&quot;,
+  &quot;train_no&quot;: &quot;596&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Bandara Smo&quot;,
+  &quot;relation&quot;: &quot;SMO-CRB&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   787
+  ],
+  &quot;stops&quot;: 18,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: false,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: false,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book2&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-363-v1-01&quot;,
+  &quot;train_no&quot;: &quot;363&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Commuter Line Merak&quot;,
+  &quot;relation&quot;: &quot;MER-RK&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   677
+  ],
+  &quot;stops&quot;: 11,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: false,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book2&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-270-v1-01&quot;,
+  &quot;train_no&quot;: &quot;270&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Pangrango&quot;,
+  &quot;relation&quot;: &quot;BOP-SI&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   536
+  ],
+  &quot;stops&quot;: 13,
+  &quot;marker&quot;: true,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: false,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: true,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-227-v1-01&quot;,
+  &quot;train_no&quot;: &quot;227&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Kamandaka&quot;,
+  &quot;relation&quot;: &quot;PWT-TG&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   506
+  ],
+  &quot;stops&quot;: 12,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: false,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-437-v1-01&quot;,
+  &quot;train_no&quot;: &quot;437&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Commuter Line Dhoho&quot;,
+  &quot;relation&quot;: &quot;SB-KTS&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   713,
+   714
+  ],
+  &quot;stops&quot;: 16,
+  &quot;marker&quot;: true,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: true,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book2&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-117-v1-01&quot;,
+  &quot;train_no&quot;: &quot;117&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Gunungjati&quot;,
+  &quot;relation&quot;: &quot;CN-GMR&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   315
+  ],
+  &quot;stops&quot;: 37,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-546-v1-01&quot;,
+  &quot;train_no&quot;: &quot;546&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Commuter Line Yia&quot;,
+  &quot;relation&quot;: &quot;YIA-YK&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   772
+  ],
+  &quot;stops&quot;: 7,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: false,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: false,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book2&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-101-v1-01&quot;,
+  &quot;train_no&quot;: &quot;101&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Harina&quot;,
+  &quot;relation&quot;: &quot;SBI-CKP&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   289,
+   290
+  ],
+  &quot;stops&quot;: 79,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: false,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-305-v1-01&quot;,
+  &quot;train_no&quot;: &quot;305&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Airlangga&quot;,
+  &quot;relation&quot;: &quot;SBI-PSE&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   603,
+   604,
+   605
+  ],
+  &quot;stops&quot;: 96,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-23-v1-01&quot;,
+  &quot;train_no&quot;: &quot;23&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Muria&quot;,
+  &quot;relation&quot;: &quot;SMT-GMR&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   119,
+   120,
+   121
+  ],
+  &quot;stops&quot;: 63,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;fills book1&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-516-v1-01&quot;,
+  &quot;train_no&quot;: &quot;516&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Commuter Line Prameks&quot;,
+  &quot;relation&quot;: &quot;KTA-YK&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   762
+  ],
+  &quot;stops&quot;: 9,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: false,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: false,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;diversity fill&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b1-57-v1-01&quot;,
+  &quot;train_no&quot;: &quot;57&quot;,
+  &quot;book&quot;: 1,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Sembrani&quot;,
+  &quot;relation&quot;: &quot;SBI-GMR&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   189,
+   190,
+   191,
+   192
+  ],
+  &quot;stops&quot;: 97,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: true,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: true,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: true,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;diversity fill&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-380-v1-01&quot;,
+  &quot;train_no&quot;: &quot;380&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Commuter Line Walahar&quot;,
+  &quot;relation&quot;: &quot;CKR-PWK&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   685
+  ],
+  &quot;stops&quot;: 11,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: true,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;diversity fill&quot;
+ },
+ {
+  &quot;trip_id&quot;: &quot;b2-624-v1-01&quot;,
+  &quot;train_no&quot;: &quot;624&quot;,
+  &quot;book&quot;: 2,
+  &quot;service_class&quot;: &quot;reguler&quot;,
+  &quot;name&quot;: &quot;Ka Feeder&quot;,
+  &quot;relation&quot;: &quot;PDL-BD&quot;,
+  &quot;status&quot;: &quot;complete&quot;,
+  &quot;pages&quot;: [
+   797
+  ],
+  &quot;stops&quot;: 6,
+  &quot;marker&quot;: false,
+  &quot;untimed_ls&quot;: true,
+  &quot;midnight&quot;: false,
+  &quot;midnight_straddle&quot;: false,
+  &quot;multipage&quot;: false,
+  &quot;footnote&quot;: false,
+  &quot;seconds&quot;: false,
+  &quot;has_untimed_markers&quot;: false,
+  &quot;complete_estimated&quot;: false,
+  &quot;reason&quot;: &quot;diversity fill&quot;
+ }
+];
+const wrong = {};   // tripId -> [{seq, note}]
+
+function trainSections(){ return [...document.querySelectorAll('section.train')]; }
+
+function updateCount(section){
+  const trip = section.dataset.trip;
+  const rows = (wrong[trip] || []);
+  const badge = section.querySelector('.count');
+  badge.textContent = rows.length + ' baris ditandai';
+  const verdictErrors = section.querySelector('input[value="errors"]');
+  const verdictOk = section.querySelector('input[value="ok"]');
+  if (rows.length > 0) verdictErrors.checked = true;
+  else verdictOk.checked = true;
+}
+
+function updateSummary(){
+  const total = Object.values(wrong).reduce((n, rows) => n + rows.length, 0);
+  const trains = Object.keys(wrong).filter(k => wrong[k].length > 0).length;
+  document.getElementById('summary').textContent =
+    total === 0 ? 'Belum ada baris ditandai.' :
+    trains + ' KA dengan kesalahan, ' + total + ' baris ditandai.';
+}
+
+trainSections().forEach(section => {
+  const trip = section.dataset.trip;
+  const rows = [...section.querySelectorAll('tbody tr')];
+  rows.forEach((row, index) => {
+    row.addEventListener('click', () => {
+      row.classList.toggle('wrong');
+      const seq = Number(row.cells[0].textContent);
+      wrong[trip] = (wrong[trip] || []).filter(r => r.seq !== seq);
+      if (row.classList.contains('wrong')) wrong[trip].push({seq, note: ''});
+      updateCount(section); updateSummary();
+    });
+  });
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  if (!confirm('Atur ulang semua tanda?')) return;
+  Object.keys(wrong).forEach(k => delete wrong[k]);
+  document.querySelectorAll('tbody tr.wrong').forEach(r => r.classList.remove('wrong'));
+  document.querySelectorAll('textarea.note')
+    .forEach(t => { t.value=''; t.classList.remove('show'); });
+  trainSections().forEach(s => { updateCount(s); });
+  updateSummary();
+});
+
+document.getElementById('download').addEventListener('click', () => {
+  const payload = {
+    note: 'Hasil verifikasi manual. Diunggah ke pipeline/import_verifications.py.',
+    date: new Date().toISOString().slice(0, 10),
+    verifier: 'human',
+    method: 'visual comparison of PDF page images against the parsed table',
+    selection_seed: SELECTION.length ? undefined : undefined,
+    trains: SELECTION.map(t => ({
+      trip_id: t.trip_id,
+      train_no: t.train_no,
+      book: t.book,
+      verdict: (wrong[t.trip_id] || []).length ? 'has_errors' : 'all_rows_match',
+      wrong_rows: (wrong[t.trip_id] || []),
+      pages: t.pages,
+    })),
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'verification_result.json';
+  link.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
