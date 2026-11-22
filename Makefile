@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit basemap web-assets export-web parity web-dev web-build web-test web-e2e reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit basemap web-assets export-web parity web-dev web-build web-test web-e2e web-lighthouse reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -112,8 +112,11 @@ web-build: export-web ## static production build into web/dist
 web-test: export-web parity ## Vitest unit + parity
 	cd web && pnpm install --silent && pnpm test
 
-web-e2e: export-web web-build ## Playwright smoke with tiles stubbed
+web-e2e: export-web ## Playwright smoke + robustness with tiles stubbed
 	cd web && pnpm e2e
+
+web-lighthouse: ## Lighthouse mobile report -> data/review/lighthouse.json (T7)
+	cd web && pnpm build:e2e && (pnpm exec vite preview --outDir dist-e2e --port 4173 --strictPort --host 127.0.0.1 &) && sleep 4 && node e2e/lighthouse.mjs; pkill -f "vite preview" || true
 
 reproduce: ## prove a clean clone rebuilds identical hashes (P2)
 	uv run python -m pipeline.reproduce

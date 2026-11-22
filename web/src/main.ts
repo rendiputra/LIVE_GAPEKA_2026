@@ -555,6 +555,7 @@ async function requestFrame(): Promise<void> {
 }
 
 function tick(): void {
+  updateBanner();
   if (state.mode === "live") {
     requestFrame();
     window.setTimeout(tick, 1000);
@@ -636,12 +637,21 @@ function wireControls(): void {
   hash.textContent = manifest.content_hash;
   hash.setAttribute("translate", "no");
 
-  const now = new Date();
+  updateBanner();
+  window.setInterval(updateBanner, 30_000);
+}
+
+/** The banner is time-dependent, so it must be re-evaluated, not set once. */
+function updateBanner(): void {
+  if (!manifest) return;
   const effective = new Date(`${manifest.effective_from}T00:00:00+07:00`);
-  if (now < effective) {
-    const banner = $("banner");
+  const banner = $("banner");
+  const shouldShow = Date.now() < effective.getTime();
+  if (shouldShow) {
     banner.textContent = manifest.attribution.preview_banner;
     banner.hidden = false;
+  } else {
+    banner.hidden = true;
   }
 }
 
@@ -650,7 +660,9 @@ async function main(): Promise<void> {
   buildMap();
   buildSearchIndex();
   wireControls();
-  syncReplayInputs();
+  // Only the LABEL is initialised here. Writing the inputs at startup can race a
+  // user (or a test) that already moved the slider, silently resetting it.
+  $("clock").textContent = hhmm(state.secondsOfDay);
   startWorker();
   tick();
 }
