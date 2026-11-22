@@ -28,6 +28,7 @@ TRACKED = (
     "cell_markers.yaml",
     "geometry.yaml",
     "coverage.yaml",
+    "rejected_stations.yaml",
 )
 
 

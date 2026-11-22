@@ -121,6 +121,29 @@ def load_graph(name: str = "java_rail_graph.json") -> RailGraph:
     return RailGraph.from_ways(payload["ways"], coords)
 
 
+def rejected_codes(path: Path | None = None) -> set[str]:
+    """Codes excluded by tracked config (P2), not by a gitignored review artefact.
+
+    ``data/config/rejected_stations.yaml`` is human-authored and committed, so a
+    clean clone reproduces the same exclusions. A code listed here is not routed
+    unless a human override supersedes it.
+    """
+    path = path or Path("data/config/rejected_stations.yaml")
+    if not path.exists():
+        return set()
+    text = path.read_text(encoding="utf-8")
+    if "rejected:" not in text:
+        return set()
+    codes: set[str] = set()
+    for line in text.split("rejected:", 1)[1].splitlines():
+        stripped = line.strip()
+        if stripped.startswith("- code:"):
+            code = stripped.split(":", 1)[1].strip().strip('"').strip("'")
+            if code:
+                codes.add(code)
+    return codes
+
+
 def accepted_coordinates() -> dict[str, dict]:
     """Coordinates usable for geometry: external matches plus human overrides.
 
@@ -137,13 +160,9 @@ def accepted_coordinates() -> dict[str, dict]:
     # A rejected coordinate must not be routed, but a human override supersedes
     # the rejection: the override IS the correction.
     override_codes = {o.code for o in overrides}
-    rejected = REVIEW / "stations_suspicious_coords.json"
-    if rejected.exists():
-        for row in json.loads(rejected.read_text(encoding="utf-8"))["stations"]:
-            for code in row["code"].split(","):
-                code = code.strip()
-                if code not in override_codes:
-                    matched.pop(code, None)
+    for code in rejected_codes():
+        if code not in override_codes:
+            matched.pop(code, None)
     return matched
 
 

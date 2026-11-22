@@ -1,0 +1,27 @@
+# Stations whose external coordinate must NOT be routed - AUTHORED BY THE HUMAN.
+#
+# This replaces reading `data/review/stations_suspicious_coords.json`, which is a
+# gitignored review artefact: a build that depended on it could not be reproduced
+# from a clean clone (P2).
+#
+# A station listed here keeps `lat`/`lon` in the evidence tables but is not used
+# for geometry, so any trip that needs it stays blocked unless a human override
+# supersedes this entry (an override always wins).
+#
+# Schema:
+#   rejected:
+#     - code:     "<station code>"
+#       reason:   "<why the external coordinate is unusable>"
+#       evidence: "<file or measurement>"
+#       status:   "open" | "decided"
+#       decided_by: "<your name or 'pending'>"
+#       date:     "<YYYY-MM-DD>"
+rejected:
+  # H4 is still open: the Wikidata coordinate is 7 m from PS, so the two are the
+  # same point. A human must decide whether RO is a distinct station.
+  - code: "RO"
+    reason: "Wikidata coordinate is 7 m from PS, so RO and PS share one point"
+    evidence: "data/review/stations_suspicious_coords.json (PS,RO duplicate)"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
