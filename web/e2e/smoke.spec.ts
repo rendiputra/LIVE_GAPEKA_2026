@@ -171,3 +171,49 @@ test("F1: Live mode shows the LIVE clock and date, never the replay time", async
   expect(status).toContain("2026-11-25");
   expect(status).not.toContain("09:00");
 });
+
+test("F3: selecting a train highlights its route and shows the rail layer", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("radio", { name: "Ulang" }).click();
+  await page.locator("#date").fill("2026-12-01");
+  await page.locator("#time").fill(String(9 * 3600));
+  await expect(page.locator("#status")).toContainText("2026-12-01");
+
+  // The background rail layer must exist and carry the exported segments.
+  const railCount = await page.evaluate(() => {
+    const map = (window as unknown as { __gapekaMap?: { getSource: (id: string) => unknown } })
+      .__gapekaMap;
+    if (!map) return -1;
+    const source = map.getSource("rail") as { _data?: { features?: unknown[] } } | undefined;
+    return source?._data?.features?.length ?? -2;
+  });
+  expect(railCount).toBeGreaterThan(100);
+
+  // Before selecting, the route highlight is empty.
+  const emptyBefore = await page.evaluate(() => {
+    const map = (window as unknown as { __gapekaMap?: { getSource: (id: string) => unknown } })
+      .__gapekaMap;
+    const source = map?.getSource("route") as { _data?: { features?: unknown[] } } | undefined;
+    return source?._data?.features?.length ?? -1;
+  });
+  expect(emptyBefore).toBe(0);
+
+  await page.locator("#search").fill("249");
+  await page.locator("#search").press("Enter");
+  await expect(page.locator("#panel")).toContainText("KA 249");
+
+  const route = await page.evaluate(() => {
+    const map = (window as unknown as { __gapekaMap?: { getSource: (id: string) => unknown } })
+      .__gapekaMap;
+    const source = map?.getSource("route") as
+      | { _data?: { features?: Array<{ geometry?: { coordinates?: unknown[] } }> } }
+      | undefined;
+    const features = source?._data?.features ?? [];
+    return {
+      features: features.length,
+      points: features[0]?.geometry?.coordinates?.length ?? 0,
+    };
+  });
+  expect(route.features).toBe(1);
+  expect(route.points).toBeGreaterThan(10);
+});

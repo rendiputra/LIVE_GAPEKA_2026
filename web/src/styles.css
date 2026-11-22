@@ -71,13 +71,13 @@ body {
   background: var(--warn);
   color: #fff;
   font-weight: 600;
-  font-size: 13px;
-  padding: 8px 12px;
+  font-size: 12px;
+  padding: 5px 12px;
   text-align: center;
 }
 
 .topbar {
-  padding: 10px 12px 4px;
+  padding: 6px 12px 2px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
@@ -112,8 +112,8 @@ body {
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px 8px;
+  padding: 6px 12px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   align-items: end;
@@ -251,12 +251,12 @@ body {
 
 .map {
   flex: 1 1 auto;
-  min-height: 45dvh;
+  min-height: 52dvh;
 }
 
 .panel {
   flex: 0 0 auto;
-  max-height: 38dvh;
+  max-height: 32dvh;
   overflow: auto;
   overscroll-behavior: contain;
   padding: 12px;
@@ -326,12 +326,12 @@ body {
 }
 
 .footer {
-  padding: 8px 12px 12px;
+  padding: 6px 12px 8px;
   background: var(--surface);
   border-top: 1px solid var(--border);
 }
 .disclaimer {
-  margin: 0 0 4px;
+  margin: 0 0 2px;
   font-size: 11px;
   color: #7a4b00;
   background: #fff8e6;

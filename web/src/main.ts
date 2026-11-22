@@ -14,9 +14,17 @@ import {
   TILE_MODE,
 } from "./config";
 import { prepare, type Dataset, type TrainPosition } from "./engine/position";
+import { decodePolyline } from "./engine/polyline";
 import { defaultPolicy, type Manifest, type Policy, type TripData } from "./engine/types";
 
 const DATA_BASE = `${import.meta.env.BASE_URL}data`;
+
+/** Stop types are printed in English in the data; the UI speaks Indonesian. */
+const STOP_LABEL: Record<string, string> = {
+  stop: "Berhenti",
+  pass: "Langsung",
+  unknown_untimed: "Tanpa jam",
+};
 
 const CLASS_COLOUR: Record<string, string> = {
   reguler: "#1565c0",
@@ -64,6 +72,9 @@ let lastRendered: TrainPosition[] = [];
 /** The instant the currently displayed frame was computed for. The status line
  *  must describe THIS, never the replay slider, or live mode shows replay time. */
 let lastRenderedInstantMs = 0;
+/** The trip whose stop list was last auto-scrolled, so a frame render does not
+ *  yank the panel back while the user is reading. */
+let lastAutoScrolledTripId: string | null = null;
 
 // --- time helpers -----------------------------------------------------------
 
@@ -190,9 +201,14 @@ function buildMap(): void {
     container: "map",
     style: basemapStyle(),
     center: [110.4, -7.2],
-    zoom: 6.4,
+    // z6-7 is inherently coarse in the Protomaps theme (Natural Earth coastline,
+    // about one locality per tile). Starting a little closer shows real detail
+    // and city labels without downloading extra zoom levels.
+    zoom: 7.2,
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  // Exposed for the Playwright checks only; the UI never reads it.
+  (window as unknown as { __gapekaMap?: MapLibreMap }).__gapekaMap = map;
 
   map.on("load", () => {
     map.addImage("arrow", arrowImage());
@@ -224,6 +240,49 @@ function buildMap(): void {
       },
     });
 
+    // F3: the exported rail network as a subtle background layer, so the Java
+    // rail geography is readable at every zoom even where the basemap fades
+    // railways out.
+    map.addSource("rail", {
+      type: "geojson",
+      data: railGeoJson(),
+    });
+    map.addLayer(
+      {
+        id: "rail-line",
+        type: "line",
+        source: "rail",
+        layout: { "line-cap": "round", "line-join": "round" },
+        paint: {
+          "line-color": "#5b6472",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0.4, 10, 1.2, 14, 2],
+          "line-opacity": 0.55,
+        },
+      },
+      // Under the train markers, above the basemap.
+      "trains-dot",
+    );
+
+    // F3: the selected train's route, highlighted.
+    map.addSource("route", {
+      type: "geojson",
+      data: { type: "FeatureCollection", features: [] },
+    });
+    map.addLayer(
+      {
+        id: "route-line",
+        type: "line",
+        source: "route",
+        layout: { "line-cap": "round", "line-join": "round" },
+        paint: {
+          "line-color": "#b00020",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 6, 2, 10, 4, 14, 6],
+          "line-opacity": 0.9,
+        },
+      },
+      "trains-dot",
+    );
+
     map.on("click", "trains-dot", (event) => {
       const feature = event.features?.[0];
       if (!feature) return;
@@ -235,6 +294,64 @@ function buildMap(): void {
     map.on("mouseleave", "trains-dot", () => {
       map.getCanvas().style.cursor = "";
     });
+  });
+}
+
+/** Every exported segment as one MultiLineString, for the background rail layer. */
+function railGeoJson(): GeoJSON.FeatureCollection {
+  const features: GeoJSON.Feature[] = [];
+  for (const segment of dataset.segments) {
+    const points = decodePolyline(segment.polyline).map(([lat, lon]) => [lon, lat]);
+    if (points.length < 2) continue;
+    features.push({
+      type: "Feature",
+      geometry: { type: "LineString", coordinates: points },
+      properties: { from: segment.from, to: segment.to, quality: segment.quality },
+    });
+  }
+  return { type: "FeatureCollection", features };
+}
+
+/** Highlight one trip's full route, oriented as the train runs it. */
+function highlightRoute(tripId: string | null): void {
+  const source = map.getSource("route") as maplibregl.GeoJSONSource | undefined;
+  if (!source) return;
+  if (!tripId) {
+    source.setData({ type: "FeatureCollection", features: [] });
+    return;
+  }
+  const trip = tripsById.get(tripId);
+  if (!trip) {
+    source.setData({ type: "FeatureCollection", features: [] });
+    return;
+  }
+  const coordinates: Array<[number, number]> = [];
+  for (let index = 0; index < trip.segment_ids.length; index += 1) {
+    const segment = dataset.segments[trip.segment_ids[index]];
+    const points = decodePolyline(segment.polyline).map(
+      ([lat, lon]) => [lon, lat] as [number, number],
+    );
+    const ordered = trip.reversed[index] === 1 ? [...points].reverse() : points;
+    for (const point of ordered) {
+      if (coordinates.length === 0) {
+        coordinates.push(point);
+        continue;
+      }
+      const last = coordinates[coordinates.length - 1];
+      if (last[0] !== point[0] || last[1] !== point[1]) coordinates.push(point);
+    }
+  }
+  source.setData({
+    type: "FeatureCollection",
+    features: coordinates.length > 1
+      ? [
+          {
+            type: "Feature",
+            geometry: { type: "LineString", coordinates },
+            properties: { tripId },
+          },
+        ]
+      : [],
   });
 }
 
@@ -305,7 +422,9 @@ function panelHtml(position: TrainPosition): string {
         return `<li class="${isCurrent ? "current" : ""}${bypassed ? " bypassed" : ""}">
           <span>${stationName.get(code) ?? code}${note}</span>
           <span class="t">${clock}</span>
-          <span class="t">${stopTypes[trip.waypoints.stop_type[i]] ?? ""}</span>
+          <span class="t">${
+            STOP_LABEL[stopTypes[trip.waypoints.stop_type[i]] ?? ""] ?? ""
+          }</span>
         </li>`;
       })
     : [];
@@ -357,11 +476,27 @@ function renderPanel(): void {
     return;
   }
   panel.innerHTML = panelHtml(position);
+  // Only on a NEW selection: re-scrolling every frame would fight the user, who
+  // may be reading a different part of the list.
+  if (lastAutoScrolledTripId !== state.selectedTripId) {
+    lastAutoScrolledTripId = state.selectedTripId;
+    scrollCurrentStopIntoView(panel);
+  }
+}
+
+/** F4: a long stop list must open at the train's current position. */
+function scrollCurrentStopIntoView(panel: HTMLElement): void {
+  const current = panel.querySelector("li.current");
+  if (!current) return;
+  // `block: "center"` keeps context above and below; `nearest` avoids moving
+  // the page when the panel is already visible.
+  current.scrollIntoView({ block: "center", behavior: "auto" });
 }
 
 function selectTrip(tripId: string): void {
   state.selectedTripId = tripId;
   state.selectedStation = null;
+  highlightRoute(tripId);
   renderPanel();
   const position = lastRendered.find((p) => p.tripId === tripId);
   if (position) map.easeTo({ center: [position.lon, position.lat], zoom: Math.max(map.getZoom(), 8) });
@@ -462,6 +597,7 @@ function handleSearch(query: string): void {
   if (station) {
     state.selectedStation = station.code;
     state.selectedTripId = null;
+    highlightRoute(null);
     renderPanel();
     return;
   }
