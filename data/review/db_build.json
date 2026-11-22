@@ -34,7 +34,7 @@
   },
   "trips_with_untimed_markers": 68,
   "config": {
-    "config_hash": "05621eaec687fe7dac1a668f605d4d13a00c5bfd3de043503a5a3adbcffff820",
+    "config_hash": "087b2df270b404cbe3be59902b90640f5a6aaf6391e207dafcf2a336b4367915",
     "files": {
       "station_overrides.yaml": "74509c9276a2704a5f3c5c1398d7deb45557f296997aea34a7bf2aed0a5e1f90",
       "station_aliases.yaml": "5d3f680fc08bc055023f0246cafe1635b6beeb51159f732c4d37323b80b7a337",
@@ -43,7 +43,7 @@
       "snap_pins.yaml": "3ef51725ec7b55db89aac33602afb06efa8d72e851d6adf5378a8195a1b4197d",
       "cell_markers.yaml": "1918feb255938f06c2b5a5de6aa5b2ec22099420c00f78a1d377df7d42b32755",
       "geometry.yaml": "9c8191e8e9f72841585a8b2fa214a96962567e3154c3126d3157664765f3d0fa",
-      "rejected_stations.yaml": "c40092770ae7eff2e2cc26c01c7c4cecdcbb5ec610af32927d22bae9896ec1c0"
+      "rejected_stations.yaml": "6cf77a1c5b2797ff5f4d81947b8c45312532454536bc770d7d1272e124c18db6"
     }
   }
 }

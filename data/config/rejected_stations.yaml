@@ -1,27 +1,112 @@
-# Stations whose external coordinate must NOT be routed - AUTHORED BY THE HUMAN.
+# Rejected coordinate evidence - AUTHORED BY THE HUMAN (migrated 2026-11-22).
 #
-# This replaces reading `data/review/stations_suspicious_coords.json`, which is a
-# gitignored review artefact: a build that depended on it could not be reproduced
-# from a clean clone (P2).
+# Originally read from data/review/stations_suspicious_coords.json, a gitignored
+# review artefact. A build that depended on it could not be reproduced from a
+# clean clone (P2), so the evidence lives here and is tracked.
 #
-# A station listed here keeps `lat`/`lon` in the evidence tables but is not used
-# for geometry, so any trip that needs it stays blocked unless a human override
-# supersedes this entry (an override always wins).
+# `station_coord_candidates` gets one `rejected` row per entry below; nothing here
+# is ever used for geometry. An entry with status "open" is waiting for a human.
 #
 # Schema:
-#   rejected:
-#     - code:     "<station code>"
-#       reason:   "<why the external coordinate is unusable>"
-#       evidence: "<file or measurement>"
-#       status:   "open" | "decided"
-#       decided_by: "<your name or 'pending'>"
-#       date:     "<YYYY-MM-DD>"
-rejected:
-  # H4 is still open: the Wikidata coordinate is 7 m from PS, so the two are the
-  # same point. A human must decide whether RO is a distinct station.
-  - code: "RO"
-    reason: "Wikidata coordinate is 7 m from PS, so RO and PS share one point"
-    evidence: "data/review/stations_suspicious_coords.json (PS,RO duplicate)"
+#   evidence:
+#     - code:      "<station code>"
+#       source:    "wikidata" | "osm"
+#       source_id: "<Q-id or node id>"
+#       lat: <float>
+#       lon: <float>
+#       reason:    "<why it is unusable>"
+#       status:    "open" | "decided"
+#       decided_by: "<name or pending>"
+#       date:      "<YYYY-MM-DD>"
+#       retrieved: "<YYYY-MM-DD>"
+evidence:
+  - code: "LR"
+    source: "wikidata"
+    source_id: "Q12516294"
+    lat: -7.69738
+    lon: 109.701
+    reason: "two distinct codes only 0 m apart"
     status: "open"
     decided_by: "pending"
     date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "SD"
+    source: "wikidata"
+    source_id: "Q12516294"
+    lat: -7.69738
+    lon: 109.701
+    reason: "two distinct codes only 0 m apart"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "MLK"
+    source: "wikidata"
+    source_id: "Q4425479"
+    lat: -7.994766
+    lon: 112.633012
+    reason: "two distinct codes only 15 m apart"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "SBP"
+    source: "wikidata"
+    source_id: "Q4425479"
+    lat: -7.994766
+    lon: 112.633012
+    reason: "two distinct codes only 15 m apart"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "PRI"
+    source: "wikidata"
+    source_id: "Q12516326"
+    lat: -6.41801
+    lon: 107.634
+    reason: "two distinct codes only 0 m apart"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "TIS"
+    source: "wikidata"
+    source_id: "Q12516326"
+    lat: -6.41801
+    lon: 107.634
+    reason: "two distinct codes only 0 m apart"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "PS"
+    source: "wikidata"
+    source_id: "Q2739193"
+    lat: -7.63778
+    lon: 112.91
+    reason: "two distinct codes only 7 m apart"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "RO"
+    source: "wikidata"
+    source_id: "Q2739193"
+    lat: -7.63778
+    lon: 112.91
+    reason: "two distinct codes only 7 m apart"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"
+  - code: "TIS"
+    source: "wikidata"
+    source_id: "Q12516356"
+    lat: -6.41801
+    lon: 107.634
+    reason: "implausible neighbour distance"
+    status: "open"
+    decided_by: "pending"
+    date: "2026-11-22"
+    retrieved: "2026-11-20"

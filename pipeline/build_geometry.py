@@ -144,6 +144,37 @@ def rejected_codes(path: Path | None = None) -> set[str]:
     return codes
 
 
+def rejected_evidence(path: Path | None = None) -> list[dict]:
+    """Every rejected-coordinate evidence row from tracked config (P2)."""
+    path = path or Path("data/config/rejected_stations.yaml")
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8")
+    if "evidence:" not in text:
+        return []
+    rows: list[dict] = []
+    current: dict | None = None
+    for line in text.split("evidence:", 1)[1].splitlines():
+        stripped = line.strip()
+        if stripped.startswith("- code:"):
+            current = {"code": stripped.split(":", 1)[1].strip().strip('"')}
+            rows.append(current)
+            continue
+        if current is None or ":" not in stripped:
+            continue
+        key, _, value = stripped.partition(":")
+        key = key.strip()
+        value = value.strip().strip('"')
+        if key in ("lat", "lon"):
+            try:
+                current[key] = float(value)
+            except ValueError:
+                pass
+        elif key in ("source", "source_id", "reason", "status", "decided_by", "date", "retrieved"):
+            current[key] = value
+    return rows
+
+
 def accepted_coordinates() -> dict[str, dict]:
     """Coordinates usable for geometry: external matches plus human overrides.
 

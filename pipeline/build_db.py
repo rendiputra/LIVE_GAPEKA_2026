@@ -121,22 +121,22 @@ def build(db_path: Path = DB_PATH) -> dict:
     if coord_path.exists():
         coordinates = load_json(coord_path)["matched"]
 
-    # Rejected candidates come from the cross-check artefacts; they are evidence,
-    # never used for geometry.
+    # Rejected-coordinate evidence comes from TRACKED config (P2), so a clean
+    # clone produces the same rows. It is evidence, never used for geometry.
+    from pipeline.build_geometry import rejected_evidence
+
     rejected: dict[str, list[dict]] = {}
-    suspicious_path = REVIEW_DIR / "stations_suspicious_coords.json"
-    if suspicious_path.exists():
-        for row in load_json(suspicious_path)["stations"]:
-            for code in row["code"].split(","):
-                rejected.setdefault(code.strip(), []).append(
-                    {
-                        "source": "wikidata",
-                        "source_id": row["source_id"].split(",")[0].strip(),
-                        "lat": row["lat"],
-                        "lon": row["lon"],
-                        "reason": row.get("reason") or "implausible neighbour distance",
-                    }
-                )
+    for row in rejected_evidence():
+        rejected.setdefault(row["code"], []).append(
+            {
+                "source": row.get("source", "wikidata"),
+                "source_id": row.get("source_id", ""),
+                "lat": row.get("lat"),
+                "lon": row.get("lon"),
+                "reason": row.get("reason", "implausible neighbour distance"),
+                "retrieved": row.get("retrieved", "2026-11-20"),
+            }
+        )
 
     config_manifest = config_tracking.manifest()
     overrides = load_overrides()
@@ -249,7 +249,7 @@ def build(db_path: Path = DB_PATH) -> dict:
                     bad["lon"],
                     "rejected",
                     bad["reason"],
-                    "2026-11-20",
+                    bad.get("retrieved", "2026-11-20"),
                 ),
             )
 
