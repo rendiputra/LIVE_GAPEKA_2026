@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
+    <title>Posisi Estimasi KA — Gapeka 2026</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#controls">Lewati ke kontrol</a>
+
+    <div id="banner" class="banner" role="status" hidden>
+      Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)
+    </div>
+
+    <header class="topbar">
+      <h1 class="title">Posisi Estimasi KA</h1>
+      <p class="subtitle">Gapeka 2026 · Jawa · WIB</p>
+    </header>
+
+    <div id="controls" class="controls" role="group" aria-label="Kontrol peta">
+      <div class="mode" role="radiogroup" aria-label="Mode">
+        <button id="mode-live" class="chip" role="radio" aria-checked="true">Sekarang</button>
+        <button id="mode-replay" class="chip" role="radio" aria-checked="false">Ulang</button>
+      </div>
+
+      <div id="replay-controls" class="replay" hidden>
+        <label class="field">
+          <span>Tanggal</span>
+          <input id="date" type="date" value="2026-12-01" />
+        </label>
+        <label class="field grow">
+          <span>Waktu <b id="clock">--:--</b></span>
+          <input id="time" type="range" min="0" max="86340" step="30" value="32400" />
+        </label>
+        <button id="play" class="chip" aria-pressed="false">Putar</button>
+        <label class="field">
+          <span>Kecepatan</span>
+          <select id="speed">
+            <option value="1">1x</option>
+            <option value="10">10x</option>
+            <option value="30">30x</option>
+            <option value="60" selected>60x</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field grow">
+        <span>Cari KA atau stasiun</span>
+        <input
+          id="search"
+          type="search"
+          list="search-list"
+          placeholder="mis. 249, Argo, Gambir"
+          autocomplete="off"
+        />
+        <datalist id="search-list"></datalist>
+      </label>
+
+      <label class="switch">
+        <input id="fakultatif" type="checkbox" />
+        <span>Tampilkan KA fakultatif</span>
+      </label>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </div>
+
+    <main class="stage">
+      <div id="map" class="map" role="application" aria-label="Peta posisi kereta"></div>
+      <aside id="panel" class="panel" aria-live="polite">
+        <p class="empty">
+          Ketuk penanda kereta untuk melihat jadwalnya, atau cari nomor KA di atas.
+        </p>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <p class="disclaimer" id="disclaimer">
+        Posisi estimasi berdasarkan jadwal Gapeka 2026, bukan posisi aktual. Diasumsikan
+        tepat waktu dan beroperasi setiap hari.
+      </p>
+      <p class="credit">
+        Peta &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

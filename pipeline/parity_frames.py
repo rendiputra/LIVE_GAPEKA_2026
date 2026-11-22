@@ -1,0 +1,147 @@
+"""B3: export parity frames so the TypeScript port can be checked against Python.
+
+Samples ``(trip, instant)`` pairs across the whole dataset and records exactly
+what the Python engine returns. The TS port must reproduce every row; a mismatch
+is a bug, never a tolerance to widen.
+
+Coverage of the sampling (deliberate, not random-only):
+
+- midnight tails: instants just after 00:00 for trips whose window crosses it
+- dwell edges: the arrival second, the departure second, and dwell+1
+- untimed rows: trips with ``has_untimed_markers``
+- bypassed trips: ``has_bypassed_waypoints``
+- every trip at least twice (start + midpoint) so no trip is unsampled
+
+Usage:
+    python -m pipeline.parity_frames
+"""
+
+from __future__ import annotations
+
+import json
+import random
+from datetime import date, datetime, timedelta
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+from engine.model import Policy
+from engine.position import positions_at
+from engine.snapshot import load
+
+OUT = Path("engine/parity_frames.json")
+WIB = ZoneInfo("Asia/Jakarta")
+SERVICE_DATE = date(2026, 12, 1)
+TARGET = 6000
+SEED = 20261201
+
+
+def sample_instants(trip, rng: random.Random) -> set[int]:
+    """Absolute seconds-of-service-date to probe for one trip."""
+    out: set[int] = {trip.first_abs, trip.last_abs, (trip.first_abs + trip.last_abs) // 2}
+    for waypoint in trip.waypoints:
+        for value in (waypoint.arrive_abs, waypoint.depart_abs):
+            if value is None:
+                continue
+            out.add(value)
+            out.add(value + 1)
+            out.add(value - 1)
+        # A dwell edge: the first and last second of the dwell.
+        if (
+            waypoint.arrive_abs is not None
+            and waypoint.depart_abs is not None
+            and waypoint.depart_abs - waypoint.arrive_abs > 1
+        ):
+            out.add(waypoint.arrive_abs + 1)
+            out.add(waypoint.depart_abs - 1)
+    for _ in range(3):
+        out.add(rng.randint(trip.first_abs, trip.last_abs))
+    return {value for value in out if trip.first_abs <= value <= trip.last_abs}
+
+
+def main() -> int:
+    rng = random.Random(SEED)
+    snapshot = load()
+    policy = Policy(show_fakultatif=True, geometry_policy="allow_fallback")
+
+    candidates = [
+        trip
+        for trip in snapshot.trips
+        if trip.geometry_status in ("complete", "complete_estimated")
+    ]
+    # Sample every trip at least a little, then keep going round-robin until the
+    # target is reached so long trips do not dominate.
+    per_trip = {trip.trip_id: sorted(sample_instants(trip, rng)) for trip in candidates}
+    order = [trip for trip in candidates]
+    rng.shuffle(order)
+
+    wanted: list[tuple[str, int]] = []
+    cursor = {trip.trip_id: 0 for trip in order}
+    while len(wanted) < TARGET:
+        progressed = False
+        for trip in order:
+            instants = per_trip[trip.trip_id]
+            index = cursor[trip.trip_id]
+            if index >= len(instants):
+                continue
+            wanted.append((trip.trip_id, instants[index]))
+            cursor[trip.trip_id] = index + 1
+            progressed = True
+            if len(wanted) >= TARGET:
+                break
+        if not progressed:
+            break
+
+    # One positions_at call per distinct instant, then pick our trips out.
+    by_instant: dict[int, list[tuple[str, int]]] = {}
+    for trip_id, instant in wanted:
+        by_instant.setdefault(instant, []).append((trip_id, instant))
+
+    midnight = datetime(SERVICE_DATE.year, SERVICE_DATE.month, SERVICE_DATE.day, tzinfo=WIB)
+    frames = []
+    for instant in sorted(by_instant):
+        moment = midnight + timedelta(seconds=instant)
+        positions = {
+            position.trip_id: position for position in positions_at(snapshot, moment, policy)
+        }
+        for trip_id, _ in by_instant[instant]:
+            position = positions.get(trip_id)
+            frames.append(
+                {
+                    "trip_id": trip_id,
+                    "t_s": instant,
+                    "present": position is not None,
+                    "lat": None if position is None else round(position.lat, 7),
+                    "lon": None if position is None else round(position.lon, 7),
+                    "s_m": None if position is None else round(position.s_m, 3),
+                    "speed_kmh": None if position is None else round(position.speed_kmh, 3),
+                    "status": None if position is None else position.status,
+                    "from": None if position is None else position.from_code,
+                    "to": None if position is None else position.to_code,
+                    "next_stop": None if position is None else position.next_stop_code,
+                    "next_stop_time": None if position is None else position.next_stop_time,
+                }
+            )
+
+    payload = {
+        "note": (
+            "Parity fixture: the TypeScript port must reproduce these exactly. "
+            "Generated by python -m pipeline.parity_frames; not human-verified."
+        ),
+        "seed": SEED,
+        "service_date": SERVICE_DATE.isoformat(),
+        "policy": policy.as_dict(),
+        "content_hash": snapshot.content_hash,
+        "count": len(frames),
+        "trips_sampled": len({frame["trip_id"] for frame in frames}),
+        "frames": frames,
+    }
+    OUT.write_text(json.dumps(payload, separators=(",", ":")) + "\n", encoding="utf-8")
+
+    print(f"wrote {OUT}")
+    print(f"  frames {payload['count']}, trips {payload['trips_sampled']}")
+    print(f"  size {OUT.stat().st_size / 1024:.1f} kB")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment reproduce reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment export-web parity web-dev web-build web-test web-e2e reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -77,6 +77,24 @@ bridge-probe: ## measure each draft bridge candidate (P4), nothing applied
 
 snap-experiment: ## routing-aware snapping experiment (Q1b), nothing applied
 	uv run python -m pipeline.snap_experiment
+
+export-web: ## export the static schedule into web/public/data (B1)
+	uv run python -m pipeline.export_web
+
+parity: ## export parity frames for the TypeScript port (B3)
+	uv run python -m pipeline.parity_frames
+
+web-dev: export-web ## Vite dev server
+	cd web && pnpm install --silent && pnpm dev
+
+web-build: export-web ## static production build into web/dist
+	cd web && pnpm install --silent && pnpm build
+
+web-test: export-web parity ## Vitest unit + parity
+	cd web && pnpm install --silent && pnpm test
+
+web-e2e: export-web web-build ## Playwright smoke with tiles stubbed
+	cd web && pnpm e2e
 
 reproduce: ## prove a clean clone rebuilds identical hashes (P2)
 	uv run python -m pipeline.reproduce

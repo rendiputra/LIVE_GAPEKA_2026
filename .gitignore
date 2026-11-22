@@ -65,3 +65,12 @@ data/review/coord_safety_report.json
 # snap pins, cell markers and measured config are part of the record. Only the
 # derived artefacts below stay ignored.
 !data/config/*.yaml
+
+# --- Phase 6a web build (generated, never committed) ---
+web/public/data/
+web/dist/
+web/node_modules/
+web/test-results/
+web/playwright-report/
+engine/parity_frames.json
+data/review/web_screens/

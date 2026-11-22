@@ -377,8 +377,16 @@ TypeScript port must reproduce `trapezoid_v1` and the time model exactly, and it
 within 1 m. Those frames are **not** human-verified; they are a parity fixture, not a correctness
 claim. Any disagreement means the port is wrong, not the fixture.
 
-### Phase 6 — API & Frontend
-**Backend (FastAPI)**
+### Phase 6 — Static web app (ADR 008)
+
+**Decision:** Phase 6 ships a **static site**; there is no FastAPI in the MVP. The
+Python pipeline exports a compact schedule (`python -m pipeline.export_web`) into
+`web/public/data/` (gitignored, deterministic, content-hashed) and the browser
+computes positions in a Web Worker with a TypeScript port of `engine/position.py`.
+The Python engine stays the reference implementation and the port must match it on
+`engine/parity_frames.json` (zero tolerated failures).
+
+**Deferred backend (was the Phase 6 plan)**
 - `GET /positions?t=&bbox=` · `GET /trains/{no}` · `GET /stations/{code}/board` · `GET /schedule/active` (static schedule data for clients).
 - Load the active schedule into memory; short-lived result cache; the active Gapeka version is chosen by date, never by overwriting old data.
 
@@ -389,7 +397,15 @@ claim. Any disagreement means the port is wrong, not the fixture.
 
 Every trip with `has_untimed_markers = true` must be labelled "coarser estimate" wherever its position is shown, because its position spans a longer untimed gap.
 
-**DoD**: e2e smoke test (Playwright) passes; basic performance check done; 500+ active trains render smoothly on a mid-range device.
+**DoD**: e2e smoke test (Playwright) passes; parity with the Python engine is exact;
+500+ active trains render smoothly on a mid-range device.
+
+**Before public launch (release gate):**
+- a human has verified **>= 20 trains** end to end (recorded in
+  `data/review/verifications.json`), not just the pilot rows;
+- the tile provider is chosen and public OSM tiles are no longer used
+  (`docs/DEPLOY.md`);
+- every open item in `docs/LEGAL_CHECKLIST.md` has a written decision.
 
 ### Phase 7 — Operations & Release
 - Release flow: extract -> validate -> review -> staging -> swap to production, with one-command rollback.
@@ -420,6 +436,11 @@ make day-offsets  # midnight-straddling rows report (Q3)
 make bridge-probe # what each draft bridge would change (P4)
 make snap-experiment # routing-aware snapping, experiment only (Q1b)
 make reproduce    # clone, rebuild, compare segments/DB/config hashes (P2)
+make export-web   # schedule -> web/public/data (B1)
+make parity       # engine/parity_frames.json for the TypeScript port (B3)
+make web-test     # Vitest unit + parity
+make web-e2e      # Playwright smoke with tiles stubbed
+make web-build    # static bundle into web/dist
 make reports      # regenerate the generated reports
 make test         # unit + golden
 make serve        # API + web dev
