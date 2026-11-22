@@ -9,7 +9,7 @@ export default defineConfig({
     viewport: { width: 390, height: 844 },
   },
   webServer: {
-    command: "npx vite preview --port 4173 --strictPort --host 127.0.0.1",
+    command: "npm run build:e2e && npx vite preview --outDir dist-e2e --port 4173 --strictPort --host 127.0.0.1",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: true,
     timeout: 120_000,

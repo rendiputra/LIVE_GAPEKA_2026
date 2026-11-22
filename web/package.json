@@ -9,10 +9,13 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "build:e2e": "VITE_TILE_MODE=osm vite build --mode development --outDir dist-e2e"
   },
   "dependencies": {
-    "maplibre-gl": "^4.7.1"
+    "@protomaps/basemaps": "^5.7.2",
+    "maplibre-gl": "^4.7.1",
+    "pmtiles": "^4.5.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",

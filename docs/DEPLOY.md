@@ -24,26 +24,51 @@ Pages). Requirements:
 3. HTTPS. The Web Worker and `fetch` of the data files need a secure context in
    practice.
 
-## Tile provider — decision required before launch
+## Tile provider — decided: Protomaps PMTiles, self-hosted (ADR 009)
 
-The development build uses **public OpenStreetMap raster tiles**:
-
+```bash
+make basemap     # extracts web/public/tiles/java.pmtiles + self-hosted glyphs/sprites
+make web-build
 ```
-https://tile.openstreetmap.org/{z}/{x}/{y}.png
-```
 
-**These must not be used for production traffic.** The OSM Foundation's tile usage
-policy forbids heavy or bulk use, and a public map app qualifies. Before launch,
-choose one of:
+`make basemap` pulls a region extract from the Protomaps daily planet build using
+`pmtiles extract` (HTTP range requests, so only Java is downloaded) and records
+the build date in `web/public/tiles/manifest.json`. It also downloads the glyphs
+and sprites the style needs, so the site has **no runtime CDN**.
 
-| Option | Notes |
-|---|---|
-| **Protomaps / PMTiles** | A single `.pmtiles` file on your own storage. No per-request cost, full control. Best fit for a static site. |
-| **MapTiler** | Commercial, has a free tier, requires a key in the client (acceptable, it is a tile key not a secret). |
-| **Self-hosted tiles** | Highest effort; needed if you must avoid third-party requests entirely. |
+The tile source is one setting, `web/src/config.ts`:
 
-The tile URL is a single constant in `web/src/main.ts` (`OSM_TILES`) so the switch
-is one line. Record the choice in `docs/LEGAL_CHECKLIST.md`.
+| `VITE_TILE_MODE` | Source | Allowed |
+|---|---|---|
+| `pmtiles` (default) | self-hosted `tiles/java.pmtiles` | production |
+| `osm` | public `tile.openstreetmap.org` raster | **development only** |
+
+A production `vite build` **fails** if `VITE_TILE_MODE=osm`. That is deliberate:
+the OSM Foundation's tile usage policy forbids this traffic, so shipping it is a
+policy violation, not a bug.
+
+### Host the tiles separately from the static site
+
+`java.pmtiles` is ~260 MB. Many static hosts cap single-object size and few serve
+`Range` requests well, and PMTiles **requires** byte-range support. Host it on
+object storage instead:
+
+1. Upload `web/public/tiles/java.pmtiles` (and `tiles/assets/**`) to a bucket
+   (S3, R2, GCS, Backblaze B2).
+2. Enable `Range` requests — S3 and R2 do this by default; verify with
+   `curl -r 0-99 -o /dev/null -w "%{http_code}" <url>` which must print `206`.
+3. Set `Access-Control-Allow-Origin: *` (or your site's origin) and
+   `Access-Control-Allow-Headers: Range`, plus
+   `Access-Control-Expose-Headers: Content-Range, Content-Length, Accept-Ranges`.
+4. Cache hard: `Cache-Control: public, max-age=31536000, immutable`. The filename
+   should carry the build date (e.g. `java-20261120.pmtiles`) so a new extract
+   gets a new URL.
+5. Point `PMTILES_URL` in `web/src/config.ts` at the absolute bucket URL.
+
+The glyphs and sprites (`tiles/assets/`, ~1.8 MB) can live on the static site
+itself; they are small and fetched normally.
+
+Record the final provider and URL in `docs/LEGAL_CHECKLIST.md`.
 
 ## Legal items
 

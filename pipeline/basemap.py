@@ -1,0 +1,177 @@
+"""T5: extract a Java PMTiles basemap from the Protomaps daily build.
+
+Protomaps publishes a daily planet PMTiles file. ``pmtiles extract`` uses HTTP
+range requests, so extracting a region only downloads the tiles it needs.
+
+The output goes to ``web/public/tiles/`` (gitignored) with a small manifest
+recording the build date, the bbox, the zoom range and the file size, so a
+deployed site can state which data it shows.
+
+This requires the network. If the build is unreachable or the extract fails, the
+command exits non-zero and changes nothing.
+
+Usage:
+    python -m pipeline.basemap                 # extract with the defaults
+    python -m pipeline.basemap --date 20261120
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import shutil
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
+
+BUILD_HOST = "https://build.protomaps.com"
+# Java. Chosen to cover the whole island with a small margin.
+BBOX = (105.0, -8.9, 114.7, -5.8)  # min_lon, min_lat, max_lon, max_lat
+MIN_ZOOM = 0
+MAX_ZOOM = 14
+DEFAULT_DATE = "20261120"
+
+OUT_DIR = Path("web/public/tiles")
+OUT_FILE = "java.pmtiles"
+MANIFEST = OUT_DIR / "manifest.json"
+
+
+def build_url(date: str) -> str:
+    """Validate the date shape and build the archive URL."""
+    if len(date) != 8 or not date.isdigit():
+        raise ValueError(f"build date must be YYYYMMDD, got {date!r}")
+    try:
+        datetime.strptime(date, "%Y%m%d")
+    except ValueError as error:
+        raise ValueError(f"build date is not a real date: {date!r}") from error
+    return f"{BUILD_HOST}/{date}.pmtiles"
+
+
+def bbox_arg(bbox: tuple[float, float, float, float] = BBOX) -> str:
+    min_lon, min_lat, max_lon, max_lat = bbox
+    if not (min_lon < max_lon and min_lat < max_lat):
+        raise ValueError(f"bbox is inverted: {bbox}")
+    return f"{min_lon},{min_lat},{max_lon},{max_lat}"
+
+
+def find_cli() -> str | None:
+    """The Protomaps Go CLI installs as `pmtiles` or `go-pmtiles`."""
+    for name in ("pmtiles", "go-pmtiles"):
+        path = shutil.which(name)
+        if path:
+            return path
+    for candidate in (Path.home() / "go/bin/pmtiles", Path.home() / "go/bin/go-pmtiles"):
+        if candidate.exists():
+            return str(candidate)
+    return None
+
+
+def probe(url: str, timeout: int = 60) -> dict:
+    """Read the remote header so the manifest can name the real build."""
+    cli = find_cli()
+    if cli is None:
+        raise RuntimeError(
+            "pmtiles CLI not found. Install it with:\n"
+            "  go install github.com/protomaps/go-pmtiles@latest\n"
+            "or: brew install pmtiles"
+        )
+    proc = subprocess.run(
+        [cli, "show", url], capture_output=True, text=True, timeout=timeout, check=False
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(f"pmtiles show failed: {proc.stderr.strip()[:400]}")
+
+    # `pmtiles show` separates the key and value with a SPACE, and metadata keys
+    # themselves contain colons (planetiler:osm:osmosisreplicationtime), so a
+    # naive split on ":" mangles them.
+    info: dict[str, str] = {}
+    for line in proc.stdout.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if ": " in stripped:
+            key, _, value = stripped.partition(": ")
+        elif " " in stripped:
+            key, _, value = stripped.partition(" ")
+        else:
+            continue
+        info[key.strip()] = value.strip()
+    return info
+
+
+def extract(date: str = DEFAULT_DATE, *, out_dir: Path = OUT_DIR) -> dict:
+    url = build_url(date)
+    info = probe(url)
+
+    cli = find_cli()
+    assert cli is not None  # probe() already raised if missing
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    target = out_dir / OUT_FILE
+    temporary = out_dir / (OUT_FILE + ".partial")
+    if temporary.exists():
+        temporary.unlink()
+
+    command = [
+        cli,
+        "extract",
+        url,
+        str(temporary),
+        f"--bbox={bbox_arg()}",
+        f"--minzoom={MIN_ZOOM}",
+        f"--maxzoom={MAX_ZOOM}",
+    ]
+    print("running:", " ".join(command))
+    proc = subprocess.run(command, capture_output=True, text=True, check=False)
+    if proc.returncode != 0 or not temporary.exists():
+        raise RuntimeError(
+            "pmtiles extract failed: "
+            + (proc.stderr or proc.stdout or "no output").strip()[:600]
+        )
+
+    temporary.replace(target)
+    size = target.stat().st_size
+
+    manifest = {
+        "file": OUT_FILE,
+        "bytes": size,
+        "megabytes": round(size / 1e6, 1),
+        "build_date": date,
+        "source": url,
+        "bbox": list(BBOX),
+        "min_zoom": MIN_ZOOM,
+        "max_zoom": MAX_ZOOM,
+        "osm_data_time": info.get("planetiler:osm:osmosisreplicationtime"),
+        "planetiler_buildtime": info.get("planetiler:buildtime"),
+        "attribution": info.get("attribution", "© OpenStreetMap"),
+        "description": info.get("description", ""),
+        "note": (
+            "Generated by `make basemap`. Gitignored. Host separately from the "
+            "static site: the file needs HTTP range requests and CORS."
+        ),
+    }
+    MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    return manifest
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Extract the Java PMTiles basemap.")
+    parser.add_argument("--date", default=DEFAULT_DATE, help="Protomaps build date (YYYYMMDD)")
+    args = parser.parse_args(argv)
+
+    try:
+        manifest = extract(args.date)
+    except (RuntimeError, ValueError) as error:
+        print(f"BASEMAP FAILED: {error}", file=sys.stderr)
+        return 1
+
+    print(f"wrote {OUT_DIR / OUT_FILE}")
+    print(f"  size {manifest['megabytes']} MB ({manifest['bytes']} bytes)")
+    print(f"  build {manifest['build_date']}, OSM data {manifest['osm_data_time']}")
+    print(f"  bbox {manifest['bbox']}, zoom {manifest['min_zoom']}-{manifest['max_zoom']}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

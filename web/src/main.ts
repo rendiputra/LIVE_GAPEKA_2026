@@ -2,12 +2,21 @@
 // in the worker from the exported schedule; the map only renders.
 
 import maplibregl, { type Map as MapLibreMap } from "maplibre-gl";
+import { Protocol } from "pmtiles";
+import { layers, namedFlavor } from "@protomaps/basemaps";
 
+import {
+  GLYPHS_URL,
+  OSM_ATTRIBUTION,
+  OSM_TILE_URL,
+  PMTILES_URL,
+  SPRITE_URL,
+  TILE_MODE,
+} from "./config";
 import { prepare, type Dataset, type TrainPosition } from "./engine/position";
 import { defaultPolicy, type Manifest, type Policy, type TripData } from "./engine/types";
 
 const DATA_BASE = `${import.meta.env.BASE_URL}data`;
-const OSM_TILES = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 const CLASS_COLOUR: Record<string, string> = {
   reguler: "#1565c0",
@@ -111,21 +120,50 @@ async function loadData(): Promise<void> {
 
 // --- map --------------------------------------------------------------------
 
-function buildMap(): void {
-  map = new maplibregl.Map({
-    container: "map",
-    style: {
+function basemapStyle(): maplibregl.StyleSpecification {
+  if (TILE_MODE === "osm") {
+    // Development only; the production build refuses this mode.
+    return {
       version: 8,
       sources: {
         osm: {
           type: "raster",
-          tiles: [OSM_TILES],
+          tiles: [OSM_TILE_URL],
           tileSize: 256,
-          attribution: "© OpenStreetMap contributors",
+          attribution: OSM_ATTRIBUTION,
         },
       },
       layers: [{ id: "osm", type: "raster", source: "osm" }],
+    };
+  }
+
+  // Self-hosted Protomaps vector tiles. `lang: "id"` asks the theme for
+  // Indonesian labels where a name:id tag exists.
+  const mapLayers = layers("protomaps", namedFlavor("light"), { lang: "id" });
+  return {
+    version: 8,
+    glyphs: GLYPHS_URL,
+    sprite: SPRITE_URL,
+    sources: {
+      protomaps: {
+        type: "vector",
+        url: PMTILES_URL,
+        attribution: OSM_ATTRIBUTION,
+      },
     },
+    layers: mapLayers as maplibregl.LayerSpecification[],
+  };
+}
+
+function buildMap(): void {
+  if (TILE_MODE === "pmtiles") {
+    const protocol = new Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
+  }
+
+  map = new maplibregl.Map({
+    container: "map",
+    style: basemapStyle(),
     center: [110.4, -7.2],
     zoom: 6.4,
   });

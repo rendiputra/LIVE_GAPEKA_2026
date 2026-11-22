@@ -68,6 +68,8 @@ data/review/coord_safety_report.json
 
 # --- Phase 6a web build (generated, never committed) ---
 web/public/data/
+web/public/tiles/
+web/dist-e2e/
 web/dist/
 web/node_modules/
 web/test-results/
