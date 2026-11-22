@@ -79,15 +79,15 @@ Stations: **389**, routable **386**.
 
 ## T4 — Export after dedupe
 
-Content hash `e68ebc4bc3d98628`.
+Content hash `ce8b397007790812`.
 
 | File | Raw kB | Gzip kB |
 |---|---|---|
 | manifest | 1.0 | 0.5 |
 | segments | 156.0 | 94.6 |
 | stations | 35.8 | 7.2 |
-| total | 1124.1 | 264.1 |
-| trips | 931.3 | 161.7 |
+| total | 1130.4 | 264.2 |
+| trips | 937.6 | 161.8 |
 
 Segments **391** (was 782 before the dedupe), trips **625**, stations **389**.
 
@@ -106,7 +106,7 @@ Self-hosted glyphs and sprites: **28** files, 1.77 MB. No runtime CDN.
 
 ## T6/T7 — UI and robustness
 
-Frame time: median **0.60 ms**, p95 4.90 ms, max 83 trains on screen.
+Frame time: median **5.00 ms**, p95 5.00 ms, max 101 trains on screen.
 
 Timezone parity (same instant, three browser timezones):
 
@@ -120,14 +120,14 @@ axe serious/critical violations: **0**.
 
 | Lighthouse (mobile) | Value |
 |---|---|
-| performance | 61 |
+| performance | 71 |
 | accessibility | 100 |
 | best-practices | 100 |
-| seo | 82 |
-| LCP | 3754 ms |
-| TBT | 1824 ms |
-| CLS | 0.064 |
-| total bytes | 558 kB |
+| seo | 91 |
+| LCP | 752 ms |
+| TBT | 2900 ms |
+| CLS | 0.035 |
+| total bytes | 651 kB |
 
 Report only, measured with tiles stubbed (see `data/review/lighthouse.json`).
 

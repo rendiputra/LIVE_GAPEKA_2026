@@ -25,10 +25,10 @@ Trips exported: **625**, segments **391**, stations **389**. Target was < 2 MB g
 
 | Asset | Raw kB | Gzip kB |
 |---|---|---|
-| `index-AzUcrKsq.css` | 68.4 | 10.3 |
-| `index-BVXnrL0O.js` | 854.1 | 230.6 |
-| `positions.worker-hn7uUTIx.js` | 6.2 | 2.6 |
-| **total** | **928.6** | **243.5** |
+| `index-C07u2SZ0.css` | 68.5 | 10.3 |
+| `index-D8OGNiFU.js` | 855.4 | 230.8 |
+| `positions.worker-BAsxS6Fi.js` | 6.2 | 2.6 |
+| **total** | **930.1** | **243.8** |
 
 MapLibre GL JS dominates the bundle. It is bundled, not loaded from a CDN.
 

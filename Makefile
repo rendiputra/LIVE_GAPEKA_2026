@@ -137,6 +137,7 @@ reports: ## regenerate the generated reports
 	uv run python -m pipeline.phase5d_report
 	uv run python -m pipeline.phase6a_report
 	uv run python -m pipeline.phase6b_report
+	uv run python -m pipeline.phase6c_report
 	uv run python -m pipeline.phase5_report
 	uv run python -m pipeline.verification_status
 
