@@ -79,7 +79,7 @@ Stations: **389**, routable **386**.
 
 ## T4 — Export after dedupe
 
-Content hash `ce8b397007790812`.
+Content hash `2f8588adc0168c0e`.
 
 | File | Raw kB | Gzip kB |
 |---|---|---|
@@ -106,7 +106,7 @@ Self-hosted glyphs and sprites: **28** files, 1.77 MB. No runtime CDN.
 
 ## T6/T7 — UI and robustness
 
-Frame time: median **5.00 ms**, p95 5.00 ms, max 101 trains on screen.
+Frame time: median **4.80 ms**, p95 4.80 ms, max 101 trains on screen.
 
 Timezone parity (same instant, three browser timezones):
 
@@ -120,14 +120,14 @@ axe serious/critical violations: **0**.
 
 | Lighthouse (mobile) | Value |
 |---|---|
-| performance | 71 |
+| performance | 76 |
 | accessibility | 100 |
-| best-practices | 100 |
+| best-practices | 96 |
 | seo | 91 |
 | LCP | 752 ms |
-| TBT | 2900 ms |
+| TBT | 1220 ms |
 | CLS | 0.035 |
-| total bytes | 651 kB |
+| total bytes | 512 kB |
 
 Report only, measured with tiles stubbed (see `data/review/lighthouse.json`).
 

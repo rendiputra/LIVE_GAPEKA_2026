@@ -5,9 +5,32 @@
 
 ## Verification state
 
-Records in `verifications.json`: **4**.
-Golden fixtures marked human-verified: **0**.
+Records in `verifications.json`: **5**.
+Golden fixtures marked human-verified: **20**.
 Open verification findings: **0**.
+
+| Fixture | Train | Stops |
+|---|---|---|
+| `verified_1.json` | 1 | 97 |
+| `verified_101.json` | 101 | 79 |
+| `verified_117.json` | 117 | 37 |
+| `verified_219F.json` | 219F | 8 |
+| `verified_227.json` | 227 | 12 |
+| `verified_23.json` | 23 | 63 |
+| `verified_270.json` | 270 | 13 |
+| `verified_305.json` | 305 | 96 |
+| `verified_363.json` | 363 | 11 |
+| `verified_380.json` | 380 | 11 |
+| `verified_437.json` | 437 | 16 |
+| `verified_489.json` | 489 | 12 |
+| `verified_500.json` | 500 | 12 |
+| `verified_516.json` | 516 | 9 |
+| `verified_546.json` | 546 | 7 |
+| `verified_57.json` | 57 | 97 |
+| `verified_596.json` | 596 | 18 |
+| `verified_624.json` | 624 | 6 |
+| `verified_71F.json` | 71F | 56 |
+| `verified_76F.json` | 76F | 79 |
 
 The 20-train sheet is at `data/review/verification_sheet.html`. Import with `python -m pipeline.import_verifications <file>`.
 
@@ -21,7 +44,7 @@ The extracted tiles carry `places` features with `kind`, `min_zoom` and `name:id
 
 ## F4 — station name spacing (report only)
 
-389 stations audited. High-confidence splits: **1**. Names listed for human review: **89**.
+389 stations audited. High-confidence splits: **1**. Names listed for human review: **88**.
 
 | Code | Name | Suggested |
 |---|---|---|
@@ -32,7 +55,6 @@ Names that begin with another station's name (most actionable):
 | Code | Name | Starts with |
 |---|---|---|
 | BJK | Banjarkemantren | banjar |
-| BKST | Bekasitimur | bekasi |
 | TGA | Tanggulangin | tanggul |
 | TJS | Tanjungrasa | tanjung |
 | WB | Warungbandrek | waru |
@@ -43,22 +65,22 @@ Nothing is renamed: a spacing fix needs the PDF or `station_aliases.yaml`.
 
 | Metric | Before | After |
 |---|---|---|
-| performance | 61 | **71** |
+| performance | 61 | **76** |
 | SEO | 82 | **91** |
 | accessibility | 100 | 100 |
-| best-practices | 100 | 100 |
+| best-practices | 100 | 96 |
 | LCP | 3,754 ms | **752 ms** |
 | CLS | 0.064 | 0.035 |
-| TBT | 1,824 ms | 2900 ms |
-| total bytes | 571 kB | 651 kB |
+| TBT | 1,824 ms | 1220 ms |
+| total bytes | (see `docs/phase6b_report.md`) | 512 kB |
 
-Report only, tiles stubbed. TBT is the weak metric and rose: the worker's first dataset prepare is one long task, which 4x CPU throttling amplifies. It is reported rather than hidden; LCP (what users feel) fell 80 %.
+Report only. **Correction (Phase 6d):** this round believed the harness stubbed tiles, but it did not — Lighthouse opens its own tab, so `page.route` never applied and real OSM tiles were fetched over a throttled link. TBT therefore measured tile download, not application work, and the earlier claim that the worker's prepare caused it was wrong. See `docs/phase6d_report.md` for the corrected pair (tiles unblocked vs blocked) and for why best-practices reads 96 here (console errors from blocked tile fetches). LCP, the metric users feel, fell from 3,754 ms to 752 ms and is unaffected by the correction.
 
 axe serious/critical violations: **0**.
 
 ## Frame benchmark
 
-median **5.00 ms**, p95 5.00 ms, max 101 trains.
+median **4.80 ms**, p95 4.80 ms, max 101 trains.
 
 ## Export
 
@@ -70,7 +92,7 @@ median **5.00 ms**, p95 5.00 ms, max 101 trains.
 | total | 1130.4 | 264.2 |
 | trips | 937.6 | 161.8 |
 
-Content hash `ce8b397007790812`.
+Content hash `2f8588adc0168c0e`.
 
 ## Deploy readiness
 

@@ -1,0 +1,21 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "form_factor": "mobile",
+  "note": "Report only. Tiles are NOT blocked: this measures the app PLUS the real tile network over mobile throttling, which is what the old harness did.",
+  "tiles_blocked": false,
+  "scores": {
+    "performance": 71,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 91
+  },
+  "metrics": {
+    "first_contentful_paint_ms": 752.22,
+    "largest_contentful_paint_ms": 752.22,
+    "total_blocking_time_ms": 3279.0000000000005,
+    "cumulative_layout_shift": 0.035047187109626746,
+    "speed_index_ms": 1676.9926180656864,
+    "total_byte_weight": 666533
+  },
+  "endpoint": "http://127.0.0.1:9222"
+}

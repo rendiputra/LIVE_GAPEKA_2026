@@ -45,8 +45,8 @@ Tolerances: 1 m for lat/lon and `s_m`, 0.2 km/h for speed, identical status / fr
 | Metric | Value |
 |---|---|
 | samples | 40 |
-| median frame | **1.20 ms** |
-| p95 frame | 1.20 ms |
+| median frame | **4.80 ms** |
+| p95 frame | 4.80 ms |
 | most trains on screen | 101 |
 
 Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-01. The target was < 10 ms per frame.
@@ -57,11 +57,11 @@ Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-0
 
 Screenshots (`data/review/web_screens/`, gitignored):
 
-- `01-load.png` (65 kB)
-- `02-ka249-0900.png` (85 kB)
+- `01-load.png` (66 kB)
+- `02-ka249-0900.png` (86 kB)
 - `03-ka260f-0005.png` (94 kB)
 - `04-ka260f-0013.png` (93 kB)
-- `05-fakultatif-on.png` (94 kB)
+- `05-fakultatif-on.png` (78 kB)
 
 ## What the UI does
 

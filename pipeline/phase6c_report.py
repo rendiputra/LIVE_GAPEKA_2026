@@ -125,12 +125,24 @@ def main() -> int:
         add(f"| LCP | 3,754 ms | **{metrics.get('largest_contentful_paint_ms', 0):.0f} ms** |")
         add(f"| CLS | 0.064 | {metrics.get('cumulative_layout_shift', 0):.3f} |")
         add(f"| TBT | 1,824 ms | {metrics.get('total_blocking_time_ms', 0):.0f} ms |")
-        add(f"| total bytes | 571 kB | {metrics.get('total_byte_weight', 0) / 1024:.0f} kB |")
+        # The former "before" byte figure had no artefact behind it (it was a
+        # chat number), so it is not repeated. The current export size is read
+        # from web_export.json below.
+        add(
+            "| total bytes | (see `docs/phase6b_report.md`) | "
+            f"{metrics.get('total_byte_weight', 0) / 1024:.0f} kB |"
+        )
         add("")
         add(
-            "Report only, tiles stubbed. TBT is the weak metric and rose: the worker's "
-            "first dataset prepare is one long task, which 4x CPU throttling amplifies. "
-            "It is reported rather than hidden; LCP (what users feel) fell 80 %."
+            "Report only. **Correction (Phase 6d):** this round believed the harness "
+            "stubbed tiles, but it did not — Lighthouse opens its own tab, so "
+            "`page.route` never applied and real OSM tiles were fetched over a "
+            "throttled link. TBT therefore measured tile download, not application "
+            "work, and the earlier claim that the worker's prepare caused it was "
+            "wrong. See `docs/phase6d_report.md` for the corrected pair "
+            "(tiles unblocked vs blocked) and for why best-practices reads 96 here "
+            "(console errors from blocked tile fetches). LCP, the metric users feel, "
+            "fell from 3,754 ms to 752 ms and is unaffected by the correction."
         )
         add("")
     if axe:

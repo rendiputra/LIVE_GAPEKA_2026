@@ -2,9 +2,7 @@
   "url": "http://127.0.0.1:4173/",
   "form_factor": "mobile",
   "note": "Report only. Tile requests are blocked, so these numbers describe the app, not the tile provider. Blocking logs console errors from the failed tile fetches, which is the only reason best-practices reads below 100 here; take best-practices from an unblocked run.",
-  "blocked_tile_patterns": [
-    "*tile.openstreetmap.org*"
-  ],
+  "tiles_blocked": true,
   "scores": {
     "performance": 76,
     "accessibility": 100,
@@ -12,11 +10,11 @@
     "seo": 91
   },
   "metrics": {
-    "first_contentful_paint_ms": 751.674,
-    "largest_contentful_paint_ms": 751.674,
-    "total_blocking_time_ms": 1194.5,
+    "first_contentful_paint_ms": 751.6780000000001,
+    "largest_contentful_paint_ms": 751.6780000000001,
+    "total_blocking_time_ms": 1220.5,
     "cumulative_layout_shift": 0.035047187109626746,
-    "speed_index_ms": 1209.2864673719737,
+    "speed_index_ms": 1314.8975431182805,
     "total_byte_weight": 524592
   },
   "endpoint": "http://127.0.0.1:9222"

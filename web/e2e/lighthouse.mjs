@@ -17,6 +17,10 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REVIEW = resolve(HERE, "../../data/review");
 const URL_UNDER_TEST = process.env.LH_URL ?? "http://127.0.0.1:4173/";
+// Set LH_BLOCK=0 to measure WITH the real tile network, which is what the old
+// harness accidentally did. Kept switchable so both numbers stay reproducible.
+const BLOCK_TILES = process.env.LH_BLOCK !== "0";
+const OUT_NAME = BLOCK_TILES ? "lighthouse.json" : "lighthouse_unblocked.json";
 
 mkdirSync(REVIEW, { recursive: true });
 
@@ -48,7 +52,7 @@ const result = await lighthouse(
     screenEmulation: { mobile: true, width: 390, height: 844, deviceScaleFactor: 3, disabled: false },
     throttling: { rttMs: 150, throughputKbps: 1638.4, cpuSlowdownMultiplier: 4 },
     // Lighthouse uses its own target, so blocking must be a setting, not a route.
-    blockedUrlPatterns: ["*tile.openstreetmap.org*"],
+    ...(BLOCK_TILES ? { blockedUrlPatterns: ["*tile.openstreetmap.org*"] } : {}),
   },
   undefined,
 );
@@ -63,11 +67,14 @@ const summary = {
   url: URL_UNDER_TEST,
   form_factor: "mobile",
   note:
-    "Report only. Tile requests are blocked, so these numbers describe the app, " +
-    "not the tile provider. Blocking logs console errors from the failed tile " +
-    "fetches, which is the only reason best-practices reads below 100 here; take " +
-    "best-practices from an unblocked run.",
-  blocked_tile_patterns: ["*tile.openstreetmap.org*"],
+    (BLOCK_TILES
+      ? "Report only. Tile requests are blocked, so these numbers describe the app, "
+        + "not the tile provider. Blocking logs console errors from the failed tile "
+        + "fetches, which is the only reason best-practices reads below 100 here; take "
+        + "best-practices from an unblocked run."
+      : "Report only. Tiles are NOT blocked: this measures the app PLUS the real "
+        + "tile network over mobile throttling, which is what the old harness did."),
+  tiles_blocked: BLOCK_TILES,
   scores: Object.fromEntries(
     Object.entries(categories).map(([key, value]) => [
       key,
@@ -85,5 +92,5 @@ const summary = {
   endpoint,
 };
 
-writeFileSync(resolve(REVIEW, "lighthouse.json"), JSON.stringify(summary, null, 2) + "\n");
+writeFileSync(resolve(REVIEW, OUT_NAME), JSON.stringify(summary, null, 2) + "\n");
 console.log(JSON.stringify(summary, null, 2));
