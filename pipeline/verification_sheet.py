@@ -264,6 +264,27 @@ def _stop_rows(connection: sqlite3.Connection, trip_id: str) -> list[dict]:
     return out
 
 
+def script_json(payload: object) -> str:
+    """JSON that is safe to embed inside a <script> block.
+
+    HTML entities are NOT decoded inside <script>, so ``html.escape`` corrupts the
+    JSON: ``"`` becomes ``&quot;``, the script fails to parse ("Unexpected token
+    '&'") and every handler silently disappears — which is why the download
+    button did nothing.
+
+    Instead, escape only the sequences that could terminate or confuse the block.
+    ``\\u003c`` is valid JSON *and* valid JavaScript.
+    """
+    text = json.dumps(payload, indent=1, ensure_ascii=False)
+    return (
+        text.replace("&", "\\u0026")
+        .replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+        .replace("\u2028", "\\u2028")
+        .replace("\u2029", "\\u2029")
+    )
+
+
 def build(selection: dict) -> str:
     connection = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
     try:
@@ -283,7 +304,7 @@ def build(selection: dict) -> str:
             rows = []
             for stop in stops:
                 rows.append(
-                    "<tr>"
+                    f'<tr data-seq="{stop["seq"]}">'
                     f"<td>{stop['seq']}</td>"
                     f"<td>{esc(stop['station'])} <small>({esc(stop['code'])})</small></td>"
                     f"<td>{esc(stop['speed'])}</td>"
@@ -294,6 +315,10 @@ def build(selection: dict) -> str:
                     f"<td>{stop['day_offset']}/{stop['arrive_day_offset']}"
                     f"/{stop['depart_day_offset']}</td>"
                     f"<td>{esc(stop['time_source'])}</td>"
+                    f'<td><input class="row-note" type="text" disabled'
+                    f' aria-label="Catatan untuk baris {stop["seq"]},'
+                    f' stasiun {esc(stop["station"])}"'
+                    f' placeholder="apa yang salah?"></td>'
                     "</tr>"
                 )
             sections.append(
@@ -323,7 +348,7 @@ def build(selection: dict) -> str:
         <thead><tr>
           <th>#</th><th>Stasiun</th><th>Kecepatan</th><th>Datang</th>
           <th>Berangkat</th><th>Keterangan</th><th>type</th>
-          <th>day/arr/dep</th><th>time_source</th>
+          <th>day/arr/dep</th><th>time_source</th><th>Catatan</th>
         </tr></thead>
         <tbody>{"".join(rows)}</tbody>
       </table>
@@ -334,8 +359,10 @@ def build(selection: dict) -> str:
     finally:
         connection.close()
 
-    return _TEMPLATE.replace("__SECTIONS__", "\n".join(sections)).replace(
-        "__SELECTION__", esc(json.dumps(selection["trains"], indent=1))
+    return (
+        _TEMPLATE.replace("__SECTIONS__", "\n".join(sections))
+        .replace("__SELECTION__", script_json(selection["trains"]))
+        .replace("__SEED__", script_json(selection.get("seed")))
     )
 
 
@@ -377,8 +404,10 @@ _TEMPLATE = """<!doctype html>
  tbody tr:hover{background:#eef4fd}
  tbody tr.wrong{background:#ffe9ec}
  tbody tr.wrong td{text-decoration:line-through}
- .note{width:100%;min-height:56px;margin:6px 0;font:inherit;font-size:13px;padding:6px;display:none}
- .note.show{display:block}
+ .row-note{width:100%;min-width:12rem;min-height:32px;font:inherit;font-size:12px;
+   padding:2px 6px;border:1px solid #d7dce3;border-radius:4px;background:#fff}
+ .row-note:disabled{background:#f4f6f9;border-color:transparent;cursor:not-allowed}
+ tbody tr.wrong .row-note:disabled{background:#fff}
  .hint{font-size:12px;color:#5b6472;margin:0 0 6px}
  .summary{background:#f4f6f9;border:1px solid #d7dce3;border-radius:8px;
    padding:10px;margin:10px 0;font-size:13px}
@@ -400,6 +429,7 @@ __SECTIONS__
 </main>
 <script>
 const SELECTION = __SELECTION__;
+const SELECTION_SEED = __SEED__;
 const wrong = {};   // tripId -> [{seq, note}]
 
 function trainSections(){ return [...document.querySelectorAll('section.train')]; }
@@ -431,7 +461,14 @@ trainSections().forEach(section => {
       row.classList.toggle('wrong');
       const seq = Number(row.cells[0].textContent);
       wrong[trip] = (wrong[trip] || []).filter(r => r.seq !== seq);
-      if (row.classList.contains('wrong')) wrong[trip].push({seq, note: ''});
+      const input = row.querySelector('.row-note');
+      if (input) {
+        input.disabled = !row.classList.contains('wrong');
+        if (!row.classList.contains('wrong')) input.value = '';
+      }
+      if (row.classList.contains('wrong')) {
+        wrong[trip].push({ seq, note: input ? input.value : '' });
+      }
       updateCount(section); updateSummary();
     });
   });
@@ -441,8 +478,8 @@ document.getElementById('reset').addEventListener('click', () => {
   if (!confirm('Atur ulang semua tanda?')) return;
   Object.keys(wrong).forEach(k => delete wrong[k]);
   document.querySelectorAll('tbody tr.wrong').forEach(r => r.classList.remove('wrong'));
-  document.querySelectorAll('textarea.note')
-    .forEach(t => { t.value=''; t.classList.remove('show'); });
+  document.querySelectorAll('.row-note')
+    .forEach(i => { i.value=''; i.disabled = true; });
   trainSections().forEach(s => { updateCount(s); });
   updateSummary();
 });
@@ -453,13 +490,19 @@ document.getElementById('download').addEventListener('click', () => {
     date: new Date().toISOString().slice(0, 10),
     verifier: 'human',
     method: 'visual comparison of PDF page images against the parsed table',
-    selection_seed: SELECTION.length ? undefined : undefined,
+    selection_seed: SELECTION_SEED,
     trains: SELECTION.map(t => ({
       trip_id: t.trip_id,
       train_no: t.train_no,
       book: t.book,
       verdict: (wrong[t.trip_id] || []).length ? 'has_errors' : 'all_rows_match',
-      wrong_rows: (wrong[t.trip_id] || []),
+      wrong_rows: (wrong[t.trip_id] || []).map((entry) => {
+        const row = document.querySelector(
+          `section[data-trip="${t.trip_id}"] tbody tr[data-seq="${entry.seq}"]`,
+        );
+        const input = row ? row.querySelector('.row-note') : null;
+        return { seq: entry.seq, note: input ? input.value.trim() : entry.note };
+      }),
       pages: t.pages,
     })),
   };

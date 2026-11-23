@@ -744,6 +744,9 @@ function tick(): void {
     ($("time") as HTMLInputElement).value = String(state.secondsOfDay);
     $("clock").textContent = hhmm(state.secondsOfDay);
   setMode(state.mode);
+  // The controls are inert until their handlers exist, so a click before the
+  // data has loaded can never silently do nothing.
+  document.body.dataset.appReady = "true";
     requestFrame();
   }
   window.setTimeout(tick, 200);
@@ -757,6 +760,9 @@ function syncReplayInputs(): void {
   ($("time") as HTMLInputElement).value = String(state.secondsOfDay);
   $("clock").textContent = hhmm(state.secondsOfDay);
   setMode(state.mode);
+  // The controls are inert until their handlers exist, so a click before the
+  // data has loaded can never silently do nothing.
+  document.body.dataset.appReady = "true";
 }
 
 /** Switching mode also shows/hides the replay controls, so live and replay can
@@ -791,6 +797,9 @@ function wireControls(): void {
     state.secondsOfDay = Number((event.target as HTMLInputElement).value);
     $("clock").textContent = hhmm(state.secondsOfDay);
   setMode(state.mode);
+  // The controls are inert until their handlers exist, so a click before the
+  // data has loaded can never silently do nothing.
+  document.body.dataset.appReady = "true";
     requestFrame();
   });
 
@@ -852,6 +861,9 @@ async function main(): Promise<void> {
   // user (or a test) that already moved the slider, silently resetting it.
   $("clock").textContent = hhmm(state.secondsOfDay);
   setMode(state.mode);
+  // The controls are inert until their handlers exist, so a click before the
+  // data has loaded can never silently do nothing.
+  document.body.dataset.appReady = "true";
   // Let the first paint happen before the worker loads and parses the schedule:
   // LCP should not wait for ~1 MB of JSON.
   const start = () => {

@@ -235,6 +235,12 @@ body {
   text-align: right;
 }
 
+/* Before the handlers are wired the controls must not look interactive. */
+body[data-app-ready="false"] #controls {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .status {
   flex-basis: 100%;
   font-size: 12px;

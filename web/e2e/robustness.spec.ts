@@ -6,6 +6,11 @@
 
 import { AxeBuilder } from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+/** The controls are inert until the app has wired its handlers. */
+async function waitReady(page: import("@playwright/test").Page): Promise<void> {
+  await page.locator('body[data-app-ready="true"]').waitFor({ state: "attached" });
+}
+
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -50,6 +55,7 @@ test("positions are identical in three browser timezones", async ({ browser }) =
     );
     // `browser.newContext()` does not inherit `use.baseURL`.
     await page.goto("http://127.0.0.1:4173/");
+    await waitReady(page);
     await expect(page.locator("#loading")).toBeHidden();
     await page.getByRole("radio", { name: "Ulang" }).click();
     await page.locator("#date").fill("2026-12-01");
@@ -94,6 +100,7 @@ test("the preview banner flips exactly at 2026-12-01T00:00+07:00", async ({ page
   // 2026-11-30T16:59Z is 23:59 WIB on 30 November.
   await page.clock.install({ time: new Date("2026-11-30T16:59:00Z") });
   await page.goto("/");
+  await waitReady(page);
   await expect(page.locator("#banner")).toBeVisible();
 
   // 2026-11-30T17:01Z is 00:01 WIB on 1 December.
@@ -110,6 +117,7 @@ test("works when served under a sub-path, including the worker fetch", async ({ 
   page.on("pageerror", (error) => errors.push(String(error)));
 
   await page.goto(SUBPATH_URL);
+  await waitReady(page);
   await expect(page.locator("#status")).toContainText("KA aktif");
   await expect(page.locator("#loading")).toBeHidden();
   expect(errors).toEqual([]);
@@ -117,6 +125,7 @@ test("works when served under a sub-path, including the worker fetch", async ({ 
 
 test("has no serious accessibility violations", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   // The handlers are wired after the data loads, so wait for that first.
   await expect(page.locator("#loading")).toBeHidden();
   await expect(page.locator("#status")).toContainText(/[1-9]\d* KA aktif/);

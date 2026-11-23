@@ -1,4 +1,9 @@
 import { expect, test } from "@playwright/test";
+/** The controls are inert until the app has wired its handlers. */
+async function waitReady(page: import("@playwright/test").Page): Promise<void> {
+  await page.locator('body[data-app-ready="true"]').waitFor({ state: "attached" });
+}
+
 import { mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -34,6 +39,7 @@ test("loads without console errors, shows the disclaimer and the preview banner"
   page.on("pageerror", (error) => errors.push(String(error)));
 
   await page.goto("/");
+  await waitReady(page);
   await expect(page.locator("#disclaimer")).toContainText("bukan posisi aktual");
   await expect(page.locator("#banner")).toBeVisible();
   await expect(page.locator("#banner")).toContainText("Preview Gapeka 2026");
@@ -45,6 +51,7 @@ test("loads without console errors, shows the disclaimer and the preview banner"
 
 test("at 2026-12-01 09:00 KA 249 is active and the search finds it", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   await page.getByRole("radio", { name: "Ulang" }).click();
   await page.locator("#date").fill("2026-12-01");
   await page.locator("#time").fill(String(9 * 3600));
@@ -62,6 +69,7 @@ test("KA 260F appears at 2026-12-02 00:05 and is at Solobalapan by 00:13", async
   page,
 }) => {
   await page.goto("/");
+  await waitReady(page);
   await page.getByRole("radio", { name: "Ulang" }).click();
   await page.locator("#date").fill("2026-12-02");
   await page.locator("#time").fill(String(5 * 60));
@@ -83,6 +91,7 @@ test("KA 260F appears at 2026-12-02 00:05 and is at Solobalapan by 00:13", async
 
 test("fakultatif is hidden by default and shown when toggled", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   await page.getByRole("radio", { name: "Ulang" }).click();
   await page.locator("#date").fill("2026-12-02");
   await page.locator("#time").fill(String(5 * 60));
@@ -101,6 +110,7 @@ test("fakultatif is hidden by default and shown when toggled", async ({ page }) 
 
 test("benchmark: frame time with the full schedule", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   await page.getByRole("radio", { name: "Ulang" }).click();
   await page.locator("#date").fill("2026-12-01");
   // The worker now starts after `load`, so wait for the first real frame before
@@ -128,6 +138,7 @@ test("benchmark: frame time with the full schedule", async ({ page }) => {
 
 test("Tentang dialog shows the data version and the disclaimer", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   await page.locator("#about-open").click();
   const dialog = page.locator("#about");
   await expect(dialog).toBeVisible();
@@ -142,6 +153,7 @@ test("Tentang dialog shows the data version and the disclaimer", async ({ page }
 
 test("loading state disappears and an unknown search shows an empty state", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   await expect(page.locator("#loading")).toBeHidden();
   await page.locator("#search").fill("zzzz-no-such-train");
   await page.locator("#search").press("Enter");
@@ -151,6 +163,7 @@ test("loading state disappears and an unknown search shows an empty state", asyn
 
 test("every time is labelled WIB", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   await expect(page.locator("#status")).toContainText("WIB");
 });
 
@@ -159,6 +172,7 @@ test("F1: Live mode shows the LIVE clock and date, never the replay time", async
   // Date.now() while leaving timers running, which is what a clock display needs.
   await page.clock.setFixedTime(new Date("2026-11-25T15:45:00Z")); // 22:45 WIB
   await page.goto("/");
+  await waitReady(page);
 
   // Live is the default mode; the replay controls must be out of the way.
   await expect(page.getByRole("radio", { name: "Sekarang" })).toHaveAttribute(
@@ -178,6 +192,7 @@ test("F1: Live mode shows the LIVE clock and date, never the replay time", async
 
 test("F3: selecting a train highlights its route and shows the rail layer", async ({ page }) => {
   await page.goto("/");
+  await waitReady(page);
   await page.getByRole("radio", { name: "Ulang" }).click();
   await page.locator("#date").fill("2026-12-01");
   await page.locator("#time").fill(String(9 * 3600));
