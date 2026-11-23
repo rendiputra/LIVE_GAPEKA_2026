@@ -1,0 +1,119 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-23",
+  "method": "visual comparison of PDF page images against the parsed table",
+  "scope": {
+    "note": "All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html.",
+    "pages": [
+      772
+    ]
+  },
+  "trains": [
+    {
+      "train_no": "546",
+      "book": 2,
+      "trip_id": "b2-546-v1-01",
+      "stops": [
+        {
+          "seq": 1,
+          "station_code": "YIA",
+          "station_name": "Yogyakarta International Airport",
+          "arrive": null,
+          "depart": "09:39:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "-",
+          "raw_depart": "09:39:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 772
+        },
+        {
+          "seq": 2,
+          "station_code": "KDG",
+          "station_name": "Kedundang",
+          "arrive": null,
+          "depart": "09:45:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "09:45:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 772
+        },
+        {
+          "seq": 3,
+          "station_code": "WT",
+          "station_name": "Wates",
+          "arrive": "09:52:00",
+          "depart": "09:54:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "09:52:00",
+          "raw_depart": "09:54:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 772
+        },
+        {
+          "seq": 4,
+          "station_code": "STL",
+          "station_name": "Sentolo",
+          "arrive": null,
+          "depart": "10:04:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "10:04:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 772
+        },
+        {
+          "seq": 5,
+          "station_code": "RWL",
+          "station_name": "Rewulu",
+          "arrive": null,
+          "depart": "10:12:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "10:12:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 772
+        },
+        {
+          "seq": 6,
+          "station_code": "PTN",
+          "station_name": "Patukan",
+          "arrive": null,
+          "depart": "10:15:30",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "10:15:30",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 772
+        },
+        {
+          "seq": 7,
+          "station_code": "YK",
+          "station_name": "Yogyakarta",
+          "arrive": "10:20:00",
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "10:20:00",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "0",
+          "source_page": 772
+        }
+      ]
+    }
+  ]
+}

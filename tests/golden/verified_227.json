@@ -1,0 +1,189 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-23",
+  "method": "visual comparison of PDF page images against the parsed table",
+  "scope": {
+    "note": "All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html.",
+    "pages": [
+      506
+    ]
+  },
+  "trains": [
+    {
+      "train_no": "227",
+      "book": 1,
+      "trip_id": "b1-227-v1-01",
+      "stops": [
+        {
+          "seq": 1,
+          "station_code": "PWT",
+          "station_name": "Purwokerto",
+          "arrive": null,
+          "depart": "05:30:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "-",
+          "raw_depart": "05:30:00",
+          "keterangan_raw": "",
+          "speed_raw": "70",
+          "source_page": 506
+        },
+        {
+          "seq": 2,
+          "station_code": "KGD",
+          "station_name": "Karanggandul",
+          "arrive": null,
+          "depart": "05:38:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "05:38:00",
+          "keterangan_raw": "",
+          "speed_raw": "70",
+          "source_page": 506
+        },
+        {
+          "seq": 3,
+          "station_code": "KRR",
+          "station_name": "Karangsari",
+          "arrive": null,
+          "depart": "05:46:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "05:46:00",
+          "keterangan_raw": "",
+          "speed_raw": "70",
+          "source_page": 506
+        },
+        {
+          "seq": 4,
+          "station_code": "PAT",
+          "station_name": "Patuguran",
+          "arrive": null,
+          "depart": "05:57:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "05:57:00",
+          "keterangan_raw": "",
+          "speed_raw": "70",
+          "source_page": 506
+        },
+        {
+          "seq": 5,
+          "station_code": "KRT",
+          "station_name": "Kretek",
+          "arrive": null,
+          "depart": "06:03:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "06:03:00",
+          "keterangan_raw": "",
+          "speed_raw": "70",
+          "source_page": 506
+        },
+        {
+          "seq": 6,
+          "station_code": "BMA",
+          "station_name": "Bumiayu",
+          "arrive": "06:12:00",
+          "depart": "06:14:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "06:12:00",
+          "raw_depart": "06:14:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 506
+        },
+        {
+          "seq": 7,
+          "station_code": "LG",
+          "station_name": "Linggapura",
+          "arrive": null,
+          "depart": "06:23:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "06:23:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 506
+        },
+        {
+          "seq": 8,
+          "station_code": "PPK",
+          "station_name": "Prupuk",
+          "arrive": "06:34:00",
+          "depart": "06:36:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "06:34:00",
+          "raw_depart": "06:36:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 506
+        },
+        {
+          "seq": 9,
+          "station_code": "MGS",
+          "station_name": "Margasari",
+          "arrive": null,
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 506
+        },
+        {
+          "seq": 10,
+          "station_code": "BLP",
+          "station_name": "Balapulang",
+          "arrive": null,
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 506
+        },
+        {
+          "seq": 11,
+          "station_code": "SLW",
+          "station_name": "Slawi",
+          "arrive": "07:03:00",
+          "depart": "07:07:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "07:03:00",
+          "raw_depart": "07:07:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 506
+        },
+        {
+          "seq": 12,
+          "station_code": "TG",
+          "station_name": "Tegal",
+          "arrive": "07:24:00",
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "07:24:00",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "0",
+          "source_page": 506
+        }
+      ]
+    }
+  ]
+}

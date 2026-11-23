@@ -90,6 +90,61 @@
       },
       "artefact": "data/review/h5_h6_gate.json",
       "result": "accepted"
+    },
+    {
+      "verifier": "human",
+      "date": "2026-11-23",
+      "method": "visual comparison of PDF page images against the parsed table",
+      "scope": {
+        "trains": [
+          "1",
+          "71F",
+          "76F",
+          "489",
+          "500",
+          "219F",
+          "596",
+          "363",
+          "270",
+          "227",
+          "437",
+          "117",
+          "546",
+          "101",
+          "305",
+          "23",
+          "516",
+          "57",
+          "380",
+          "624"
+        ],
+        "trips": [
+          "b1-1-v1-01",
+          "b1-71F-v1-01",
+          "b1-76F-v1-01",
+          "b2-489-v1-01",
+          "b2-500-v1-01",
+          "b1-219F-v1-01",
+          "b2-596-v1-01",
+          "b2-363-v1-01",
+          "b1-270-v1-01",
+          "b1-227-v1-01",
+          "b2-437-v1-01",
+          "b1-117-v1-01",
+          "b2-546-v1-01",
+          "b1-101-v1-01",
+          "b1-305-v1-01",
+          "b1-23-v1-01",
+          "b2-516-v1-01",
+          "b1-57-v1-01",
+          "b2-380-v1-01",
+          "b2-624-v1-01"
+        ],
+        "trains_with_errors": [],
+        "note": "20 train(s) matched every row and were promoted; 0 train(s) had wrong rows and were NOT promoted."
+      },
+      "artefact": "data/review/verification_sheet.html",
+      "result": "accepted"
     }
   ]
 }

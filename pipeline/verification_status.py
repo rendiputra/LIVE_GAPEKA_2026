@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+DB = Path("data/gapeka.db")
 VERIFICATIONS = Path("data/review/verifications.json")
 GOLDEN_DIR = Path("tests/golden")
 DOCS = Path("docs")
@@ -28,7 +29,9 @@ def load_records() -> list[dict]:
 
 def load_golden() -> list[dict]:
     records = []
-    for path in sorted(GOLDEN_DIR.glob("*_golden.json")):
+    patterns = ("*_golden.json", "verified_*.json")
+    paths = sorted({path for pattern in patterns for path in GOLDEN_DIR.glob(pattern)})
+    for path in paths:
         payload = json.loads(path.read_text(encoding="utf-8"))
         records.append(
             {
@@ -40,6 +43,9 @@ def load_golden() -> list[dict]:
                 "scope": payload.get("scope", {}),
                 "trains": [t.get("train_no") for t in payload.get("trains", [])],
                 "stops": sum(len(t.get("stops", [])) for t in payload.get("trains", [])),
+                "trip_ids": [
+                    t.get("trip_id") for t in payload.get("trains", []) if t.get("trip_id")
+                ],
             }
         )
     return records
@@ -134,13 +140,36 @@ def render() -> str:
     add("")
     add("| Book | Trains parsed | Stops parsed | Validated | Human-verified trains |")
     add("|---|---|---|---|---|")
+    # Verified trips per book, from the DB when it is available: a fixture names a
+    # trip_id, and the DB says which book that trip belongs to.
+    verified_by_book: dict[str, int] = {}
+    verified_total = 0
+    if DB.exists():
+        import sqlite3
+
+        connection = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+        try:
+            for record in golden:
+                if not record["verified_by_human"]:
+                    continue
+                for trip_id in record.get("trip_ids", []):
+                    row = connection.execute(
+                        "SELECT book FROM trips WHERE trip_id = ?", (trip_id,)
+                    ).fetchone()
+                    if row is None:
+                        continue
+                    verified_total += 1
+                    key = "Book 1 (intercity)" if row[0] == 1 else "Book 2 (local)"
+                    verified_by_book[key] = verified_by_book.get(key, 0) + 1
+        finally:
+            connection.close()
+
     for book, entry in state.items():
-        verified = [
-            t for record in golden if record["verified_by_human"] for t in record["trains"] if t
-        ]
+        count = verified_by_book.get(book)
+        label = f"{count} trips verified end to end" if count is not None else "not measured"
         add(
             f"| {book} | {entry['trains']} | {entry['stops']} | {entry['validated']} | "
-            f"{len(verified)} (pilot rows only) |"
+            f"{label} |"
         )
     add("")
     add(

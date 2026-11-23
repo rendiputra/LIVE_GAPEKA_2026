@@ -1,0 +1,175 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-23",
+  "method": "visual comparison of PDF page images against the parsed table",
+  "scope": {
+    "note": "All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html.",
+    "pages": [
+      685
+    ]
+  },
+  "trains": [
+    {
+      "train_no": "380",
+      "book": 2,
+      "trip_id": "b2-380-v1-01",
+      "stops": [
+        {
+          "seq": 1,
+          "station_code": "CKR",
+          "station_name": "Cikarang",
+          "arrive": null,
+          "depart": "18:50:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "-",
+          "raw_depart": "18:50:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 2,
+          "station_code": "LMB",
+          "station_name": "Lemahabang",
+          "arrive": "18:55:00",
+          "depart": "18:56:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "18:55:00",
+          "raw_depart": "18:56:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 3,
+          "station_code": "KDH",
+          "station_name": "Kedunggedeh",
+          "arrive": "19:05:00",
+          "depart": "19:06:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "19:05:00",
+          "raw_depart": "19:06:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 4,
+          "station_code": "KW",
+          "station_name": "Karawang",
+          "arrive": "19:13:00",
+          "depart": "19:15:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "19:13:00",
+          "raw_depart": "19:15:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 5,
+          "station_code": "KLI",
+          "station_name": "Klari",
+          "arrive": "19:22:00",
+          "depart": "19:23:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "19:22:00",
+          "raw_depart": "19:23:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 6,
+          "station_code": "KOS",
+          "station_name": "Kosambi",
+          "arrive": "19:28:00",
+          "depart": "19:39:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "19:28:00",
+          "raw_depart": "19:39:00",
+          "keterangan_raw": "= ka 58 (ka 58 //)",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 7,
+          "station_code": "DWN",
+          "station_name": "Dawuan",
+          "arrive": "19:46:00",
+          "depart": "19:47:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "19:46:00",
+          "raw_depart": "19:47:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 8,
+          "station_code": "CKP",
+          "station_name": "Cikampek",
+          "arrive": "19:52:00",
+          "depart": "19:54:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "19:52:00",
+          "raw_depart": "19:54:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 9,
+          "station_code": "CBR",
+          "station_name": "Cibungur",
+          "arrive": "20:03:00",
+          "depart": "20:05:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "20:03:00",
+          "raw_depart": "20:05:00",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 10,
+          "station_code": "SAD",
+          "station_name": "Sadang",
+          "arrive": null,
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "90",
+          "source_page": 685
+        },
+        {
+          "seq": 11,
+          "station_code": "PWK",
+          "station_name": "Purwakarta",
+          "arrive": "20:17:00",
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "20:17:00",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "0",
+          "source_page": 685
+        }
+      ]
+    }
+  ]
+}

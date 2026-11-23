@@ -1,0 +1,175 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-23",
+  "method": "visual comparison of PDF page images against the parsed table",
+  "scope": {
+    "note": "All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html.",
+    "pages": [
+      677
+    ]
+  },
+  "trains": [
+    {
+      "train_no": "363",
+      "book": 2,
+      "trip_id": "b2-363-v1-01",
+      "stops": [
+        {
+          "seq": 1,
+          "station_code": "MER",
+          "station_name": "Merak",
+          "arrive": null,
+          "depart": "12:50:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "-",
+          "raw_depart": "12:50:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 2,
+          "station_code": "KEN",
+          "station_name": "Krenceng",
+          "arrive": "13:02:00",
+          "depart": "13:04:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:02:00",
+          "raw_depart": "13:04:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 3,
+          "station_code": "CLG",
+          "station_name": "Cilegon",
+          "arrive": "13:10:00",
+          "depart": "13:12:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:10:00",
+          "raw_depart": "13:12:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 4,
+          "station_code": "TOJB",
+          "station_name": "Tonjongbaru",
+          "arrive": "13:21:00",
+          "depart": "13:23:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:21:00",
+          "raw_depart": "13:23:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 5,
+          "station_code": "KRA",
+          "station_name": "Karangantu",
+          "arrive": "13:30:00",
+          "depart": "13:32:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:30:00",
+          "raw_depart": "13:32:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 6,
+          "station_code": "SG",
+          "station_name": "Serang",
+          "arrive": "13:42:00",
+          "depart": "13:44:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:42:00",
+          "raw_depart": "13:44:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 7,
+          "station_code": "WLT",
+          "station_name": "Walantaka",
+          "arrive": "13:53:00",
+          "depart": "13:55:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:53:00",
+          "raw_depart": "13:55:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 8,
+          "station_code": "CKL",
+          "station_name": "Cikeusal",
+          "arrive": "14:05:00",
+          "depart": "14:07:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "14:05:00",
+          "raw_depart": "14:07:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 9,
+          "station_code": "CT",
+          "station_name": "Catang",
+          "arrive": "14:16:00",
+          "depart": "14:18:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "14:16:00",
+          "raw_depart": "14:18:00",
+          "keterangan_raw": "x ka 364 (ka 364 x)",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 10,
+          "station_code": "JBU",
+          "station_name": "Jambubaru",
+          "arrive": "14:24:00",
+          "depart": "14:26:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "14:24:00",
+          "raw_depart": "14:26:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 677
+        },
+        {
+          "seq": 11,
+          "station_code": "RK",
+          "station_name": "Rangkasbitung",
+          "arrive": "14:35:00",
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "14:35:00",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "0",
+          "source_page": 677
+        }
+      ]
+    }
+  ]
+}

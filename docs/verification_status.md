@@ -13,6 +13,7 @@ A train is described as *human-verified* only when a record below names the arte
 | human | 2026-11-20 | visual comparison of PDF page screenshots against review HTML cell text | 527, 528 | 259F, 260F | all rows |  | `data/review/pilot_259F_260F.html` |
 | human | 2026-11-22 | manual lookup of KAI station codes and names |  |  | all rows in scope |  | `data/config/station_aliases.yaml` |
 | human | 2026-11-22 | map check |  |  | all rows in scope | stations SRI; OSM node 1244940845 | `data/review/h5_h6_gate.json` |
+| human | 2026-11-23 | visual comparison of PDF page images against the parsed table |  | 1, 71F, 76F, 489, 500, 219F, 596, 363, 270, 227, 437, 117, 546, 101, 305, 23, 516, 57, 380, 624 | all rows in scope |  | `data/review/verification_sheet.html` |
 
 ## Golden fixtures
 
@@ -20,13 +21,33 @@ A train is described as *human-verified* only when a record below names the arte
 |---|---|---|---|---|
 | `pilot_249_250_golden.json` | True | 249, 250, 251, 252 | 69 | KA 252 is covered ONLY for the rows that appear on PDF pages 521-522. Its table continues past page 522 and those rows are not verified here. |
 | `pilot_259F_260F_golden.json` | True | 259F, 260F | 30 | The `type` and `day_offset` fields are DERIVED by the parser and are not shown in the PDF; they were not part of the human comparison. |
+| `verified_1.json` | True | 1 | 97 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_101.json` | True | 101 | 79 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_117.json` | True | 117 | 37 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_219F.json` | True | 219F | 8 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_227.json` | True | 227 | 12 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_23.json` | True | 23 | 63 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_270.json` | True | 270 | 13 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_305.json` | True | 305 | 96 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_363.json` | True | 363 | 11 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_380.json` | True | 380 | 11 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_437.json` | True | 437 | 16 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_489.json` | True | 489 | 12 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_500.json` | True | 500 | 12 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_516.json` | True | 516 | 9 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_546.json` | True | 546 | 7 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_57.json` | True | 57 | 97 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_596.json` | True | 596 | 18 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_624.json` | True | 624 | 6 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_71F.json` | True | 71F | 56 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
+| `verified_76F.json` | True | 76F | 79 | All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html. |
 
 ## Not yet verified, per book
 
 | Book | Trains parsed | Stops parsed | Validated | Human-verified trains |
 |---|---|---|---|---|
-| Book 1 (intercity) | 319 | 19208 | 319 | 6 (pilot rows only) |
-| Book 2 (local) | 306 | 3600 | 306 | 6 (pilot rows only) |
+| Book 1 (intercity) | 319 | 19208 | 319 | 11 trips verified end to end |
+| Book 2 (local) | 306 | 3600 | 306 | 9 trips verified end to end |
 
 The counts above are what the pipeline holds. They are **not** a claim of correctness: only the records in the first table are human-checked.
 

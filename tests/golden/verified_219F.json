@@ -1,0 +1,133 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-23",
+  "method": "visual comparison of PDF page images against the parsed table",
+  "scope": {
+    "note": "All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html.",
+    "pages": [
+      496
+    ]
+  },
+  "trains": [
+    {
+      "train_no": "219F",
+      "book": 1,
+      "trip_id": "b1-219F-v1-01",
+      "stops": [
+        {
+          "seq": 1,
+          "station_code": "SLO",
+          "station_name": "Solobalapan",
+          "arrive": null,
+          "depart": "21:08:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "-",
+          "raw_depart": "21:08:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 496
+        },
+        {
+          "seq": 2,
+          "station_code": "KDO",
+          "station_name": "Kadipiro",
+          "arrive": null,
+          "depart": "21:15:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "21:15:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 496
+        },
+        {
+          "seq": 3,
+          "station_code": "KO",
+          "station_name": "Kalioso",
+          "arrive": null,
+          "depart": "21:21:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "21:21:00",
+          "keterangan_raw": "",
+          "speed_raw": "95",
+          "source_page": 496
+        },
+        {
+          "seq": 4,
+          "station_code": "SLM",
+          "station_name": "Salem",
+          "arrive": "21:30:00",
+          "depart": "21:37:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "21:30:00",
+          "raw_depart": "21:37:00",
+          "keterangan_raw": "x ka 286 (ka 286 x)",
+          "speed_raw": "95",
+          "source_page": 496
+        },
+        {
+          "seq": 5,
+          "station_code": "SUM",
+          "station_name": "Sumberlawang",
+          "arrive": null,
+          "depart": "21:46:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "21:46:00",
+          "keterangan_raw": "",
+          "speed_raw": "95",
+          "source_page": 496
+        },
+        {
+          "seq": 6,
+          "station_code": "GPK",
+          "station_name": "Goprak",
+          "arrive": null,
+          "depart": "21:53:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "21:53:00",
+          "keterangan_raw": "",
+          "speed_raw": "95",
+          "source_page": 496
+        },
+        {
+          "seq": 7,
+          "station_code": "GD",
+          "station_name": "Gundih",
+          "arrive": "21:59:00",
+          "depart": "22:04:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "21:59:00",
+          "raw_depart": "22:04:00",
+          "keterangan_raw": "",
+          "speed_raw": "40",
+          "source_page": 496
+        },
+        {
+          "seq": 8,
+          "station_code": "GBN",
+          "station_name": "Gambringan",
+          "arrive": "22:25:00",
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "22:25:00",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "0",
+          "source_page": 496
+        }
+      ]
+    }
+  ]
+}

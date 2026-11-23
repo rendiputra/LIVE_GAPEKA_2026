@@ -1,0 +1,147 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-23",
+  "method": "visual comparison of PDF page images against the parsed table",
+  "scope": {
+    "note": "All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html.",
+    "pages": [
+      762
+    ]
+  },
+  "trains": [
+    {
+      "train_no": "516",
+      "book": 2,
+      "trip_id": "b2-516-v1-01",
+      "stops": [
+        {
+          "seq": 1,
+          "station_code": "KTA",
+          "station_name": "Kutoarjo",
+          "arrive": null,
+          "depart": "08:30:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "-",
+          "raw_depart": "08:30:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 2,
+          "station_code": "JN",
+          "station_name": "Jenar",
+          "arrive": "08:42:00",
+          "depart": "08:43:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "08:42:00",
+          "raw_depart": "08:43:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 3,
+          "station_code": "WJ",
+          "station_name": "Wojo",
+          "arrive": "08:51:00",
+          "depart": "08:52:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "08:51:00",
+          "raw_depart": "08:52:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 4,
+          "station_code": "KDG",
+          "station_name": "Kedundang",
+          "arrive": null,
+          "depart": "08:58:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "08:58:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 5,
+          "station_code": "WT",
+          "station_name": "Wates",
+          "arrive": "09:04:00",
+          "depart": "09:05:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "09:04:00",
+          "raw_depart": "09:05:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 6,
+          "station_code": "STL",
+          "station_name": "Sentolo",
+          "arrive": null,
+          "depart": "09:15:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "09:15:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 7,
+          "station_code": "RWL",
+          "station_name": "Rewulu",
+          "arrive": null,
+          "depart": "09:22:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "09:22:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 8,
+          "station_code": "PTN",
+          "station_name": "Patukan",
+          "arrive": null,
+          "depart": "09:25:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "09:25:00",
+          "keterangan_raw": "",
+          "speed_raw": "100",
+          "source_page": 762
+        },
+        {
+          "seq": 9,
+          "station_code": "YK",
+          "station_name": "Yogyakarta",
+          "arrive": "09:30:00",
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "09:30:00",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "0",
+          "source_page": 762
+        }
+      ]
+    }
+  ]
+}

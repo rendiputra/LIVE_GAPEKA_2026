@@ -1,0 +1,189 @@
+{
+  "verified_by_human": true,
+  "verifier": "human",
+  "date": "2026-11-23",
+  "method": "visual comparison of PDF page images against the parsed table",
+  "scope": {
+    "note": "All rows of this trip were compared against the PDF page images in data/review/verification_sheet.html.",
+    "pages": [
+      748
+    ]
+  },
+  "trains": [
+    {
+      "train_no": "489",
+      "book": 2,
+      "trip_id": "b2-489-v1-01",
+      "stops": [
+        {
+          "seq": 1,
+          "station_code": "SBI",
+          "station_name": "Surabaya Pasarturi",
+          "arrive": null,
+          "depart": "12:32:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "-",
+          "raw_depart": "12:32:00",
+          "keterangan_raw": "",
+          "speed_raw": "50",
+          "source_page": 748
+        },
+        {
+          "seq": 2,
+          "station_code": "STM",
+          "station_name": "Segitigamesigit",
+          "arrive": null,
+          "depart": "12:36:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "12:36:00",
+          "keterangan_raw": "",
+          "speed_raw": "50",
+          "source_page": 748
+        },
+        {
+          "seq": 3,
+          "station_code": "SB",
+          "station_name": "Surabayakota",
+          "arrive": null,
+          "depart": "12:39:00",
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "12:39:00",
+          "keterangan_raw": "",
+          "speed_raw": "50",
+          "source_page": 748
+        },
+        {
+          "seq": 4,
+          "station_code": "SGU",
+          "station_name": "Surabayagubeng",
+          "arrive": "12:46:00",
+          "depart": "12:49:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "12:46:00",
+          "raw_depart": "12:49:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 5,
+          "station_code": "NGA",
+          "station_name": "Ngagel",
+          "arrive": null,
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "pass",
+          "raw_arrive": "Ls",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 6,
+          "station_code": "WO",
+          "station_name": "Wonokromo",
+          "arrive": "12:55:00",
+          "depart": "12:58:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "12:55:00",
+          "raw_depart": "12:58:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 7,
+          "station_code": "SPJ",
+          "station_name": "Sepanjang",
+          "arrive": "13:07:00",
+          "depart": "13:10:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:07:00",
+          "raw_depart": "13:10:00",
+          "keterangan_raw": "(ka 500 x)",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 8,
+          "station_code": "BH",
+          "station_name": "Boharan",
+          "arrive": null,
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "unknown_untimed",
+          "raw_arrive": "Berh",
+          "raw_depart": "Sb",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 9,
+          "station_code": "KRN",
+          "station_name": "Krian",
+          "arrive": "13:28:00",
+          "depart": "13:30:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:28:00",
+          "raw_depart": "13:30:00",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 10,
+          "station_code": "KDN",
+          "station_name": "Kedinding",
+          "arrive": null,
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "unknown_untimed",
+          "raw_arrive": "Berh",
+          "raw_depart": "Sb",
+          "keterangan_raw": "",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 11,
+          "station_code": "TRK",
+          "station_name": "Tarik",
+          "arrive": "13:45:00",
+          "depart": "14:06:00",
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "13:45:00",
+          "raw_depart": "14:06:00",
+          "keterangan_raw": "= ka 293 (ka 293 //)",
+          "speed_raw": "80",
+          "source_page": 748
+        },
+        {
+          "seq": 12,
+          "station_code": "MR",
+          "station_name": "Mojokerto",
+          "arrive": "14:18:00",
+          "depart": null,
+          "day_offset": 0,
+          "stop_type": "stop",
+          "raw_arrive": "14:18:00",
+          "raw_depart": "-",
+          "keterangan_raw": "",
+          "speed_raw": "0",
+          "source_page": 748
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "findings": [],
+  "note": "Wrong rows reported by a human. Nothing here is fixed automatically; each entry names the page, the parsed value and the note."
+}
