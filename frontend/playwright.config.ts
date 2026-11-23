@@ -8,13 +8,17 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
+  // Four headless Chromium instances each rendering a WebGL map under
+  // SwiftShader contend for one CPU, which starves a click mid-action. Two
+  // workers keep the map responsive without making the suite slow.
+  workers: process.env.CI ? 2 : 2,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? "github" : "list",
   use: {
     baseURL: "http://127.0.0.1:4173",
     trace: "on-first-retry",
-    actionTimeout: 10_000,
+    actionTimeout: 20_000,
     navigationTimeout: 30_000,
   },
   timeout: 90_000,

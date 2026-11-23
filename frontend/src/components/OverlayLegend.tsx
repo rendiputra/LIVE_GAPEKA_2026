@@ -77,7 +77,7 @@ export function OverlayLegend(props: {
   return (
     <aside
       aria-label="Legenda overlay rel"
-      className="pointer-events-auto absolute bottom-24 z-20 w-56 max-w-[80vw] overflow-hidden rounded-2xl border border-black/10 bg-white/95 shadow-lg backdrop-blur sm:bottom-20 sm:left-3"
+      className="pointer-events-auto w-56 max-w-[80vw] overflow-hidden rounded-2xl border border-black/10 bg-white/95 shadow-lg backdrop-blur"
     >
       <div className="flex items-center justify-between gap-2 border-b border-black/5 px-3 py-2">
         <div className="flex min-w-0 items-center gap-2">

@@ -581,8 +581,8 @@ export function App(): React.ReactElement {
                 open={state.layersOpen}
                 basemap={state.basemap}
                 overlay={state.overlay}
-                onBasemap={(basemap) => set({ basemap })}
-                onOverlay={(overlay) => set({ overlay })}
+                onBasemap={(basemap) => set({ basemap, layersOpen: false })}
+                onOverlay={(overlay) => set({ overlay, layersOpen: false })}
                 onClose={() => set({ layersOpen: false })}
                 triggerRef={layersTriggerRef}
               />
@@ -611,8 +611,8 @@ export function App(): React.ReactElement {
               open={state.layersOpen}
               basemap={state.basemap}
               overlay={state.overlay}
-              onBasemap={(basemap) => set({ basemap })}
-              onOverlay={(overlay) => set({ overlay })}
+              onBasemap={(basemap) => set({ basemap, layersOpen: false })}
+              onOverlay={(overlay) => set({ overlay, layersOpen: false })}
               onClose={() => set({ layersOpen: false })}
             />
           </div>
@@ -692,11 +692,17 @@ export function App(): React.ReactElement {
       </div>
 
       {/* Bug 2: ORM mini-legend, only while an overlay is active.
-          z-20 like the inspector/board, anchored bottom-left above the dock,
-          never behind it. Sits to the right of the inspector on desktop so
-          the two do not overlap. */}
+          Bottom-right, above the dock. On desktop the inspector lives on the
+          left, so both fit. On a phone the inspector/board spans nearly the
+          full width, so the legend steps aside while a panel is open instead
+          of covering the stop list; it returns when the panel closes. */}
       {isOverlayActive(state.overlay) ? (
-        <div className="pointer-events-none absolute right-3 bottom-24 z-20 flex justify-end sm:right-3 sm:bottom-20">
+        <div
+          data-testid="overlay-legend"
+          className={`pointer-events-none absolute right-3 bottom-24 z-20 justify-end sm:right-3 sm:bottom-20 ${
+            selectedTrip || state.selectedStation ? "hidden lg:flex" : "flex"
+          }`}
+        >
           <OverlayLegend overlay={state.overlay} onClose={() => {}} />
         </div>
       ) : null}
