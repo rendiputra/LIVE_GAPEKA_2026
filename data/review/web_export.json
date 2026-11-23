@@ -59,5 +59,6 @@
   }
  },
  "stations": 389,
- "trips": 625
+ "trips": 625,
+ "variant": "web"
 }

@@ -1,0 +1,63 @@
+{
+ "content_hash": "2f8588adc0168c0e",
+ "manifest": {
+  "attribution": {
+   "disclaimer": "Posisi estimasi berdasarkan jadwal Gapeka 2026, bukan posisi aktual. Diasumsikan tepat waktu dan beroperasi setiap hari.",
+   "osm": "\u00a9 OpenStreetMap contributors",
+   "osm_url": "https://www.openstreetmap.org/copyright"
+  },
+  "content_hash": "2f8588adc0168c0e",
+  "counts": {
+   "segments": 391,
+   "stations": 389,
+   "trips": 625
+  },
+  "effective_from": "2026-12-01",
+  "effective_to": null,
+  "files": {
+   "segments": "segments.ba87c8ea7fa78c4e.json",
+   "stations": "stations.f7d84fafcc81deb3.json",
+   "trips": "trips.1c7ff9a8e83555e3.json"
+  },
+  "max_day_offset": 1,
+  "policy": {
+   "accel_time_s": 60.0,
+   "calendar_policy": "regular_daily_assumed",
+   "enforce_effective_from": false,
+   "geometry_policy": "complete_and_estimated",
+   "max_day_offset": 2,
+   "origin_lead_s": 0.0,
+   "show_fakultatif": false,
+   "terminal_linger_s": 0.0
+  },
+  "schema": 1,
+  "version_name": "Gapeka 2026"
+ },
+ "max_day_offset": 1,
+ "segments": 391,
+ "sizes": {
+  "manifest": {
+   "gzip": 515,
+   "raw": 920
+  },
+  "segments": {
+   "gzip": 96864,
+   "raw": 159794
+  },
+  "stations": {
+   "gzip": 7392,
+   "raw": 36620
+  },
+  "total": {
+   "gzip": 270475,
+   "raw": 1157433
+  },
+  "trips": {
+   "gzip": 165704,
+   "raw": 960099
+  }
+ },
+ "stations": 389,
+ "trips": 625,
+ "variant": "frontend"
+}
