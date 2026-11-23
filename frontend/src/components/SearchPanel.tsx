@@ -126,16 +126,18 @@ export function SearchPanel(props: {
     return search(props.snapshot, value);
   }, [props.snapshot, value]);
 
-  if (!props.open) return null;
+  // An empty query is the placeholder state, not a search: it must not open
+  // the dropdown (which is why opening the panel never depends on focus).
+  const isActiveSearch = normalise(value).length > 0;
+  if (!props.open || !isActiveSearch) return null;
 
   const hasResults = results.trains.length > 0 || results.stations.length > 0;
-  const isEmpty = normalise(value).length === 0;
 
   return (
     <div
       role="dialog"
       aria-label="Hasil pencarian"
-      className="z-30 max-h-[60dvh] w-full overflow-hidden rounded-2xl border border-black/10 bg-white/98 shadow-lg backdrop-blur"
+      className="pointer-events-auto z-40 max-h-[min(50dvh,400px)] w-full overflow-hidden rounded-2xl border border-black/10 bg-white/98 shadow-lg backdrop-blur"
     >
       <div className="flex items-center gap-1.5 border-b border-black/5 px-3 py-2">
         <Search size={16} aria-hidden="true" className="shrink-0 text-neutral-400" />
@@ -163,28 +165,8 @@ export function SearchPanel(props: {
         </button>
       </div>
 
-      <div className="max-h-[calc(60dvh-3.5rem)] overflow-y-auto overscroll-contain">
-        {isEmpty ? (
-          <p className="px-4 py-6 text-center text-[13px] text-neutral-500">
-            Ketik nomor KA, nama kereta atau nama stasiun. Coba{" "}
-            <button
-              type="button"
-              className="font-semibold text-blue-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
-              onClick={() => setValue("Gajayana")}
-            >
-              Gajayana
-            </button>{" "}
-            atau{" "}
-            <button
-              type="button"
-              className="font-semibold text-blue-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
-              onClick={() => setValue("Gambir")}
-            >
-              Gambir
-            </button>
-            .
-          </p>
-        ) : !hasResults ? (
+      <div className="max-h-[calc(min(50dvh,400px)-3.5rem)] overflow-y-auto overscroll-contain">
+        {!hasResults ? (
           <p className="px-4 py-6 text-center text-[13px] text-neutral-500">
             Tidak ada hasil untuk “{value}”. Periksa ejaan atau coba nomor KA lain.
           </p>

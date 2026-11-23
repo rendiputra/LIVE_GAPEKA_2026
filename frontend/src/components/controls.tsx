@@ -156,7 +156,7 @@ export function LayersPopover(props: {
       ref={popoverRef}
       role="dialog"
       aria-label="Lapisan peta"
-      className="absolute top-12 right-0 z-10 w-64 rounded-2xl border border-black/10 bg-white p-3 shadow-lg"
+      className="absolute top-12 right-0 z-40 w-64 rounded-2xl border border-black/10 bg-white p-3 shadow-lg"
     >
       <div className="mb-1 flex items-center gap-2 px-1 text-[12px] font-semibold tracking-wide text-neutral-500 uppercase">
         <Layers size={13} aria-hidden="true" />
@@ -198,19 +198,96 @@ export function LayersPopover(props: {
 
 export function FilterButton(props: {
   readonly active: boolean;
+  readonly open: boolean;
   readonly onToggle: () => void;
+  readonly buttonRef?: React.RefObject<HTMLButtonElement | null>;
 }): React.ReactElement {
   return (
     <button
+      ref={props.buttonRef}
       type="button"
-      aria-label="Tampilkan KA fakultatif"
+      aria-label="Filter kereta"
       aria-pressed={props.active}
-      title="Tampilkan KA fakultatif"
+      aria-expanded={props.open}
+      aria-haspopup="dialog"
+      title="Filter kereta"
       className={`${iconButtonClass} ${props.active ? "border-amber-600/40 bg-amber-50 text-amber-700" : ""}`}
       onClick={props.onToggle}
     >
       <SlidersHorizontal size={18} aria-hidden="true" />
     </button>
+  );
+}
+
+/**
+ * The filter popover.
+ *
+ * Before this existed the sliders button flipped a boolean directly, with no
+ * panel and no visible affordance beyond a subtle tint — which reads as "the
+ * button does nothing". It now opens an explicit panel with a labelled switch,
+ * dismissible by the button itself, an outside click, or Escape.
+ */
+export function FilterPopover(props: {
+  readonly open: boolean;
+  readonly showFakultatif: boolean;
+  readonly onSet: (value: boolean) => void;
+  readonly onClose: () => void;
+  readonly triggerRef?: React.RefObject<HTMLButtonElement | null>;
+}): React.ReactElement | null {
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!props.open) return;
+    const onKey = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") props.onClose();
+    };
+    const onDown = (event: MouseEvent): void => {
+      const target = event.target as Node | null;
+      if (!target) return;
+      if (panelRef.current?.contains(target)) return;
+      // The trigger owns its own toggle; otherwise the mousedown-close and the
+      // click-toggle would fight and the panel would flicker.
+      if (props.triggerRef?.current?.contains(target)) return;
+      props.onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDown);
+    };
+  }, [props.open, props.onClose, props.triggerRef]);
+
+  if (!props.open) return null;
+
+  return (
+    <div
+      ref={panelRef}
+      role="dialog"
+      aria-label="Filter kereta"
+      className="absolute top-12 right-0 z-40 w-64 rounded-2xl border border-black/10 bg-white p-3 shadow-lg"
+    >
+      <p className="mb-2 px-1 text-[11px] font-semibold tracking-wide text-neutral-500 uppercase">
+        Filter
+      </p>
+      <label className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-neutral-50 has-focus-visible:ring-2 has-focus-visible:ring-blue-600">
+        <span className="min-w-0">
+          <span className="block text-[13.5px] font-medium text-neutral-900">
+            Tampilkan KA fakultatif
+          </span>
+          <span className="block text-[11.5px] text-neutral-500">
+            {props.showFakultatif ? "Aktif" : "Nonaktif (default)"}
+          </span>
+        </span>
+        <input
+          type="checkbox"
+          checked={props.showFakultatif}
+          onChange={(event) => props.onSet(event.target.checked)}
+          aria-label="Tampilkan KA fakultatif"
+          className="h-5 w-5 shrink-0 accent-blue-700"
+        />
+      </label>
+    </div>
   );
 }
 

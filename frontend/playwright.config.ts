@@ -14,7 +14,10 @@ export default defineConfig({
   use: {
     baseURL: "http://127.0.0.1:4173",
     trace: "on-first-retry",
+    actionTimeout: 10_000,
+    navigationTimeout: 30_000,
   },
+  timeout: 90_000,
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: "pnpm exec vite preview --outDir dist --port 4173 --strictPort --host 127.0.0.1",

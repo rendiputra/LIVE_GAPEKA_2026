@@ -30,6 +30,7 @@ import { statusPillLabel } from "./engine/schedule";
 import {
   AboutButton,
   FilterButton,
+  FilterPopover,
   LayersButton,
   LayersPopover,
   SearchPill,
@@ -74,6 +75,7 @@ interface AppState {
   readonly basemap: BasemapId;
   readonly overlay: OverlayId;
   readonly layersOpen: boolean;
+  readonly filterOpen: boolean;
   readonly aboutOpen: boolean;
   readonly timelineExpanded: boolean;
   readonly following: boolean;
@@ -99,6 +101,7 @@ const INITIAL: AppState = {
   basemap: BASEMAPS.default,
   overlay: OVERLAYS.default,
   layersOpen: false,
+  filterOpen: false,
   aboutOpen: false,
   timelineExpanded: false,
   following: false,
@@ -160,6 +163,7 @@ export function App(): React.ReactElement {
   const clockRef = useRef<ClockState>(state.clock);
   const telemetryThrottle = useRef(0);
   const layersTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const filterTriggerRef = useRef<HTMLButtonElement | null>(null);
   const selectedTripIdRef = useRef<string | null>(state.selectedTripId);
   selectedTripIdRef.current = state.selectedTripId;
 
@@ -278,6 +282,41 @@ export function App(): React.ReactElement {
 
   const stateRef = useRef(state);
   stateRef.current = state;
+
+  // Escape dismisses the top active layer, in order:
+  // search dropdown > layers popover > about modal > inspector/board.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent): void => {
+      if (event.key !== "Escape") return;
+      const current = stateRef.current;
+      if (current.searchOpen) {
+        set({ searchOpen: false });
+        return;
+      }
+      if (current.filterOpen) {
+        set({ filterOpen: false });
+        return;
+      }
+      if (current.layersOpen) {
+        set({ layersOpen: false });
+        return;
+      }
+      if (current.aboutOpen) {
+        set({ aboutOpen: false });
+        return;
+      }
+      if (current.selectedTripId || current.selectedStation) {
+        set({
+          selectedTripId: null,
+          selectedStation: null,
+          board: null,
+          telemetry: null,
+        });
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [set]);
 
   const selectedTrip = useMemo(() => {
     if (!state.snapshot || !state.selectedTripId) return null;
@@ -460,88 +499,146 @@ export function App(): React.ReactElement {
 
   return (
     <div className="relative h-[100dvh] w-[100vw] overflow-hidden bg-neutral-100">
-      <LiveMap
-        snapshot={state.snapshot}
-        selectedTripId={state.selectedTripId}
-        basemap={state.basemap}
-        overlay={state.overlay}
-        trains={state.trains}
-        follow={state.following}
-        onTrainClick={onTrainClick}
-        onStationClick={onStationClick}
-        onTilesError={onTilesError}
-        onStatus={onStatus}
-        onDrag={() => {
-          if (stateRef.current.following) set({ following: false });
-        }}
-        onInstance={(map) => {
-          mapRef.current = map;
-        }}
-      />
+      {/* Z-index scale:
+          modal (Tentang)  z-50 > search + layers popover  z-40 >
+          status pill  z-30 > inspector / board / dock / legend  z-20.
+          No parent creates a stacking context that traps the dropdown. */}
+      <div className="absolute inset-0 -z-0">
+        <LiveMap
+          snapshot={state.snapshot}
+          selectedTripId={state.selectedTripId}
+          basemap={state.basemap}
+          overlay={state.overlay}
+          trains={state.trains}
+          follow={state.following}
+          onTrainClick={onTrainClick}
+          onStationClick={onStationClick}
+          onTilesError={onTilesError}
+          onStatus={onStatus}
+          onDrag={() => {
+            if (stateRef.current.following) set({ following: false });
+          }}
+          onInstance={(map) => {
+            mapRef.current = map;
+          }}
+        />
+      </div>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col gap-2 p-3 sm:p-4">
+      {/* Top controls. One pointer-events-none wrapper; only real controls
+          re-enable events, so the bar never swallows map clicks.
+          Row 1: [search (flex-1 min-w-0)] [filter] [tentang]
+          Row 2 (mobile): [status pill] ......... [layers]
+          Desktop: row 1 left keeps search/filter/tentang, right keeps
+          status pill + layers on the same line, generously spaced. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex flex-col gap-2 p-3 sm:p-4">
         <div className="flex items-start gap-2">
-          <div className="pointer-events-auto w-full max-w-sm">
-            <SearchPill
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <div className="pointer-events-auto min-w-0 flex-1 sm:max-w-sm">
+              <SearchPill
+                query={state.searchQuery}
+                onChange={(value) =>
+                  set({ searchQuery: value, searchOpen: value.trim().length > 0 })
+                }
+                onClear={() => set({ searchQuery: "", searchOpen: false })}
+              />
+            </div>
+            <div className="pointer-events-auto relative flex shrink-0 items-center gap-2">
+              <FilterButton
+                buttonRef={filterTriggerRef}
+                active={state.showFakultatif}
+                open={state.filterOpen}
+                onToggle={() => set({ filterOpen: !state.filterOpen })}
+              />
+              <FilterPopover
+                open={state.filterOpen}
+                showFakultatif={state.showFakultatif}
+                onSet={(value) => set({ showFakultatif: value })}
+                onClose={() => set({ filterOpen: false })}
+                triggerRef={filterTriggerRef}
+              />
+              <AboutButton onOpen={() => set({ aboutOpen: true })} />
+            </div>
+          </div>
+
+          {/* Desktop cluster (>= lg). */}
+          <div className="hidden shrink-0 items-start gap-2 lg:flex">
+            <div className="pointer-events-auto">
+              <StatusPill
+                mode={state.clock.mode}
+                label={pillLabel}
+                dateLabel={dateLabel(state.clock.instant)}
+                activeCount={state.trainCount}
+                snapshotReady={state.workerState === "ready" || state.snapshot !== null}
+                error={state.tilesError ?? state.workerError}
+              />
+            </div>
+            <div className="pointer-events-auto relative">
+              <LayersButton
+                buttonRef={layersTriggerRef}
+                onToggle={() => set({ layersOpen: !state.layersOpen })}
+              />
+              <LayersPopover
+                open={state.layersOpen}
+                basemap={state.basemap}
+                overlay={state.overlay}
+                onBasemap={(basemap) => set({ basemap })}
+                onOverlay={(overlay) => set({ overlay })}
+                onClose={() => set({ layersOpen: false })}
+                triggerRef={layersTriggerRef}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile/tablet row 2: status pill left, layers right. Never
+            overlaps row 1 because it is a sibling in the same flow. */}
+        <div className="flex items-center justify-between gap-2 lg:hidden">
+          <div className="pointer-events-auto min-w-0">
+            <StatusPill
+              mode={state.clock.mode}
+              label={pillLabel}
+              dateLabel={dateLabel(state.clock.instant)}
+              activeCount={state.trainCount}
+              snapshotReady={state.workerState === "ready" || state.snapshot !== null}
+              error={state.tilesError ?? state.workerError}
+            />
+          </div>
+          <div className="pointer-events-auto relative shrink-0">
+            <LayersButton
+              onToggle={() => set({ layersOpen: !state.layersOpen })}
+            />
+            <LayersPopover
+              open={state.layersOpen}
+              basemap={state.basemap}
+              overlay={state.overlay}
+              onBasemap={(basemap) => set({ basemap })}
+              onOverlay={(overlay) => set({ overlay })}
+              onClose={() => set({ layersOpen: false })}
+            />
+          </div>
+        </div>
+
+        {/* Search results float above everything except the About modal. */}
+        {state.searchOpen ? (
+          <div className="pointer-events-none mt-1 max-w-sm">
+            <SearchPanel
+              snapshot={state.snapshot}
               query={state.searchQuery}
-              onChange={(value) =>
-                set({ searchQuery: value, searchOpen: value.trim().length > 0 })
-              }
-              onClear={() => set({ searchQuery: "", searchOpen: false })}
+              open
+              onSelectTrain={onSelectTrain}
+              onSelectStation={onSelectStation}
+              onClose={() => set({ searchOpen: false })}
             />
-            {state.searchOpen ? (
-              <div className="pointer-events-auto mt-2">
-                <SearchPanel
-                  snapshot={state.snapshot}
-                  query={state.searchQuery}
-                  open
-                  onSelectTrain={onSelectTrain}
-                  onSelectStation={onSelectStation}
-                  onClose={() => set({ searchOpen: false })}
-                />
-              </div>
-            ) : null}
           </div>
-          <div className="pointer-events-auto flex shrink-0 items-center gap-2">
-            <FilterButton
-              active={state.showFakultatif}
-              onToggle={() => set({ showFakultatif: !state.showFakultatif })}
-            />
-            <AboutButton onOpen={() => set({ aboutOpen: true })} />
-          </div>
-        </div>
+        ) : null}
       </div>
 
-      <div className="pointer-events-none absolute top-0 right-0 z-20 flex flex-col items-end gap-2 p-3 sm:p-4">
-        <div className="pointer-events-auto">
-          <StatusPill
-            mode={state.clock.mode}
-            label={pillLabel}
-            dateLabel={dateLabel(state.clock.instant)}
-            activeCount={state.trainCount}
-            snapshotReady={state.workerState === "ready" || state.snapshot !== null}
-            error={state.tilesError ?? state.workerError}
-          />
-        </div>
-        <div className="pointer-events-auto relative">
-          <LayersButton
-            buttonRef={layersTriggerRef}
-            onToggle={() => set({ layersOpen: !state.layersOpen })}
-          />
-          <LayersPopover
-            open={state.layersOpen}
-            basemap={state.basemap}
-            overlay={state.overlay}
-            onBasemap={(basemap) => set({ basemap })}
-            onOverlay={(overlay) => set({ overlay })}
-            onClose={() => set({ layersOpen: false })}
-            triggerRef={layersTriggerRef}
-          />
-        </div>
-      </div>
-
+      {/* Inspector. Fixed below the top stack on desktop (never moves when
+          Search opens — the dropdown floats over it at z-40 > z-20) and above
+          the dock on mobile, capped so its header and hero can never slide
+          under the top controls. */}
       {selectedTrip ? (
-        <div className="absolute inset-x-3 bottom-24 z-20 flex justify-center sm:inset-x-auto sm:bottom-auto sm:top-20 sm:left-3 sm:justify-start">
+        <div className="absolute inset-x-3 top-[136px] bottom-24 z-20 flex justify-center sm:inset-x-auto sm:top-[76px] sm:bottom-[150px] sm:left-3 sm:justify-start">
           <TrainInspector
             trip={selectedTrip}
             position={selectedPosition}
@@ -562,7 +659,7 @@ export function App(): React.ReactElement {
       ) : null}
 
       {state.selectedStation ? (
-        <div className="absolute inset-x-3 bottom-24 z-20 flex justify-center sm:inset-x-auto sm:bottom-auto sm:top-20 sm:left-3 sm:justify-start">
+        <div className="absolute inset-x-3 top-[136px] bottom-24 z-20 flex justify-center sm:inset-x-auto sm:top-[76px] sm:bottom-[150px] sm:left-3 sm:justify-start">
           <StationBoard
             code={state.selectedStation.code}
             name={state.selectedStation.name}

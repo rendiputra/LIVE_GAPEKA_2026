@@ -119,6 +119,15 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
   const currentRowRef = useRef<HTMLButtonElement | null>(null);
   const [userScrolled, setUserScrolled] = useState(false);
 
+  // Reset the scroll guard whenever the card becomes compact again, so a
+  // later re-expand auto-scrolls to the active leg instead of stranding the
+  // list at the previous scroll offset.
+  useEffect(() => {
+    if (!expanded) {
+      setUserScrolled(false);
+    }
+  }, [expanded]);
+
   const upcoming = useMemo(() => {
     // nextStopAhead works from a distance; the inspector knows the elapsed time.
     // Use the trip's distance from the position when available.
@@ -149,10 +158,10 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
   return (
     <section
       aria-label={`Inspektori KA ${trip.trainNo}`}
-      className="pointer-events-auto flex max-h-[calc(100dvh-8rem)] w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur"
+      className="pointer-events-auto flex max-h-full w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur"
     >
       {/* Header */}
-      <header className="flex items-start gap-3 px-4 pt-4 pb-3">
+      <header className="flex shrink-0 items-start gap-3 px-4 pt-4 pb-3">
         <span
           aria-hidden="true"
           className="mt-1 inline-block h-3 w-3 shrink-0 rounded-full border-2 border-white shadow"
@@ -197,7 +206,7 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
           <button
             type="button"
             aria-label="Tutup inspektori"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             onClick={props.onClose}
           >
             <X size={16} aria-hidden="true" />
@@ -206,7 +215,7 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
       </header>
 
       {/* Telemetry */}
-      <div className="flex items-center gap-3 border-y border-black/5 bg-neutral-50/70 px-4 py-2.5">
+      <div className="flex shrink-0 items-center gap-3 border-y border-black/5 bg-neutral-50/70 px-4 py-2.5">
         <span
           className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold ${
             position?.status === "running"
@@ -250,7 +259,7 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
         aria-expanded={expanded}
         aria-controls="inspector-timeline"
         onClick={props.onToggleExpanded}
-        className="group flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-inset"
+        className="group flex w-full shrink-0 items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-inset"
       >
         <span
           aria-hidden="true"
@@ -288,7 +297,7 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
       </button>
 
       {/* Progress */}
-      <div className="px-4 pb-2" role="progressbar" aria-valuenow={Math.round(progressPercent(sM, trip.totalLengthM))} aria-valuemin={0} aria-valuemax={100} aria-label="Kemajuan perjalanan">
+      <div className="shrink-0 px-4 pb-2" role="progressbar" aria-valuenow={Math.round(progressPercent(sM, trip.totalLengthM))} aria-valuemin={0} aria-valuemax={100} aria-label="Kemajuan perjalanan">
         <div className="h-1.5 overflow-hidden rounded-full bg-neutral-100">
           <div
             className="h-full rounded-full bg-blue-700 transition-[width] duration-500"
@@ -349,9 +358,14 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
                       <span className="block truncate text-[13.5px] font-medium">
                         {stationName(snapshot, row.stationCode)} ({row.stationCode})
                       </span>
-                      {isCurrent ? (
+                      {isCurrent && position ? (
                         <span className="mt-0.5 inline-block rounded-full bg-blue-700 px-2 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">
                           Posisi saat ini
+                        </span>
+                      ) : null}
+                      {isCurrent && !position ? (
+                        <span className="mt-0.5 inline-block rounded-full bg-neutral-200 px-2 py-0.5 text-[10px] font-bold tracking-wide text-neutral-700 uppercase">
+                          Stasiun asal
                         </span>
                       ) : null}
                     </span>

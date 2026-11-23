@@ -58,9 +58,13 @@ test.describe("live map smoke", () => {
   });
 
   test("toggles the fakultatif filter", async ({ page }) => {
-    const button = page.getByRole("button", { name: "Tampilkan KA fakultatif" });
+    const button = page.getByRole("button", { name: "Filter kereta" });
     await expect(button).toBeVisible();
     await button.click();
+    const checkbox = page.getByRole("checkbox", { name: "Tampilkan KA fakultatif" });
+    await expect(checkbox).toBeVisible();
+    await checkbox.check();
+    await expect(checkbox).toBeChecked();
     await expect(button).toHaveAttribute("aria-pressed", "true");
   });
 

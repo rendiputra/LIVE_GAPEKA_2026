@@ -67,6 +67,21 @@ input[type="range"] {
   padding: 2px 6px;
 }
 
+/*
+ * Mobile: pinch-zoom is natural, and the zoom/compass button group sat behind
+ * the time-travel dock's Pause button. Hide the button group only; the compact
+ * (i) attribution must stay visible and unobstructed.
+ */
+@media (max-width: 767px) {
+  .maplibregl-ctrl-group {
+    display: none;
+  }
+
+  .maplibregl-ctrl-attrib {
+    margin-bottom: 76px;
+  }
+}
+
 /* Range input: a clean transit-light track. */
 input[type="range"] {
   -webkit-appearance: none;
