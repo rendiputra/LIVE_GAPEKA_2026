@@ -140,6 +140,12 @@ describe("parity with engine/position.py", () => {
   });
 
   it("reproduces all 6,000 frames with zero failures", () => {
+    // Printed on purpose: the gate's evidence should be visible in CI logs, not
+    // inferred from a green tick.
+    console.log(
+      `parity: ${compared - mismatches.length}/${compared} frames matched, ` +
+        `${mismatches.length} failure(s)`,
+    );
     expect(mismatches, report(mismatches)).toHaveLength(0);
   });
 
