@@ -25,16 +25,6 @@
       ]
     },
     {
-      "code": "BKST",
-      "name": "Bekasitimur",
-      "pdf_name": "Bekasitimur",
-      "official_name": null,
-      "in_aliases": false,
-      "prefix_matches": [
-        "bekasi"
-      ]
-    },
-    {
       "code": "TGA",
       "name": "Tanggulangin",
       "pdf_name": "Tanggulangin",
@@ -738,5 +728,5 @@
     }
   ],
   "suggested_count": 1,
-  "review_count": 89
+  "review_count": 88
 }

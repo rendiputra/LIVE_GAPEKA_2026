@@ -64,3 +64,17 @@ stations:
     )
     stations = sa.load(path)
     assert stations["KRAI"]["disambiguator"] == "Garut"
+
+
+def test_bekasi_timur_is_spaced_h12():
+    """H12: the PDF prints 'Bekasitimur' run together; the alias fixes display only."""
+    stations = sa.load()
+    assert stations["BKST"]["official_name"] == "Bekasi Timur"
+    assert sa.display_name("BKST", stations) == "Bekasi Timur"
+
+
+def test_h12_did_not_rename_the_four_single_word_names():
+    """BJK, TGA, TJS and WB are legitimately single words; H12 left them alone."""
+    stations = sa.load()
+    for code in ("BJK", "TGA", "TJS", "WB"):
+        assert code not in stations, f"{code} must not be given an alias by H12"

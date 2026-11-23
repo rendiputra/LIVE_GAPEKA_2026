@@ -24,7 +24,7 @@
     "trip_waypoint_estimates": 37
   },
   "stations_with_coordinates": 386,
-  "content_hash": "06a999ddb26e19e36e863cb96c9c8536e10b51fc7fe01d3445d803666e69d4c0",
+  "content_hash": "fabc39da91ec85e484d92bece273490e3b4daaa636a18b79f7a35e440a6edacf",
   "skipped": 0,
   "service_class": {
     "reguler": 577,
@@ -32,10 +32,10 @@
   },
   "trips_with_untimed_markers": 68,
   "config": {
-    "config_hash": "f4c0e8d08a8dc3ce6557609187fffb66a432db71021d9d036c005ea9e02a4a01",
+    "config_hash": "82eb06dab21f9216c094c7a4ca4ff5e60a747f0e8503c8ccb5bdacb777b92a79",
     "files": {
       "station_overrides.yaml": "54e202de5396eae2c8530ef8c86d3b6dc8fe6b8120f60c58a845d2479eef7427",
-      "station_aliases.yaml": "d1084ca9e038330757b07f60e773608dda6181fd7f40a3099c5c367666ec35cc",
+      "station_aliases.yaml": "803f77df0a9f0f0f20e53cf3b9ecc4e709777f018162357de9774566528c3d1d",
       "segment_reviews.yaml": "4141d21aa5e2276045a77b26a10273ab32bff0d727b5fe6f246bb74bda446044",
       "geometry_bridges.yaml": "aa3fe832323754d17d8f3f470ac919bf06320b209def9d11175d2636a9b0e087",
       "snap_pins.yaml": "3ef51725ec7b55db89aac33602afb06efa8d72e851d6adf5378a8195a1b4197d",

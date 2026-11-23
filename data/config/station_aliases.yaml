@@ -17,6 +17,11 @@ stations:
   CKI:
     official_name: "Cikini"
     station_kind: passenger
+  BKST:
+    official_name: "Bekasi Timur"
+    alternatives: ["Bekasitimur"]
+    station_kind: passenger
+    note: "H12 (2026-11-23): the PDF prints 'Bekasitimur' run together; the spaced form is the station's name."
   JBU:
     official_name: "Jambu Baru"
     alternatives: ["Jambubaru"]
