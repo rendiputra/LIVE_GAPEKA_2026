@@ -198,6 +198,10 @@ export function styleLayers(): MapLayerSpec[] {
         "text-anchor": "left",
         "text-offset": [0.7, 0],
         "text-allow-overlap": false,
+        // Our stations win placement over the basemap's own symbols; without
+        // this the labels are dropped because OpenFreeMap already placed
+        // something at that grid cell.
+        "text-ignore-placement": true,
         "text-optional": true,
         "text-padding": 2,
       },
@@ -228,6 +232,7 @@ export function styleLayers(): MapLayerSpec[] {
         "text-anchor": "left",
         "text-offset": [0.7, 0],
         "text-allow-overlap": false,
+        "text-ignore-placement": true,
         "text-optional": true,
         "text-padding": 2,
       },
@@ -251,6 +256,7 @@ export function styleLayers(): MapLayerSpec[] {
         "text-anchor": "left",
         "text-offset": [0.7, 0],
         "text-allow-overlap": false,
+        "text-ignore-placement": true,
         "text-optional": true,
         "text-padding": 2,
       },
@@ -276,6 +282,10 @@ export function styleLayers(): MapLayerSpec[] {
     },
     {
       // The name sits BELOW the marker so it never hides the dot it labels.
+      // Train labels go LAST (topmost) so they win placement over stations
+      // and city labels; symbol-sort-key keeps the selected train first on
+      // collision. `text-priority`/`icon-priority` do not exist in MapLibre's
+      // spec — using them made addLayer reject this layer entirely.
       id: "gapeka-trains-label",
       type: "symbol",
       source: "gapeka-trains",
@@ -288,10 +298,11 @@ export function styleLayers(): MapLayerSpec[] {
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "text-optional": true,
-        "text-priority": 1_000,
-        "icon-priority": 1_000,
         "text-padding": 4,
         "text-letter-spacing": 0.01,
+        // symbol-sort-key sorts numerically (smaller first); it is not a
+        // display string, so the label itself is not a valid sort key.
+        "symbol-sort-key": ["get", "sM"],
       },
       paint: {
         "text-color": "#111827",

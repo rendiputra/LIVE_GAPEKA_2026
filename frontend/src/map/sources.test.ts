@@ -76,6 +76,11 @@ describe("overlays", () => {
 describe("styleLayers", () => {
   const layers = styleLayers();
 
+  it("has unique layer ids", () => {
+    const ids = layers.map((layer) => layer.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
   it("keeps the rail casing below the rail line", () => {
     const ids = layers.map((layer) => layer.id);
     expect(ids.indexOf("gapeka-rail-casing")).toBeLessThan(ids.indexOf("gapeka-rail"));
@@ -94,14 +99,32 @@ describe("styleLayers", () => {
 
   it("gives train labels the highest priority", () => {
     const layer = layers.find((entry) => entry.id === "gapeka-trains-label")!;
-    expect(layer.layout?.["text-priority"]).toBe(1_000);
-    expect(layer.layout?.["icon-priority"]).toBe(1_000);
+    // Train labels are added LAST so they are topmost and win placement over
+    // stations. symbol-sort-key keeps the selected train first on collision.
+    expect(layer.layout?.["symbol-sort-key"]).toBeDefined();
+    expect(layer.layout?.["text-ignore-placement"]).toBe(false);
   });
 
   it("never lets station labels overlap", () => {
-    const layer = layers.find((entry) => entry.id === "gapeka-station-labels")!;
-    expect(layer.layout?.["text-allow-overlap"]).toBe(false);
-    expect(layer.layout?.["text-optional"]).toBe(true);
+    for (const id of [
+      "gapeka-station-hub-labels",
+      "gapeka-station-regional-labels",
+      "gapeka-station-labels",
+    ]) {
+      const layer = layers.find((entry) => entry.id === id)!;
+      expect(layer.layout?.["text-allow-overlap"]).toBe(false);
+      expect(layer.layout?.["text-optional"]).toBe(true);
+    }
+  });
+
+  it("does not let stations steal placement from train labels", () => {
+    // Train labels win by layer order (they are last/topmost), NOT by
+    // text-ignore-placement: true, which would let other labels draw on top.
+    const trainLayer = layers.find((entry) => entry.id === "gapeka-trains-label")!;
+    expect(trainLayer.layout?.["text-ignore-placement"]).toBe(false);
+    expect(trainLayer.layout?.["text-allow-overlap"]).toBe(false);
+    const station = layers.find((entry) => entry.id === "gapeka-station-hub-labels")!;
+    expect(station.layout?.["text-ignore-placement"]).toBe(true);
   });
 
   it("gates hubs to z6-8 and regionals to z9+", () => {

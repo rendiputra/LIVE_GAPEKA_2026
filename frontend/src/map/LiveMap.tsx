@@ -111,11 +111,16 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
 
     for (const layer of styleLayers()) {
       if (map.getLayer(layer.id)) continue;
+      // The overlay raster needs its source; every other layer does. Adding
+      // a raster layer before its source exists throws, and a caught throw
+      // would silently drop everything below it too.
+      if (layer.id === "gapeka-overlay" && !map.getSource(layer.source)) continue;
       try {
         map.addLayer(layer as never);
-      } catch {
-        // A layer that cannot be added (e.g. raster source absent) must not
-        // take the whole map down.
+      } catch (error) {
+        // Glyph or style errors during addLayer must not take the whole map
+        // down, but they are NOT swallowed silently: ask the operator.
+        console.warn(`[LiveMap] addLayer ${layer.id} failed:`, error);
       }
     }
   }, []);
@@ -135,16 +140,24 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     });
     mapRef.current = map;
     propsRef.current.onInstance?.(map);
+    // Diagnosis handle: lets Playwright inspect the live style. Enabled by an
+    // explicit query param so production builds can opt in for e2e without
+    // shipping a permanently-visible test surface.
+    if (new URLSearchParams(window.location.search).has("e2e")) {
+      (window as unknown as { __liveMap?: maplibregl.Map }).__liveMap = map;
+    }
     propsRef.current.onStatus({ status: "loading", error: null });
 
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
     map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "bottom-right");
 
     map.on("error", (event: maplibregl.ErrorEvent) => {
-      // A failed tile (404, aborted, offline) is routine at the edge of the
-      // viewport or when a style changes. It is reported as a tiles warning,
-      // never as a fatal map error: a grey tile is not a crash, and the map
-      // must keep the trains that it CAN draw.
+      // Surface the raw message for diagnosis: a validation error in a symbol
+      // layout, a missing source, or a bad beforeId all arrive here, and the
+      // previous behaviour swallowed them all as a generic tile warning.
+      console.error(`[LiveMap] map error:`, event.error?.message ?? event);
+      // Tile 404s are routine, but they are not fatal: the map keeps the
+      // trains it CAN draw.
       const message = event.error?.message ?? "";
       if (!message) return;
       propsRef.current.onTilesError(message);
@@ -187,6 +200,9 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     }
 
     return () => {
+      if (new URLSearchParams(window.location.search).has("e2e")) {
+        delete (window as unknown as { __liveMap?: maplibregl.Map }).__liveMap;
+      }
       propsRef.current.onInstance?.(null);
       map.remove();
       mapRef.current = null;
