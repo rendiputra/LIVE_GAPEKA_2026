@@ -140,12 +140,6 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     });
     mapRef.current = map;
     propsRef.current.onInstance?.(map);
-    // Diagnosis handle: lets Playwright inspect the live style. Enabled by an
-    // explicit query param so production builds can opt in for e2e without
-    // shipping a permanently-visible test surface.
-    if (new URLSearchParams(window.location.search).has("e2e")) {
-      (window as unknown as { __liveMap?: maplibregl.Map }).__liveMap = map;
-    }
     propsRef.current.onStatus({ status: "loading", error: null });
 
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
@@ -200,9 +194,6 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     }
 
     return () => {
-      if (new URLSearchParams(window.location.search).has("e2e")) {
-        delete (window as unknown as { __liveMap?: maplibregl.Map }).__liveMap;
-      }
       propsRef.current.onInstance?.(null);
       map.remove();
       mapRef.current = null;

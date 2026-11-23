@@ -31,14 +31,17 @@ function visiblePill(page: Page): Locator {
   return page.getByText(/Live \(Estimasi\)/).filter({ visible: true }).first();
 }
 
+/**
+ * Readiness is a user-visible signal, not a debug global: the app is ready when
+ * the status pill renders its live clock. The production bundle ships no test
+ * hooks.
+ */
 async function desktopReady(page: Page): Promise<void> {
-  await page.goto("/?e2e=1");
-  await page.waitForFunction(
-    () => Boolean((window as unknown as { __liveMap?: unknown }).__liveMap),
-    undefined,
-    { timeout: 30_000 },
-  );
+  await page.goto("/");
   await expect(visiblePill(page)).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator(".maplibregl-ctrl-attrib").first()).toBeAttached({
+    timeout: 30_000,
+  });
 }
 
 async function openTrain(page: Page, query = "98"): Promise<void> {
