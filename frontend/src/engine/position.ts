@@ -141,6 +141,7 @@ function make(
     trainNo: trip.trainNo,
     name: trip.name,
     relation: trip.relation,
+    book: trip.book,
     lat: point.lat,
     lon: point.lon,
     bearing: bearingAt(trip, sM),

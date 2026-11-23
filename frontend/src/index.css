@@ -13,15 +13,97 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+/*
+ * Hard Rule 6 amendment (2026-11-23): the map fills the viewport and the body
+ * must never scroll — the scrollable surfaces are the inspector, the board and
+ * the About modal, each with its own `overflow-y-auto` + `overscroll-contain`.
+ */
 html,
-body,
-#root {
-  height: 100%;
-}
-
 body {
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  overscroll-behavior: none;
   margin: 0;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* No dark mode: Clean Transit Light only. */
+  color-scheme: light;
+  /* No 300 ms double-tap zoom delay on the floating controls. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  height: 100dvh;
+  width: 100vw;
+}
+
+/* Every live number is tabular: clocks, speeds, ETAs, schedules. */
+.tabular-nums,
+input[type="date"],
+input[type="range"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* MapLibre */
+.maplibregl-map {
+  font-family: var(--font-sans);
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.maplibregl-ctrl-attrib a {
+  color: #374151;
+}
+
+/* Leaflet-style compact attribution spacing */
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  padding: 2px 6px;
+}
+
+/* Range input: a clean transit-light track. */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+/* Reduced motion: nothing in this app animates by default except the pulse and
+   the marker glide (which is map state, not a CSS animation). The pulse is
+   decorative and respects the media query. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse {
+    animation: none;
+  }
 }

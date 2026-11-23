@@ -244,6 +244,8 @@ function buildTrip(
     trainNo: raw.train_no,
     name: raw.name,
     relation: raw.relation,
+    // The export has no `book` column; the trip id encodes it (`b1-`, `b2-`).
+    book: raw.trip_id.startsWith("b2-") ? 2 : 1,
     serviceClass: serviceClassOf(raw.service_class),
     geometryStatus: geometryStatusOf(raw.status),
     hasUntimedMarkers: (raw.flags & FLAG_COARSE) !== 0,

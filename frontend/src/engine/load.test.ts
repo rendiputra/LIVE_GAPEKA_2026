@@ -93,6 +93,29 @@ describe("train names", () => {
     );
     expect(duplicated).toHaveLength(0);
   });
+
+  it("derives the book from the trip id (b1 = intercity, b2 = local)", () => {
+    const book1 = snapshot.trips.filter((trip) => trip.tripId.startsWith("b1-"));
+    const book2 = snapshot.trips.filter((trip) => trip.tripId.startsWith("b2-"));
+    expect(book1.length).toBeGreaterThan(0);
+    expect(book2.length).toBeGreaterThan(0);
+    for (const trip of book1) expect(trip.book).toBe(1);
+    for (const trip of book2) expect(trip.book).toBe(2);
+  });
+
+  it("marks fakultatif trips hidden by default", () => {
+    const fakultatif = snapshot.trips.filter((trip) => trip.serviceClass === "fakultatif");
+    expect(fakultatif.length).toBeGreaterThan(0);
+    for (const trip of fakultatif) {
+      expect(trip.hiddenByDefault).toBe(true);
+      expect(trip.name === trip.trainNo).toBe(false);
+    }
+  });
+
+  it("marks regular trips as shown by default", () => {
+    const reguler = snapshot.trips.filter((trip) => trip.serviceClass === "reguler");
+    for (const trip of reguler) expect(trip.hiddenByDefault).toBe(false);
+  });
 });
 
 describe("waypoint decoding", () => {

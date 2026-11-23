@@ -9,10 +9,9 @@ touched; this tree replaces it milestone by milestone.
 |---|---|
 | 1 — scaffolding, export hook, ADRs | done |
 | 2 — pure TS engine + Web Worker + 6,000-frame parity gate | done |
-| 3 — map, React UI, panels, replay | not started |
-
-There is deliberately **no map and no React UI** yet. The only React file is
-`src/main.tsx`, a placeholder that proves the toolchain boots.
+| 3 — map, layer switcher, live motion | done |
+| 4 — Train Inspector, Station Board, Search, dock, Tentang | done |
+| 5 — motion polish, mobile, perf gates | not started |
 
 ## Commands
 

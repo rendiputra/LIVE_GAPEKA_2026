@@ -14,7 +14,7 @@
  *   origin reports the following stop rather than the one it is sitting at.
  *   `position.nextStopCode` keeps the Python semantics and must not change.
  */
-import { formatSodHm, addDays, midnightEpochMs, wibFromEpochMs } from "./time";
+import { addDays, formatSod, formatSodHm, midnightEpochMs, wibFromEpochMs } from "./time";
 import {
   arriveAbs,
   departAbs,
@@ -129,6 +129,10 @@ export interface UpcomingStop {
   readonly code: string;
   /** printed station-local time, `HH:MM` */
   readonly scheduledTime: string;
+  /** printed station-local time, `HH:MM:SS` */
+  readonly scheduledTimeS: string;
+  /** seconds of day of the arrival (station-local) */
+  readonly sod: number;
   /** whole days after the service date the stop falls on */
   readonly dayOffset: number;
   /** floor of the remaining minutes; never rounded up */
@@ -152,6 +156,8 @@ export function nextStopAhead(trip: Trip, sM: number, elapsed: number): Upcoming
     return {
       code: waypoint.stationCode,
       scheduledTime: formatSodHm(waypoint.arriveSod ?? waypoint.departSod ?? 0),
+      scheduledTimeS: formatSod(waypoint.arriveSod ?? waypoint.departSod ?? 0),
+      sod: waypoint.arriveSod ?? waypoint.departSod ?? 0,
       dayOffset: waypoint.arriveDayOffset,
       minutesAway: Math.floor((arrive - elapsed) / 60),
     };

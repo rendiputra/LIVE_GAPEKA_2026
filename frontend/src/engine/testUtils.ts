@@ -62,6 +62,7 @@ export function trip(input: {
   trainNo?: string;
   name?: string;
   relation?: string;
+  book?: number;
   serviceClass?: Trip["serviceClass"];
   geometryStatus?: TripGeometryStatus;
   hasUntimedMarkers?: boolean;
@@ -79,6 +80,7 @@ export function trip(input: {
     trainNo: input.trainNo ?? "1",
     name: input.name ?? "",
     relation: input.relation ?? "",
+    book: input.book ?? 1,
     serviceClass: input.serviceClass ?? "reguler",
     geometryStatus: input.geometryStatus ?? "complete",
     hasUntimedMarkers: input.hasUntimedMarkers ?? false,

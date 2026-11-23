@@ -89,6 +89,8 @@ export interface Trip {
   readonly trainNo: string;
   readonly name: string;
   readonly relation: string;
+  /** 1 = intercity/regional, 2 = local/agglomeration. From the trip id. */
+  readonly book: number;
   readonly serviceClass: ServiceClass;
   readonly geometryStatus: TripGeometryStatus;
   readonly hasUntimedMarkers: boolean;
@@ -137,6 +139,7 @@ export interface TrainPosition {
   readonly trainNo: string;
   readonly name: string;
   readonly relation: string;
+  readonly book: number;
   readonly lat: number;
   readonly lon: number;
   readonly bearing: number;
