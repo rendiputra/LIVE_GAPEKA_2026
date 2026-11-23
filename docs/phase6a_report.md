@@ -9,7 +9,7 @@ Static site (ADR 008). `python -m pipeline.export_web` writes the schedule into 
 
 ## Export sizes
 
-Content hash: `ce8b397007790812`
+Content hash: `2f8588adc0168c0e`
 
 | File | Raw kB | Gzip kB |
 |---|---|---|
@@ -25,10 +25,10 @@ Trips exported: **625**, segments **391**, stations **389**. Target was < 2 MB g
 
 | Asset | Raw kB | Gzip kB |
 |---|---|---|
-| `index-C07u2SZ0.css` | 68.5 | 10.3 |
-| `index-D8OGNiFU.js` | 855.4 | 230.8 |
+| `index-BDoL2g8p.css` | 68.5 | 10.4 |
+| `index-BJ1-ApDy.js` | 855.5 | 230.8 |
 | `positions.worker-BAsxS6Fi.js` | 6.2 | 2.6 |
-| **total** | **930.1** | **243.8** |
+| **total** | **930.3** | **243.8** |
 
 MapLibre GL JS dominates the bundle. It is bundled, not loaded from a CDN.
 
@@ -45,8 +45,8 @@ Tolerances: 1 m for lat/lon and `s_m`, 0.2 km/h for speed, identical status / fr
 | Metric | Value |
 |---|---|
 | samples | 40 |
-| median frame | **5.00 ms** |
-| p95 frame | 5.00 ms |
+| median frame | **1.20 ms** |
+| p95 frame | 1.20 ms |
 | most trains on screen | 101 |
 
 Measured in headless Chromium through Playwright at 390x844, replaying 2026-12-01. The target was < 10 ms per frame.
@@ -59,8 +59,8 @@ Screenshots (`data/review/web_screens/`, gitignored):
 
 - `01-load.png` (65 kB)
 - `02-ka249-0900.png` (85 kB)
-- `03-ka260f-0005.png` (93 kB)
-- `04-ka260f-0013.png` (92 kB)
+- `03-ka260f-0005.png` (94 kB)
+- `04-ka260f-0013.png` (93 kB)
 - `05-fakultatif-on.png` (94 kB)
 
 ## What the UI does

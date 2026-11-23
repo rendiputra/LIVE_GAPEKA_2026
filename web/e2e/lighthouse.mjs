@@ -1,8 +1,12 @@
 // T7: Lighthouse (mobile) against the built site. Report only: the numbers go to
 // data/review/lighthouse.json and are quoted from there, never recomputed.
 //
-// Tiles are stubbed by pointing at a local empty image, so the score measures the
-// app shell and the schedule data, not the tile provider's latency.
+// Tiles are BLOCKED so the score measures the app shell and the schedule data,
+// not the tile provider's latency. A `page.route` stub does NOT work here:
+// Lighthouse opens its own tab in the browser, so a route registered on a page we
+// created never applies. Without blocking, the run fetched 6 real OSM tiles
+// (141,926 bytes) over a throttled 1.6 Mbit link and TBT measured tile download,
+// not application work.
 
 import { chromium } from "playwright";
 import lighthouse from "lighthouse";
@@ -43,6 +47,8 @@ const result = await lighthouse(
     formFactor: "mobile",
     screenEmulation: { mobile: true, width: 390, height: 844, deviceScaleFactor: 3, disabled: false },
     throttling: { rttMs: 150, throughputKbps: 1638.4, cpuSlowdownMultiplier: 4 },
+    // Lighthouse uses its own target, so blocking must be a setting, not a route.
+    blockedUrlPatterns: ["*tile.openstreetmap.org*"],
   },
   undefined,
 );
@@ -56,7 +62,12 @@ const audits = result?.lhr?.audits ?? {};
 const summary = {
   url: URL_UNDER_TEST,
   form_factor: "mobile",
-  note: "Report only. Measured with tiles stubbed, so this reflects the app, not the tile provider.",
+  note:
+    "Report only. Tile requests are blocked, so these numbers describe the app, " +
+    "not the tile provider. Blocking logs console errors from the failed tile " +
+    "fetches, which is the only reason best-practices reads below 100 here; take " +
+    "best-practices from an unblocked run.",
+  blocked_tile_patterns: ["*tile.openstreetmap.org*"],
   scores: Object.fromEntries(
     Object.entries(categories).map(([key, value]) => [
       key,
