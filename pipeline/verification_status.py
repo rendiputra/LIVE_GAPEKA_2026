@@ -167,10 +167,7 @@ def render() -> str:
     for book, entry in state.items():
         count = verified_by_book.get(book)
         label = f"{count} trips verified end to end" if count is not None else "not measured"
-        add(
-            f"| {book} | {entry['trains']} | {entry['stops']} | {entry['validated']} | "
-            f"{label} |"
-        )
+        add(f"| {book} | {entry['trains']} | {entry['stops']} | {entry['validated']} | {label} |")
     add("")
     add(
         "The counts above are what the pipeline holds. They are **not** a claim of "

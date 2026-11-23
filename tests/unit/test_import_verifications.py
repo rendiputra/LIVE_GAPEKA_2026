@@ -122,3 +122,44 @@ def test_finding_carries_the_parsed_value(result_file):
     finding = summary["findings"][0]
     assert "parsed" in finding
     assert "page" in finding
+
+
+def test_reimport_is_idempotent(tmp_path, monkeypatch):
+    """Re-running the import must not append a duplicate verification record.
+
+    The runbook tells a human to re-run this step; a duplicate record would make
+    verification_status.md claim two separate reviews.
+    """
+    import json as _json
+
+    verifications = tmp_path / "verifications.json"
+    findings = tmp_path / "findings.json"
+    verifications.write_text(_json.dumps({"records": []}), encoding="utf-8")
+    monkeypatch.setattr(iv, "VERIFICATIONS", verifications)
+    monkeypatch.setattr(iv, "FINDINGS", findings)
+    monkeypatch.setattr(iv, "GOLDEN", tmp_path / "golden")
+
+    result = {
+        "verifier": "human",
+        "date": "2026-11-23",
+        "method": "visual comparison of PDF page images against the parsed table",
+        "trains": [
+            {
+                "trip_id": "b1-1-v1-01",
+                "train_no": "1",
+                "book": 1,
+                "verdict": "all_rows_match",
+                "wrong_rows": [],
+                "pages": [59],
+            }
+        ],
+    }
+    path = tmp_path / "verification_result.json"
+    path.write_text(_json.dumps(result), encoding="utf-8")
+
+    iv.import_result(path)
+    iv.import_result(path)
+    iv.import_result(path)
+
+    records = _json.loads(verifications.read_text(encoding="utf-8"))["records"]
+    assert len(records) == 1, f"expected 1 record after 3 imports, got {len(records)}"

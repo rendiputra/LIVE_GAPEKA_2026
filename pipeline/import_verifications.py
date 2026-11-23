@@ -163,28 +163,45 @@ def import_result(result_path: Path, *, dry_run: bool = False) -> dict:
             if VERIFICATIONS.exists()
             else {"records": []}
         )
-        records.setdefault("records", []).append(
-            {
-                "verifier": payload.get("verifier", "human"),
-                "date": verified_on,
-                "method": payload.get(
-                    "method",
-                    "visual comparison of PDF page images against the parsed table",
-                ),
-                "scope": {
-                    "trains": [entry["train_no"] for entry in promoted],
-                    "trips": [entry["trip_id"] for entry in promoted],
-                    "trains_with_errors": [f["train_no"] for f in findings],
-                    "note": (
-                        f"{len(promoted)} train(s) matched every row and were promoted; "
-                        f"{len({f['trip_id'] for f in findings})} train(s) had wrong rows "
-                        "and were NOT promoted."
-                    ),
-                },
-                "artefact": "data/review/verification_sheet.html",
-                "result": "accepted" if not findings else "accepted_with_findings",
-            }
+        records.setdefault("records", [])
+        # Idempotent: re-running the import must not append a second identical
+        # record. Compare the parts that identify the review, not the note text.
+        candidate = {
+            "verifier": payload.get("verifier", "human"),
+            "date": verified_on,
+            "artefact": "data/review/verification_sheet.html",
+            "trains": sorted(entry["train_no"] for entry in promoted),
+        }
+        already = any(
+            existing.get("verifier") == candidate["verifier"]
+            and existing.get("date") == candidate["date"]
+            and existing.get("artefact") == candidate["artefact"]
+            and sorted((existing.get("scope") or {}).get("trains", [])) == candidate["trains"]
+            for existing in records["records"]
         )
+        if not already:
+            records["records"].append(
+                {
+                    "verifier": payload.get("verifier", "human"),
+                    "date": verified_on,
+                    "method": payload.get(
+                        "method",
+                        "visual comparison of PDF page images against the parsed table",
+                    ),
+                    "scope": {
+                        "trains": [entry["train_no"] for entry in promoted],
+                        "trips": [entry["trip_id"] for entry in promoted],
+                        "trains_with_errors": [f["train_no"] for f in findings],
+                        "note": (
+                            f"{len(promoted)} train(s) matched every row and were promoted; "
+                            f"{len({f['trip_id'] for f in findings})} train(s) had wrong rows "
+                            "and were NOT promoted."
+                        ),
+                    },
+                    "artefact": "data/review/verification_sheet.html",
+                    "result": "accepted" if not findings else "accepted_with_findings",
+                }
+            )
         VERIFICATIONS.write_text(
             json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )

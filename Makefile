@@ -81,8 +81,8 @@ snap-experiment: ## routing-aware snapping experiment (Q1b), nothing applied
 verify-sheet: ## build the 20-train human verification sheet (T1)
 	uv run python -m pipeline.verification_sheet
 
-import-verifications: ## ingest verification_result.json (T1)
-	uv run python -m pipeline.import_verifications
+import-verifications: ## ingest verification_result.json (T1); FILE=... to override
+	uv run python -m pipeline.import_verifications $(FILE)
 
 v15: ## V15 endpoint cross-check, all trips (T2)
 	uv run python -m pipeline.v15_endpoints
