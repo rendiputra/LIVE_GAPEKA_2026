@@ -74,3 +74,68 @@ train; it does not say which dates it runs.
   evidence per train, and it would silently fill a table with guesses.
 - **Block all output until 2026-12-01.** Rejected by the human: development needs
   the schedule visible now, with a banner instead.
+
+---
+
+## Amendment 2026-11-23 — pre-release banner removed from `frontend/` (human decision)
+
+- Status: accepted (supersedes decision 5 **for `frontend/` only**)
+- Applies to: `frontend/` (branch `feat/frontend-revamp`). `web/` keeps decision 5 unchanged.
+
+### Context
+
+Decision 5 above requires a preview banner whenever `today < effective_from`, and
+Hard Rule 6 made it additive to — never a replacement for — the disclaimer. The
+Phase 6 baseline in `web/` implements exactly that: a top banner plus a
+footer disclaimer bar on the main canvas.
+
+The human reviewed that implementation and rejected the visual result: two
+always-on text blocks (banner + footer) dominate a map that is mostly canvas, and
+the disclaimer is repeated where it is least read.
+
+### Decision
+
+For `frontend/` only:
+
+1. **The top "Preview Gapeka 2026" banner is removed completely.** The
+   `preview_banner` string is not exported to the frontend at all
+   (`pipeline/export_web.py --variant frontend` drops the key), so the UI cannot
+   render it by accident. Removing it from the payload — rather than shipping it
+   and ignoring it — is what makes this decision enforceable rather than a
+   convention.
+2. **The main-canvas footer disclaimer bar is removed.** The canvas carries no
+   persistent legal text.
+3. **A clean micro-indicator replaces both**, in the existing top-right status
+   pill: `Live (Estimasi) · HH:MM WIB`. It states, permanently and compactly, that
+   positions are estimates, and it is visible at all times — so the *fact* of the
+   disclaimer is never absent from the screen.
+4. **The full disclaimer moves into the "Tentang" (About) modal.** It carries:
+   - the Hard Rule 6 sentence *"Posisi estimasi berdasarkan jadwal Gapeka 2026,
+     bukan posisi aktual. Diasumsikan tepat waktu dan beroperasi setiap hari."*;
+   - the effective date (1 Desember 2026) and the data content hash;
+   - OSM/ODbL, OpenFreeMap and OpenRailwayMap attribution (ADR 010);
+   - the non-affiliation notice (not affiliated with PT KAI / Kemenhub).
+
+### Why this does not weaken Hard Rule 6
+
+Hard Rule 6 exists so a user can never mistake an estimate for a live position.
+The `Live (Estimasi)` pill is on screen continuously and states the estimate
+status in the primary reading position; the full legal text is one click away in
+a stable, discoverable location. What is removed is *duplication and visual
+weight*, not disclosure. `web/` continues to demonstrate the additive form, so
+the two can be compared honestly.
+
+### Consequences
+
+- `AGENTS.md` Hard Rule 6 and the Phase 6 DoD are amended to scope the banner to
+  `web/` and to describe the `frontend/` form. See ADR 010 for the basemap.
+- `enforce_effective_from` is unchanged (still `false` in development); this
+  amendment is about *presentation*, not about whether the schedule may be shown.
+- The release gate "disclaimer and preview banner visible" (AGENTS.md §7, item 6)
+  must be re-read as "disclaimer reachable and estimate status visible"; the
+  Playwright smoke test asserts the pill text and the About modal contents
+  instead of a banner that no longer exists.
+- If a future Gapeka revision needs a real "preview" warning (e.g. a schedule
+  that is not yet in force at all), it is a new decision, not a revert of this
+  one.
+

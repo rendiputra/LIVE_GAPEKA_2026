@@ -151,6 +151,92 @@ def test_no_duplicate_polyline_content(exported):
     assert len(polylines) == len(set(polylines)), "same polyline exported twice"
 
 
+def test_main_writes_to_the_given_out_directory(tmp_path, capsys):
+    """The frontend build points the export at its own public/data directory."""
+    from pipeline import export_web
+
+    out = tmp_path / "frontend-public-data"
+    try:
+        code = export_web.main(["--out", str(out)])
+    except (FileNotFoundError, ValueError) as error:
+        pytest.skip(f"database not available: {error}")
+
+    assert code == 0
+    for name in ("manifest.json", "stations.json", "segments.json", "trips.json"):
+        assert (out / name).exists(), name
+    assert "wrote" in capsys.readouterr().out
+
+
+def test_frontend_variant_drops_the_preview_banner(tmp_path):
+    """ADR 002 amendment (2026-11-23): the frontend shows no preview banner.
+
+    The banner string must not ship to the frontend at all, so the new UI cannot
+    render it by accident. The disclaimer itself is kept: it moves into the
+    "Tentang" modal, it does not disappear.
+    """
+    from pipeline import export_web
+
+    out = tmp_path / "frontend"
+    try:
+        export_web.export(out, variant="frontend")
+    except (FileNotFoundError, ValueError) as error:
+        pytest.skip(f"database not available: {error}")
+
+    attribution = json.loads((out / "manifest.json").read_text(encoding="utf-8"))["attribution"]
+    assert "preview_banner" not in attribution
+    assert attribution["disclaimer"].startswith("Posisi estimasi berdasarkan jadwal Gapeka 2026")
+    assert attribution["osm"].startswith("© OpenStreetMap")
+
+
+def test_web_variant_keeps_the_preview_banner(exported):
+    """The `web/` baseline is untouched: its manifest still carries the banner."""
+    out, _summary = exported
+    attribution = json.loads((out / "manifest.json").read_text(encoding="utf-8"))["attribution"]
+    assert attribution["preview_banner"] == (
+        "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)"
+    )
+
+
+def test_variants_share_the_same_content_hash(tmp_path):
+    """The variant changes only the manifest's presentation, never the data."""
+    from pipeline import export_web
+
+    try:
+        web = export_web.export(tmp_path / "web")
+        frontend = export_web.export(tmp_path / "frontend", variant="frontend")
+    except (FileNotFoundError, ValueError) as error:
+        pytest.skip(f"database not available: {error}")
+
+    assert web["content_hash"] == frontend["content_hash"]
+    assert web["trips"] == frontend["trips"]
+
+
+def test_unknown_variant_is_rejected(tmp_path):
+    from pipeline import export_web
+
+    with pytest.raises(ValueError, match="variant"):
+        export_web.export(tmp_path / "nope", variant="mobile")
+
+
+def test_frontend_variant_writes_its_own_review_artefact(tmp_path, monkeypatch):
+    """The frontend export must not overwrite the `web/` baseline report."""
+    from pipeline import export_web
+
+    review = tmp_path / "review"
+    review.mkdir()
+    monkeypatch.setattr(export_web, "REVIEW_DIR", review)
+    try:
+        export_web.export(tmp_path / "web")
+        export_web.export(tmp_path / "frontend", variant="frontend")
+    except (FileNotFoundError, ValueError) as error:
+        pytest.skip(f"database not available: {error}")
+
+    assert (review / "web_export.json").exists()
+    assert (review / "frontend_export.json").exists()
+    web = json.loads((review / "web_export.json").read_text(encoding="utf-8"))
+    assert "preview_banner" in web["manifest"]["attribution"]
+
+
 def test_train_name_is_the_real_name_not_the_number(exported):
     """F2: 'KA 50 — 50' came from the export writing train_no into name.
 

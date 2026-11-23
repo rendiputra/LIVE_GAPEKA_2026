@@ -76,3 +76,13 @@ web/test-results/
 web/playwright-report/
 engine/parity_frames.json
 data/review/web_screens/
+
+# --- frontend/ revamp (clean-room; web/ stays the baseline) ---
+# Generated schedule data, build output and test artefacts are never committed.
+frontend/node_modules/
+frontend/dist/
+frontend/dist-e2e/
+frontend/public/data/
+frontend/test-results/
+frontend/playwright-report/
+data/review/frontend_screens/

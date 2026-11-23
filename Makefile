@@ -1,4 +1,4 @@
-.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit station-spacing basemap web-assets export-web parity web-dev web-build web-test web-e2e web-lighthouse deploy-plan reports test lint fmt serve clean
+.PHONY: setup doctor inventory extract parse parse-intercity conflicts validity summary-tables stations build-db phase3a verify-status validate geometry geometry-baseline triple engine-sweep engine-replay suspects coverage h5h6 day-offsets bridge-probe snap-experiment verify-sheet import-verifications v15 snap-audit station-spacing basemap web-assets export-web export-frontend parity web-dev web-build web-test web-e2e web-lighthouse frontend-dev frontend-build frontend-test frontend-e2e frontend-lighthouse deploy-plan reports test lint fmt serve clean
 
 PDF ?= data/input/GAPEKA_2026.pdf
 
@@ -120,6 +120,27 @@ web-e2e: export-web ## Playwright smoke + robustness with tiles stubbed
 
 web-lighthouse: ## Lighthouse mobile report -> data/review/lighthouse.json (T7)
 	cd web && pnpm build:e2e && (pnpm exec vite preview --outDir dist-e2e --port 4173 --strictPort --host 127.0.0.1 &) && sleep 4 && node e2e/lighthouse.mjs; pkill -f "vite preview" || true
+
+# --- frontend/ revamp (clean-room, branch feat/frontend-revamp) --------------
+# `web/` stays the untouched Phase 6 baseline; these targets never write to it.
+
+export-frontend: ## schedule -> frontend/public/data (frontend variant, no banner)
+	uv run python -m pipeline.export_web --out frontend/public/data --variant frontend
+
+frontend-dev: export-frontend ## Vite dev server for the new frontend
+	cd frontend && pnpm install --silent && pnpm dev
+
+frontend-test: export-frontend parity ## Vitest unit + 6000-frame parity gate
+	cd frontend && pnpm install --silent && pnpm test
+
+frontend-e2e: export-frontend ## Playwright smoke (specs land with the UI in Turn 3)
+	cd frontend && pnpm install --silent && pnpm e2e
+
+frontend-build: export-frontend ## static production bundle into frontend/dist
+	cd frontend && pnpm install --silent && pnpm build
+
+frontend-lighthouse: ## Lighthouse mobile report -> data/review/frontend_lighthouse.json
+	cd frontend && pnpm build:e2e && (pnpm exec vite preview --outDir dist-e2e --port 4174 --strictPort --host 127.0.0.1 &) && sleep 4 && node e2e/lighthouse.mjs; pkill -f "vite preview" || true
 
 reproduce: ## prove a clean clone rebuilds identical hashes (P2)
 	uv run python -m pipeline.reproduce

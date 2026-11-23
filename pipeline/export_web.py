@@ -32,8 +32,15 @@ from pipeline import station_aliases
 
 OUT = Path("web/public/data")
 DB = Path("data/gapeka.db")
+REVIEW_DIR = Path("data/review")
 SCHEMA_VERSION = 1
 POLYLINE_PRECISION = 6
+
+# `web` is the Phase 6 baseline (unchanged bytes). `frontend` is the ADR 002
+# amendment (2026-11-23): the new UI shows no preview banner, so the string is
+# not shipped to it at all. Only the manifest's attribution differs; the data
+# files and the content hash are identical.
+VARIANTS = ("web", "frontend")
 
 STOP_TYPES = ("stop", "pass", "unknown_untimed")
 CLASSES = ("reguler", "fakultatif", "unknown")
@@ -324,7 +331,9 @@ def _hash(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()[:16]
 
 
-def export(out: Path = OUT) -> dict:
+def export(out: Path = OUT, variant: str = "web") -> dict:
+    if variant not in VARIANTS:
+        raise ValueError(f"unknown variant {variant!r}; expected one of {VARIANTS}")
     out.mkdir(parents=True, exist_ok=True)
     # Remove hash-named files from previous runs. They are content-addressed, so a
     # stale one is never referenced, but leaving them makes the bundle grow on
@@ -368,6 +377,11 @@ def export(out: Path = OUT) -> dict:
         ),
         "preview_banner": ("Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)"),
     }
+    if variant == "frontend":
+        # ADR 002 amendment: no preview banner in the frontend. Dropping the key
+        # (rather than shipping it unused) means the UI cannot render it by
+        # accident. The disclaimer stays; it moves into the "Tentang" modal.
+        attribution.pop("preview_banner")
 
     manifest = {
         "schema": SCHEMA_VERSION,
@@ -413,6 +427,7 @@ def export(out: Path = OUT) -> dict:
 
     summary = {
         "content_hash": content_hash,
+        "variant": variant,
         "max_day_offset": snapshot.max_day_offset,
         "manifest": manifest,
         "sizes": sizes,
@@ -420,16 +435,35 @@ def export(out: Path = OUT) -> dict:
         "segments": len(segments["segments"]),
         "stations": len(stations["stations"]),
     }
-    (Path("data/review") / "web_export.json").write_text(
-        json.dumps(summary, indent=1, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    # A variant-specific artefact: the frontend export must not overwrite the
+    # `web/` baseline report that `make reports` reads.
+    report = REVIEW_DIR / ("web_export.json" if variant == "web" else f"{variant}_export.json")
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(json.dumps(summary, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return summary
 
 
-def main() -> int:
-    summary = export()
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Export the schedule for the static site.")
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=OUT,
+        help=f"output directory (default: {OUT})",
+    )
+    parser.add_argument(
+        "--variant",
+        choices=VARIANTS,
+        default="web",
+        help="web = Phase 6 baseline; frontend = no preview banner (ADR 002 amendment)",
+    )
+    args = parser.parse_args(argv)
+
+    summary = export(args.out, variant=args.variant)
     sizes = summary["sizes"]
-    print(f"wrote {OUT} (content hash {summary['content_hash']})")
+    print(f"wrote {args.out} (content hash {summary['content_hash']}, variant {args.variant})")
     print(
         f"  stations {summary['stations']}, segments {summary['segments']}, "
         f"trips {summary['trips']}"

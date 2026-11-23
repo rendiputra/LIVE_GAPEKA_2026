@@ -69,6 +69,15 @@ Glossary:
 5. **Validation is a gate.** If validation fails, the pipeline stops with a non-zero exit code. Never loosen validation rules just to make tests pass without explicit human approval.
 6. **The UI must always show a disclaimer**: "Estimated position based on the Gapeka schedule, not actual position." (Indonesian: "Posisi estimasi berdasarkan jadwal Gapeka, bukan posisi aktual.")
    Additionally, whenever `today < gapeka_versions.effective_from`, the UI must show a config-driven banner, e.g. "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". The banner is additive to the disclaimer, never a replacement.
+   **Amendment 2026-11-23 (human decision, ADR 002 amendment) — scoped to `frontend/`:** the top
+   preview banner and the main-canvas footer disclaimer bar are **removed**. In their place: a
+   persistent top-right status pill `Live (Estimasi) · HH:MM WIB` (states the estimate status at
+   all times) plus the **full** disclaimer, effective date, data hash, OSM/ODbL + OpenFreeMap +
+   OpenRailwayMap attribution and the non-affiliation notice inside the **"Tentang" modal**. The
+   `preview_banner` string is not exported to the frontend at all
+   (`pipeline/export_web.py --variant frontend` drops it), so it cannot be rendered by accident.
+   `web/` keeps the additive banner unchanged. What is removed is duplication and visual weight,
+   not disclosure.
 7. **Never commit the original PDF** (58.6 MiB) to git. Keep it in `data/input/` (gitignored) and record its SHA-256 in `gapeka_versions`.
 8. **Use an LLM only for problematic pages** in the offline pipeline (complex layouts): temperature 0, strict JSON schema, `null` when unsure. Every LLM output must pass the same validators as parser output.
 9. **If the spec is ambiguous or the PDF format does not match assumptions, STOP and ask.** Do not improvise.
@@ -127,7 +136,11 @@ build summary and every report, so two builds can be compared honestly.
 │   ├── cli.py            # `python -m engine.cli at|trajectory`
 │   └── golden_frames.json # sampled frames for browser-port parity
 ├── api/                  # FastAPI
-├── web/                  # MapLibre frontend
+├── web/                  # MapLibre frontend (Phase 6 baseline, frozen)
+├── frontend/             # clean-room revamp (Vite + React 19 + Tailwind v4, ADR 010)
+│   ├── src/engine/       # pure TS port of engine/position.py (parity-gated)
+│   ├── src/worker/       # Web Worker: load, decode, positions_at
+│   └── public/data/      # exported schedule (gitignored)
 ├── tools/review_ui/      # PDF-vs-data review UI
 ├── tests/
 │   ├── unit/
@@ -233,7 +246,9 @@ Version and calendar policy (ADR 002):
   it must be consciously set `true` or deliberately left `false`).
 - When `today < effective_from`, the UI shows a config-driven banner, e.g.
   "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". The banner is
-  additive to the Hard Rule 6 disclaimer, never a replacement.
+  additive to the Hard Rule 6 disclaimer, never a replacement. **`frontend/`
+  exception (amendment 2026-11-23):** no banner; a persistent `Live (Estimasi) ·
+  HH:MM WIB` pill plus the full text in the "Tentang" modal. See Hard Rule 6.
 
 Observed in sampling, to be verified in Phase 1:
 - Train-table columns: `No. | Stasiun dan Perhentian | Kecepatan Maksimum (Km/Jam) | Datang | Berangkat | Keterangan`.
@@ -392,7 +407,8 @@ The Python engine stays the reference implementation and the port must match it 
 
 **Frontend (MapLibre)**
 - Smoothly moving train markers, detail panel (schedule, next station), station board, search by train number/station, "replay" mode (pick any time), OSM attribution, clear disclaimer.
-- **Pre-release preview banner** (Hard Rule 6, ADR 002): when `today < effective_from`, show a config-driven banner such as "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". It sits alongside the disclaimer, not instead of it.
+- **Pre-release preview banner** (Hard Rule 6, ADR 002): when `today < effective_from`, show a config-driven banner such as "Preview Gapeka 2026 (berlaku resmi mulai 1 Desember 2026)". It sits alongside the disclaimer, not instead of it. **`web/` only** — `frontend/` uses the amendment in Hard Rule 6 (pill + "Tentang" modal, no banner).
+- Basemap: `web/` uses self-hosted PMTiles (ADR 009); `frontend/` uses OpenFreeMap vector tiles (`positron` default, `liberty` selectable) with optional OpenRailwayMap overlays, both OFF by default (ADR 010).
 - Scaling option: compute positions in the browser from static schedule data (port the logic of `engine/position.py` with parity tests against the Python version).
 
 Every trip with `has_untimed_markers = true` must be labelled "coarser estimate" wherever its position is shown, because its position spans a longer untimed gap.
@@ -416,12 +432,12 @@ before the site is public. Nothing here is optional.
 |---|---|---|
 | 1 | **>= 20 trains human-verified with zero uncorrected errors** | `data/review/verifications.json` + `tests/golden/verified_*.json` from `make verify-sheet` / `make import-verifications` |
 | 2 | Any verification finding is either fixed (with a test) or recorded as accepted | `data/review/verification_findings.json`, every entry `status != open` |
-| 3 | Tile provider live and NOT the public OSM server | `web/public/tiles/manifest.json`; `VITE_TILE_MODE=pmtiles`; `make web-build` succeeds |
-| 4 | Tiles hosted separately with Range + CORS | `curl -r 0-99 -o /dev/null -w "%{http_code}" <url>` prints `206` |
+| 3 | Tile provider live and NOT the public OSM server | `web/`: `web/public/tiles/manifest.json` + `VITE_TILE_MODE=pmtiles` + `make web-build` succeeds. `frontend/`: OpenFreeMap in use, usage terms recorded in `docs/LEGAL_CHECKLIST.md`, no public OSM tile server |
+| 4 | Tiles hosted separately with Range + CORS (`web/` only) | `curl -r 0-99 -o /dev/null -w "%{http_code}" <url>` prints `206`. Not applicable to `frontend/` (no self-hosted tiles, ADR 010) |
 | 5 | Legal items closed | `docs/LEGAL_CHECKLIST.md` has no `OPEN`; `docs/LICENSE-DATA.md` reviewed |
-| 6 | Disclaimer and preview banner visible | Playwright smoke test; the banner must disappear at `effective_from` |
-| 7 | Parity with the Python engine exact | `make parity && make web-test` (zero mismatches) |
-| 8 | Lighthouse and axe numbers recorded | `data/review/lighthouse.json`, `data/review/axe_report.json`; no serious/critical axe violation |
+| 6 | Disclaimer reachable and estimate status visible | Playwright smoke test: `web/` — banner disappears at `effective_from`; `frontend/` — `Live (Estimasi) · HH:MM WIB` pill present at all times and the "Tentang" modal carries the full text, hash and attribution (ADR 002 amendment) |
+| 7 | Parity with the Python engine exact | `make parity && make web-test` and `make frontend-test` (zero mismatches, 6000/6000) |
+| 8 | Lighthouse and axe numbers recorded | `data/review/lighthouse.json`, `data/review/axe_report.json` (`frontend/`: `data/review/frontend_lighthouse.json`); no serious/critical axe violation |
 | 9 | Reproducible build | `make reproduce` prints `REPRODUCIBLE` |
 | 10 | Deploy dry-run done | static upload + rollback rehearsed, `docs/DEPLOY.md` |
 
@@ -458,6 +474,10 @@ make parity       # engine/parity_frames.json for the TypeScript port (B3)
 make web-test     # Vitest unit + parity
 make web-e2e      # Playwright smoke with tiles stubbed
 make web-build    # static bundle into web/dist
+make export-frontend   # schedule -> frontend/public/data (frontend variant, no banner)
+make frontend-test     # Vitest unit + the 6000-frame parity gate
+make frontend-e2e      # Playwright smoke (specs arrive with the UI)
+make frontend-build    # static bundle into frontend/dist
 make reports      # regenerate the generated reports
 make test         # unit + golden
 make serve        # API + web dev
