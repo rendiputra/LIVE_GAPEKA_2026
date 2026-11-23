@@ -122,6 +122,7 @@ describe("toPositionsGeoJSON", () => {
     trainNo: "50",
     name: "Gajayana",
     relation: "GMR-ML",
+    book: 1,
     lat: -6.2,
     lon: 106.8,
     bearing: 45,
