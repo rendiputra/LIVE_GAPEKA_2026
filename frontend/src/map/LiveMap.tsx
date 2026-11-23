@@ -211,15 +211,22 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     };
   }, [addLayers]);
 
-  // Basemap and overlay switches re-run the layer wiring on the new style.
+  // Basemap switches rebuild the style; overlay switches do not. A setStyle
+  // replaces the whole layer list, so layers must be re-wired on the new
+  // style's load event, and re-wiring is driven by `styleLoadedRef` (false
+  // until the new style is ready).
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !styleLoadedRef.current) return;
     const style = BASEMAPS.options.find((basemap) => basemap.id === props.basemap)!.style;
     const current = map.getStyle();
     if (current && (current as { name?: string }).name === style) return;
+    styleLoadedRef.current = false;
     map.setStyle(style);
-    map.once("style.load", () => addLayers(map));
+    map.once("style.load", () => {
+      styleLoadedRef.current = true;
+      addLayers(map);
+    });
   }, [props.basemap, props.overlay, addLayers]);
 
   // Overlay toggle without rebuilding the basemap. The overlay must sit BELOW

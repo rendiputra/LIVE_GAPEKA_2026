@@ -99,7 +99,7 @@ export function StatusPill(props: {
           title={props.error}
         >
           <span className="sr-only">Peringatan peta: </span>
-          Ada ubin yang belum termuat
+          Sebagian layer peta belum termuat
         </span>
       ) : null}
     </div>

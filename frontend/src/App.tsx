@@ -40,6 +40,7 @@ import { SearchPanel } from "./components/SearchPanel";
 import { StationBoard } from "./components/StationBoard";
 import { TrainInspector } from "./components/TrainInspector";
 import { TimeTravelDock, dateLabel } from "./components/TimeTravelDock";
+import { OverlayLegend, isOverlayActive } from "./components/OverlayLegend";
 import type { BoardEntry } from "./engine/queries";
 import type {
   PositionsFeature,
@@ -592,6 +593,16 @@ export function App(): React.ReactElement {
           onDate={setDate}
         />
       </div>
+
+      {/* Bug 2: ORM mini-legend, only while an overlay is active.
+          z-20 like the inspector/board, anchored bottom-left above the dock,
+          never behind it. Sits to the right of the inspector on desktop so
+          the two do not overlap. */}
+      {isOverlayActive(state.overlay) ? (
+        <div className="pointer-events-none absolute right-3 bottom-24 z-20 flex justify-end sm:right-3 sm:bottom-20">
+          <OverlayLegend overlay={state.overlay} onClose={() => {}} />
+        </div>
+      ) : null}
 
       {state.workerState === "loading" && state.snapshot === null ? (
         <div
