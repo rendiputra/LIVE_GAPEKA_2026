@@ -62,7 +62,7 @@ test.describe("Bug 2 — legend", () => {
     await expect(legend).toBeVisible();
     await expect(legend).toContainText("komunitas");
     await expect(legend).toContainText("OpenStreetMap");
-    await expect(legend).toContainText("bukan Gapeka");
+    await expect(legend).toContainText("Bukan data Gapeka");
 
     // Collapsible.
     await page.getByRole("button", { name: "Sembunyikan legenda" }).click();
@@ -100,6 +100,13 @@ test.describe("Bug 2 — legend", () => {
     await expect(legend).toBeVisible();
     expect(await overlaps(legend, inspector)).toBe(false);
     expect(await overlaps(legend, dock)).toBe(false);
+
+    // MapLibre's zoom/compass cluster lives in the bottom-right corner; the
+    // legend used to sit on top of it.
+    const zoom = page.locator(".maplibregl-ctrl-group").first();
+    const attrib = page.locator(".maplibregl-ctrl-attrib").first();
+    expect(await overlaps(legend, zoom)).toBe(false);
+    expect(await overlaps(legend, attrib)).toBe(false);
   });
 });
 

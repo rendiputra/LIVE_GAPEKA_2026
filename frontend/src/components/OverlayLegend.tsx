@@ -14,57 +14,56 @@ import { OVERLAYS, type OverlayId } from "../map/sources";
 export interface LegendRow {
   readonly id: string;
   readonly label: string;
-  readonly source: "openrailwaymap" | "gapeka";
-  readonly swatch: "track" | "siding" | "yard" | "switch" | "crossover" | "maxspeed" | "speed-signal" | "bridge";
+  readonly swatch: string;
 }
 
-export const LEGEND_ROWS: readonly LegendRow[] = [
-  { id: "main-track", label: "Rel utama (main line)", source: "openrailwaymap", swatch: "track" },
-  { id: "siding", label: "siding (rel sampang)", source: "openrailwaymap", swatch: "siding" },
-  { id: "yard", label: "yard / emplacement", source: "openrailwaymap", swatch: "yard" },
-  { id: "switch", label: "wissel (wesel)", source: "openrailwaymap", swatch: "switch" },
-  { id: "crossover", label: "kruiswissel (wesel silang)", source: "openrailwaymap", swatch: "crossover" },
-  {
-    id: "maxspeed",
-    label: "Angka di rel = maks. kecepatan teknis (maxspeed) — bukan Gapeka",
-    source: "openrailwaymap",
-    swatch: "maxspeed",
-  },
-  {
-    id: "speed-signal",
-    label: "Sinyal kecepatan (speed signal)",
-    source: "openrailwaymap",
-    swatch: "speed-signal",
-  },
-  { id: "bridge", label: "Jembatan / terowongan", source: "openrailwaymap", swatch: "bridge" },
+/**
+ * OpenRailwayMap's `standard` style: line hierarchy and operating state.
+ * These rows describe INFRASTRUCTURE, so they must never be shown while the
+ * `maxspeed` overlay is active.
+ */
+export const INFRA_ROWS: readonly LegendRow[] = [
+  { id: "main-track", label: "Rel utama (main line)", swatch: "bg-neutral-800" },
+  { id: "branch", label: "Rel cabang / sekunder", swatch: "bg-neutral-500" },
+  { id: "siding", label: "Siding / yard", swatch: "bg-neutral-400" },
+  { id: "disused", label: "Nonaktif / konstruksi", swatch: "bg-neutral-300" },
+  { id: "switch", label: "Wesel (wissel) & sinyal", swatch: "bg-amber-500" },
 ];
+
+/**
+ * OpenRailwayMap's `maxspeed` style: the colour bands it renders for the
+ * `maxspeed` tag. These describe a TECHNICAL line speed from OSM, which is a
+ * different quantity from the maximum speed printed in the Gapeka timetable.
+ */
+export const SPEED_ROWS: readonly LegendRow[] = [
+  { id: "speed-0-40", label: "< 40 km/j", swatch: "bg-violet-700" },
+  { id: "speed-40-60", label: "40–60 km/j", swatch: "bg-blue-700" },
+  { id: "speed-60-80", label: "60–80 km/j", swatch: "bg-sky-500" },
+  { id: "speed-80-120", label: "80–120 km/j", swatch: "bg-emerald-600" },
+  { id: "speed-120-160", label: "120–160 km/j", swatch: "bg-yellow-400" },
+  { id: "speed-160-200", label: "160–200 km/j", swatch: "bg-orange-500" },
+  { id: "speed-200-plus", label: "> 200 km/j", swatch: "bg-red-600" },
+  { id: "speed-untagged", label: "Abu-abu: belum ada tag maxspeed", swatch: "bg-neutral-300" },
+];
+
+export function legendRows(overlay: OverlayId): readonly LegendRow[] {
+  return overlay === "maxspeed" ? SPEED_ROWS : INFRA_ROWS;
+}
 
 export function isOverlayActive(overlay: OverlayId): boolean {
   return overlay !== OVERLAYS.default;
 }
 
-/** The provenance note, printed above the rows. */
+/** One concise provenance line, above the rows. */
 export function legendSummary(overlay: OverlayId): string {
   if (!isOverlayActive(overlay)) return "";
   const name = overlay === "infrastruktur" ? "Infrastruktur" : "Max Speed";
   return (
-    `Overlay ${name} dari data komunitas OpenStreetMap / OpenRailwayMap ` +
-    `(tag railway=* untuk infrastruktur, maxspeed=* untuk kecepatan teknis). ` +
-    `Ini bukan data Gapeka: kecepatan maksimum menurut Gapeka tercetak di ` +
-    `kolom Kecepatan Maksimum timetable PDF.`
+    `Overlay ${name} dari data komunitas OpenStreetMap / OpenRailwayMap. ` +
+    `Bukan data Gapeka: kecepatan cetak Gapeka ada di kolom Kecepatan ` +
+    `Maksimum pada timetable PDF.`
   );
 }
-
-const SWATCH_CLASS: Record<LegendRow["swatch"], string> = {
-  track: "bg-neutral-800",
-  siding: "bg-neutral-500",
-  yard: "bg-neutral-400",
-  switch: "bg-amber-500",
-  crossover: "bg-amber-700",
-  maxspeed: "bg-blue-600",
-  "speed-signal": "bg-emerald-500",
-  bridge: "bg-violet-500",
-};
 
 export function OverlayLegend(props: {
   readonly overlay: OverlayId;
@@ -102,16 +101,16 @@ export function OverlayLegend(props: {
       </div>
 
       {collapsed ? null : (
-        <div className="max-h-64 overflow-y-auto overscroll-contain px-3 py-2">
+        <div className="px-3 py-2">
           <p className="mb-2 text-[11.5px] leading-relaxed text-neutral-600">
             {legendSummary(props.overlay)}
           </p>
           <ul className="space-y-1.5">
-            {LEGEND_ROWS.map((row) => (
+            {legendRows(props.overlay).map((row) => (
               <li key={row.id} className="flex items-center gap-2">
                 <span
                   aria-hidden="true"
-                  className={`inline-block h-2.5 w-5 shrink-0 rounded-sm ${SWATCH_CLASS[row.swatch]}`}
+                  className={`inline-block h-2.5 w-5 shrink-0 rounded-sm ${row.swatch}`}
                 />
                 <span className="min-w-0 text-[12px] leading-snug break-words text-neutral-700">
                   {row.label}
@@ -120,8 +119,7 @@ export function OverlayLegend(props: {
             ))}
           </ul>
           <p className="mt-2 border-t border-black/5 pt-1.5 text-[11px] text-neutral-500">
-            Garis abu-abu tebal = rel menurut Gapeka (391 segmen). Warna lain dari overlay
-            hanya konteks infrastruktur.
+            Rel Gapeka sendiri digambar sebagai garis abu-abu tipis (391 segmen).
           </p>
         </div>
       )}

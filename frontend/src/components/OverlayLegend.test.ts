@@ -1,12 +1,19 @@
 /**
- * OverlayLegend content.
+ * The OpenRailwayMap mini-legend.
  *
- * The legend only exists when an OpenRailwayMap overlay is active. Its rows are
- * the only place the overlay's legend is defined as data, so both the component
- * and the tests read the same table.
+ * `Infrastruktur` and `Max Speed` are different renderings of different OSM
+ * tags, so they must not share one row list: showing "wissel" under a Max Speed
+ * heading is factually wrong. Each overlay gets its own table, and every row is
+ * community data, never Gapeka data.
  */
 import { describe, expect, it } from "vitest";
-import { isOverlayActive, LEGEND_ROWS, legendSummary } from "./OverlayLegend";
+import {
+  INFRA_ROWS,
+  SPEED_ROWS,
+  isOverlayActive,
+  legendRows,
+  legendSummary,
+} from "./OverlayLegend";
 
 describe("isOverlayActive", () => {
   it("is false for the default overlay", () => {
@@ -19,43 +26,74 @@ describe("isOverlayActive", () => {
   });
 });
 
-describe("legend rows", () => {
-  it("explains the main track", () => {
-    const mainTrack = LEGEND_ROWS.find((row) => row.id === "main-track");
-    expect(mainTrack).toBeDefined();
-    expect(mainTrack!.label).toContain("Rel utama");
+describe("legendRows", () => {
+  it("gives Infrastruktur its own infrastructure rows", () => {
+    const rows = legendRows("infrastruktur");
+    expect(rows).toBe(INFRA_ROWS);
+    const labels = rows.map((row) => row.label);
+    expect(labels).toContain("Rel utama (main line)");
+    expect(labels.some((label) => label.includes("Siding"))).toBe(true);
+    expect(labels.some((label) => label.includes("Wesel"))).toBe(true);
   });
 
-  it("explains sidings and yard", () => {
-    expect(LEGEND_ROWS.some((row) => row.label.includes("siding"))).toBe(true);
-    expect(LEGEND_ROWS.some((row) => row.label.includes("emplacement"))).toBe(true);
+  it("gives Max Speed speed bands, never infrastructure rows", () => {
+    const rows = legendRows("maxspeed");
+    expect(rows).toBe(SPEED_ROWS);
+
+    const text = rows.map((row) => row.label).join(" ");
+    expect(text).toContain("80–120");
+    expect(text).toContain("km/j");
+    expect(text).toContain("> 200");
+    // The QA bug: infrastructure vocabulary under a Max Speed heading.
+    expect(text).not.toContain("wissel");
+    expect(text).not.toContain("kruiswissel");
+    expect(text).not.toContain("Rel utama");
+    expect(text).not.toContain("yard");
   });
 
-  it("distinguishes switch vs. crossover", () => {
-    const kinds = LEGEND_ROWS.map((row) => row.label);
-    expect(kinds.some((label) => label.includes("wissel"))).toBe(true);
-    expect(kinds.some((label) => label.includes("kruiswissel"))).toBe(true);
+  it("covers the full ORM speed ramp plus the untagged case", () => {
+    expect(SPEED_ROWS.map((row) => row.label)).toEqual([
+      "< 40 km/j",
+      "40–60 km/j",
+      "60–80 km/j",
+      "80–120 km/j",
+      "120–160 km/j",
+      "160–200 km/j",
+      "> 200 km/j",
+      "Abu-abu: belum ada tag maxspeed",
+    ]);
   });
 
-  it("keeps OSM/ORM community provenance distinct from Gapeka printed speeds", () => {
-    const summary = legendSummary("infrastruktur");
-    expect(summary).toContain("komunitas");
-    expect(summary).toContain("OpenStreetMap");
-    expect(summary).toContain("Gapeka");
-    expect(summary.toLowerCase()).toContain("maxspeed");
+  it("has no duplicate row ids", () => {
+    for (const rows of [INFRA_ROWS, SPEED_ROWS]) {
+      const ids = rows.map((row) => row.id);
+      expect(new Set(ids).size).toBe(ids.length);
+    }
   });
 
-  it("names the max speed row differently from a Gapeka speed", () => {
-    const maxSpeed = LEGEND_ROWS.find((row) => row.id === "maxspeed");
-    expect(maxSpeed).toBeDefined();
-    expect(maxSpeed!.label).toContain("maks. kecepatan teknis");
-    // The row must explicitly NOT be Gapeka data.
-    expect(maxSpeed!.label).toContain("bukan Gapeka");
-    expect(maxSpeed!.source).toBe("openrailwaymap");
+  it("keeps the two legends disjoint", () => {
+    const infra = new Set(INFRA_ROWS.map((row) => row.id));
+    for (const row of SPEED_ROWS) expect(infra.has(row.id)).toBe(false);
+  });
+});
+
+describe("legendSummary", () => {
+  it("says the data is community OSM/OpenRailwayMap data", () => {
+    for (const overlay of ["infrastruktur", "maxspeed"] as const) {
+      const summary = legendSummary(overlay);
+      expect(summary).toContain("komunitas");
+      expect(summary).toContain("OpenStreetMap");
+      expect(summary).toContain("OpenRailwayMap");
+    }
   });
 
-  it("marks unverified symbols as community-provided", () => {
-    const every = LEGEND_ROWS.every((row) => row.source === "openrailwaymap");
-    expect(every).toBe(true);
+  it("distinguishes the overlay speed from the printed Gapeka speed", () => {
+    const summary = legendSummary("maxspeed");
+    expect(summary).toContain("Bukan data Gapeka");
+    expect(summary).toContain("Kecepatan");
+  });
+
+  it("is empty when no overlay is active", () => {
+    expect(legendSummary("default")).toBe("");
   });
 });

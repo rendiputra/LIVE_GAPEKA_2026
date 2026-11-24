@@ -699,7 +699,7 @@ export function App(): React.ReactElement {
       {isOverlayActive(state.overlay) ? (
         <div
           data-testid="overlay-legend"
-          className={`pointer-events-none absolute right-3 bottom-24 z-20 justify-end sm:right-3 sm:bottom-20 ${
+          className={`pointer-events-none absolute right-3 bottom-24 z-20 justify-end sm:right-14 sm:bottom-20 ${
             selectedTrip || state.selectedStation ? "hidden lg:flex" : "flex"
           }`}
         >
