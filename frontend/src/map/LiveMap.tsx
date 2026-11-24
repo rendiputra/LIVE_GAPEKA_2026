@@ -180,18 +180,6 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       readyRef.current = true;
       propsRef.current.onStatus({ status: "ready", error: null });
 
-      // MapLibre renders the compact attribution EXPANDED on first paint
-      // (`_updateCompact` adds `compact` + `compact-show` + `open`). On a phone
-      // that line runs under the time-travel dock. Collapse it exactly the way
-      // MapLibre's own toggle does — set `open`, drop `compact-show` — so the
-      // control stays consistent and the user can still expand it.
-      if (window.matchMedia("(max-width: 767px)").matches) {
-        const attribution = map
-          .getContainer()
-          .querySelector<HTMLElement>(".maplibregl-ctrl-attrib");
-        attribution?.setAttribute("open", "");
-        attribution?.classList.remove("maplibregl-compact-show");
-      }
     });
 
     map.on("click", "gapeka-trains", (event) => {
@@ -231,6 +219,55 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       styleLoadedRef.current = false;
     };
   }, [addLayers]);
+
+  // MapLibre renders the compact attribution EXPANDED on first paint, and
+  // `_updateCompact()` re-adds the expanded class on later data/resize events,
+  // so a single removal does not stick. On a phone the expanded line occupies
+  // the bottom band where the time-travel dock lives.
+  //
+  // Collapse it and keep it collapsed UNTIL the user opens it themselves: a
+  // MutationObserver would otherwise fight their click and make the licence
+  // unreachable.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !window.matchMedia("(max-width: 767px)").matches) return undefined;
+    const container = map.getContainer();
+    let userOpened = false;
+
+    // The guard is load-bearing: `setAttribute` queues a MutationRecord even
+    // when the value is unchanged, so collapsing unconditionally fed the
+    // observer its own mutation and locked the main thread.
+    const collapse = (): void => {
+      const attribution = container.querySelector<HTMLElement>(".maplibregl-ctrl-attrib");
+      if (!attribution) return;
+      if (!attribution.classList.contains("maplibregl-compact-show")) return;
+      attribution.setAttribute("open", "");
+      attribution.classList.remove("maplibregl-compact-show");
+    };
+
+    const button = container.querySelector<HTMLElement>(".maplibregl-ctrl-attrib-button");
+    const onUserToggle = (): void => {
+      userOpened = true;
+    };
+    button?.addEventListener("click", onUserToggle);
+
+    const observer = new MutationObserver(() => {
+      if (userOpened) return;
+      collapse();
+    });
+    observer.observe(container, {
+      attributes: true,
+      attributeFilter: ["class"],
+      subtree: true,
+    });
+
+    collapse();
+
+    return () => {
+      observer.disconnect();
+      button?.removeEventListener("click", onUserToggle);
+    };
+  }, [props.snapshot]);
 
   // Basemap switches rebuild the style; overlay switches do not. A setStyle
   // replaces the whole layer list, so layers must be re-wired on the new
