@@ -77,8 +77,12 @@ input[type="range"] {
     display: none;
   }
 
-  .maplibregl-ctrl-attrib {
-    margin-bottom: 76px;
+  /* Lift the attribution above the time-travel dock, which owns the bottom
+     centre of a 390px screen. The selector must out-specify MapLibre's
+     `.maplibregl-ctrl-bottom-right .maplibregl-ctrl { margin-bottom: 10px }`,
+     which otherwise wins and leaves the control sitting under the dock. */
+  .maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib {
+    margin-bottom: 84px;
   }
 }
 

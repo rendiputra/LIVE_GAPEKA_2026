@@ -160,7 +160,6 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     propsRef.current.onStatus({ status: "loading", error: null });
 
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
-    map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "bottom-right");
 
     map.on("error", (event: maplibregl.ErrorEvent) => {
       // Surface the raw message for diagnosis: a validation error in a symbol
@@ -179,6 +178,19 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       addLayers(map);
       readyRef.current = true;
       propsRef.current.onStatus({ status: "ready", error: null });
+
+      // MapLibre renders the compact attribution EXPANDED on first paint
+      // (`_updateCompact` adds `compact` + `compact-show` + `open`). On a phone
+      // that line runs under the time-travel dock. Collapse it exactly the way
+      // MapLibre's own toggle does — set `open`, drop `compact-show` — so the
+      // control stays consistent and the user can still expand it.
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        const attribution = map
+          .getContainer()
+          .querySelector<HTMLElement>(".maplibregl-ctrl-attrib");
+        attribution?.setAttribute("open", "");
+        attribution?.classList.remove("maplibregl-compact-show");
+      }
     });
 
     map.on("click", "gapeka-trains", (event) => {
