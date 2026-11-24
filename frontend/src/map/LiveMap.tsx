@@ -160,6 +160,7 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     propsRef.current.onStatus({ status: "loading", error: null });
 
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+    map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "bottom-right");
 
     map.on("error", (event: maplibregl.ErrorEvent) => {
       // Surface the raw message for diagnosis: a validation error in a symbol
