@@ -128,27 +128,43 @@ export function LayersPopover(props: {
 
   if (!props.open) return null;
 
+  /**
+   * A radio rendered as an explicit ARIA control.
+   *
+   * Native `<input type="radio">` was wrong here: the popover is mounted twice
+   * (desktop cluster + mobile row), both instances share `name="basemap"`, and
+   * radios with the same name form ONE group per document. Checking one
+   * unchecked the other, leaving every radio unchecked — the empty circles the
+   * QA saw, including for the defaults. A button with `aria-checked` has no
+   * such coupling and gives a visible selected state we control.
+   */
   const radio = (
-    name: string,
     value: string,
     checked: boolean,
     label: string,
     onChange: () => void,
   ): React.ReactElement => (
-    <label
+    <button
       key={value}
-      className="flex min-h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-neutral-800 transition-colors hover:bg-neutral-50 has-checked:bg-blue-50 has-focus-visible:ring-2 has-focus-visible:ring-blue-600"
+      type="button"
+      role="radio"
+      aria-checked={checked}
+      data-value={value}
+      onClick={onChange}
+      className={`flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 ${
+        checked ? "bg-blue-50 text-neutral-900" : "text-neutral-800 hover:bg-neutral-50"
+      }`}
     >
-      <input
-        type="radio"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-        className="h-4 w-4 shrink-0 accent-blue-700"
-      />
-      <span className="font-medium">{label}</span>
-    </label>
+      <span
+        aria-hidden="true"
+        className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${
+          checked ? "border-blue-700" : "border-neutral-400"
+        }`}
+      >
+        {checked ? <span className="block h-2 w-2 rounded-full bg-blue-700" /> : null}
+      </span>
+      <span className={checked ? "font-semibold" : "font-medium"}>{label}</span>
+    </button>
   );
 
   return (
@@ -162,11 +178,11 @@ export function LayersPopover(props: {
         <Layers size={13} aria-hidden="true" />
         Peta Dasar
       </div>
-      <div className="mb-3">
-        {radio("basemap", "positron", props.basemap === "positron", "Clean (Positron)", () =>
+      <div role="radiogroup" aria-label="Peta dasar" className="mb-3">
+        {radio("positron", props.basemap === "positron", "Clean (Positron)", () =>
           props.onBasemap("positron"),
         )}
-        {radio("basemap", "liberty", props.basemap === "liberty", "Detail (Liberty)", () =>
+        {radio("liberty", props.basemap === "liberty", "Detail (Liberty)", () =>
           props.onBasemap("liberty"),
         )}
       </div>
@@ -174,14 +190,14 @@ export function LayersPopover(props: {
         <TrainTrack size={13} aria-hidden="true" />
         Overlay Rel
       </div>
-      <div>
-        {radio("overlay", "default", props.overlay === "default", "Default", () =>
+      <div role="radiogroup" aria-label="Overlay rel">
+        {radio("default", props.overlay === "default", "Default", () =>
           props.onOverlay("default"),
         )}
-        {radio("overlay", "infrastruktur", props.overlay === "infrastruktur", "Infrastruktur", () =>
+        {radio("infrastruktur", props.overlay === "infrastruktur", "Infrastruktur", () =>
           props.onOverlay("infrastruktur"),
         )}
-        {radio("overlay", "maxspeed", props.overlay === "maxspeed", "Max Speed", () =>
+        {radio("maxspeed", props.overlay === "maxspeed", "Max Speed", () =>
           props.onOverlay("maxspeed"),
         )}
       </div>
