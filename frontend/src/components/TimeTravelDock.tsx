@@ -92,21 +92,23 @@ export function TimeTravelDock(props: TimeTravelDockProps): React.ReactElement {
       <div className="flex shrink-0 items-center gap-1">
         <button
           type="button"
-          aria-label="Mundurkan 15 menit"
           title="−15 menit"
           className="inline-flex h-8 items-center rounded-full px-2 text-[12px] font-semibold text-neutral-700 tabular-nums transition-colors hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
           onClick={() => props.onNudge(nudgeMinutes(-15))}
         >
           −15m
+          {/* The accessible name must contain the visible text (WCAG 2.5.3), so
+              it is extended here instead of replaced with an aria-label. */}
+          <span className="sr-only">, mundurkan 15 menit</span>
         </button>
         <button
           type="button"
-          aria-label="Majukan 15 menit"
           title="+15 menit"
           className="inline-flex h-8 items-center rounded-full px-2 text-[12px] font-semibold text-neutral-700 tabular-nums transition-colors hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
           onClick={() => props.onNudge(nudgeMinutes(15))}
         >
           +15m
+          <span className="sr-only">, majukan 15 menit</span>
         </button>
       </div>
 

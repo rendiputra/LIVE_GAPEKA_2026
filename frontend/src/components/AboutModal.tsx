@@ -28,12 +28,19 @@ export function AboutModal(props: AboutModalProps): React.ReactElement | null {
 
   useEffect(() => {
     if (!props.open) return;
+    // Remember what had focus so closing the dialog returns the user there.
+    // Without this, focus falls back to <body> and keyboard users lose their
+    // place entirely (WCAG 2.4.3 Focus Order).
+    const opener = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     const onKey = (event: KeyboardEvent): void => {
       if (event.key === "Escape") props.onClose();
     };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      opener?.focus();
+    };
   }, [props.open, props.onClose]);
 
   if (!props.open) return null;
@@ -127,7 +134,7 @@ export function AboutModal(props: AboutModalProps): React.ReactElement | null {
               <li>
                 {props.attribution?.osm ?? "© OpenStreetMap contributors"} (ODbL) —{" "}
                 <a
-                  className="text-blue-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
+                  className="rounded text-blue-700 underline underline-offset-2 hover:text-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                   href="https://www.openstreetmap.org/copyright"
                   target="_blank"
                   rel="noreferrer"
@@ -138,7 +145,7 @@ export function AboutModal(props: AboutModalProps): React.ReactElement | null {
               <li>
                 Basemap vektor: OpenFreeMap
                 <a
-                  className="ml-1 text-blue-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
+                  className="ml-1 rounded text-blue-700 underline underline-offset-2 hover:text-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                   href="https://openfreemap.org/"
                   target="_blank"
                   rel="noreferrer"
@@ -149,7 +156,7 @@ export function AboutModal(props: AboutModalProps): React.ReactElement | null {
               <li>
                 Overlay rel: OpenRailwayMap (CC-BY-SA 2.0)
                 <a
-                  className="ml-1 text-blue-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
+                  className="ml-1 rounded text-blue-700 underline underline-offset-2 hover:text-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                   href="https://www.openrailwaymap.org/"
                   target="_blank"
                   rel="noreferrer"

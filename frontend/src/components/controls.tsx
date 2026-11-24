@@ -119,12 +119,22 @@ export function LayersPopover(props: {
 
   useEffect(() => {
     if (!props.open) return;
+    const opener = document.activeElement as HTMLElement | null;
+    // Move focus into the popover so a keyboard user lands inside the panel
+    // instead of tabbing blindly from the trigger (WCAG 2.4.3).
+    popoverRef.current?.focus();
     const onKey = (event: KeyboardEvent): void => {
       if (event.key === "Escape") props.onClose();
     };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [props.onClose, props.open]);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      // The popover is mounted twice (desktop + mobile), so `opener` can be the
+      // OTHER instance's panel, which is being removed in the same commit.
+      // The trigger ref is stable, so prefer it and fall back to the opener.
+      (props.triggerRef?.current ?? opener)?.focus();
+    };
+  }, [props.onClose, props.open, props.triggerRef]);
 
   if (!props.open) return null;
 
@@ -172,6 +182,7 @@ export function LayersPopover(props: {
       ref={popoverRef}
       role="dialog"
       aria-label="Lapisan peta"
+      tabIndex={-1}
       className="absolute top-12 right-0 z-40 w-64 rounded-2xl border border-black/10 bg-white p-3 shadow-lg"
     >
       <div className="mb-1 flex items-center gap-2 px-1 text-[12px] font-semibold tracking-wide text-neutral-500 uppercase">
@@ -254,6 +265,8 @@ export function FilterPopover(props: {
 
   useEffect(() => {
     if (!props.open) return;
+    const opener = document.activeElement as HTMLElement | null;
+    panelRef.current?.focus();
     const onKey = (event: KeyboardEvent): void => {
       if (event.key === "Escape") props.onClose();
     };
@@ -271,6 +284,7 @@ export function FilterPopover(props: {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("mousedown", onDown);
+      (props.triggerRef?.current ?? opener)?.focus();
     };
   }, [props.open, props.onClose, props.triggerRef]);
 
@@ -281,6 +295,7 @@ export function FilterPopover(props: {
       ref={panelRef}
       role="dialog"
       aria-label="Filter kereta"
+      tabIndex={-1}
       className="absolute top-12 right-0 z-40 w-64 rounded-2xl border border-black/10 bg-white p-3 shadow-lg"
     >
       <p className="mb-2 px-1 text-[11px] font-semibold tracking-wide text-neutral-500 uppercase">
