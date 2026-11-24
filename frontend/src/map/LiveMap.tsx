@@ -16,7 +16,7 @@ import {
   type OverlayId,
 } from "./sources";
 import {
-  railGeoJSON,
+  railNetworkGeoJSON,
   routeGeoJSON,
   stationsGeoJSON,
 } from "./layers";
@@ -58,6 +58,21 @@ function setData(
 
 const property = <T,>(features: readonly T[] | undefined) => features?.[0];
 
+/**
+ * Push the rail network into its source and record how many segments it holds.
+ *
+ * `data-rail-features` on the map container is read-only observability: it lets
+ * the end-to-end suite assert that the geometry actually reached MapLibre on a
+ * cold load (a canvas pixel probe cannot, because MapLibre renders without
+ * `preserveDrawingBuffer`), and it is useful in support when someone reports
+ * "no rail lines".
+ */
+function pushRail(map: maplibregl.Map, snapshot: ScheduleSnapshot): void {
+  const data = railNetworkGeoJSON(snapshot.trips);
+  setData(map, "gapeka-rail", data as never);
+  map.getContainer().dataset.railFeatures = String(data.features.length);
+}
+
 export function LiveMap(props: LiveMapProps): React.ReactElement {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -76,9 +91,7 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
 
     addSource("gapeka-rail", {
       type: "geojson",
-      data: snapshot
-        ? (railGeoJSON(snapshot.trips.flatMap((trip) => trip.segments)) as never)
-        : { type: "FeatureCollection", features: [] },
+      data: { type: "FeatureCollection", features: [] },
     });
     addSource("gapeka-route", {
       type: "geojson",
@@ -108,6 +121,10 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
         attribution: overlaySource.attribution,
       });
     }
+
+    // The source is created empty above; if the schedule is already loaded,
+    // fill it in the same pass so the first paint is complete.
+    if (snapshot) pushRail(map, snapshot);
 
     for (const layer of styleLayers()) {
       if (map.getLayer(layer.id)) continue;
@@ -247,6 +264,19 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       map.removeSource("gapeka-overlay");
     }
   }, [props.overlay]);
+
+  // The rail network arrives AFTER the map is ready: the style loads from the
+  // network in a few hundred ms, while the 1.1 MB schedule payload is still in
+  // flight, so `addLayers` creates `gapeka-rail` with an empty collection. No
+  // effect used to push the geometry once the snapshot landed, which is why the
+  // 391 segments were invisible until an overlay toggle forced a
+  // setStyle -> style.load -> addLayers cycle. Push it here instead.
+  useEffect(() => {
+    const map = mapRef.current;
+    const snapshot = props.snapshot;
+    if (!map || !snapshot) return;
+    pushRail(map, snapshot);
+  }, [props.snapshot]);
 
   // Selected route highlight.
   useEffect(() => {

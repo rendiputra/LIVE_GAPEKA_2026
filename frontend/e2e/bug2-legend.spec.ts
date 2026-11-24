@@ -32,7 +32,7 @@ async function chooseOverlay(page: Page, label: string): Promise<void> {
     .first()
     .click();
   await page
-    .locator(`label:has-text("${label}")`)
+    .getByRole("radio", { name: label })
     .filter({ visible: true })
     .first()
     .click();

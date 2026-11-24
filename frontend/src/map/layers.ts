@@ -10,7 +10,7 @@
  *   fakultatif                  amber       #D97706
  *   selected train              rose        #E11D48
  */
-import type { SegmentGeom, ServiceClass, Station } from "../engine/types";
+import type { SegmentGeom, ServiceClass, Station, Trip } from "../engine/types";
 
 export const COLOUR_ANTARKOTA = "#1D4ED8";
 export const COLOUR_LOKAL = "#0D9488";
@@ -88,13 +88,37 @@ export interface GeoJsonFeature {
   readonly properties: Record<string, unknown>;
 }
 
-/** The 391 exported segments, one LineString each. */
+/**
+ * The unique routed segments of the network, one per station pair.
+ *
+ * A trip list repeats the same pair many times (both directions, every train),
+ * so `trips.flatMap(t => t.segments)` produces thousands of overlapping copies.
+ * The map wants each physical segment once: 391 for Gapeka 2026.
+ */
+export function uniqueRailSegments(trips: readonly Trip[]): SegmentGeom[] {
+  const seen = new Set<string>();
+  const out: SegmentGeom[] = [];
+  for (const trip of trips) {
+    for (const segment of trip.segments) {
+      const key =
+        segment.fromCode < segment.toCode
+          ? `${segment.fromCode}|${segment.toCode}`
+          : `${segment.toCode}|${segment.fromCode}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push(segment);
+    }
+  }
+  return out;
+}
+
+/** One LineString per unique segment. */
 export function railGeoJSON(segments: readonly SegmentGeom[]): GeoJsonFeatureCollection {
   return {
     type: "FeatureCollection",
-    features: segments.map((segment, index) => ({
+    features: segments.map((segment) => ({
       type: "Feature",
-      id: `${segment.fromCode}-${segment.toCode}#${index}`,
+      id: `${segment.fromCode}-${segment.toCode}`,
       geometry: { type: "LineString" as const, coordinates: lineCoordinates(segment) },
       properties: {
         fromCode: segment.fromCode,
@@ -104,6 +128,11 @@ export function railGeoJSON(segments: readonly SegmentGeom[]): GeoJsonFeatureCol
       },
     })),
   };
+}
+
+/** Convenience: the network's rail geometry as map-ready GeoJSON. */
+export function railNetworkGeoJSON(trips: readonly Trip[]): GeoJsonFeatureCollection {
+  return railGeoJSON(uniqueRailSegments(trips));
 }
 
 /**
