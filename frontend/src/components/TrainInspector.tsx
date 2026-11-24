@@ -137,9 +137,21 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
 
   const currentRow = useMemo(() => currentIndex(trip, elapsed), [elapsed, trip]);
 
+  // Scroll ONLY the stop list to the current leg.
+  //
+  // `scrollIntoView` was wrong here: `overflow: hidden` is still a programmatic
+  // scroll container, so it also scrolled the card itself (and the document),
+  // pushing the identity header from y=136 to y=10 and hiding the Close button
+  // behind the top bar. Setting `scrollTop` on the list cannot move anything else.
   useEffect(() => {
-    if (!expanded || userScrolled) return;
-    currentRowRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+    const list = listRef.current;
+    const row = currentRowRef.current;
+    if (!expanded || userScrolled || !list || !row) return;
+    const listRect = list.getBoundingClientRect();
+    const rowRect = row.getBoundingClientRect();
+    const target =
+      list.scrollTop + (rowRect.top - listRect.top) - list.clientHeight / 2 + rowRect.height / 2;
+    list.scrollTop = Math.max(0, target);
   }, [expanded, userScrolled, currentRow]);
 
   const panToStation = useCallback(
@@ -155,13 +167,17 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
   const speed = position ? position.speedKmh : 0;
   const inProgress = Boolean(position);
 
+  // h-auto + max-h: the compact card wraps its own content (~200px), and an
+  // expanded card grows only to the safe area before the list scrolls. It must
+  // never be stretched by a parent box — a `top…bottom` wrapper did exactly that
+  // and produced 574-612px of empty white below the compact card.
   return (
     <section
       aria-label={`Inspektori KA ${trip.trainNo}`}
-      className="pointer-events-auto flex max-h-full w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur"
+      className="pointer-events-auto flex h-auto max-h-[calc(100dvh-232px)] w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur sm:max-h-[calc(100dvh-226px)]"
     >
       {/* Header */}
-      <header className="flex shrink-0 items-start gap-3 px-4 pt-4 pb-3">
+      <header className="flex shrink-0 items-start gap-3 px-4 pt-3 pb-2">
         <span
           aria-hidden="true"
           className="mt-1 inline-block h-3 w-3 shrink-0 rounded-full border-2 border-white shadow"
@@ -259,7 +275,7 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
         aria-expanded={expanded}
         aria-controls="inspector-timeline"
         onClick={props.onToggleExpanded}
-        className="group flex w-full shrink-0 items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-inset"
+        className="group flex w-full shrink-0 items-center gap-3 px-4 py-2 text-left transition-colors hover:bg-blue-50/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-inset"
       >
         <span
           aria-hidden="true"
@@ -296,18 +312,24 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
         </span>
       </button>
 
-      {/* Progress */}
-      <div className="shrink-0 px-4 pb-2" role="progressbar" aria-valuenow={Math.round(progressPercent(sM, trip.totalLengthM))} aria-valuemin={0} aria-valuemax={100} aria-label="Kemajuan perjalanan">
-        <div className="h-1.5 overflow-hidden rounded-full bg-neutral-100">
+      {/* Progress + expand cue on one line: the compact card stays ~215px so
+          it wraps its content instead of leaving a blank block over the map. */}
+      <div className="flex shrink-0 items-center gap-2 px-4 pb-2">
+        <div
+          className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-neutral-100"
+          role="progressbar"
+          aria-valuenow={Math.round(progressPercent(sM, trip.totalLengthM))}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Kemajuan perjalanan"
+        >
           <div
             className="h-full rounded-full bg-blue-700 transition-[width] duration-500"
             style={{ width: `${progressPercent(sM, trip.totalLengthM)}%` }}
           />
         </div>
-        <span className="mt-1.5 block text-[12px] text-neutral-500">
-          {expanded
-            ? "Klik banner untuk menyembunyikan daftar stasiun"
-            : `Semua stasiun (${trip.rows.length}) ▾`}
+        <span className="shrink-0 text-[11.5px] whitespace-nowrap text-neutral-500">
+          {expanded ? "Sembunyikan daftar" : `Semua stasiun (${trip.rows.length}) ▾`}
         </span>
       </div>
 

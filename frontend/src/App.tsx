@@ -638,7 +638,7 @@ export function App(): React.ReactElement {
           the dock on mobile, capped so its header and hero can never slide
           under the top controls. */}
       {selectedTrip ? (
-        <div className="absolute inset-x-3 top-[136px] bottom-24 z-20 flex justify-center sm:inset-x-auto sm:top-[76px] sm:bottom-[150px] sm:left-3 sm:justify-start">
+        <div className="absolute inset-x-3 top-[136px] z-20 flex items-start justify-center sm:inset-x-auto sm:top-[76px] sm:left-3 sm:justify-start">
           <TrainInspector
             trip={selectedTrip}
             position={selectedPosition}
@@ -659,7 +659,7 @@ export function App(): React.ReactElement {
       ) : null}
 
       {state.selectedStation ? (
-        <div className="absolute inset-x-3 top-[136px] bottom-24 z-20 flex justify-center sm:inset-x-auto sm:top-[76px] sm:bottom-[150px] sm:left-3 sm:justify-start">
+        <div className="absolute inset-x-3 top-[136px] z-20 flex items-start justify-center sm:inset-x-auto sm:top-[76px] sm:left-3 sm:justify-start">
           <StationBoard
             code={state.selectedStation.code}
             name={state.selectedStation.name}
