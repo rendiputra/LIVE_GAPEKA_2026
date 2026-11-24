@@ -1,58 +1,82 @@
 /**
- * Fix 5: on a phone MapLibre's attribution must start collapsed.
+ * Fix 5b: MapLibre's attribution is a native `<details>` element.
  *
- * `AttributionControl({ compact: true })` is not enough: MapLibre still renders
- * the compact control EXPANDED on first paint, and the expanded line ran under
- * the time-travel dock, which sits at the bottom centre of a 390px screen.
+ * `_updateCompact()` opens it on first paint (`open` + `compact-show`), which
+ * prints the full licence line across the bottom of a 390px screen. Collapsing
+ * means REMOVING `open` — not setting it — and dropping `compact-show` once.
+ * With no MutationObserver in the way, the native summary toggle still works:
+ * tapping (i) expands and collapses the licence text.
  */
 import { expect, test } from "@playwright/test";
 
 test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 
-test("attribution starts collapsed and clears the dock", async ({ page }) => {
+const COLLAPSED_MAX_WIDTH = 48;
+
+test("attribution starts collapsed as the compact (i) and toggles natively", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText(/Live \(Estimasi\)/).filter({ visible: true }).first()).toBeVisible({
     timeout: 30_000,
   });
 
-  const attrib = page.locator(".maplibregl-ctrl-attrib").first();
-  await expect(attrib).toBeAttached();
+  const attribution = page.locator(".maplibregl-ctrl-attrib").first();
+  await expect(attribution).toBeAttached();
 
-  // The expanded state is the bug: `maplibregl-compact-show` prints the full
-  // licence line.
+  // Give MapLibre time to run its own compact recomputation, then assert the
+  // native closed state survives it.
+  await page.waitForTimeout(2_500);
   await expect
-    .poll(async () => attrib.evaluate((el) => el.classList.contains("maplibregl-compact-show")), {
-      timeout: 15_000,
-    })
+    .poll(async () => attribution.evaluate((el) => el.hasAttribute("open")), { timeout: 15_000 })
     .toBe(false);
 
-  // Only the (i) button remains, and it is reachable.
+  const collapsed = await attribution.boundingBox();
+  expect(collapsed).not.toBeNull();
+  expect(collapsed!.width, "collapsed means only the (i) button").toBeLessThanOrEqual(
+    COLLAPSED_MAX_WIDTH,
+  );
+
+  // Clear of the dock (and therefore of the bottom-anchored inspector).
+  const dock = await page.locator('[aria-label="Kontrol waktu"]').boundingBox();
+  const intersects =
+    collapsed!.x + collapsed!.width > dock!.x &&
+    dock!.x + dock!.width > collapsed!.x &&
+    collapsed!.y + collapsed!.height > dock!.y &&
+    dock!.y + dock!.height > collapsed!.y;
+  expect(intersects, "attribution must not overlap the dock").toBe(false);
+
+  // The (i) button is present, reachable and carries an accessible name.
   const button = page.locator(".maplibregl-ctrl-attrib-button").first();
   await expect(button).toBeVisible();
+  await expect(button).toHaveAttribute("aria-label", /attribution/i);
   expect(
     await button.evaluate((el) => {
       const rect = el.getBoundingClientRect();
       const top = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
       return !(top === el || el.contains(top));
     }),
-    "the attribution button must not be covered",
   ).toBe(false);
 
-  // Collapsed means it no longer collides with the dock.
-  const dock = await page.locator('[aria-label="Kontrol waktu"]').boundingBox();
-  const box = await attrib.boundingBox();
-  expect(box).not.toBeNull();
-  expect(dock).not.toBeNull();
-  const intersects = !(
-    box!.x + box!.width <= dock!.x ||
-    dock!.x + dock!.width <= box!.x ||
-    box!.y + box!.height <= dock!.y ||
-    dock!.y + dock!.height <= box!.y
-  );
-  expect(intersects, "attribution must not overlap the dock").toBe(false);
+  // Native toggle: tap opens the licence text, tap again closes it.
+  await button.click();
+  await expect
+    .poll(async () => attribution.evaluate((el) => el.hasAttribute("open")))
+    .toBe(true);
+  const expanded = await attribution.boundingBox();
+  expect(expanded!.width).toBeGreaterThan(COLLAPSED_MAX_WIDTH);
+  await expect(attribution).toContainText("OpenStreetMap");
 
-  // The licence text stays in the DOM even while collapsed, so assistive tech
-  // and crawlers still get it (MapLibre hides it with CSS, not by removing it).
-  await expect(attrib.locator(".maplibregl-ctrl-attrib-inner")).toBeAttached();
-  await expect(attrib).toContainText("OpenStreetMap");
+  await button.click();
+  await expect
+    .poll(async () => attribution.evaluate((el) => el.hasAttribute("open")))
+    .toBe(false);
+});
+
+test("desktop attribution is untouched by the mobile collapse", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  await expect(page.getByText(/Live \(Estimasi\)/).filter({ visible: true }).first()).toBeVisible({
+    timeout: 30_000,
+  });
+  const attribution = page.locator(".maplibregl-ctrl-attrib").first();
+  await expect(attribution).toContainText("OpenStreetMap");
 });

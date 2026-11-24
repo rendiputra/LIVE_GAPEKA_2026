@@ -67,6 +67,27 @@ const property = <T,>(features: readonly T[] | undefined) => features?.[0];
  * `preserveDrawingBuffer`), and it is useful in support when someone reports
  * "no rail lines".
  */
+/**
+ * Collapse MapLibre's attribution on a phone.
+ *
+ * The control is a native `<details>` element and `_updateCompact()` opens it on
+ * first paint (`open` attribute plus `compact-show` class), printing the full
+ * licence line across the bottom of a 390px screen.
+ *
+ * Collapsing means REMOVING `open` — the opposite of setting it — and dropping
+ * `compact-show`. No MutationObserver: it fought the user's tap. MapLibre
+ * rebuilds the attribution when source data arrives and re-opens it, so the
+ * collapse is also re-applied on those events, and stops for good once the user
+ * taps (i) so the native toggle owns the state from then on.
+ */
+function collapseAttributionOnMobile(map: maplibregl.Map): void {
+  if (!window.matchMedia("(max-width: 767px)").matches) return;
+  const attribution = map.getContainer().querySelector<HTMLElement>(".maplibregl-ctrl-attrib");
+  if (!attribution) return;
+  attribution.removeAttribute("open");
+  attribution.classList.remove("maplibregl-compact-show");
+}
+
 function pushRail(map: maplibregl.Map, snapshot: ScheduleSnapshot): void {
   const data = railNetworkGeoJSON(snapshot.trips);
   setData(map, "gapeka-rail", data as never);
@@ -161,6 +182,23 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
 
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
     map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "bottom-right");
+    collapseAttributionOnMobile(map);
+
+    // MapLibre rebuilds and re-opens the attribution when source data arrives
+    // (~250 ms after load), so re-collapse on its own data events; stop once the
+    // user taps (i), after which the native <details> toggle owns the state.
+    let userToggledAttribution = false;
+    const attributionButton = map
+      .getContainer()
+      .querySelector<HTMLElement>(".maplibregl-ctrl-attrib-button");
+    const markUserToggled = (): void => {
+      userToggledAttribution = true;
+    };
+    attributionButton?.addEventListener("click", markUserToggled);
+    const onMapData = (): void => {
+      if (!userToggledAttribution) collapseAttributionOnMobile(map);
+    };
+    map.on("data", onMapData);
 
     map.on("error", (event: maplibregl.ErrorEvent) => {
       // Surface the raw message for diagnosis: a validation error in a symbol
@@ -179,7 +217,7 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       addLayers(map);
       readyRef.current = true;
       propsRef.current.onStatus({ status: "ready", error: null });
-
+      collapseAttributionOnMobile(map);
     });
 
     map.on("click", "gapeka-trains", (event) => {
@@ -212,6 +250,8 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     }
 
     return () => {
+      map.off("data", onMapData);
+      attributionButton?.removeEventListener("click", markUserToggled);
       propsRef.current.onInstance?.(null);
       map.remove();
       mapRef.current = null;
@@ -219,55 +259,6 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       styleLoadedRef.current = false;
     };
   }, [addLayers]);
-
-  // MapLibre renders the compact attribution EXPANDED on first paint, and
-  // `_updateCompact()` re-adds the expanded class on later data/resize events,
-  // so a single removal does not stick. On a phone the expanded line occupies
-  // the bottom band where the time-travel dock lives.
-  //
-  // Collapse it and keep it collapsed UNTIL the user opens it themselves: a
-  // MutationObserver would otherwise fight their click and make the licence
-  // unreachable.
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !window.matchMedia("(max-width: 767px)").matches) return undefined;
-    const container = map.getContainer();
-    let userOpened = false;
-
-    // The guard is load-bearing: `setAttribute` queues a MutationRecord even
-    // when the value is unchanged, so collapsing unconditionally fed the
-    // observer its own mutation and locked the main thread.
-    const collapse = (): void => {
-      const attribution = container.querySelector<HTMLElement>(".maplibregl-ctrl-attrib");
-      if (!attribution) return;
-      if (!attribution.classList.contains("maplibregl-compact-show")) return;
-      attribution.setAttribute("open", "");
-      attribution.classList.remove("maplibregl-compact-show");
-    };
-
-    const button = container.querySelector<HTMLElement>(".maplibregl-ctrl-attrib-button");
-    const onUserToggle = (): void => {
-      userOpened = true;
-    };
-    button?.addEventListener("click", onUserToggle);
-
-    const observer = new MutationObserver(() => {
-      if (userOpened) return;
-      collapse();
-    });
-    observer.observe(container, {
-      attributes: true,
-      attributeFilter: ["class"],
-      subtree: true,
-    });
-
-    collapse();
-
-    return () => {
-      observer.disconnect();
-      button?.removeEventListener("click", onUserToggle);
-    };
-  }, [props.snapshot]);
 
   // Basemap switches rebuild the style; overlay switches do not. A setStyle
   // replaces the whole layer list, so layers must be re-wired on the new
