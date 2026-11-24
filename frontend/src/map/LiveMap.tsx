@@ -68,6 +68,19 @@ const property = <T,>(features: readonly T[] | undefined) => features?.[0];
  * "no rail lines".
  */
 /**
+ * Visible-map padding for camera moves.
+ *
+ * On a phone the bottom-anchored inspector card covers the lower part of the
+ * map, so centring a train without padding puts it behind the card. Padding
+ * shifts the camera target up into the window the user can actually see.
+ */
+export function cameraPadding(): { top: number; bottom: number } {
+  return window.matchMedia("(min-width: 1024px)").matches
+    ? { top: 0, bottom: 0 }
+    : { top: 120, bottom: 320 };
+}
+
+/**
  * Collapse MapLibre's attribution on a phone.
  *
  * The control is a native `<details>` element and `_updateCompact()` opens it on
@@ -367,6 +380,7 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       const target = feature.geometry.coordinates;
       map.easeTo({
         center: [target[0], target[1]],
+        padding: cameraPadding(),
         duration: 350,
         essential: true,
       });

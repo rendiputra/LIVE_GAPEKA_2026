@@ -48,7 +48,7 @@ export function StationBoard(props: {
   return (
     <section
       aria-label={`Jadwal ${props.name}`}
-      className="pointer-events-auto flex max-h-[calc(100dvh-10rem)] w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur"
+      className="pointer-events-auto flex h-auto max-h-[calc(100dvh-212px)] w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur sm:max-h-[calc(100dvh-168px)]"
     >
       <header className="flex items-start justify-between gap-3 px-4 pt-4 pb-3">
         <div className="min-w-0">

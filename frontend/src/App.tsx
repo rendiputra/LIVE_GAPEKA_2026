@@ -13,7 +13,7 @@ import type { WorkerResponse } from "./worker/host";
 import { stationBoard } from "./engine/queries";
 import { wibFromEpochMs } from "./engine/time";
 import type { Policy, ScheduleSnapshot, TrainPosition } from "./engine/types";
-import { LiveMap, type MapStatus } from "./map/LiveMap";
+import { LiveMap, cameraPadding, type MapStatus } from "./map/LiveMap";
 import { BASEMAPS, OVERLAYS, type BasemapId, type OverlayId } from "./map/sources";
 import {
   advance,
@@ -492,6 +492,9 @@ export function App(): React.ReactElement {
     mapRef.current?.easeTo({
       center: [request.lon, request.lat],
       zoom: 12,
+      // Keep the station in the visible map window on a phone, above the
+      // bottom-anchored inspector/board.
+      padding: cameraPadding(),
       duration: 600,
       essential: true,
     });
@@ -633,12 +636,13 @@ export function App(): React.ReactElement {
         ) : null}
       </div>
 
-      {/* Inspector. Fixed below the top stack on desktop (never moves when
-          Search opens — the dropdown floats over it at z-40 > z-20) and above
-          the dock on mobile, capped so its header and hero can never slide
-          under the top controls. */}
+      {/* Inspector. Desktop: fixed below the top stack (never moves when Search
+          opens — the dropdown floats over it at z-40 > z-20). Mobile: anchored
+          to the BOTTOM above the time-travel dock, so the compact card leaves
+          the upper map and the selected train visible; expanded it grows upward
+          and stops below Row 2. */}
       {selectedTrip ? (
-        <div className="absolute inset-x-3 top-[136px] z-20 flex items-start justify-center sm:inset-x-auto sm:top-[76px] sm:left-3 sm:justify-start">
+        <div className="pointer-events-none absolute inset-x-3 bottom-[78px] z-20 flex flex-col justify-end sm:inset-x-auto sm:bottom-auto sm:top-[76px] sm:left-4 sm:flex-row sm:items-start sm:justify-start">
           <TrainInspector
             trip={selectedTrip}
             position={selectedPosition}
@@ -658,8 +662,9 @@ export function App(): React.ReactElement {
         </div>
       ) : null}
 
+      {/* Station board shares the same geometry. */}
       {state.selectedStation ? (
-        <div className="absolute inset-x-3 top-[136px] z-20 flex items-start justify-center sm:inset-x-auto sm:top-[76px] sm:left-3 sm:justify-start">
+        <div className="pointer-events-none absolute inset-x-3 bottom-[78px] z-20 flex flex-col justify-end sm:inset-x-auto sm:bottom-auto sm:top-[76px] sm:left-4 sm:flex-row sm:items-start sm:justify-start">
           <StationBoard
             code={state.selectedStation.code}
             name={state.selectedStation.name}

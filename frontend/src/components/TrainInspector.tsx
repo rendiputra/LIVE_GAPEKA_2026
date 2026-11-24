@@ -174,7 +174,7 @@ export function TrainInspector(props: TrainInspectorProps): React.ReactElement {
   return (
     <section
       aria-label={`Inspektori KA ${trip.trainNo}`}
-      className="pointer-events-auto flex h-auto max-h-[calc(100dvh-232px)] w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur sm:max-h-[calc(100dvh-226px)]"
+      className="pointer-events-auto flex h-auto max-h-[calc(100dvh-212px)] w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/95 shadow-lg backdrop-blur sm:max-h-[calc(100dvh-168px)]"
     >
       {/* Header */}
       <header className="flex shrink-0 items-start gap-3 px-4 pt-3 pb-2">
