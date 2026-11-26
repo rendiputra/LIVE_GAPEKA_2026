@@ -4,6 +4,10 @@ import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "node:url";
 
 export default defineConfig({
+  // Relative asset URLs so the bundle can be served from a sub-path (e.g.
+  // https://host/gapeka/) without a rebuild. `import.meta.env.BASE_URL` becomes
+  // "./", which the data fetch already normalises.
+  base: "./",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

@@ -82,14 +82,17 @@ export function TimeTravelDock(props: TimeTravelDockProps): React.ReactElement {
   return (
     <div
       aria-label="Kontrol waktu"
-      className="pointer-events-auto flex items-center gap-2 rounded-full border border-black/10 bg-white/95 px-3 py-2 shadow-lg backdrop-blur"
+      className="pointer-events-auto flex max-w-[calc(100vw-1.5rem)] items-center gap-1.5 rounded-full border border-black/10 bg-white/95 px-3 py-2 shadow-lg backdrop-blur sm:gap-2"
     >
       <span
         aria-hidden="true"
         className={`inline-block h-2 w-2 shrink-0 rounded-full ${live ? "animate-pulse bg-emerald-500" : "bg-amber-500"}`}
       />
 
-      <div className="flex shrink-0 items-center gap-1">
+      {/* Hidden below `sm`: the 24 h scrubber next to them does the same job,
+          and two 48px buttons are what pushed the Simulasi dock off-screen on
+          a 390px phone (429px wide against 366px available). */}
+      <div className="hidden shrink-0 items-center gap-1 sm:flex">
         <button
           type="button"
           title="−15 menit"
@@ -126,7 +129,7 @@ export function TimeTravelDock(props: TimeTravelDockProps): React.ReactElement {
           const value = Number((event.target as HTMLInputElement).value);
           props.onScrub(scrubMinutes(value));
         }}
-        className="h-1.5 w-32 cursor-pointer accent-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:w-48"
+        className="h-1.5 min-w-0 flex-1 cursor-pointer accent-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:w-48 sm:flex-none"
       />
 
       <span className="hidden shrink-0 text-[13px] font-bold text-neutral-900 tabular-nums md:inline">

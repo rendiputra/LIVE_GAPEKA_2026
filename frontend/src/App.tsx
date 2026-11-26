@@ -212,7 +212,9 @@ export function App(): React.ReactElement {
 
     const { client } = createWorkerClient(worker, handlers);
     clientRef.current = client;
-    client.init();
+    // Resolve against the DOCUMENT, not the worker script: inside a worker a
+    // relative URL points at /assets/, which breaks a sub-path deployment.
+    client.init(new URL("data", document.baseURI).href);
 
     // The same payload is needed on the main thread for search and the
     // inspector. Parsing 1.1 MB here is a one-off.

@@ -17,7 +17,7 @@ export interface WorkerClient {
     instant: number,
     policy?: Policy,
   ) => void;
-  readonly init: () => void;
+  readonly init: (dataBaseUrl?: string) => void;
 }
 
 export interface WorkerClientHandlers {
@@ -83,7 +83,8 @@ export function createWorkerClient(
   };
 
   const client: WorkerClient = {
-    init: () => send({ type: "init" }),
+    init: (dataBaseUrl?: string) =>
+      send(dataBaseUrl === undefined ? { type: "init" } : { type: "init", dataBaseUrl }),
     requestPositions: (instant, policy) => {
       requestId += 1;
       latestId.current = requestId;

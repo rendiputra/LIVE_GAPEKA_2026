@@ -17,7 +17,18 @@ import type { Policy, ScheduleSnapshot } from "../engine/types";
 import { DEFAULT_POLICY } from "../engine/types";
 
 export type WorkerRequest =
-  | { readonly type: "init" }
+  | {
+      readonly type: "init";
+      /**
+       * Absolute URL of the schedule directory, resolved by the PAGE.
+       *
+       * A worker cannot resolve `./data` for us: a relative URL inside a worker
+       * resolves against the worker script (`/assets/...`), not the document, so
+       * a sub-path deployment 404s. The main thread knows `document.baseURI`, so
+       * it passes the absolute URL in.
+       */
+      readonly dataBaseUrl?: string;
+    }
   | {
       readonly type: "positions";
       readonly requestId: number;
@@ -66,7 +77,7 @@ export type WorkerResponse =
     };
 
 export interface WorkerHostDeps {
-  readonly loadSnapshot: () => Promise<ScheduleSnapshot>;
+  readonly loadSnapshot: (dataBaseUrl?: string) => Promise<ScheduleSnapshot>;
   readonly post: (message: WorkerResponse) => void;
 }
 
@@ -146,10 +157,10 @@ export function createWorkerHost(deps: WorkerHostDeps): WorkerHost {
     deps.post({ type: "error", message: `unknown request: ${String((request as { type: string }).type)}` });
   });
 
-  const loadOnce = (): Promise<void> => {
+  const loadOnce = (dataBaseUrl?: string): Promise<void> => {
     if (initialising === null) {
       initialising = deps
-        .loadSnapshot()
+        .loadSnapshot(dataBaseUrl)
         .then((loaded) => {
           snapshot = loaded;
           announceReady(loaded);
@@ -165,7 +176,7 @@ export function createWorkerHost(deps: WorkerHostDeps): WorkerHost {
   return {
     receive(request: WorkerRequest): void {
       if (request.type === "init") {
-        void loadOnce();
+        void loadOnce(request.dataBaseUrl);
         return;
       }
       // A consumer that never called init gets a clear error rather than a

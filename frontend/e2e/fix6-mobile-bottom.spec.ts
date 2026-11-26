@@ -128,8 +128,14 @@ test("station board is bottom-anchored too", async ({ page }) => {
 
   const boardBox = await board.boundingBox();
   const dockBox = await page.locator('[aria-label="Kontrol waktu"]').boundingBox();
-  expect(boardBox!.y).toBeGreaterThan(MOBILE.height / 2);
-  expect(boardBox!.y + boardBox!.height).toBeLessThanOrEqual(dockBox!.y - DOCK_GAP + 0.5);
+
+  // "Bottom-anchored" is the position of the board's BOTTOM edge, not its top.
+  // Gambir lists seven departures, so the card is ~552px tall at 390x844 and
+  // legitimately starts above the viewport midpoint (y ~214). Asserting
+  // `y > height / 2` therefore failed on a taller board even though the card
+  // was correctly flush with the dock.
+  expect(boardBox!.y).toBeGreaterThanOrEqual(0);
+  expect(Math.abs(boardBox!.y + boardBox!.height - (dockBox!.y - DOCK_GAP))).toBeLessThanOrEqual(0.5);
 });
 
 test("search dropdown still floats above the bottom-anchored inspector", async ({ page }) => {

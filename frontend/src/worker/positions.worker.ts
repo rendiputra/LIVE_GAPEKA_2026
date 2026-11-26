@@ -12,7 +12,11 @@
 import { createWorkerHost, type WorkerRequest, type WorkerResponse } from "./host";
 import { fetchSnapshot } from "./fetchSchedule";
 
-/** `public/data` is served from the app root; Vite rewrites BASE_URL on deploy. */
+/**
+ * Fallback only. `base: "./"` makes this relative, and inside a worker a
+ * relative URL resolves against the WORKER script, not the page, so a sub-path
+ * deployment 404s. The page therefore sends an absolute URL with `init`.
+ */
 const BASE_URL = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/data`;
 
 interface WorkerScope {
@@ -23,7 +27,7 @@ interface WorkerScope {
 const scope = self as unknown as WorkerScope;
 
 const host = createWorkerHost({
-  loadSnapshot: () => fetchSnapshot(BASE_URL),
+  loadSnapshot: (dataBaseUrl?: string) => fetchSnapshot(dataBaseUrl ?? BASE_URL),
   post: (message) => scope.postMessage(message),
 });
 

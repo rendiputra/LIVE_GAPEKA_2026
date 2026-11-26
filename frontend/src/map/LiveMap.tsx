@@ -107,6 +107,20 @@ function pushRail(map: maplibregl.Map, snapshot: ScheduleSnapshot): void {
   map.getContainer().dataset.railFeatures = String(data.features.length);
 }
 
+/**
+ * Push the station points that feed the label layers.
+ *
+ * Same cold-load race as the rails: `addLayers` runs on `style.load`, which
+ * usually beats the 1.1 MB schedule, so the source was created empty and the
+ * labels never appeared. `data-station-features` is read-only observability for
+ * the e2e suite (a canvas probe cannot see symbols that were never placed).
+ */
+function pushStations(map: maplibregl.Map, snapshot: ScheduleSnapshot): void {
+  const data = stationsGeoJSON(snapshot.stations.values());
+  setData(map, "gapeka-stations", data as never);
+  map.getContainer().dataset.stationFeatures = String(data.features.length);
+}
+
 export function LiveMap(props: LiveMapProps): React.ReactElement {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -156,9 +170,12 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
       });
     }
 
-    // The source is created empty above; if the schedule is already loaded,
-    // fill it in the same pass so the first paint is complete.
-    if (snapshot) pushRail(map, snapshot);
+    // The sources are created empty above; if the schedule is already loaded,
+    // fill them in the same pass so the first paint is complete.
+    if (snapshot) {
+      pushRail(map, snapshot);
+      pushStations(map, snapshot);
+    }
 
     for (const layer of styleLayers()) {
       if (map.getLayer(layer.id)) continue;
@@ -319,17 +336,19 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     }
   }, [props.overlay]);
 
-  // The rail network arrives AFTER the map is ready: the style loads from the
-  // network in a few hundred ms, while the 1.1 MB schedule payload is still in
-  // flight, so `addLayers` creates `gapeka-rail` with an empty collection. No
+  // The rail network AND the station points arrive AFTER the map is ready: the
+  // style loads from the network in a few hundred ms, while the 1.1 MB schedule
+  // payload is still in flight, so `addLayers` creates both sources empty. No
   // effect used to push the geometry once the snapshot landed, which is why the
   // 391 segments were invisible until an overlay toggle forced a
-  // setStyle -> style.load -> addLayers cycle. Push it here instead.
+  // setStyle -> style.load -> addLayers cycle, and why the station labels could
+  // stay absent for the whole session. Push both here instead.
   useEffect(() => {
     const map = mapRef.current;
     const snapshot = props.snapshot;
     if (!map || !snapshot) return;
     pushRail(map, snapshot);
+    pushStations(map, snapshot);
   }, [props.snapshot]);
 
   // Selected route highlight.
@@ -351,6 +370,17 @@ export function LiveMap(props: LiveMapProps): React.ReactElement {
     const map = mapRef.current;
     if (!map || !readyRef.current || !props.trains) return;
     setData(map, "gapeka-trains", props.trains as never);
+    // Read-only observability, same contract as `data-rail-features`: the e2e
+    // suite needs to assert WHICH trains are active (e.g. a midnight tail from
+    // the previous service date), which the canvas cannot tell it.
+    map.getContainer().dataset.trainFeatures = String(props.trains.features.length);
+    map.getContainer().dataset.trainNumbers = props.trains.features
+      .map((feature) => String(feature.properties?.trainNo ?? ""))
+      .filter(Boolean)
+      .join(",");
+    // Wall-clock of the last train update: lets support (and the e2e suite)
+    // tell a stalled map from a quiet one.
+    map.getContainer().dataset.trainUpdated = String(Date.now());
 
     const selected = props.selectedTripId;
     const feature = selected
