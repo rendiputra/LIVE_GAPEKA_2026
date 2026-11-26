@@ -1,0 +1,5 @@
+uv run python -m pipeline.reproduce
+OK   segments_hash: local fa367ec699df1c88 clone fa367ec699df1c88
+OK   db_hash: local fabc39da91ec85e4 clone fabc39da91ec85e4
+OK   config_hash: local 82eb06dab21f9216 clone 82eb06dab21f9216
+REPRODUCIBLE

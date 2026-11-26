@@ -1,0 +1,50 @@
+{
+  "url": "http://127.0.0.1:4174/",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa"
+  ],
+  "states": [
+    {
+      "state": "default",
+      "violations": 0,
+      "serious_or_critical": 0,
+      "detail": []
+    },
+    {
+      "state": "about-modal",
+      "violations": 0,
+      "serious_or_critical": 0,
+      "detail": []
+    },
+    {
+      "state": "layers-popover",
+      "violations": 0,
+      "serious_or_critical": 0,
+      "detail": []
+    },
+    {
+      "state": "filter-popover",
+      "violations": 0,
+      "serious_or_critical": 0,
+      "detail": []
+    },
+    {
+      "state": "train-inspector",
+      "violations": 0,
+      "serious_or_critical": 0,
+      "detail": []
+    },
+    {
+      "state": "coarse-train-badges",
+      "violations": 0,
+      "serious_or_critical": 0,
+      "detail": []
+    }
+  ],
+  "total_violations": 0,
+  "total_serious_or_critical": 0
+}

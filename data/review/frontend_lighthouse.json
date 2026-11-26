@@ -1,0 +1,22 @@
+{
+  "url": "http://127.0.0.1:4174/",
+  "form_factor": "mobile",
+  "viewport": "390x844",
+  "note": "Report only. External tile hosts (OpenFreeMap basemap, OpenRailwayMap overlay) are blocked, so these numbers describe the app shell and the schedule payload, not the tile provider. Blocking logs console errors from the aborted tile fetches; read best-practices with that in mind.",
+  "tiles_blocked": true,
+  "scores": {
+    "performance": 77,
+    "accessibility": 100,
+    "best-practices": 96,
+    "seo": 91
+  },
+  "metrics": {
+    "first_contentful_paint_ms": 903.9200000000001,
+    "largest_contentful_paint_ms": 5733.92,
+    "total_blocking_time_ms": 164,
+    "cumulative_layout_shift": 0.0019843789887723684,
+    "speed_index_ms": 1856.8509909190625,
+    "total_byte_weight": 740507
+  },
+  "endpoint": "http://127.0.0.1:9222"
+}

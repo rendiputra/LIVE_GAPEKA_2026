@@ -1,0 +1,97 @@
+{
+  "generated_by": "frontend/e2e/verification.mjs",
+  "note": "Reads the artefacts listed in this script; computes nothing from the PDF or the network.",
+  "export": {
+    "content_hash": "2f8588adc0168c0e",
+    "variant": "frontend",
+    "segments": 391,
+    "stations": 389,
+    "trips": 625,
+    "max_day_offset": 1,
+    "raw_bytes": 1157433,
+    "gzip_bytes": 270475
+  },
+  "vitest": {
+    "test_files": 23,
+    "tests": 279,
+    "passed": 279,
+    "failed": 0,
+    "parity_test_status": "passed"
+  },
+  "parity": {
+    "frames": 6000,
+    "tolerance_m": 1
+  },
+  "playwright": {
+    "expected": 69,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "duration_ms": 91056,
+    "projects": [
+      "desktop",
+      "desktop-acceptance",
+      "mobile"
+    ]
+  },
+  "python": {
+    "tests": 370,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "duration_s": 14.612
+  },
+  "axe": {
+    "states": [
+      {
+        "state": "default",
+        "violations": 0
+      },
+      {
+        "state": "about-modal",
+        "violations": 0
+      },
+      {
+        "state": "layers-popover",
+        "violations": 0
+      },
+      {
+        "state": "filter-popover",
+        "violations": 0
+      },
+      {
+        "state": "train-inspector",
+        "violations": 0
+      },
+      {
+        "state": "coarse-train-badges",
+        "violations": 0
+      }
+    ],
+    "total_violations": 0,
+    "total_serious_or_critical": 0
+  },
+  "lighthouse": {
+    "form_factor": "mobile",
+    "viewport": "390x844",
+    "tiles_blocked": true,
+    "scores": {
+      "performance": 77,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 91
+    },
+    "metrics": {
+      "first_contentful_paint_ms": 903.9200000000001,
+      "largest_contentful_paint_ms": 5733.92,
+      "total_blocking_time_ms": 164,
+      "cumulative_layout_shift": 0.0019843789887723684,
+      "speed_index_ms": 1856.8509909190625,
+      "total_byte_weight": 740507
+    }
+  },
+  "reproduce": {
+    "result": "REPRODUCIBLE",
+    "log": "data/review/frontend_reproduce.txt"
+  }
+}
