@@ -67,7 +67,7 @@ anchoring, attribution collapse, and copy/error states.
 | train-inspector | 0 |
 | coarse-train-badges | 0 |
 
-The audit found and the previous commit (`77fc0c4`) fixed:
+The audit found and `552a92c` fixed:
 
 - **WCAG 2.5.3 `label-content-name-mismatch`** on the `−15m` / `+15m` time-travel buttons —
   the accessible name is now extended with `sr-only` text instead of replaced by an
@@ -191,11 +191,13 @@ OK   config_hash:   local 82eb06dab21f9216 clone 82eb06dab21f9216
 `frontend/public/data`. The verification artefacts under `data/review/` are small and
 committed so the report stays auditable; screenshots stay local.
 
-## 8. Open items
+## 8. Notes and open items
 
-1. **Commit `77fc0c4` has a typo'd author email** — `rendiputrapratama@gmail.com` instead
-   of `rendiputrapradana@gmail.com`. History was not rewritten, per instruction. It needs
-   a human decision (leave it, or rewrite history before publishing).
+1. **The typo'd author email is fixed** — the a11y commit was rewritten (tree unchanged)
+   so its author and committer are `rendiputrapradana@gmail.com`, and the two commits on
+   top were replayed. Their trees are byte-identical to the originals (verified by tree
+   SHAs); only commit metadata changed. The branch has no upstream, so nothing was
+   force-pushed.
 2. **Lighthouse performance 77 / LCP 5.7 s** — recorded, not addressed. Worth a dedicated
    pass if the release gate requires a higher number.
 3. **`frontend/` has no preview banner by design** (ADR 002 amendment): the persistent
